@@ -1,6 +1,6 @@
 #pragma once
 
-#include "p2List.h"
+
 #include "Globals.h"
 #include "Timer.h"
 #include "Module.h"
@@ -12,6 +12,9 @@
 #include "ModuleCamera3D.h"
 #include "ModulePhysics3D.h"
 #include "ModulePlayer.h"
+#include "ModuleImGui.h"
+
+class ModuleImGui;
 
 class Application
 {
@@ -24,12 +27,13 @@ public:
 	ModuleCamera3D* camera;
 	ModulePhysics3D* physics;
 	ModulePlayer* player;
+	ModuleImGui* imgui;
 
 private:
 
 	Timer	ms_timer;
 	float	dt;
-	p2List<Module*> list_modules;
+	list<Module*> list_modules;
 
 public:
 

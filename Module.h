@@ -1,5 +1,14 @@
 #pragma once
 
+#include <list>
+#include <string>
+#include <vector>
+#include <map>
+#include <iostream>
+#include "SDL\include\SDL.h"
+
+using namespace std;
+
 class Application;
 struct PhysBody3D;
 
@@ -39,7 +48,7 @@ public:
 
 	virtual update_status PostUpdate(float dt)
 	{
-		return UPDATE_CONTINUE;
+		return update_status::UPDATE_CONTINUE;
 	}
 
 	virtual bool CleanUp() 
