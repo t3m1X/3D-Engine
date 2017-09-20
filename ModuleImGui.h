@@ -29,7 +29,8 @@ public:
 	void GeoMathTest();
 	void ImGuiInput(SDL_Event* ev);
 	void CheckIntersecs(Sphere &sph);
-	
+	void CreateRandom();
+	float GetRandomValue(float range_1, float range_2);
 	
 
 private:

@@ -4,6 +4,9 @@
 #include "Primitive.h"
 #include "Geomath.h"
 #include "imgui_impl_sdl.h"
+#include "MathGeoLib\include\Algorithm\Random\LCG.h"
+#include <cmath>
+#include <random>
 
 ModuleImGui::ModuleImGui(Application * app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -352,15 +355,16 @@ void ModuleImGui::Addsphere(float p1, float p2, float p3, float radius)
 	math::float3 position = { p1,p2,p3 };
 	Sphere* sph = nullptr;
 	sph = new Sphere(position, radius);
-	col_spheres.push_back(sph);
-
 	CheckIntersecs(*sph);
+
+	col_spheres.push_back(sph);
 }
 
 void ModuleImGui::GeoMathTest()
 {
 	ImGui::Begin("Math test", &math_test);
 	ImGui::Text("Contact: %d", contacts);
+	ImGui::Text("Spheres: %d", col_spheres.size());
 
 	ImGui::Separator();
 
@@ -369,6 +373,9 @@ void ModuleImGui::GeoMathTest()
 
 	if (ImGui::Button("Create")) {
 		Addsphere(pos[0], pos[1], pos[2], radius);
+	}
+	if (ImGui::Button("Create Random")) {
+		CreateRandom();
 	}
 	ImGui::End();
 }
@@ -388,5 +395,24 @@ void ModuleImGui :: CheckIntersecs(Sphere &sph) {
 			}
 		}
 	}
+}
+
+void ModuleImGui::CreateRandom() {
+
+	for (int i = 0; i < (int)GetRandomValue(0, 50); i++) {
+		Addsphere(GetRandomValue(0, 20), GetRandomValue(0, 20), GetRandomValue(0, 20), 1);
+	}
+	
+}
+
+float ModuleImGui::GetRandomValue(float range_1, float range_2) {
+	{
+		random_device rd;
+		mt19937 gen(rd());
+		uniform_real_distribution<> dis(range_1, range_2);
+
+		return dis(gen);
+	}
+
 }
 
