@@ -34,6 +34,7 @@ private:
 	Timer	ms_timer;
 	float	dt;
 	list<Module*> list_modules;
+	
 
 public:
 
@@ -43,7 +44,9 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
-
+	bool Debug();
+	void SetDebug(bool active);
+	bool debug;
 private:
 
 	void AddModule(Module* mod);

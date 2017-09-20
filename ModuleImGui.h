@@ -9,6 +9,7 @@
 
 #include "imgui_impl_sdl.h"
 #include "SDL/include/SDL_opengl.h"
+#include "Geomath.h"
 
 class Module;
 class Application;
@@ -23,8 +24,22 @@ public:
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
+	void LoadStyle(char* name);
+	void Addsphere(float p1, float p2, float p3, float radius);////just for testing
+	void GeoMathTest();
+	void ImGuiInput(SDL_Event* ev);
+	void CheckIntersecs(Sphere &sph);
+	
+	
 
 private:
-	bool show_test_window = true;
+	bool show_test_window = false;
+	bool math_test = false;
+	///just for testing mathgeolib///
+	std::list<bSphere*>spheres;
+	std::vector<Sphere*>col_spheres;
+	float pos[3] = { 0.0f, 0.0f, 0.0f };
+	float radius = 0;
+	int contacts = 0;
 };
 	

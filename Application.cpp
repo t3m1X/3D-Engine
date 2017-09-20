@@ -69,6 +69,7 @@ bool Application::Init()
 		}
 	}
 	ms_timer.Start();
+	debug = true;
 	return ret;
 }
 
@@ -120,6 +121,16 @@ bool Application::CleanUp()
 		}
 	}
 	return ret;
+}
+
+bool Application::Debug()
+{
+	return debug;
+}
+
+void Application::SetDebug(bool active)
+{
+	debug = active;
 }
 
 void Application::AddModule(Module* mod)
