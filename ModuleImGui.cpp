@@ -26,7 +26,10 @@ bool ModuleImGui::Init()
 	LoadStyle("blue_yellow");
 	ImGuiIO& io = ImGui::GetIO();
 	io.IniFilename = "Settings/imgui.ini";
-
+	console = new Console();
+	configuration = new ConfigPanel();
+	panels.push_back(console);
+	panels.push_back(configuration);
 	return ret;
 }
 
@@ -53,8 +56,17 @@ update_status ModuleImGui::Update(float dt)
 	if (ImGui::BeginMainMenuBar()) {
 
 		if (ImGui::BeginMenu("File")) {
-			if (ImGui::MenuItem("Exit", "Alt+F4")) { return update_status::UPDATE_STOP;}
-		
+			if (ImGui::MenuItem("Configuration", "C"))
+				{ 
+				if (!configuration->IsActive()) {
+					configuration->Enable();
+				}
+				else {
+					configuration->Disable();
+				}
+				}
+			if (ImGui::MenuItem("Exit", "Alt+F4")) { return update_status::UPDATE_STOP; }
+
 			ImGui::EndMenu();
 		}
 	
@@ -65,19 +77,41 @@ update_status ModuleImGui::Update(float dt)
 			ImGui::MenuItem("Debug", NULL, &App->debug);
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Geometry")) {
-			ImGui::MenuItem("Geometry math test", NULL, &math_test);
-			ImGui::EndMenu();
+
+		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) {
+			if (!configuration->IsActive()) {
+				configuration->Enable();
+			}
+			else {
+				configuration->Disable();
+			}
 		}
+
+
 
 	ImGui::EndMainMenuBar();
 }
+
+	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+	{
+		if (App->input->GetKey(it._Ptr->_Myval->GetShortcut()) == KEY_DOWN) {
+			if (it._Ptr->_Myval->IsActive()) {
+				it._Ptr->_Myval->Disable();
+			}
+			else {
+				it._Ptr->_Myval->Enable();
+			}
+		}
+
+		if (it._Ptr->_Myval->IsActive()) {
+			ImGui::SetNextWindowPos(ImVec2((float)it._Ptr->_Myval->x, (float)it._Ptr->_Myval->y), ImGuiSetCond_Always);
+			ImGui::SetNextWindowSize(ImVec2((float)it._Ptr->_Myval->w, (float)it._Ptr->_Myval->h), ImGuiSetCond_Always);
+			it._Ptr->_Myval->Draw();
+		}
+	}
 	///////////////////////
 
-	if (math_test)
-	{
-		GeoMathTest();
-	}
+	
 
 	// Test window imgui
 	if (show_test_window)
@@ -85,11 +119,8 @@ update_status ModuleImGui::Update(float dt)
 		ImGui::ShowTestWindow();
 	}
 
-	ImGui::Render();
+	Draw();
 
-	for (std::list<bSphere*>::iterator it = spheres.begin(); it != spheres.end(); it++) {
-		it._Ptr->_Myval->Render();
-	}
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -345,65 +376,16 @@ void ModuleImGui::LoadStyle(char * name)
 
 }
 
-void ModuleImGui::Addsphere(float p1, float p2, float p3, float radius)
-{
-	bSphere* s = nullptr;
-	s = new bSphere(radius);
-	s->SetPos(p1,p2,p3);
-	spheres.push_back(s);
 
-	math::float3 position = { p1,p2,p3 };
-	Sphere* sph = nullptr;
-	sph = new Sphere(position, radius);
-	CheckIntersecs(*sph);
 
-	col_spheres.push_back(sph);
-}
 
-void ModuleImGui::GeoMathTest()
-{
-	ImGui::Begin("Math test", &math_test);
-	ImGui::Text("Contact: %d", contacts);
-	ImGui::Text("Spheres: %d", col_spheres.size());
-
-	ImGui::Separator();
-
-	ImGui::InputFloat3("Position", pos);
-	ImGui::InputFloat("Radius", &radius);
-
-	if (ImGui::Button("Create")) {
-		Addsphere(pos[0], pos[1], pos[2], radius);
-	}
-	if (ImGui::Button("Create Random")) {
-		CreateRandom();
-	}
-	ImGui::End();
-}
 
 void ModuleImGui::ImGuiInput(SDL_Event* ev) {
 	// ImGui Input
 	ImGui_ImplSdl_ProcessEvent(ev);
 }
 
-void ModuleImGui :: CheckIntersecs(Sphere &sph) {
 
-	if(!col_spheres.empty())
-	for (int i = col_spheres.size()-1; i > 0; i--) {
-		if (col_spheres.size()!=1) {
-			if (col_spheres[i]->Intersects(sph)) {
-				contacts++;
-			}
-		}
-	}
-}
-
-void ModuleImGui::CreateRandom() {
-
-	for (int i = 0; i < (int)GetRandomValue(0, 50); i++) {
-		Addsphere(GetRandomValue(0, 20), GetRandomValue(0, 20), GetRandomValue(0, 20), 1);
-	}
-	
-}
 
 float ModuleImGui::GetRandomValue(float range_1, float range_2) {
 	{
@@ -416,3 +398,13 @@ float ModuleImGui::GetRandomValue(float range_1, float range_2) {
 
 }
 
+void ModuleImGui::Draw() {
+	ImGui::Render();
+}
+
+void ModuleImGui::LogFps(float fps, float ms) {
+	
+		if (configuration != nullptr)
+			configuration->FPS(fps, ms);
+	
+}

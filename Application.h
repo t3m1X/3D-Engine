@@ -33,6 +33,12 @@ private:
 
 	Timer	ms_timer;
 	float	dt;
+	Timer	fps_timer;
+	Uint32	frames;
+	int		fps_counter;
+	int		last_frame_ms;
+	int		last_fps;
+	int		capped_ms;
 	list<Module*> list_modules;
 	
 
@@ -47,9 +53,12 @@ public:
 	bool Debug();
 	void SetDebug(bool active);
 	bool debug;
+	uint GetFramerateLimit() const;
+	void SetFramerateLimit(uint max_framerate);
 private:
 
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
 };
+extern Application* App;

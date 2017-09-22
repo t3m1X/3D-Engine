@@ -5,6 +5,13 @@
 
 Application::Application()
 {
+
+	frames = 0;
+	last_frame_ms = -1;
+	last_fps = -1;
+	capped_ms = 1000 / 60;
+	fps_counter = 0;
+
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
@@ -25,7 +32,6 @@ Application::Application()
 	AddModule(input);
 	AddModule(audio);
 	AddModule(physics);
-	AddModule(imgui);
 	
 	// Scenes
 	AddModule(scene_intro);
@@ -33,6 +39,7 @@ Application::Application()
 
 	// Renderer last!
 	AddModule(renderer3D);
+	AddModule(imgui);
 }
 
 Application::~Application()
@@ -83,6 +90,23 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	++frames;
+	++fps_counter;
+
+	if (fps_timer.Read() >= 1000)
+	{
+		last_fps = fps_counter;
+		fps_counter = 0;
+		fps_timer.Start();
+	}
+
+	last_frame_ms = ms_timer.Read();
+
+	// cap fps
+	if (capped_ms > 0 && (last_frame_ms < capped_ms))
+		SDL_Delay(capped_ms - last_frame_ms);
+
+	imgui->LogFps((float)last_fps, (float)last_frame_ms);
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -136,4 +160,20 @@ void Application::SetDebug(bool active)
 void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);
+}
+
+uint Application::GetFramerateLimit() const
+{
+	if (capped_ms > 0)
+		return (uint)((1.0f / (float)capped_ms) * 1000.0f);
+	else
+		return 0;
+}
+
+void Application::SetFramerateLimit(uint max_framerate)
+{
+	if (max_framerate > 0)
+		capped_ms = 1000 / max_framerate;
+	else
+		capped_ms = 0;
 }
