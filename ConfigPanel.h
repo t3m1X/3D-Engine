@@ -4,6 +4,7 @@
 #include "Panel.h"
 #include "imgui.h"
 #include <vector>
+#include "Hardware.h"
 
 #define FPS_LOG_SIZE 100
 
@@ -14,6 +15,7 @@ class ConfigPanel : public Panel {
 		virtual ~ConfigPanel();
 		void Draw();
 		void DrawApp();
+		void DrawHardware();
 		void FPS(float fps, float ms);
 		//void DrawHardware();
 
