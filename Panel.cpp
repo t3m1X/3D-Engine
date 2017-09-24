@@ -1,6 +1,6 @@
 #include "Panel.h"
 
-Panel::Panel(const char* name, SDL_Scancode shortcut, bool active) {
+Panel::Panel(const char* name, SDL_Scancode shortcut, bool active){
 	Name = name;
 	Shortcut = shortcut;
 	Active = active;

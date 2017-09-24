@@ -177,3 +177,7 @@ void Application::SetFramerateLimit(uint max_framerate)
 	else
 		capped_ms = 0;
 }
+void Application::RequestBrowser(const char * url) const
+{
+	ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+}

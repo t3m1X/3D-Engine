@@ -5,6 +5,7 @@
 #include "imgui.h"
 #include <vector>
 #include "Hardware.h"
+#include "ModuleWindow.h"
 
 #define FPS_LOG_SIZE 100
 
@@ -13,11 +14,11 @@ class ConfigPanel : public Panel {
 	public: 
 		ConfigPanel();
 		virtual ~ConfigPanel();
-		void Draw();
+		void Draw(Application* App);
 		void DrawApp();
 		void DrawHardware();
 		void FPS(float fps, float ms);
-		//void DrawHardware();
+		void DrawWin(Application* App);
 
 	private : 
 		ImGuiTextBuffer input_buf;

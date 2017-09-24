@@ -11,7 +11,7 @@ class Console : public Panel {
 
 		Console();
 		virtual ~Console();
-		void Draw();
+		void Draw(Application* App);
 		void Clear();
 		void AddLog(const char* log);
 

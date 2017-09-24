@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include <string>
 #include "SDL/include/SDL_scancode.h"
+#include "Module.h"
 
 
 class Panel {
@@ -15,7 +16,7 @@ class Panel {
 		void Disable();
 		bool IsActive() const;
 		SDL_Scancode GetShortcut();
-		virtual void Draw() = 0;
+		virtual void Draw(Application* App) = 0;
 	public:
 		int x, y, w, h;
 	protected:

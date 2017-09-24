@@ -56,25 +56,45 @@ update_status ModuleImGui::Update(float dt)
 	if (ImGui::BeginMainMenuBar()) {
 
 		if (ImGui::BeginMenu("File")) {
+			
+			if (ImGui::MenuItem("Exit", "Alt+F4")) { return update_status::UPDATE_STOP; }
+
+			ImGui::EndMenu();
+		}
+	
+		if (ImGui::BeginMenu("View"))
+		{
+			
 			if (ImGui::MenuItem("Configuration", "C"))
-				{ 
+			{
 				if (!configuration->IsActive()) {
 					configuration->Enable();
 				}
 				else {
 					configuration->Disable();
 				}
-				}
-			if (ImGui::MenuItem("Exit", "Alt+F4")) { return update_status::UPDATE_STOP; }
-
+			}
 			ImGui::EndMenu();
 		}
-	
-		if (ImGui::BeginMenu("Debug"))
+		if (ImGui::BeginMenu("Help"))
 		{
-			
-			ImGui::MenuItem("Test window", NULL, &show_test_window);
-			ImGui::MenuItem("Debug", NULL, &App->debug);
+			if (ImGui::MenuItem("Documentation")) {
+				App->RequestBrowser("https://github.com/rogerbusquets97/3D-Engine/wiki");
+			}
+			if (ImGui::MenuItem("Report bug")) {
+				App->RequestBrowser("https://github.com/rogerbusquets97/3D-Engine/issues");
+			}
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("About"))
+		{
+			ImGui::Text("About Roger's Engine:");
+			ImGui::Text("3D engine developed as a project for UPC's video games degree.");
+			ImGui::Separator();
+			ImGui::Text("By Roger Busquets.");
+			ImGui::Text("This engine is licensed under the Public Domain.");
+
 			ImGui::EndMenu();
 		}
 
@@ -106,7 +126,7 @@ update_status ModuleImGui::Update(float dt)
 		if (it._Ptr->_Myval->IsActive()) {
 			ImGui::SetNextWindowPos(ImVec2((float)it._Ptr->_Myval->x, (float)it._Ptr->_Myval->y), ImGuiSetCond_Always);
 			ImGui::SetNextWindowSize(ImVec2((float)it._Ptr->_Myval->w, (float)it._Ptr->_Myval->h), ImGuiSetCond_Always);
-			it._Ptr->_Myval->Draw();
+			it._Ptr->_Myval->Draw(App);
 		}
 	}
 	///////////////////////

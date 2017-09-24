@@ -24,7 +24,7 @@ void Console::AddLog(const char* entry)
 	Buf.append(entry);
 	ScrollToBottom = true;
 }
-void Console::Draw()
+void Console::Draw(Application* App)
 {
 	ImGui::Begin("Console", &Active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoFocusOnAppearing);
 	ImGui::TextUnformatted(Buf.begin());
