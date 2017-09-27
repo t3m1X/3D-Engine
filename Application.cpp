@@ -215,17 +215,17 @@ void Application::SetVersion(const char * ver)
 	version = ver;
 }
 
-const char * Application::GetName()
+const char * Application::GetName()const
 {
 	return name;
 }
 
-const char * Application::GetOrg()
+const char * Application::GetOrg()const
 {
 	return organization;
 }
 
-const char * Application::GetVersion()
+const char * Application::GetVersion()const
 {
 	return version;
 }

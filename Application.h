@@ -70,9 +70,9 @@ public:
 	void SetName(const char* str);
 	void SetOrg(const char* org);
 	void SetVersion(const char* ver);
-	const char* GetName();
-	const char* GetOrg();
-	const char* GetVersion();
+	const char* GetName()const;
+	const char* GetOrg()const;
+	const char* GetVersion()const;
 	void LoadConfig(const char* path);
 	void SaveConfig(Module*module);
 
