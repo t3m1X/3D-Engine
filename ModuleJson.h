@@ -3,6 +3,9 @@
 
 #include "Module.h"
 #include "Parson\parson.h"
+#include "Application.h"
+
+
 
 class JSON_File
 {
@@ -22,7 +25,7 @@ public:
 	const char* GetPath();
 	void Save();
 	void CleanUp();
-	
+
 
 private:
 	JSON_Value*  val = nullptr;
@@ -46,5 +49,9 @@ public:
 private:
 	std::list<JSON_File*> files;
 };
+
+
+
+
 
 #endif

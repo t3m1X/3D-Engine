@@ -27,7 +27,7 @@ bool ModuleImGui::Init()
 	ImGuiIO& io = ImGui::GetIO();
 	io.IniFilename = "Settings/imgui.ini";
 	console = new Console();
-	configuration = new ConfigPanel();
+	configuration = new ConfigPanel(App);
 	panels.push_back(console);
 	panels.push_back(configuration);
 	return ret;
@@ -107,7 +107,7 @@ update_status ModuleImGui::Update(float dt)
 			}
 		}
 
-
+		
 
 	ImGui::EndMainMenuBar();
 }
@@ -430,4 +430,9 @@ void ModuleImGui::LogFps(float fps, float ms) {
 		if (configuration != nullptr)
 			configuration->FPS(fps, ms);
 	
+}
+
+void ModuleImGui::AddPanel(Panel * panel)
+{
+	panels.push_back(panel);
 }

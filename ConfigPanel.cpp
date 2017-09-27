@@ -3,20 +3,25 @@
 
 
 
-ConfigPanel::ConfigPanel() : Panel("Configuration", SDL_SCANCODE_4),
+ConfigPanel::ConfigPanel(Application* App) : Panel("Configuration", SDL_SCANCODE_4),
 fps_log(FPS_LOG_SIZE), ms_log(FPS_LOG_SIZE)
 {
 	w = 325;
 	h = 417;
 	x = 100;
 	y = 50;
+
+	strcpy(name_buffer, App->GetName());
+	strcpy(organization_buffer, App->GetOrg());
+	strcpy(version_buffer, App->GetVersion());
+
 }
 ConfigPanel::~ConfigPanel() {}
 
 void ConfigPanel::Draw(Application* App) {
 
 	ImGui::Begin("Configuration", &Active);
-	DrawApp();
+	DrawApp(App);
 	DrawHardware();
 	for (list<Module*>::iterator it = App->list_modules.begin(); it != App->list_modules.end(); ++it) {
 		it._Ptr->_Myval->ImGuiDraw();
@@ -24,24 +29,46 @@ void ConfigPanel::Draw(Application* App) {
 	ImGui::End();
 }
 
-void ConfigPanel::DrawApp() {
+void ConfigPanel::DrawApp(Application* App) {
 
 	
-	/*int max_fps = App->GetFramerateLimit();
+	int max_fps = App->GetFramerateLimit();
 	if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120))
 		App->SetFramerateLimit(max_fps);
 
 	ImGui::Text("Limit Framerate:");
 	ImGui::SameLine();
-	ImGui::Text("%i", App->GetFramerateLimit());*/
+	ImGui::Text("%i", App->GetFramerateLimit());
 
 	if (ImGui::CollapsingHeader("Application"))
 	{
+
+		/*ImGui::Text(App->GetName());
+		ImGui::Text(App->GetOrg());
+		ImGui::Text(App->GetVersion());*/
+
+		if (ImGui::InputText("App Name", name_buffer, 254))
+		{
+			App->SetName(name_buffer);
+			App->SaveConfig(nullptr);
+		}
+
+		if (ImGui::InputText("Organization", organization_buffer, 254))
+		{
+			App->SetOrg(organization_buffer);
+			App->SaveConfig(nullptr);
+		}
+		if (ImGui::InputText("Version", version_buffer, 254))
+		{
+			App->SetVersion(version_buffer);
+			App->SaveConfig(nullptr);
+		}
 		char title[25];
 		sprintf_s(title, 25, "Framerate %.1f", fps_log[fps_log.size() - 1]);
 		ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
 		sprintf_s(title, 25, "Milliseconds %0.1f", ms_log[ms_log.size() - 1]);
 		ImGui::PlotHistogram("##milliseconds", &ms_log[0], ms_log.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
+
 	}
 }
 

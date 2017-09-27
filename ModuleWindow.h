@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "SDL/include/SDL.h"
+#include "ModuleJson.h"
 
 class Application;
 
@@ -37,6 +38,8 @@ public:
 	void SetFullScreenDesktop(bool set);
 	void SetBrightness(float set);
 	void ImGuiDraw();
+	void Load(JSON_File* config);
+	void Save(JSON_File* config);
 
 public:
 	//The window we'll be rendering to

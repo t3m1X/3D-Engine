@@ -13,6 +13,7 @@
 
 class Module;
 class Application;
+class ConfigPanel;
 
 class ModuleImGui : public Module {
 public:
@@ -29,7 +30,7 @@ public:
 	void Draw();
 	float GetRandomValue(float range_1, float range_2);
 	void LogFps(float fps, float ms);
-	
+	void AddPanel(Panel* panel);
 
 private:
 

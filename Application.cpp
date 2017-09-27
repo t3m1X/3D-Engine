@@ -11,7 +11,9 @@ Application::Application()
 	last_fps = -1;
 	capped_ms = 1000 / 60;
 	fps_counter = 0;
-
+	name = nullptr;
+	organization = nullptr;
+	version = nullptr;
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
@@ -21,17 +23,23 @@ Application::Application()
 	physics = new ModulePhysics3D(this);
 	player = new ModulePlayer(this);
 	imgui = new ModuleImGui(this);
+	json = new ModuleJSON(this);
 
+
+	con = new Console();
+	imgui->AddPanel(con);
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
 
 	// Main Modules
+	AddModule(json);
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
 	AddModule(audio);
 	AddModule(physics);
+	
 
 	// Scenes
 	AddModule(scene_intro);
@@ -40,6 +48,7 @@ Application::Application()
 	// Renderer last!
 	AddModule(renderer3D);
 	AddModule(imgui);
+	
 }
 
 Application::~Application()
@@ -77,6 +86,15 @@ bool Application::Init()
 	}
 	ms_timer.Start();
 	debug = true;
+	return ret;
+}
+
+bool Application::Awake()
+{
+	bool ret = true;
+
+	LoadConfig("config.json");
+
 	return ret;
 }
 
@@ -180,4 +198,78 @@ void Application::SetFramerateLimit(uint max_framerate)
 void Application::RequestBrowser(const char * url) const
 {
 	ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+}
+
+void Application::SetName(const char * str)
+{
+	name = str;
+}
+
+void Application::SetOrg(const char * org)
+{
+	organization = org;
+}
+
+void Application::SetVersion(const char * ver)
+{
+	version = ver;
+}
+
+const char * Application::GetName()
+{
+	return name;
+}
+
+const char * Application::GetOrg()
+{
+	return organization;
+}
+
+const char * Application::GetVersion()
+{
+	return version;
+}
+
+void Application::LoadConfig(const char * path)
+{
+	config = json->LoadJSON("config.json");
+	if (config != nullptr) {
+		const char* n = config->GetString("app.name");
+		const char* o = config->GetString("app.organization");
+		const char* v = config->GetString("app.version");
+
+		SetName(n);
+		SetOrg(o);
+		SetVersion(v);
+
+	}
+	else {
+		con->AddLog("Json did not load correctly");
+	}
+
+	for (list<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); ++it) {
+		(*it)->Load(config);
+	}
+}
+
+void Application::SaveConfig(Module*module)
+{
+	if (config != nullptr)
+	{
+		config->SetString("app.title", GetName());
+		config->SetString("app.organization", GetOrg());
+		config->SetString("app.version", GetVersion());
+
+		for (list<Module*>::reverse_iterator it = list_modules.rbegin(); it != list_modules.rend(); it++)
+		{
+			if (module == nullptr)
+				(*it)->Save(config);
+
+			else if (module == (*it))
+				(*it)->Save(config);
+		}
+
+
+		config->Save();
+	}
 }

@@ -216,31 +216,91 @@ void ModuleWindow::ImGuiDraw()
 			App->window->SetHeigth(h);
 
 		float brightness = App->window->GetBrightness();
-		if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f))
+		if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f)) {
 			App->window->SetBrightness(brightness);
+			App->SaveConfig(App->window);
+		}
 
 		bool fullscreen = App->window->IsFullscreen();
 		bool resizable = App->window->IsResizable();
 		bool borderless = App->window->IsBorderless();
 		bool full_desktop = App->window->IsFullscreenDesktop();
 
-		if (ImGui::Checkbox("Fullscreen", &fullscreen))
+		if (ImGui::Checkbox("Fullscreen", &fullscreen)) {
 			App->window->SetFullscreen(fullscreen);
+			App->SaveConfig(App->window);
+		}
 
 		ImGui::SameLine();
-		if (ImGui::Checkbox("Resizable", &resizable))
+		if (ImGui::Checkbox("Resizable", &resizable)) {
 			App->window->SetResizable(resizable);
+			App->SaveConfig(App->window);
+		}
 		if (ImGui::IsItemHovered())
 			ImGui::SetTooltip("Restart to apply");
 
-		if (ImGui::Checkbox("Borderless", &borderless))
+		if (ImGui::Checkbox("Borderless", &borderless)) {
 			App->window->SetBorderless(borderless);
-
+			App->SaveConfig(App->window);
+		}
 		ImGui::SameLine();
-		if (ImGui::Checkbox("Full Desktop", &full_desktop))
+		if (ImGui::Checkbox("Full Desktop", &full_desktop)) {
 			App->window->SetFullScreenDesktop(full_desktop);
+			App->SaveConfig(App->window);
+		}
 
 	}
+}
+
+void ModuleWindow::Load(JSON_File* config)
+{
+	if (config != nullptr) {
+		int w = config->GetNumber("window.width");
+		int h = config->GetNumber("window.height");
+		SetWidth(w);
+		SetHeigth(h);
+
+		if (config->GetBool("window.fullscreen")) {
+			SetFullscreen(true);
+		}
+		else {
+			SetFullscreen(false);
+		}
+
+		if (config->GetBool("window.resizable")) {
+			SetResizable(true);
+		}
+		else {
+			SetResizable(false);
+		}
+		if (config->GetBool("window.borderless")) {
+			SetBorderless(true);
+		}
+		else {
+			SetBorderless(false);
+		}
+		if (config->GetBool("window.fulldesktop")) {
+			SetFullScreenDesktop(true);
+		}
+		else {
+			SetFullScreenDesktop(false);
+		}
+	}
+}
+
+void ModuleWindow::Save(JSON_File * config)
+{
+	if (config != nullptr) {
+		config->SetNumber("window.width", GetWidth());
+		config->SetNumber("window.height", GetHeight());
+		config->SetBool("window.fullscreen", IsFullscreen());
+		config->SetBool("window.resizable", IsResizable());
+		config->SetBool("window.borderless", IsBorderless());
+		config->SetBool("window.fulldesktop", IsFullscreenDesktop());
+
+		config->Save();
+	}
+
 }
 
 uint ModuleWindow::GetWidth() const

@@ -8,10 +8,12 @@
 #include "SDL\include\SDL.h"
 #include "Globals.h"
 
+
 using namespace std;
 
 class Application;
 struct PhysBody3D;
+class JSON_File;
 
 class Module
 {
@@ -62,4 +64,6 @@ public:
 	void SetName(const char* name) { this->name = name; }
 	const char * GetName() { return name; };
 	virtual void ImGuiDraw() {}
+	virtual void Load(JSON_File* config) {}
+	virtual void Save(JSON_File* config) {}
 };

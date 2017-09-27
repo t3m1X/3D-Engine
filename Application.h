@@ -14,8 +14,13 @@
 #include "ModulePlayer.h"
 #include "ModuleImGui.h"
 #include "ModuleJson.h"
+#include "Console.h"
 
 class ModuleImGui;
+class JSON_File;
+class ModuleJSON;
+class ModuleWindow;
+class Console;
 
 class Application
 {
@@ -31,6 +36,7 @@ public:
 	ModuleImGui* imgui;
 	ModuleJSON* json;
 	list<Module*> list_modules;
+	Console* con;
 private:
 
 	Timer	ms_timer;
@@ -41,7 +47,10 @@ private:
 	int		last_frame_ms;
 	int		last_fps;
 	int		capped_ms;
-	
+	const char* name = nullptr;
+	const char* organization = nullptr;
+	const char* version = nullptr;
+	JSON_File * config = nullptr;
 
 public:
 
@@ -49,6 +58,7 @@ public:
 	~Application();
 
 	bool Init();
+	bool Awake();
 	update_status Update();
 	bool CleanUp();
 	bool Debug();
@@ -57,9 +67,19 @@ public:
 	uint GetFramerateLimit() const;
 	void SetFramerateLimit(uint max_framerate);
 	void RequestBrowser(const char* url) const;
+	void SetName(const char* str);
+	void SetOrg(const char* org);
+	void SetVersion(const char* ver);
+	const char* GetName();
+	const char* GetOrg();
+	const char* GetVersion();
+	void LoadConfig(const char* path);
+	void SaveConfig(Module*module);
+
 private:
 
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
+
 };
