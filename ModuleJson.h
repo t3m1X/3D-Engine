@@ -22,6 +22,7 @@ public:
 	const char* GetPath();
 	void Save();
 	void CleanUp();
+	
 
 private:
 	JSON_Value*  val = nullptr;
@@ -37,6 +38,7 @@ public:
 
 	bool Awake();
 	bool CleanUp();
+	void ImGuiDraw();
 
 	JSON_File* LoadJSON(const char* path);
 	JSON_File* CreateJSON(const char* path);

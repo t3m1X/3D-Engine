@@ -17,7 +17,7 @@ class Module
 {
 private:
 	bool enabled;
-
+	const char * name;
 public:
 	Application* App;
 
@@ -59,4 +59,7 @@ public:
 
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{}
+	void SetName(const char* name) { this->name = name; }
+	const char * GetName() { return name; };
+	virtual void ImGuiDraw() {}
 };

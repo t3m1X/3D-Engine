@@ -1,10 +1,11 @@
 #include "ModuleJSON.h"
 #include "Globals.h"
 #include <stdio.h>
+#include "imgui.h"
 
 ModuleJSON::ModuleJSON(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	
+	SetName("JSON");
 }
 
 ModuleJSON::~ModuleJSON()
@@ -118,6 +119,13 @@ bool ModuleJSON::CleanUp()
 	return ret;
 }
 
+void ModuleJSON::ImGuiDraw()
+{
+	if (ImGui::CollapsingHeader(this->GetName())) {
+
+	}
+}
+
 JSON_File::JSON_File(JSON_Value * _value, JSON_Object * _object, const char* _path)
 {
 	val = _value;
@@ -173,3 +181,5 @@ void JSON_File::CleanUp()
 {
 	json_value_free(val);
 }
+
+

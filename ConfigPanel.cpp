@@ -18,7 +18,9 @@ void ConfigPanel::Draw(Application* App) {
 	ImGui::Begin("Configuration", &Active);
 	DrawApp();
 	DrawHardware();
-	DrawWin(App);
+	for (list<Module*>::iterator it = App->list_modules.begin(); it != App->list_modules.end(); ++it) {
+		it._Ptr->_Myval->ImGuiDraw();
+	}
 	ImGui::End();
 }
 
@@ -109,7 +111,7 @@ void ConfigPanel::DrawHardware() {
 	}
 }
 
-void ConfigPanel::DrawWin(Application* App) {
+/*void ConfigPanel::DrawWin(Application* App) {
 
 	if (ImGui::CollapsingHeader("Window")) {
 		uint w, h;
@@ -148,5 +150,5 @@ void ConfigPanel::DrawWin(Application* App) {
 			App->window->SetFullScreenDesktop(full_desktop);
 
 	}
-}
+}*/
 

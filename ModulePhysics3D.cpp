@@ -24,6 +24,8 @@ ModulePhysics3D::ModulePhysics3D(Application* app, bool start_enabled) : Module(
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
 	debug_draw = new DebugDrawer();
+
+	SetName("Physics");
 }
 
 // Destructor
@@ -336,6 +338,13 @@ void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, c
 	world->addConstraint(hinge, disable_collision);
 	constraints.push_back(hinge);
 	hinge->setDbgDrawSize(2.0f);
+}
+
+void ModulePhysics3D::ImGuiDraw()
+{
+	if (ImGui::CollapsingHeader(this->GetName())) {
+
+	}
 }
 
 

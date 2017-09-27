@@ -6,6 +6,7 @@ ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, s
 {
 	window = NULL;
 	screen_surface = NULL;
+	SetName("Window");
 }
 
 // Destructor
@@ -199,6 +200,47 @@ void ModuleWindow::SetBrightness(float set)
 	CAP(set);
 	if (SDL_SetWindowBrightness(window, set) != 0)
 		LOG("Could not change window brightness: %s\n", SDL_GetError());
+}
+
+void ModuleWindow::ImGuiDraw()
+{
+	if (ImGui::CollapsingHeader(this->GetName())) {
+		uint w, h;
+		w = App->window->GetWidth();
+		h = App->window->GetHeight();
+
+		if (ImGui::SliderInt("Width", (int*)&w, 0, 1280))
+			App->window->SetWidth(w);
+
+		if (ImGui::SliderInt("Height", (int*)&h, 0, 1024))
+			App->window->SetHeigth(h);
+
+		float brightness = App->window->GetBrightness();
+		if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f))
+			App->window->SetBrightness(brightness);
+
+		bool fullscreen = App->window->IsFullscreen();
+		bool resizable = App->window->IsResizable();
+		bool borderless = App->window->IsBorderless();
+		bool full_desktop = App->window->IsFullscreenDesktop();
+
+		if (ImGui::Checkbox("Fullscreen", &fullscreen))
+			App->window->SetFullscreen(fullscreen);
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Resizable", &resizable))
+			App->window->SetResizable(resizable);
+		if (ImGui::IsItemHovered())
+			ImGui::SetTooltip("Restart to apply");
+
+		if (ImGui::Checkbox("Borderless", &borderless))
+			App->window->SetBorderless(borderless);
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Full Desktop", &full_desktop))
+			App->window->SetFullScreenDesktop(full_desktop);
+
+	}
 }
 
 uint ModuleWindow::GetWidth() const

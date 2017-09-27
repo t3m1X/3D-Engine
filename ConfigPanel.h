@@ -18,7 +18,7 @@ class ConfigPanel : public Panel {
 		void DrawApp();
 		void DrawHardware();
 		void FPS(float fps, float ms);
-		void DrawWin(Application* App);
+		//void DrawWin(Application* App);
 
 	private : 
 		ImGuiTextBuffer input_buf;

@@ -10,6 +10,7 @@
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	SetName("Renderer");
 }
 
 // Destructor
@@ -150,4 +151,11 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+void ModuleRenderer3D::ImGuiDraw()
+{
+	if (ImGui::CollapsingHeader(this->GetName())) {
+
+	}
 }

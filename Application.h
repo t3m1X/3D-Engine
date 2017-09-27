@@ -30,6 +30,7 @@ public:
 	ModulePlayer* player;
 	ModuleImGui* imgui;
 	ModuleJSON* json;
+	list<Module*> list_modules;
 private:
 
 	Timer	ms_timer;
@@ -40,7 +41,6 @@ private:
 	int		last_frame_ms;
 	int		last_fps;
 	int		capped_ms;
-	list<Module*> list_modules;
 	
 
 public:

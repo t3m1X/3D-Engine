@@ -36,7 +36,7 @@ public:
 	void SetBorderless(bool set);
 	void SetFullScreenDesktop(bool set);
 	void SetBrightness(float set);
-
+	void ImGuiDraw();
 
 public:
 	//The window we'll be rendering to
