@@ -52,6 +52,13 @@ void ModuleSceneIntro::Wireframe(bool b)
 	}
 }
 
+void ModuleSceneIntro::Draw()
+{
+	for (list<Primitive*>::iterator it = bodies.begin(); it != bodies.end(); ++it) {
+		(*it)->Render();
+	}
+}
+
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
@@ -59,9 +66,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
-	for (list<Primitive*>::iterator it = bodies.begin(); it != bodies.end(); ++it) {
-		(*it)->Render();
-	}
+	
 	
 	return UPDATE_CONTINUE;
 }

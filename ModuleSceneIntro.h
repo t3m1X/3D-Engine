@@ -24,6 +24,7 @@ public:
 	void AddBody(Primitive*body);
 	void AddSphere(float x, float y, float z, float radius);
 	void Wireframe(bool b);
+	void Draw();
 public:
 	std::list<Primitive*> bodies;
 };

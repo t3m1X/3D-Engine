@@ -177,7 +177,7 @@ update_status ModuleImGui::Update(float dt)
 		
 	}
 
-	Draw();
+	//Draw();
 
 
 	return update_status::UPDATE_CONTINUE;
