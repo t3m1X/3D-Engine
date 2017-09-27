@@ -32,7 +32,7 @@ Application::Application()
 	AddModule(input);
 	AddModule(audio);
 	AddModule(physics);
-	
+
 	// Scenes
 	AddModule(scene_intro);
 	AddModule(player);
@@ -47,7 +47,7 @@ Application::~Application()
 	for (std::list<Module*>::reverse_iterator rit = list_modules.rbegin(); rit != list_modules.rend(); ++rit)
 	{
 		if ((*rit) != nullptr)
-		delete *rit;
+			delete *rit;
 	}
 
 	list_modules.clear();
@@ -65,7 +65,7 @@ bool Application::Init()
 			ret = (*it)->Init();
 		}
 	}
-	
+
 
 	// After all Init calls we call Start() in all modules
 	LOG("Application Start --------------");
@@ -114,7 +114,7 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
-	
+
 	for (list<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); ++it) {
 		if ((*it) != nullptr && ret == true) {
 			ret = (*it)->PreUpdate(dt);

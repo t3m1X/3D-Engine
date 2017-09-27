@@ -47,7 +47,7 @@ update_status ModuleImGui::PreUpdate(float dt)
 
 update_status ModuleImGui::Update(float dt)
 {
-	int win_width, win_height;
+	
 
 	ImGuiStyle * style = &ImGui::GetStyle();
 
@@ -152,7 +152,10 @@ update_status ModuleImGui::PostUpdate(float dt)
 
 bool ModuleImGui::CleanUp()
 {
-
+	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+	{
+		delete *it;
+	}
 
 	return true;
 }

@@ -13,6 +13,7 @@
 #include "ModulePhysics3D.h"
 #include "ModulePlayer.h"
 #include "ModuleImGui.h"
+#include "ModuleJson.h"
 
 class ModuleImGui;
 
@@ -28,7 +29,7 @@ public:
 	ModulePhysics3D* physics;
 	ModulePlayer* player;
 	ModuleImGui* imgui;
-
+	ModuleJSON* json;
 private:
 
 	Timer	ms_timer;
@@ -62,4 +63,3 @@ private:
 	void PrepareUpdate();
 	void FinishUpdate();
 };
-//extern Application* App;
