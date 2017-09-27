@@ -26,8 +26,30 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
-
+	for (list<Primitive*>::iterator it = bodies.begin(); it != bodies.end(); ++it) {
+		delete (*it);
+	}
+	bodies.clear();
 	return true;
+}
+
+void ModuleSceneIntro::AddBody(Primitive * body)
+{
+	bodies.push_back(body);
+}
+
+void ModuleSceneIntro::AddSphere(float x, float y, float z, float radius)
+{
+	bSphere* sphere = new bSphere(radius);
+	sphere->SetPos(x, y, z);
+	AddBody(sphere);
+}
+
+void ModuleSceneIntro::Wireframe(bool b)
+{
+	for (list<Primitive*>::iterator it = bodies.begin(); it != bodies.end(); ++it) {
+		(*it)->SetWire(b);
+	}
 }
 
 // Update
@@ -37,6 +59,9 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
+	for (list<Primitive*>::iterator it = bodies.begin(); it != bodies.end(); ++it) {
+		(*it)->Render();
+	}
 	
 	return UPDATE_CONTINUE;
 }

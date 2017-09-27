@@ -126,6 +126,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	SDL_GL_SwapWindow(App->window->window);
+	App->imgui->Draw();
 	return UPDATE_CONTINUE;
 }
 

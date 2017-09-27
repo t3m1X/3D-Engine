@@ -17,6 +17,11 @@ PrimitiveTypes Primitive::GetType() const
 	return type;
 }
 
+void Primitive::SetWire(bool b)
+{
+	wire = b;
+}
+
 // ------------------------------------------------------------
 void Primitive::Render() const
 {

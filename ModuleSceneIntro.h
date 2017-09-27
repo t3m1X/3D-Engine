@@ -21,5 +21,9 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 	//void ModuleSceneIntro::OnCollision(PhysBody3D * body1, PhysBody3D * body2);
+	void AddBody(Primitive*body);
+	void AddSphere(float x, float y, float z, float radius);
+	void Wireframe(bool b);
 public:
+	std::list<Primitive*> bodies;
 };

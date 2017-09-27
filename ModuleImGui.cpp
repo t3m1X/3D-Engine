@@ -30,6 +30,10 @@ bool ModuleImGui::Init()
 	configuration = new ConfigPanel(App);
 	panels.push_back(console);
 	panels.push_back(configuration);
+	x = 0;
+	y = 0;
+	z = 0;
+	r = 0;
 	return ret;
 }
 
@@ -74,6 +78,10 @@ update_status ModuleImGui::Update(float dt)
 					configuration->Disable();
 				}
 			}
+
+			ImGui::MenuItem("Geometry", NULL, &geometry);
+			
+
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Help"))
@@ -137,6 +145,36 @@ update_status ModuleImGui::Update(float dt)
 	if (show_test_window)
 	{
 		ImGui::ShowTestWindow();
+	}
+
+	if (geometry) {
+			
+		ImGui::Begin("Geometry", &geometry);
+			
+			ImGui::InputFloat("x", &x);
+			ImGui::InputFloat("y", &y);
+			ImGui::InputFloat("z", &z);
+			ImGui::InputFloat("Radius", &r);
+			if (ImGui::Button("Create Sphere")) {
+				App->scene_intro->AddSphere(x, y, z, r);
+			}
+
+			if (ImGui::MenuItem("Wireframe")) {
+				if (wireframe == true) {
+					wireframe = false;
+					App->scene_intro->Wireframe(wireframe);
+
+				}
+				else {
+					wireframe = true;
+					App->scene_intro->Wireframe(wireframe);
+				}
+
+			}
+
+
+			ImGui::End();
+		
 	}
 
 	Draw();
