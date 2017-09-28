@@ -159,7 +159,7 @@ update_status ModuleImGui::Update(float dt)
 				App->scene_intro->AddSphere(x, y, z, r);
 			}
 
-			if (ImGui::MenuItem("Wireframe")) {
+			if (ImGui::Button("Wireframe")) {
 				if (wireframe == true) {
 					wireframe = false;
 					App->scene_intro->Wireframe(wireframe);

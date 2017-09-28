@@ -6,7 +6,7 @@
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
-#pragma comment (lib, "glew/lib/Release/x64/glew32s.lib")
+//#pragma comment (lib, "glew/lib/Release/x64/glew32s.lib")
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -137,6 +137,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->scene_intro->Draw();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	App->imgui->Draw();
 	SDL_GL_SwapWindow(App->window->window);
 	
