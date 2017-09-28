@@ -39,7 +39,6 @@ private:
 	bool geometry = false;
 	Console* console = nullptr;
 	ConfigPanel* configuration = nullptr;
-	bool wireframe = false;
 	float x, y, z, r;
 
 	

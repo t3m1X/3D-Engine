@@ -114,6 +114,11 @@ bool ModuleRenderer3D::Init()
 		lights[0].Active(true);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
+		enable_depth_test = true;
+		enable_cull_face = true;
+		enable_color_material = true;
+		enable_lightning = true;
+		enable_wireframe = false;
 	}
 
 	// Projection matrix for
@@ -146,7 +151,9 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->scene_intro->Draw();
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	UI_attributes();
 	App->imgui->Draw();
+	Custom_attributes();
 	SDL_GL_SwapWindow(App->window->window);
 	
 	return UPDATE_CONTINUE;
@@ -160,6 +167,41 @@ bool ModuleRenderer3D::CleanUp()
 	SDL_GL_DeleteContext(context);
 
 	return true;
+}
+
+void ModuleRenderer3D::UI_attributes()
+{
+	GLfloat LightModelAmbient[] = { 0.6f, 0.6f, 0.6f, 1.0f };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
+
+	GLfloat MaterialAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
+
+	GLfloat MaterialDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
+
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_LIGHTING);
+	glDisable(GL_COLOR_MATERIAL);
+}
+
+void ModuleRenderer3D::Custom_attributes()
+{
+	if (light_model_ambient != STD_AMBIENT_LIGHTING) {
+		GLfloat LightModelAmbient[] = { light_model_ambient, light_model_ambient, light_model_ambient, 1.0f };
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
+	}
+	if (material_ambient != STD_MATERIAL_AMBIENT) {
+		GLfloat MaterialAmbient[] = { material_ambient, material_ambient, material_ambient, 1.0f };
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
+	}
+
+	enable_depth_test ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
+	enable_cull_face ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
+	enable_lightning ? glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
+	enable_color_material ? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
+	enable_texture_2D ? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
 }
 
 
@@ -178,7 +220,45 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 void ModuleRenderer3D::ImGuiDraw()
 {
-	if (ImGui::CollapsingHeader(this->GetName())) {
+	if (ImGui::CollapsingHeader("Renderer")) {
+		//Check Boxes
+		if (ImGui::Checkbox("Depth Test", &enable_depth_test)) {
+			enable_depth_test ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
+		}
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Face Culling", &enable_cull_face)) {
+			enable_cull_face ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
+		}
+		if (ImGui::Checkbox("Lighting", &enable_lightning)) {
+			enable_lightning ? glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
+		}
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Material Color", &enable_color_material)) {
+			enable_color_material ? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
+		}
+		if (ImGui::Checkbox("2D Textures", &enable_texture_2D)) {
+			enable_texture_2D ? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
+		}
+		if (ImGui::Checkbox("Wireframe Mode", &enable_wireframe)) {
+				if (enable_wireframe) {
+					App->scene_intro->Wireframe(enable_wireframe);
+				}
+				else {
+					App->scene_intro->Wireframe(enable_wireframe);
+				}
+
+			}
 		
+
+		//Sliders
+		if (ImGui::SliderFloat("Ambient Lighting", &light_model_ambient, 0, 1.0f)) {
+			GLfloat LightModelAmbient[] = { light_model_ambient, light_model_ambient, light_model_ambient, 1.0f };
+			glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
+		}
+		if (ImGui::SliderFloat("Material Ambient", &material_ambient, 0, 1.0f)) {
+			GLfloat MaterialAmbient[] = { material_ambient, material_ambient, material_ambient, 1.0f };
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
+		}
+
 	}
 }

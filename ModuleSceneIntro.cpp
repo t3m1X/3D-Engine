@@ -19,6 +19,7 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+	AddSphere(0, 0, 0, 0.5f);
 	return ret;
 }
 
