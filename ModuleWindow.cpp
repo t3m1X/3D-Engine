@@ -75,6 +75,7 @@ bool ModuleWindow::Init()
 	bool resizable = false;
 	bool borderless = false;
 	bool fullscreen_desktop = false;
+	SetTitle(App->GetName());
 	return ret;
 }
 
