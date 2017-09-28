@@ -39,7 +39,7 @@ private:
 	bool geometry = false;
 	Console* console = nullptr;
 	ConfigPanel* configuration = nullptr;
-	float x, y, z, r;
+	float x, y, z, r,posx,posy,posz;
 
 	
 	///just for testing mathgeolib///

@@ -23,6 +23,9 @@ public:
 	//void ModuleSceneIntro::OnCollision(PhysBody3D * body1, PhysBody3D * body2);
 	void AddBody(Primitive*body);
 	void AddSphere(float x, float y, float z, float radius);
+	void AddCube(float x, float y, float z, float posx, float posy, float posz);
+	void AddCylinder(float radius, float height,float posx, float posy, float posz);
+	void AddPlane(float x, float y, float z, float d, float posx, float posy, float posz);
 	void Wireframe(bool b);
 	void Draw();
 public:

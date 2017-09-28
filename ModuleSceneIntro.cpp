@@ -46,6 +46,27 @@ void ModuleSceneIntro::AddSphere(float x, float y, float z, float radius)
 	AddBody(sphere);
 }
 
+void ModuleSceneIntro::AddCube(float x, float y, float z, float posx, float posy, float posz)
+{
+	bCube* cube = new bCube(x, y, z);
+	cube->SetPos(posx, posy, posz);
+	AddBody(cube);
+}
+
+void ModuleSceneIntro::AddCylinder(float radius, float height, float posx, float posy, float posz)
+{
+	bCylinder* cylinder = new bCylinder(radius, height);
+	cylinder->SetPos(posx, posy, posz);
+	AddBody(cylinder);
+}
+
+void ModuleSceneIntro::AddPlane(float x, float y, float z, float d, float posx, float posy, float posz)
+{
+	bPlane* plane = new bPlane(x, y, z, d);
+	plane->SetPos(posx, posy, posz);
+	AddBody(plane);
+}
+
 void ModuleSceneIntro::Wireframe(bool b)
 {
 	for (list<Primitive*>::iterator it = bodies.begin(); it != bodies.end(); ++it) {

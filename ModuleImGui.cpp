@@ -34,6 +34,9 @@ bool ModuleImGui::Init()
 	y = 0;
 	z = 0;
 	r = 0;
+	posx = 0;
+	posy = 0;
+	posz = 0;
 	return ret;
 }
 
@@ -150,14 +153,29 @@ update_status ModuleImGui::Update(float dt)
 	if (geometry) {
 			
 		ImGui::Begin("Geometry", &geometry);
-			
-			ImGui::InputFloat("x", &x);
-			ImGui::InputFloat("y", &y);
-			ImGui::InputFloat("z", &z);
+		if (ImGui::CollapsingHeader("Spheres")) {
+			ImGui::InputFloat("x", &posx);
+			ImGui::InputFloat("y", &posy);
+			ImGui::InputFloat("z", &posz);
 			ImGui::InputFloat("Radius", &r);
 			if (ImGui::Button("Create Sphere")) {
-				App->scene_intro->AddSphere(x, y, z, r);
+				App->scene_intro->AddSphere(posx, posy, posz, r);
 			}
+		}
+		if (ImGui::CollapsingHeader("Cubes")) {
+			ImGui::InputFloat("Size x", &x);
+			ImGui::InputFloat("Size y", &y);
+			ImGui::InputFloat("Size z", &z);
+
+			ImGui::InputFloat("Pos x", &posx);
+			ImGui::InputFloat("Pos y", &posy);
+			ImGui::InputFloat("Pos z", &posz);
+
+			if (ImGui::Button("Create Cube")) {
+				App->scene_intro->AddCube(x,y,z,posx, posy, posz);
+			}
+
+		}
 
 
 
