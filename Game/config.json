@@ -20,9 +20,9 @@
         "color_material": true,
         "lightning": true,
         "2D_texture": true,
-        "wireframe": false,
+        "wireframe": true,
         "smooth": false,
-        "fog": true,
+        "fog": false,
         "fog_density": 0,
         "light_model_ambient": 1,
         "material_ambient": 1

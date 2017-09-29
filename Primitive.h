@@ -26,6 +26,7 @@ public:
 	void			Scale(float x, float y, float z);
 	PrimitiveTypes	GetType() const;
 	void			SetWire(bool b);
+	void			SetColor(float r, float g, float b, float a);
 
 public:
 	
