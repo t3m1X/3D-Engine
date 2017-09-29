@@ -2,8 +2,7 @@
     "app": {
         "name": "Roger's Engine",
         "organization": "Roger's Engine",
-        "version": "0.1.7",
-        "title": "Roger's Engine"
+        "version": "0.1.7"
     },
     "window": {
         "width": 1280,
@@ -14,5 +13,18 @@
         "fulldekstop": false,
         "maximized": true,
         "fulldesktop": false
+    },
+    "renderer": {
+        "depth_test": true,
+        "cull_face": true,
+        "color_material": true,
+        "lightning": true,
+        "2D_texture": true,
+        "wireframe": false,
+        "smooth": false,
+        "fog": true,
+        "fog_density": 0,
+        "light_model_ambient": 1,
+        "material_ambient": 1
     }
 }

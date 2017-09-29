@@ -19,7 +19,7 @@ public:
 	ModuleRenderer3D(Application* app, bool start_enabled = true);
 	~ModuleRenderer3D();
 
-	bool Init();
+	bool Init(JSON_File* conf);
 	update_status PreUpdate(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
@@ -27,6 +27,8 @@ public:
 	void Custom_attributes();
 	void OnResize(int width, int height);
 	void ImGuiDraw();
+	void Load(JSON_File*c);
+	void Save(JSON_File*c);
 
 public:
 
@@ -34,12 +36,15 @@ public:
 	SDL_GLContext context;
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
-	bool enable_depth_test = false;
-	bool enable_cull_face = false;
-	bool enable_lightning = false;
-	bool enable_color_material = false;
-	bool enable_texture_2D = false;
-	bool enable_wireframe = false;
-	float light_model_ambient = 0.6f;
-	float material_ambient = 1.0f;
+	bool enable_depth_test;
+	bool enable_cull_face;
+	bool enable_lightning;
+	bool enable_color_material;
+	bool enable_texture_2D;
+	bool enable_wireframe;
+	bool smooth;
+	bool enable_fog;
+	GLfloat fog_density;
+	float light_model_ambient;
+	float material_ambient;
 };

@@ -39,6 +39,7 @@ Application::Application()
 	AddModule(input);
 	AddModule(audio);
 	AddModule(physics);
+	AddModule(imgui);
 	
 
 	// Scenes
@@ -47,7 +48,7 @@ Application::Application()
 
 	// Renderer last!
 	AddModule(renderer3D);
-	AddModule(imgui);
+	
 	
 }
 
@@ -71,7 +72,7 @@ bool Application::Init()
 
 	for (list<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); ++it) {
 		if ((*it) != nullptr && ret == true) {
-			ret = (*it)->Init();
+			ret = (*it)->Init(config);
 		}
 	}
 
@@ -256,7 +257,7 @@ void Application::SaveConfig(Module*module)
 {
 	if (config != nullptr)
 	{
-		config->SetString("app.title", GetName());
+		config->SetString("app.name", GetName());
 		config->SetString("app.organization", GetOrg());
 		config->SetString("app.version", GetVersion());
 

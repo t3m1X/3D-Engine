@@ -15,8 +15,9 @@ ModuleWindow::~ModuleWindow()
 }
 
 // Called before render is available
-bool ModuleWindow::Init()
+bool ModuleWindow::Init(JSON_File* conf)
 {
+	
 	LOG("Init SDL window & surface");
 	bool ret = true;
 
@@ -69,12 +70,11 @@ bool ModuleWindow::Init()
 			screen_surface = SDL_GetWindowSurface(window);
 		}
 	}
-	uint screen_width = 1280;
-	uint screen_height = 1024;
-	bool fullscreen = false;
-	bool resizable = false;
-	bool borderless = false;
-	bool fullscreen_desktop = false;
+	Load(conf);
+	SetFullscreen(fullscreen);
+	SetBorderless(borderless);
+	SetResizable(resizable);
+	SetFullScreenDesktop(fullscreen_desktop);
 	SetTitle(App->GetName());
 	return ret;
 }
@@ -289,17 +289,17 @@ void ModuleWindow::Load(JSON_File* config)
 	}
 }
 
-void ModuleWindow::Save(JSON_File * config)
+void ModuleWindow::Save(JSON_File * c)
 {
-	if (config != nullptr) {
-		config->SetNumber("window.width", GetWidth());
-		config->SetNumber("window.height", GetHeight());
-		config->SetBool("window.fullscreen", IsFullscreen());
-		config->SetBool("window.resizable", IsResizable());
-		config->SetBool("window.borderless", IsBorderless());
-		config->SetBool("window.fulldesktop", IsFullscreenDesktop());
+	if (c != nullptr) {
+		c->SetNumber("window.width", GetWidth());
+		c->SetNumber("window.height", GetHeight());
+		c->SetBool("window.fullscreen", IsFullscreen());
+		c->SetBool("window.resizable", IsResizable());
+		c->SetBool("window.borderless", IsBorderless());
+		c->SetBool("window.fulldesktop", IsFullscreenDesktop());
 
-		config->Save();
+		c->Save();
 	}
 
 }

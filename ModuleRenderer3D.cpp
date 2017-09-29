@@ -18,7 +18,7 @@ ModuleRenderer3D::~ModuleRenderer3D()
 {}
 
 // Called before render is available
-bool ModuleRenderer3D::Init()
+bool ModuleRenderer3D::Init(JSON_File* conf)
 {
 	LOG("Creating 3D Renderer context");
 	bool ret = true;
@@ -30,6 +30,7 @@ bool ModuleRenderer3D::Init()
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
+	Load(conf);
 	
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
@@ -109,16 +110,8 @@ bool ModuleRenderer3D::Init()
 		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 		
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
-		lights[0].Active(true);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_COLOR_MATERIAL);
-		enable_depth_test = true;
-		enable_cull_face = true;
-		enable_color_material = true;
-		enable_lightning = true;
-		enable_wireframe = false;
+
+		Custom_attributes();
 	}
 
 	// Projection matrix for
@@ -163,6 +156,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
+	
+	
 
 	SDL_GL_DeleteContext(context);
 
@@ -184,6 +179,7 @@ void ModuleRenderer3D::UI_attributes()
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_COLOR_MATERIAL);
+	glShadeModel(GL_SMOOTH);
 }
 
 void ModuleRenderer3D::Custom_attributes()
@@ -202,6 +198,23 @@ void ModuleRenderer3D::Custom_attributes()
 	enable_lightning ? glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
 	enable_color_material ? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
 	enable_texture_2D ? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
+	(smooth) ? glShadeModel(GL_SMOOTH) : glShadeModel(GL_FLAT);
+	if (enable_fog)
+	{
+		glEnable(GL_FOG);
+		glFogfv(GL_FOG_DENSITY, &fog_density);
+	}
+	else
+	{
+		glDisable(GL_FOG);
+	}
+	if (enable_wireframe) {
+		App->scene_intro->Wireframe(enable_wireframe);
+	}
+	else {
+		App->scene_intro->Wireframe(enable_wireframe);
+	}
+
 }
 
 
@@ -224,41 +237,106 @@ void ModuleRenderer3D::ImGuiDraw()
 		//Check Boxes
 		if (ImGui::Checkbox("Depth Test", &enable_depth_test)) {
 			enable_depth_test ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
+			App->SaveConfig(App->renderer3D);
 		}
 		ImGui::SameLine();
 		if (ImGui::Checkbox("Face Culling", &enable_cull_face)) {
 			enable_cull_face ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
+			App->SaveConfig(App->renderer3D);
 		}
 		if (ImGui::Checkbox("Lighting", &enable_lightning)) {
 			enable_lightning ? glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
+			App->SaveConfig(App->renderer3D);
 		}
 		ImGui::SameLine();
 		if (ImGui::Checkbox("Material Color", &enable_color_material)) {
 			enable_color_material ? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
+			App->SaveConfig(App->renderer3D);
 		}
 		if (ImGui::Checkbox("2D Textures", &enable_texture_2D)) {
 			enable_texture_2D ? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
+			App->SaveConfig(App->renderer3D);
 		}
 		if (ImGui::Checkbox("Wireframe Mode", &enable_wireframe)) {
-				if (enable_wireframe) {
-					App->scene_intro->Wireframe(enable_wireframe);
-				}
-				else {
-					App->scene_intro->Wireframe(enable_wireframe);
-				}
-
+			if (enable_wireframe) {
+				App->scene_intro->Wireframe(enable_wireframe);
 			}
-		
-
-		//Sliders
-		if (ImGui::SliderFloat("Ambient Lighting", &light_model_ambient, 0, 1.0f)) {
-			GLfloat LightModelAmbient[] = { light_model_ambient, light_model_ambient, light_model_ambient, 1.0f };
-			glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
+			else {
+				App->scene_intro->Wireframe(enable_wireframe);
+			}
+			App->SaveConfig(App->renderer3D);
 		}
-		if (ImGui::SliderFloat("Material Ambient", &material_ambient, 0, 1.0f)) {
-			GLfloat MaterialAmbient[] = { material_ambient, material_ambient, material_ambient, 1.0f };
-			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
+			if (ImGui::Checkbox("Smooth", &smooth))
+			{
+				(smooth) ? glShadeModel(GL_SMOOTH) : glShadeModel(GL_FLAT);
+				App->SaveConfig(App->renderer3D);
+			}
+
+			//Sliders
+			if (ImGui::SliderFloat("Ambient Lighting", &light_model_ambient, 0, 1.0f)) {
+				GLfloat LightModelAmbient[] = { light_model_ambient, light_model_ambient, light_model_ambient, 1.0f };
+				glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
+				App->SaveConfig(App->renderer3D);
+			}
+			if (ImGui::SliderFloat("Material Ambient", &material_ambient, 0, 1.0f)) {
+				GLfloat MaterialAmbient[] = { material_ambient, material_ambient, material_ambient, 1.0f };
+				glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
+			}
+
+			if (ImGui::CollapsingHeader("Fog"))
+			{
+				if (ImGui::Checkbox("Active", &enable_fog))
+				{
+					if (enable_fog)
+					{
+						glEnable(GL_FOG);
+						glFogfv(GL_FOG_DENSITY, &fog_density);
+					}
+					else
+					{
+						glDisable(GL_FOG);
+					}
+					App->SaveConfig(App->renderer3D);
+				}
+				if (enable_fog)
+				{
+					if (ImGui::SliderFloat("Density", &fog_density, 0.0f, 1.0f, "%.3f"))
+					{
+						glFogfv(GL_FOG_DENSITY, &fog_density);
+					}
+				}
+			}
+
 		}
 
 	}
+	
+
+void ModuleRenderer3D::Load(JSON_File * c)
+{
+	enable_depth_test = c->GetBool("renderer.depth_test");
+	enable_cull_face = c->GetBool("renderer.cull_face");
+	enable_color_material = c->GetBool("renderer.color_material");
+	enable_lightning = c->GetBool("renderer.lightning");
+	enable_wireframe = c->GetBool("renderer.wireframe");
+	smooth = c->GetBool("renderer.smooth");
+	enable_fog = c->GetBool("renderer.fog");
+	enable_texture_2D = c->GetBool("renderer.2D_texture");
+	fog_density = c->GetNumber("renderer.fog_density");
+	light_model_ambient = c->GetNumber("renderer.light_model_ambient");
+	material_ambient = c->GetNumber("renderer.material_ambient");
+}
+
+void ModuleRenderer3D::Save(JSON_File* c)
+{
+	c->SetBool("renderer.depth_test", enable_depth_test);
+	c->SetBool("renderer.cull_face", enable_cull_face);
+	c->SetBool("renderer.color_material", enable_color_material);
+	c->SetBool("renderer.lightning", enable_lightning);
+	c->SetBool("renderer.wireframe", enable_wireframe);
+	c->SetBool("renderer.smooth", smooth);
+	c->SetBool("renderer.fog", enable_fog);
+	c->SetBool("renderer.2D_texture", enable_texture_2D);
+
+	c->Save();
 }

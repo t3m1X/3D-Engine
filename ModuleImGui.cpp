@@ -18,7 +18,7 @@ ModuleImGui::~ModuleImGui()
 
 }
 
-bool ModuleImGui::Init()
+bool ModuleImGui::Init(JSON_File* conf)
 {
 	bool ret = true;
 
@@ -38,7 +38,6 @@ bool ModuleImGui::Init()
 	posy = 0;
 	posz = 0;
 	h = 0;
-	d = 0;
 	return ret;
 }
 

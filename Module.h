@@ -29,7 +29,7 @@ public:
 	virtual ~Module()
 	{}
 
-	virtual bool Init()
+	virtual bool Init(JSON_File* conf)
 	{
 		return true;
 	}
@@ -65,5 +65,5 @@ public:
 	const char * GetName() { return name; };
 	virtual void ImGuiDraw() {}
 	virtual void Load(JSON_File* config) {}
-	virtual void Save(JSON_File* config) {}
+	virtual void Save(JSON_File* c) {}
 };
