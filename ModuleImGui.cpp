@@ -37,6 +37,8 @@ bool ModuleImGui::Init()
 	posx = 0;
 	posy = 0;
 	posz = 0;
+	h = 0;
+	d = 0;
 	return ret;
 }
 
@@ -176,7 +178,33 @@ update_status ModuleImGui::Update(float dt)
 			}
 
 		}
+		if (ImGui::CollapsingHeader("Cylinder")) {
+			ImGui::InputFloat("Height", &h);
+			ImGui::InputFloat("Radius" ,&r);
+			ImGui::InputFloat("Pos x", &posx);
+			ImGui::InputFloat("Pos y", &posy);
+			ImGui::InputFloat("Pos z", &posz);
 
+			if (ImGui::Button("Create Cylinder")) {
+				App->scene_intro->AddCylinder(r, h, posx, posy, posz);
+			}
+
+		}
+		if (ImGui::CollapsingHeader("Plane")) {
+			ImGui::InputFloat("Size x", &x);
+			ImGui::InputFloat("Size y", &y);
+			ImGui::InputFloat("Size z", &z);
+			ImGui::InputFloat("D", &d);
+
+			ImGui::InputFloat("Pos x", &posx);
+			ImGui::InputFloat("Pos y", &posy);
+			ImGui::InputFloat("Pos z", &posz);
+
+			if (ImGui::Button("Create Plane")) {
+				App->scene_intro->AddPlane(x, y,z,d, posx, posy, posz);
+			}
+
+		}
 
 
 			ImGui::End();
