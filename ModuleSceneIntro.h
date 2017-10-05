@@ -24,10 +24,52 @@ public:
 	void AddBody(Primitive*body);
 	void AddSphere(float x, float y, float z, float radius);
 	void AddCube(float x, float y, float z, float posx, float posy, float posz);
-	void AddCylinder(float radius, float height,float posx, float posy, float posz);
+	void AddCylinder(float radius, float height, float posx, float posy, float posz);
 	void AddPlane(float x, float y, float z, float d, float posx, float posy, float posz);
 	void Wireframe(bool b);
 	void Draw();
 public:
 	std::list<Primitive*> bodies;
+	float vertices[36 * 3] = {
+		0.f + 4, 0.f, 0.f,
+		1.f + 4, 0.f, 0.f,
+		0.f + 4, 1.f, 0.f,
+		1.f + 4, 1.f, 0.f,
+		0.f + 4, 1.f, 0.f,
+		1.f + 4, 0.f, 0.f,
+
+		0.f + 4, 0.f, -1.f,
+		0.f + 4, 0.f, 0.f,
+		0.f + 4, 1.f, -1.f,
+		0.f + 4, 1.f, 0.f,
+		0.f + 4, 1.f, -1.f,
+		0.f + 4, 0.f, 0.f,
+
+		1.f + 4, 0.f, 0.f,
+		1.f + 4, 0.f, -1.f,
+		1.f + 4, 1.f, -1.f,
+		1.f + 4, 1.f, 0.f,
+		1.f + 4, 0.f, 0.f,
+		1.f + 4, 1.f, -1.f,
+
+		0.f + 4, 0.f, -1.f,
+		0.f + 4, 1.f, -1.f,
+		1.f + 4, 0.f, -1.f,
+		1.f + 4, 1.f, -1.f,
+		1.f + 4, 0.f, -1.f,
+		0.f + 4, 1.f, -1.f,
+
+		0.f + 4, 1.f, 0.f,
+		1.f + 4, 1.f, 0.f,
+		0.f + 4, 1.f, -1.f,
+		1.f + 4, 1.f, -1.f,
+		0.f + 4, 1.f, -1.f,
+		1.f + 4, 1.f, 0.f ,
+		0.f + 4, 0.f, 0.f,
+		0.f + 4, 0.f, -1.f,
+		1.f + 4, 0.f, 0.f,
+		1.f + 4, 0.f, -1.f,
+		1.f + 4, 0.f, 0.f,
+		0.f + 4, 0.f, -1.f
+	};
 };

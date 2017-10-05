@@ -19,7 +19,6 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-	AddSphere(0, 0, 0, 0.5f);
 	return ret;
 }
 
@@ -86,6 +85,82 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	bPlane p(0, 1, 0, 0);
 	p.axis = true;
+	/*glLineWidth(2.0f);
+	glBegin(GL_LINES);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(0.f, 10.f, 0.f);
+	glEnd();
+	glLineWidth(1.0f);*/
+	
+
+
+	uint my_id = 0;
+	glGenBuffers(1, (GLuint*) &(my_id));
+	glBindBuffer(GL_ARRAY_BUFFER, my_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*36 * 3, vertices, GL_STATIC_DRAW);
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, my_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	// ... draw other buffers
+	glDrawArrays(GL_TRIANGLES, 0, 36 * 3);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+
+
+
+	glBegin(GL_TRIANGLES);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(1.f, 0.f, 0.f);
+
+	glVertex3f(0.f, 0.f, -1.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(0.f, 1.f, -1.f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(0.f, 1.f, -1.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	
+	glVertex3f(1.f, 0.f, 0.f);
+	glVertex3f(1.f, 0.f, -1.f);
+	glVertex3f(1.f, 1.f, -1.f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glVertex3f(1.f, 1.f, -1.f);
+	
+	glVertex3f(0.f, 0.f, -1.f);
+	glVertex3f(0.f, 1.f, -1.f);
+	glVertex3f(1.f, 0.f, -1.f);
+	glVertex3f(1.f, 1.f, -1.f);
+	glVertex3f(1.f, 0.f, -1.f);
+	glVertex3f(0.f, 1.f, -1.f);
+	
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glVertex3f(0.f, 1.f, -1.f);
+	glVertex3f(1.f, 1.f, -1.f);
+	glVertex3f(0.f, 1.f, -1.f);
+	glVertex3f(1.f, 1.f, 0.f);
+	
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(0.f, 0.f, -1.f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glVertex3f(1.f, 0.f, -1.f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glVertex3f(0.f, 0.f, -1.f);
+
+
+
+
+	
+
+
+
+
+	glEnd();
 	p.Render();
 
 	
