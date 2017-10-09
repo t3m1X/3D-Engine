@@ -324,6 +324,9 @@
     <ClInclude Include="glew\include\GL\glew.h">
       <Filter>Sources\Glew</Filter>
     </ClInclude>
+    <ClInclude Include="vPrimitive.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -514,6 +517,9 @@
     </ClCompile>
     <ClCompile Include="glew\glew.c">
       <Filter>Sources\Glew</Filter>
+    </ClCompile>
+    <ClCompile Include="vPrimitive.cpp">
+      <Filter>Sources\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

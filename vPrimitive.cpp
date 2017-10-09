@@ -188,6 +188,7 @@ void Cube::InnerRender() const
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_arr);
 	glDrawElements(GL_TRIANGLES, index_arr, GL_UNSIGNED_INT, NULL);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 // SPHERE ============================================
