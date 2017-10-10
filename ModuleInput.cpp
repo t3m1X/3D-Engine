@@ -118,6 +118,7 @@ update_status ModuleInput::PreUpdate(float dt)
 			case SDL_DROPFILE:
 			char* drop_filedir = e.drop.file;
 			char* filext = strrchr(drop_filedir, '.');
+			for (char* p = filext + 1; *p != '\0'; *p = toupper(*p), p++);
 			if (strncmp(filext, ".FBX", 4) == 0)
 				App->loader->LoadFBX(drop_filedir);
 			SDL_free(drop_filedir);

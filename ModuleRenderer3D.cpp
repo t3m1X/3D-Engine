@@ -347,11 +347,9 @@ void ModuleRenderer3D::Draw(Mesh * m)
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, m->id_vertices);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->id_indices);
-	glPointSize(5.0f);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glDrawElements(GL_TRIANGLES, m->num_indices, GL_UNSIGNED_INT, NULL);
 	glDisableClientState(GL_VERTEX_ARRAY);
-
-	glBindBuffer(NULL, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }

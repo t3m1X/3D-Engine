@@ -68,7 +68,7 @@ void ModuleLoader::LoadFBX(char* path)
 			glBindBuffer(GL_ARRAY_BUFFER, new_mesh->id_vertices);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_vertices * 3, new_mesh->vertices, GL_STATIC_DRAW);
 
-
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			//Indices
 
 			if (m->HasFaces()) {
@@ -91,7 +91,7 @@ void ModuleLoader::LoadFBX(char* path)
 
 
 			meshes.push_back(new_mesh);
-			glBindBuffer(NULL, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 
 		aiReleaseImport(scene);
