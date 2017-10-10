@@ -94,73 +94,73 @@ update_status ModuleSceneIntro::Update(float dt)
 	
 
 
-	uint my_id = 0;
-	glGenBuffers(1, (GLuint*) &(my_id));
-	glBindBuffer(GL_ARRAY_BUFFER, my_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*36 * 3, vertices, GL_STATIC_DRAW);
+	//uint my_id = 0;
+	//glGenBuffers(1, (GLuint*) &(my_id));
+	//glBindBuffer(GL_ARRAY_BUFFER, my_id);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(float)*36 * 3, vertices, GL_STATIC_DRAW);
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, my_id);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	// ... draw other buffers
-	glDrawArrays(GL_TRIANGLES, 0, 36 * 3);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-
-
-
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(1.f, 0.f, 0.f);
-	glVertex3f(0.f, 1.f, 0.f);
-	glVertex3f(1.f, 1.f, 0.f);
-	glVertex3f(0.f, 1.f, 0.f);
-	glVertex3f(1.f, 0.f, 0.f);
-
-	glVertex3f(0.f, 0.f, -1.f);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(0.f, 1.f, -1.f);
-	glVertex3f(0.f, 1.f, 0.f);
-	glVertex3f(0.f, 1.f, -1.f);
-	glVertex3f(0.f, 0.f, 0.f);
-	
-	glVertex3f(1.f, 0.f, 0.f);
-	glVertex3f(1.f, 0.f, -1.f);
-	glVertex3f(1.f, 1.f, -1.f);
-	glVertex3f(1.f, 1.f, 0.f);
-	glVertex3f(1.f, 0.f, 0.f);
-	glVertex3f(1.f, 1.f, -1.f);
-	
-	glVertex3f(0.f, 0.f, -1.f);
-	glVertex3f(0.f, 1.f, -1.f);
-	glVertex3f(1.f, 0.f, -1.f);
-	glVertex3f(1.f, 1.f, -1.f);
-	glVertex3f(1.f, 0.f, -1.f);
-	glVertex3f(0.f, 1.f, -1.f);
-	
-	glVertex3f(0.f, 1.f, 0.f);
-	glVertex3f(1.f, 1.f, 0.f);
-	glVertex3f(0.f, 1.f, -1.f);
-	glVertex3f(1.f, 1.f, -1.f);
-	glVertex3f(0.f, 1.f, -1.f);
-	glVertex3f(1.f, 1.f, 0.f);
-	
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(0.f, 0.f, -1.f);
-	glVertex3f(1.f, 0.f, 0.f);
-	glVertex3f(1.f, 0.f, -1.f);
-	glVertex3f(1.f, 0.f, 0.f);
-	glVertex3f(0.f, 0.f, -1.f);
+	//glEnableClientState(GL_VERTEX_ARRAY);
+	//glBindBuffer(GL_ARRAY_BUFFER, my_id);
+	//glVertexPointer(3, GL_FLOAT, 0, NULL);
+	//// ... draw other buffers
+	//glDrawArrays(GL_TRIANGLES, 0, 36 * 3);
+	//glDisableClientState(GL_VERTEX_ARRAY);
 
 
 
 
-	
+	//glBegin(GL_TRIANGLES);
+	//glVertex3f(0.f, 0.f, 0.f);
+	//glVertex3f(1.f, 0.f, 0.f);
+	//glVertex3f(0.f, 1.f, 0.f);
+	//glVertex3f(1.f, 1.f, 0.f);
+	//glVertex3f(0.f, 1.f, 0.f);
+	//glVertex3f(1.f, 0.f, 0.f);
+
+	//glVertex3f(0.f, 0.f, -1.f);
+	//glVertex3f(0.f, 0.f, 0.f);
+	//glVertex3f(0.f, 1.f, -1.f);
+	//glVertex3f(0.f, 1.f, 0.f);
+	//glVertex3f(0.f, 1.f, -1.f);
+	//glVertex3f(0.f, 0.f, 0.f);
+	//
+	//glVertex3f(1.f, 0.f, 0.f);
+	//glVertex3f(1.f, 0.f, -1.f);
+	//glVertex3f(1.f, 1.f, -1.f);
+	//glVertex3f(1.f, 1.f, 0.f);
+	//glVertex3f(1.f, 0.f, 0.f);
+	//glVertex3f(1.f, 1.f, -1.f);
+	//
+	//glVertex3f(0.f, 0.f, -1.f);
+	//glVertex3f(0.f, 1.f, -1.f);
+	//glVertex3f(1.f, 0.f, -1.f);
+	//glVertex3f(1.f, 1.f, -1.f);
+	//glVertex3f(1.f, 0.f, -1.f);
+	//glVertex3f(0.f, 1.f, -1.f);
+	//
+	//glVertex3f(0.f, 1.f, 0.f);
+	//glVertex3f(1.f, 1.f, 0.f);
+	//glVertex3f(0.f, 1.f, -1.f);
+	//glVertex3f(1.f, 1.f, -1.f);
+	//glVertex3f(0.f, 1.f, -1.f);
+	//glVertex3f(1.f, 1.f, 0.f);
+	//
+	//glVertex3f(0.f, 0.f, 0.f);
+	//glVertex3f(0.f, 0.f, -1.f);
+	//glVertex3f(1.f, 0.f, 0.f);
+	//glVertex3f(1.f, 0.f, -1.f);
+	//glVertex3f(1.f, 0.f, 0.f);
+	//glVertex3f(0.f, 0.f, -1.f);
 
 
 
 
-	glEnd();
+	//
+
+
+
+
+	//glEnd();
 	p.Render();
 
 	
