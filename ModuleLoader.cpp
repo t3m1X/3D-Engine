@@ -24,7 +24,7 @@ bool ModuleLoader::Init()
 	return true;
 }
 
-bool ModuleLoader::Update()
+update_status ModuleLoader::Update(float dt)
 {
 
 	for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
@@ -32,7 +32,7 @@ bool ModuleLoader::Update()
 	}
 
 	
-	return false;
+	return update_status::UPDATE_CONTINUE;
 }
 
 bool ModuleLoader::CleanUp()

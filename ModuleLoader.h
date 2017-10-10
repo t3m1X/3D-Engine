@@ -20,7 +20,7 @@ class ModuleLoader : public Module {
 		ModuleLoader(Application* app, bool start_enabled = true);
 		~ModuleLoader();
 		bool Init();
-		bool Update();
+		update_status Update(float dt);
 		bool CleanUp();
 		void LoadFBX(char* path);
 	public:
