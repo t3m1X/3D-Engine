@@ -14,7 +14,7 @@ bool ModuleLoader::CleanUp()
 	aiDetachAllLogStreams();
 	while (!meshes.empty())
 	{
-		delete[] meshes.begin;
+		delete[] meshes.front;
 		meshes.pop_front;
 	}
 	return true;
