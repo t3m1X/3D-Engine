@@ -524,7 +524,9 @@
     <ClCompile Include="vPrimitive.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleLoader.cpp" />
+    <ClCompile Include="ModuleLoader.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\include\Geometry\KDTree.inl">
