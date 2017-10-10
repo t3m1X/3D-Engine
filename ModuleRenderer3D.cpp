@@ -1,6 +1,7 @@
 
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleLoader.h"
 
 
 
@@ -339,4 +340,16 @@ void ModuleRenderer3D::Save(JSON_File* c)
 	c->SetBool("renderer.2D_texture", enable_texture_2D);
 
 	c->Save();
+}
+
+void ModuleRenderer3D::Draw(Mesh * m)
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, m->id_vertices);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->id_indices);
+	glDrawElements(GL_TRIANGLES, m->id_indices, GL_UNSIGNED_INT, NULL);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glBindBuffer(NULL, 0);
 }

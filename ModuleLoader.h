@@ -21,6 +21,7 @@ class ModuleLoader : public Module {
 		ModuleLoader();
 		~ModuleLoader();
 		bool Init();
+		bool Update();
 		bool CleanUp();
 		void LoadFBX(char* path);
 	public:

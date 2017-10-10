@@ -1,4 +1,5 @@
 #include "ModuleLoader.h"
+#include "Application.h"
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
@@ -8,6 +9,30 @@
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
+
+ModuleLoader::ModuleLoader()
+{
+}
+
+ModuleLoader::~ModuleLoader()
+{
+}
+
+bool ModuleLoader::Init()
+{
+	return true;
+}
+
+bool ModuleLoader::Update()
+{
+
+	for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
+		App->renderer3D->Draw(*it);
+	}
+
+	
+	return false;
+}
 
 bool ModuleLoader::CleanUp()
 {
