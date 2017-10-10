@@ -114,6 +114,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				if(e.window.event == SDL_WINDOWEVENT_RESIZED)
 					App->renderer3D->OnResize(e.window.data1, e.window.data2);
 			}
+			break;
 
 			case SDL_DROPFILE:
 			{
@@ -123,6 +124,7 @@ update_status ModuleInput::PreUpdate(float dt)
 					App->loader->LoadFBX(drop_filedir);
 				SDL_free(drop_filedir);
 			}
+			break;
 		}
 	}
 

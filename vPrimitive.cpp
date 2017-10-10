@@ -1,9 +1,9 @@
 
 #include "Globals.h"
+#include "glew\include\GL\glew.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "vPrimitive.h"
-#include "glew\include\GL\glew.h"
 
 // ------------------------------------------------------------
 vPrimitive::vPrimitive() : transform(IdentityMatrix), color(White), wire(false), axis(false), type(PrimitiveTypes::Primitive_Point)

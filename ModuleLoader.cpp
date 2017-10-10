@@ -1,21 +1,47 @@
 #include "ModuleLoader.h"
+#include "glew\include\GL\glew.h"
+#include "Application.h"
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
-#include "glew\include\GL\glew.h"
 
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
+
+ModuleLoader::ModuleLoader(Application* app, bool start_enabled) : Module(app, start_enabled)
+{
+	SetName("Loader");
+}
+
+ModuleLoader::~ModuleLoader()
+{
+}
+
+bool ModuleLoader::Init()
+{
+	return true;
+}
+
+bool ModuleLoader::Update()
+{
+
+	for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
+		App->renderer3D->Draw(*it);
+	}
+
+	
+	return false;
+}
 
 bool ModuleLoader::CleanUp()
 {
 	aiDetachAllLogStreams();
 	while (!meshes.empty())
 	{
-		delete[] meshes.front;
-		meshes.pop_front;
+		delete[] meshes.front();
+		meshes.pop_front();
 	}
 	return true;
 }

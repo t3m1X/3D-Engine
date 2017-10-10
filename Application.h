@@ -1,12 +1,12 @@
 #pragma once
 
-
 #include "Globals.h"
 #include "Timer.h"
 #include "Module.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
+#include "ModuleLoader.h"
 #include "ModuleSceneIntro.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
@@ -14,7 +14,6 @@
 #include "ModulePlayer.h"
 #include "ModuleImGui.h"
 #include "ModuleJson.h"
-#include "ModuleLoader.h"
 #include "Console.h"
 
 class ModuleImGui;

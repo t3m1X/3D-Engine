@@ -39,9 +39,9 @@ Application::Application()
 	AddModule(camera);
 	AddModule(input);
 	AddModule(audio);
+	AddModule(loader);
 	AddModule(physics);
 	AddModule(imgui);
-	AddModule(loader);
 	
 
 	// Scenes

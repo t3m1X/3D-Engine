@@ -4,7 +4,6 @@
 #include "Module.h"
 #include "Globals.h"
 
-
 struct Mesh {
 
 	uint id_vertices = 0; // id in VRAM
@@ -18,9 +17,10 @@ struct Mesh {
 class ModuleLoader : public Module {
 
 	public:
-		ModuleLoader();
+		ModuleLoader(Application* app, bool start_enabled = true);
 		~ModuleLoader();
 		bool Init();
+		bool Update();
 		bool CleanUp();
 		void LoadFBX(char* path);
 	public:
