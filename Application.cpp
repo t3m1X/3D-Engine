@@ -24,6 +24,7 @@ Application::Application()
 	player = new ModulePlayer(this);
 	imgui = new ModuleImGui(this);
 	json = new ModuleJSON(this);
+	loader = new ModuleLoader(this);
 
 
 	con = new Console();
@@ -40,6 +41,7 @@ Application::Application()
 	AddModule(audio);
 	AddModule(physics);
 	AddModule(imgui);
+	AddModule(loader);
 	
 
 	// Scenes

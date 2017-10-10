@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "ModuleLoader.h"
 
 #define MAX_KEYS 300
 
@@ -119,9 +120,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				char* drop_filedir = e.drop.file;
 				char* filext = strrchr(drop_filedir, '.');
 				if (strncmp(filext, ".fbx", 4) == 0)
-				{
-					//CALL LOAD FUNCTION
-				}
+					App->loader->LoadFBX(drop_filedir);
 				SDL_free(drop_filedir);
 			}
 		}

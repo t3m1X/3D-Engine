@@ -14,6 +14,7 @@
 #include "ModulePlayer.h"
 #include "ModuleImGui.h"
 #include "ModuleJson.h"
+#include "ModuleLoader.h"
 #include "Console.h"
 
 class ModuleImGui;
@@ -35,6 +36,7 @@ public:
 	ModulePlayer* player;
 	ModuleImGui* imgui;
 	ModuleJSON* json;
+	ModuleLoader* loader;
 	list<Module*> list_modules;
 	Console* con;
 private:
