@@ -10,8 +10,9 @@
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
 
-ModuleLoader::ModuleLoader()
+ModuleLoader::ModuleLoader(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	SetName("Loader");
 }
 
 ModuleLoader::~ModuleLoader()
@@ -37,10 +38,9 @@ bool ModuleLoader::Update()
 bool ModuleLoader::CleanUp()
 {
 	aiDetachAllLogStreams();
-	while (!meshes.empty())
-	{
-		delete[] meshes.begin;
-		meshes.pop_front;
+
+	for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
+		delete *it;
 	}
 	return true;
 }

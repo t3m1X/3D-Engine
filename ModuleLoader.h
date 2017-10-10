@@ -18,7 +18,7 @@ struct Mesh {
 class ModuleLoader : public Module {
 
 	public:
-		ModuleLoader();
+		ModuleLoader(Application* app, bool start_enabled = true);
 		~ModuleLoader();
 		bool Init();
 		bool Update();

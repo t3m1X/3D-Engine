@@ -16,6 +16,7 @@
 #include "ModuleJson.h"
 #include "ModuleLoader.h"
 #include "Console.h"
+#include "ModuleLoader.h"
 
 class ModuleImGui;
 class JSON_File;
