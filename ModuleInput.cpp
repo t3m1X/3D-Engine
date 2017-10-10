@@ -117,12 +117,11 @@ update_status ModuleInput::PreUpdate(float dt)
 			case SDL_DROPFILE:
 			{
 				char* drop_filedir = e.drop.file;
-				char* filext = drop_filedir;
-				while (*filext != '.')
-					++filext;
-				if (strcmp(filext, ".fbx"))
-					//call function
-					;
+				char* filext = strrchr(drop_filedir, '.');
+				if (strncmp(filext, ".fbx", 4) == 0)
+				{
+					//CALL LOAD FUNCTION
+				}
 				SDL_free(drop_filedir);
 			}
 		}
