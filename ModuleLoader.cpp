@@ -5,7 +5,7 @@
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
-//#include "Devil\DevIL-1.8.0\DevIL\src-ILUT\include\ilut_opengl.h"
+#include "Devil\DevIL-1.8.0\DevIL\src-ILUT\include\ilut_opengl.h"
 
 
 

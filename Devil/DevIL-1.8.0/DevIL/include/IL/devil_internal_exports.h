@@ -13,7 +13,7 @@
 #ifndef IL_EXPORTS_H
 #define IL_EXPORTS_H
 
-#include "IL/il.h"
+#include "Devil/DevIL-1.8.0/DevIL/include/IL/il.h"
 
 #ifdef DEBUG
 	#include <assert.h>

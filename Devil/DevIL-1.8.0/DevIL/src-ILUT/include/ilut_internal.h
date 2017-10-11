@@ -40,8 +40,8 @@
 #endif
 */
 
-#include <IL/ilut.h>
-#include <IL/devil_internal_exports.h>
+#include "Devil/DevIL-1.8.0/DevIL/include/IL/ilut.h"
+#include "Devil/DevIL-1.8.0/DevIL/include/IL/devil_internal_exports.h"
 
 #include <stdlib.h>
 
