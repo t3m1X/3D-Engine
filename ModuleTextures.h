@@ -11,8 +11,9 @@ public:
 	int Getid();
 	int Getwidth();
 	int Getheight();
+	void SetId(uint id);
 private:
-	int id = 0;
+	uint id = 0;
 	int width = 0;
 	int height = 0;
 };

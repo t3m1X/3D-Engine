@@ -143,7 +143,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-	App->scene_intro->Draw();
+	//App->scene_intro->Draw();
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	UI_attributes();
 	App->imgui->Draw();
@@ -344,43 +344,14 @@ void ModuleRenderer3D::Save(JSON_File* c)
 
 void ModuleRenderer3D::Draw(Mesh * m)
 {
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, m->id_vertices);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->id_indices);
 	glDrawElements(GL_TRIANGLES, m->num_indices, GL_UNSIGNED_INT, NULL);
+	glBindTexture(GL_TEXTURE_2D, App->loader->texture);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
-
-GLuint ModuleRenderer3D::LoadTexBuffer(GLuint * texture, uint size, int width, int height, uint wrap_s, uint wrap_t, uint mag, uint min)
-{
-	GLuint id = 0;
-
-	/*GLubyte checkImage[64][64][4];
-
-	for (int i = 0; i < 64; i++) {
-		for (int j = 0; j < 64; j++) {
-			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
-			checkImage[i][j][0] = (GLubyte)c;
-			checkImage[i][j][1] = (GLubyte)c;
-			checkImage[i][j][2] = (GLubyte)c;
-			checkImage[i][j][3] = (GLubyte)255;
-		}
-	}*/
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(size, &id);
-	glBindTexture(GL_TEXTURE_2D, id);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap_s);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap_t);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mag);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, min);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
-		0, GL_RGBA, GL_UNSIGNED_BYTE, texture);
-
-	return id;
 }

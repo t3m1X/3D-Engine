@@ -3,9 +3,10 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "ModuleTextures.h"
 
 struct Mesh {
-
+public:
 	uint id_vertices = 0; // id in VRAM
 	uint num_indices = 0;
 	uint* indices = nullptr;
@@ -15,6 +16,12 @@ struct Mesh {
 	float* UVs = nullptr;
 	uint id_uv = 0;
 	uint num_uv = 0;
+	Texture* texture = nullptr;
+public:
+	void SetTexture(Texture* tex) {
+		texture = tex;
+	}
+	void Render(uint id);
 
 };
 class ModuleLoader : public Module {
@@ -26,8 +33,9 @@ class ModuleLoader : public Module {
 		update_status Update(float dt);
 		bool CleanUp();
 		void LoadFBX(char* path);
+	
 	public:
-
+		uint texture = 0;
 		std::list<Mesh*>meshes;
 
 };

@@ -26,9 +26,9 @@ bool ModuleLoader::Init()
 
 update_status ModuleLoader::Update(float dt)
 {
-
+	
 	for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
-		App->renderer3D->Draw(*it);
+		(*it)->Render(texture);
 	}
 
 	
@@ -85,12 +85,14 @@ void ModuleLoader::LoadFBX(char* path)
 				}
 
 			}
-
+			
 			glGenBuffers(1, (GLuint*) &(new_mesh->id_indices));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->id_indices);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			if (m->HasTextureCoords(0)) // assume mesh has one texture coords
+		
+			//UVS
+			if (m->HasTextureCoords(0)) 
 			{
 				new_mesh->num_uv = m->mNumVertices;
 				new_mesh->UVs = new float[new_mesh->num_uv * 3];
@@ -102,7 +104,7 @@ void ModuleLoader::LoadFBX(char* path)
 			}
 			else
 			{
-				LOG("No Texture Coords found");
+				App->con->AddLog("No Texture Coords found");
 			}
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -113,4 +115,37 @@ void ModuleLoader::LoadFBX(char* path)
 	}
 	else
 		LOG("Error loading scene %s", path);
+}
+
+void Mesh::Render(uint id)
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glBindBuffer(GL_ARRAY_BUFFER, id_vertices);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_indices);
+
+	//Apply UV if exist
+	if (num_uv != 0)
+	{
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, id_uv);
+		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+	}
+
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, (GLuint)id);
+
+	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, NULL);
+
+	
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	//Unbind textures affter rendering
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }

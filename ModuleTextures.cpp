@@ -33,6 +33,12 @@ int Texture::Getheight()
 	return height;
 }
 
+void Texture::SetId(uint id)
+{
+	
+	this->id = id;
+}
+
 ModuleTextures::ModuleTextures(Application * app, bool start_enabled) : Module(app, start_enabled)
 {
 }
@@ -79,24 +85,18 @@ bool ModuleTextures::CleanUp()
 uint ModuleTextures::LoadTexture(const char* path)
 {
 
-	ILuint imageID;				// Create an image ID as a ULuint
+	ILuint imageID;				
+	GLuint textureID;		
+	ILboolean success;			
+	ILenum error;				
+	ilGenImages(1, &imageID); 		
+	ilBindImage(imageID); 			
+	success = ilLoadImage(path); 	
 
-	GLuint textureID;			// Create a texture ID as a GLuint
-
-	ILboolean success;			// Create a flag to keep track of success/failure
-
-	ILenum error;				// Create a flag to keep track of the IL error state
-
-	ilGenImages(1, &imageID); 		// Generate the image ID
-
-	ilBindImage(imageID); 			// Bind the image
-
-	success = ilLoadImage(path); 	// Load the image file
-
-											// If we managed to load the image, then we can start to do things with it...
+											
 	if (success)
 	{
-		// If the image is flipped (i.e. upside-down and mirrored, flip it the right way up!)
+		
 		ILinfo ImageInfo;
 		iluGetImageInfo(&ImageInfo);
 		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
@@ -104,15 +104,16 @@ uint ModuleTextures::LoadTexture(const char* path)
 			iluFlipImage();
 		}
 
-		// Convert the image into a suitable format to work with
-		// NOTE: If your image contains alpha channel you can replace IL_RGB with IL_RGBA
+		
 		success = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
 
-		// Quit out if we failed the conversion
+		
 		if (!success)
 		{
 			LOG("Image conversion failed: %s\n", ilGetError());
 		}
+
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 		glGenTextures(1, &textureID);
 		glBindTexture(GL_TEXTURE_2D, textureID);
@@ -123,16 +124,19 @@ uint ModuleTextures::LoadTexture(const char* path)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 		glTexImage2D(GL_TEXTURE_2D,0,ilGetInteger(IL_IMAGE_FORMAT),ilGetInteger(IL_IMAGE_WIDTH),ilGetInteger(IL_IMAGE_HEIGHT),0,ilGetInteger(IL_IMAGE_FORMAT),GL_UNSIGNED_BYTE,	ilGetData());
-
+		App->con->AddLog("texture generated");
 		
 	}
-	else // If we failed to open the image file in the first place...
+	else 
 	{
-		LOG("Error loading the file : %s\n", ilGetError());
+		App->con->AddLog("Error loading the file");
 		
 	}
 
-	ilDeleteImages(1, &imageID); // Because we have already copied image data into texture data we can release memory used by image.
-
+	App->con->AddLog("Image loaded");
+	/*Texture* tex = new Texture();
+	tex->SetId((uint)textureID);
+	ilDeleteImages(1, &imageID);
+	textures.push_back(tex);*/
 	return textureID; 
 }
