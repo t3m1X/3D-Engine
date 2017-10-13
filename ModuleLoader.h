@@ -12,6 +12,9 @@ struct Mesh {
 	uint id_indices = 0; // id in VRAM
 	uint num_vertices = 0;
 	float* vertices = nullptr;
+	float* UVs = nullptr;
+	uint id_uv = 0;
+	uint num_uv = 0;
 
 };
 class ModuleLoader : public Module {

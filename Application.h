@@ -15,6 +15,7 @@
 #include "ModuleImGui.h"
 #include "ModuleJson.h"
 #include "Console.h"
+#include "ModuleTextures.h"
 
 class ModuleImGui;
 class JSON_File;
@@ -38,6 +39,7 @@ public:
 	ModuleLoader* loader;
 	list<Module*> list_modules;
 	Console* con;
+	ModuleTextures* tex;
 private:
 
 	Timer	ms_timer;

@@ -5,8 +5,6 @@
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
-#include "Devil\DevIL-1.8.0\DevIL\src-ILUT\include\ilut_opengl.h"
-
 
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
@@ -87,13 +85,28 @@ void ModuleLoader::LoadFBX(char* path)
 				}
 
 			}
+
 			glGenBuffers(1, (GLuint*) &(new_mesh->id_indices));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->id_indices);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
-
-
-			meshes.push_back(new_mesh);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			if (m->HasTextureCoords(0)) // assume mesh has one texture coords
+			{
+				new_mesh->num_uv = m->mNumVertices;
+				new_mesh->UVs = new float[new_mesh->num_uv * 3];
+				memcpy(new_mesh->UVs, m->mTextureCoords[0], sizeof(float)*new_mesh->num_uv * 3);
+
+				glGenBuffers(1, (GLuint*)&(new_mesh->id_uv));
+				glBindBuffer(GL_ARRAY_BUFFER, (GLuint) new_mesh->id_uv);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * new_mesh->num_uv* 3, new_mesh->UVs, GL_STATIC_DRAW);
+			}
+			else
+			{
+				LOG("No Texture Coords found");
+			}
+
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			meshes.push_back(new_mesh);
 		}
 
 		aiReleaseImport(scene);

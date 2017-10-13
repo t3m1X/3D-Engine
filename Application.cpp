@@ -25,7 +25,7 @@ Application::Application()
 	imgui = new ModuleImGui(this);
 	json = new ModuleJSON(this);
 	loader = new ModuleLoader(this);
-
+	tex = new ModuleTextures(this);
 
 	con = new Console();
 	imgui->AddPanel(con);
@@ -42,6 +42,7 @@ Application::Application()
 	AddModule(loader);
 	AddModule(physics);
 	AddModule(imgui);
+	AddModule(tex);
 	
 
 	// Scenes
