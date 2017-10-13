@@ -1,7 +1,6 @@
 #include "ModuleTextures.h"
 #include "Application.h"
 
-#include "glew\include\GL\glew.h"
 
 #include "Devil\include\il.h"
 #include "Devil\include\ilu.h"
@@ -115,7 +114,17 @@ uint ModuleTextures::LoadTexture(const char* path)
 			LOG("Image conversion failed: %s\n", ilGetError());
 		}
 
-		App->renderer3D->LoadTexBuffer(&textureID, 1, ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), GL_TEXTURE_WRAP_S, GL_TEXTURE_WRAP_T, GL_TEXTURE_MAG_FILTER, GL_TEXTURE_MIN_FILTER);
+		glGenTextures(1, &textureID);
+		glBindTexture(GL_TEXTURE_2D, textureID);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+		glTexImage2D(GL_TEXTURE_2D,0,ilGetInteger(IL_IMAGE_FORMAT),ilGetInteger(IL_IMAGE_WIDTH),ilGetInteger(IL_IMAGE_HEIGHT),0,ilGetInteger(IL_IMAGE_FORMAT),GL_UNSIGNED_BYTE,	ilGetData());
+
+		
 	}
 	else // If we failed to open the image file in the first place...
 	{
