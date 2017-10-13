@@ -133,7 +133,7 @@ void Mesh::Render(uint id)
 		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
 	}
 
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, (GLuint)id);
 
 	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, NULL);
