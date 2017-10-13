@@ -22,12 +22,12 @@ public:
 	ModuleTextures(Application* app, bool start_enabled = true);
 	~ModuleTextures();
 
-	bool Init();
+	bool Init(JSON_File* conf);
 	bool Start();
 	update_status Update();
 	bool CleanUp();
 
-	bool LoadTexture(const char* path);
+	uint LoadTexture(const char* path);
 
 private:
 	std::list<Texture*>textures;

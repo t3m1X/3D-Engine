@@ -119,11 +119,14 @@ update_status ModuleInput::PreUpdate(float dt)
 			char* drop_filedir = e.drop.file;
 			char* filext = strrchr(drop_filedir, '.');
 			for (char* p = filext + 1; *p != '\0'; *p = toupper(*p), p++);
-			if (strncmp(filext, ".FBX", 4) == 0)
+			if (strncmp(filext, ".FBX", 4) == 0) {
 				App->loader->LoadFBX(drop_filedir);
-			if (strncmp(filext, ".PNG", 4) == 0)
+			}
+			if (strncmp(filext, ".PNG", 4) == 0) {
 				App->tex->LoadTexture(drop_filedir);
+			}
 			SDL_free(drop_filedir);
+			drop_filedir = nullptr;
 			break;
 			
 		}

@@ -22,6 +22,7 @@ class JSON_File;
 class ModuleJSON;
 class ModuleWindow;
 class Console;
+class ModuleTextures;
 
 class Application
 {

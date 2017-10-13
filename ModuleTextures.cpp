@@ -1,6 +1,8 @@
 #include "ModuleTextures.h"
 #include "Application.h"
 
+#include "glew\include\GL\glew.h"
+
 #include "Devil\include\il.h"
 #include "Devil\include\ilu.h"
 #include "Devil\include\ilut.h"
@@ -40,19 +42,20 @@ ModuleTextures::~ModuleTextures()
 {
 }
 
-bool ModuleTextures::Init()
+bool ModuleTextures::Init(JSON_File* conf)
 {
 	bool ret = true;
 	ilInit();
 	iluInit();
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
-
+	LOG("Devil init");
 	return ret;
 }
 
 bool ModuleTextures::Start()
 {
+
 	return true;
 }
 
@@ -74,35 +77,53 @@ bool ModuleTextures::CleanUp()
 	return ret;
 }
 
-bool ModuleTextures::LoadTexture(const char* path)
+uint ModuleTextures::LoadTexture(const char* path)
 {
-	bool ret;
 
-	uint* id = nullptr;
+	ILuint imageID;				// Create an image ID as a ULuint
 
-	ILuint imageID;
-	ilGenImages(1, &imageID);
-	ilBindImage(imageID);
+	GLuint textureID;			// Create a texture ID as a GLuint
 
-	ilGenImages(1, &imageID); 		
-	ilBindImage(imageID); 				
-	if (path != nullptr) {
-		if (ilLoadImage(path))
+	ILboolean success;			// Create a flag to keep track of success/failure
+
+	ILenum error;				// Create a flag to keep track of the IL error state
+
+	ilGenImages(1, &imageID); 		// Generate the image ID
+
+	ilBindImage(imageID); 			// Bind the image
+
+	success = ilLoadImage(path); 	// Load the image file
+
+											// If we managed to load the image, then we can start to do things with it...
+	if (success)
+	{
+		// If the image is flipped (i.e. upside-down and mirrored, flip it the right way up!)
+		ILinfo ImageInfo;
+		iluGetImageInfo(&ImageInfo);
+		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
 		{
-			App->renderer3D->LoadTexBuffer(id, 1, ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), GL_TEXTURE_WRAP_S, GL_TEXTURE_WRAP_T, GL_TEXTURE_MAG_FILTER, GL_TEXTURE_MIN_FILTER);
-
-			ILinfo ImageInfo;
-			iluGetImageInfo(&ImageInfo);
-
-			ret = ilutGLBindTexImage();
-			ilDeleteImages(1, &imageID);
-
+			iluFlipImage();
 		}
-		else
+
+		// Convert the image into a suitable format to work with
+		// NOTE: If your image contains alpha channel you can replace IL_RGB with IL_RGBA
+		success = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+
+		// Quit out if we failed the conversion
+		if (!success)
 		{
-			LOG("Error loading the file : %s\n", ilGetError());
+			LOG("Image conversion failed: %s\n", ilGetError());
 		}
+
+		App->renderer3D->LoadTexBuffer(&textureID, 1, ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), GL_TEXTURE_WRAP_S, GL_TEXTURE_WRAP_T, GL_TEXTURE_MAG_FILTER, GL_TEXTURE_MIN_FILTER);
+	}
+	else // If we failed to open the image file in the first place...
+	{
+		LOG("Error loading the file : %s\n", ilGetError());
+		
 	}
 
-	return ret; 
+	ilDeleteImages(1, &imageID); // Because we have already copied image data into texture data we can release memory used by image.
+
+	return textureID; 
 }
