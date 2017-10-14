@@ -1,6 +1,8 @@
 #include "ModuleImGui.h"
-#include "ModuleWindow.h"
 #include "Application.h"
+#include "ModuleWindow.h"
+#include "ModuleInput.h"
+#include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "Geomath.h"
 #include "imgui_impl_sdl.h"
@@ -8,7 +10,7 @@
 #include <cmath>
 #include <random>
 
-ModuleImGui::ModuleImGui(Application * app, bool start_enabled) : Module(app, start_enabled)
+ModuleImGui::ModuleImGui(bool start_enabled) : Module(start_enabled)
 {
 	
 }

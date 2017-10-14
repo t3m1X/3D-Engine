@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "imgui.h"
 
-ModuleJSON::ModuleJSON(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleJSON::ModuleJSON(bool start_enabled) : Module(start_enabled)
 {
 	SetName("JSON");
 }

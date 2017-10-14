@@ -15,7 +15,7 @@ struct PhysVehicle3D;
 class ModuleSceneIntro : public Module
 {
 public:
-	ModuleSceneIntro(Application* app, bool start_enabled = true);
+	ModuleSceneIntro(bool start_enabled = true);
 	~ModuleSceneIntro();
 	bool Start();
 	update_status Update(float dt);

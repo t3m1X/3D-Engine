@@ -1,6 +1,7 @@
 #include "ModuleLoader.h"
 #include "glew\include\GL\glew.h"
 #include "Application.h"
+#include "Console.h"
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
@@ -10,7 +11,7 @@
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
 
-ModuleLoader::ModuleLoader(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleLoader::ModuleLoader(bool start_enabled) : Module(start_enabled)
 {
 	SetName("Loader");
 }

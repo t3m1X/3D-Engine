@@ -1,9 +1,11 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModulePhysics3D.h"
+#include "ModuleInput.h"
 #include "PhysBody3D.h"
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
+#include "imgui.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -15,7 +17,7 @@
 	#pragma comment (lib, "Bullet/libx86/LinearMath.lib")
 #endif
 
-ModulePhysics3D::ModulePhysics3D(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModulePhysics3D::ModulePhysics3D(bool start_enabled) : Module(start_enabled)
 {
 	debug = true;
 

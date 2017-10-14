@@ -2,14 +2,17 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleLoader.h"
-
+#include "ModuleWindow.h"
+#include "ModuleCamera3D.h"
+#include "ModuleImGui.h"
+#include "ModuleSceneIntro.h"
 
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 //#pragma comment (lib, "glew/lib/Release/x64/glew32s.lib")
 
-ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleRenderer3D::ModuleRenderer3D(bool start_enabled) : Module(start_enabled)
 {
 	SetName("Renderer");
 }

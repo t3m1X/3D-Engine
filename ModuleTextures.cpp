@@ -1,6 +1,6 @@
 #include "ModuleTextures.h"
 #include "Application.h"
-
+#include "Console.h"
 
 #include "Devil\include\il.h"
 #include "Devil\include\ilu.h"
@@ -39,7 +39,7 @@ void Texture::SetId(uint id)
 	this->id = id;
 }
 
-ModuleTextures::ModuleTextures(Application * app, bool start_enabled) : Module(app, start_enabled)
+ModuleTextures::ModuleTextures(bool start_enabled) : Module(start_enabled)
 {
 }
 

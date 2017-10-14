@@ -27,7 +27,7 @@ public:
 class ModuleLoader : public Module {
 
 	public:
-		ModuleLoader(Application* app, bool start_enabled = true);
+		ModuleLoader(bool start_enabled = true);
 		~ModuleLoader();
 		bool Init();
 		update_status Update(float dt);

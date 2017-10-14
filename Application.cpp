@@ -2,6 +2,20 @@
 #include <iostream> 
 #include <sstream> 
 
+#include "Console.h"
+#include "ModuleWindow.h"
+#include "ModuleInput.h"
+#include "ModuleAudio.h"
+#include "ModuleLoader.h"
+#include "ModuleSceneIntro.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleCamera3D.h"
+#include "ModulePhysics3D.h"
+#include "ModulePlayer.h"
+#include "ModuleImGui.h"
+#include "ModuleJson.h"
+#include "ModuleTextures.h"
+
 
 Application::Application()
 {
@@ -14,18 +28,18 @@ Application::Application()
 	name = nullptr;
 	organization = nullptr;
 	version = nullptr;
-	window = new ModuleWindow(this);
-	input = new ModuleInput(this);
-	audio = new ModuleAudio(this, true);
-	scene_intro = new ModuleSceneIntro(this);
-	renderer3D = new ModuleRenderer3D(this);
-	camera = new ModuleCamera3D(this);
-	physics = new ModulePhysics3D(this);
-	player = new ModulePlayer(this);
-	imgui = new ModuleImGui(this);
-	json = new ModuleJSON(this);
-	loader = new ModuleLoader(this);
-	tex = new ModuleTextures(this);
+	window = new ModuleWindow();
+	input = new ModuleInput();
+	audio = new ModuleAudio(true);
+	scene_intro = new ModuleSceneIntro();
+	renderer3D = new ModuleRenderer3D();
+	camera = new ModuleCamera3D();
+	physics = new ModulePhysics3D();
+	player = new ModulePlayer();
+	imgui = new ModuleImGui();
+	json = new ModuleJSON();
+	loader = new ModuleLoader();
+	tex = new ModuleTextures();
 
 	con = new Console();
 	imgui->AddPanel(con);

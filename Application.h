@@ -1,31 +1,22 @@
 #pragma once
 
 #include "Globals.h"
-#include "Timer.h"
 #include "Module.h"
-#include "ModuleWindow.h"
-#include "ModuleInput.h"
-#include "ModuleAudio.h"
-#include "ModuleLoader.h"
-#include "ModuleSceneIntro.h"
-#include "ModuleRenderer3D.h"
-#include "ModuleCamera3D.h"
-#include "ModulePhysics3D.h"
-#include "ModulePlayer.h"
-#include "ModuleImGui.h"
-#include "ModuleJson.h"
-#include "Console.h"
-#include "ModuleTextures.h"
+#include "Timer.h"
 
-
-
-
-class ModuleImGui;
-class JSON_File;
-class ModuleJSON;
 class ModuleWindow;
-class Console;
+class ModuleInput;
+class ModuleAudio;
+class ModuleLoader;
+class ModuleSceneIntro;
+class ModuleRenderer3D;
+class ModuleCamera3D;
+class ModulePhysics3D;
+class ModulePlayer;
+class ModuleImGui;
 class ModuleTextures;
+class ModuleJSON;
+class Console;
 
 class Application
 {
@@ -92,3 +83,6 @@ private:
 	void FinishUpdate();
 
 };
+
+// Global var made extern for Application ---
+extern Application* App;
