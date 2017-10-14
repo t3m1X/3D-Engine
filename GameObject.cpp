@@ -19,6 +19,9 @@ void GameObject::Update()
 {
 	/////// Just for now, since it only supports one texture at a time
 	this->tex = App->loader->texture;
+	if (!App->tex->Empty()) {
+		texture = App->tex->GetTexture();
+	}
 }
 
 void GameObject::Draw()
@@ -80,4 +83,19 @@ const int GameObject::GetId() const
 const bool GameObject::GetSelected() const
 {
 	return selected;
+}
+
+const vec3 GameObject::GetPosition()
+{
+	return position;
+}
+
+const vec3 GameObject::GetRotation()
+{
+	return rotation;
+}
+
+const vec3 GameObject::GetScale()
+{
+	return scale;
 }

@@ -8,6 +8,7 @@
 #include "Assimp/include/cfileio.h"
 #include "GameObject.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleImGui.h"
 
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
@@ -120,6 +121,7 @@ void ModuleLoader::LoadFBX(char* path)
 			meshes.push_back(new_mesh);
 			GameObject* new_obj = new GameObject((uint)meshes.size(), new_mesh);
 			App->scene_intro->AddObject(new_obj);
+			App->imgui->Setproperties(true);
 		}
 
 		aiReleaseImport(scene);

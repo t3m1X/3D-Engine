@@ -10,6 +10,7 @@
 #include "imgui_impl_sdl.h"
 #include "SDL/include/SDL_opengl.h"
 #include "Geomath.h"
+#include "GameObject.h"
 
 class Module;
 class Application;
@@ -31,16 +32,18 @@ public:
 	float GetRandomValue(float range_1, float range_2);
 	void LogFps(float fps, float ms);
 	void AddPanel(Panel* panel);
+	void Setproperties(bool set);
 
 private:
 
 	std::list<Panel*> panels;
 	bool show_test_window = false;
 	bool geometry = false;
+	bool properties = false;
 	//Console* console = nullptr;
 	ConfigPanel* configuration = nullptr;
 	float x, y, z, r,posx,posy,posz,h,d;
-
+	GameObject* curr_obj;
 	
 	///just for testing mathgeolib///
 };

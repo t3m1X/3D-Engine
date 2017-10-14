@@ -94,6 +94,17 @@ bool ModuleTextures::CleanUp()
 	return ret;
 }
 
+Texture * ModuleTextures::GetTexture()
+{
+	
+	return textures.front();
+}
+
+bool ModuleTextures::Empty()
+{
+	return textures.empty();
+}
+
 uint ModuleTextures::LoadTexture(const char* path)
 {
 

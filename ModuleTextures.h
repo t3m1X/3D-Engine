@@ -14,6 +14,7 @@ public:
 	void SetId(uint id);
 	void SetWidth(int w);
 	void Setheight(int h);
+	
 private:
 	uint id = 0;
 	int width = 0;
@@ -29,6 +30,8 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+	Texture* GetTexture();
+	bool Empty();
 
 	uint LoadTexture(const char* path);
 

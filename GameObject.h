@@ -30,11 +30,15 @@ public:
 
 	const int GetId() const;
 	const bool GetSelected() const;
+	const vec3 GetPosition();
+	const vec3 GetRotation();
+	const vec3 GetScale();
 
 
 public:
 	
 	Mesh* mesh;
+	Texture*    texture = nullptr;
 
 private:
 
@@ -46,7 +50,6 @@ private:
 	vec3        scale;
 	vec3        rotation;
 	uint		tex = 0;
-	Texture*    texture= nullptr;
 };
 
 #endif

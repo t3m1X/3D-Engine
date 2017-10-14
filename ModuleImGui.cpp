@@ -154,7 +154,7 @@ update_status ModuleImGui::Update(float dt)
 	}
 
 	if (geometry) {
-			
+
 		ImGui::Begin("Geometry", &geometry);
 		if (ImGui::CollapsingHeader("Spheres")) {
 			ImGui::InputFloat("x", &posx);
@@ -175,13 +175,13 @@ update_status ModuleImGui::Update(float dt)
 			ImGui::InputFloat("Pos z", &posz);
 
 			if (ImGui::Button("Create Cube")) {
-				App->scene_intro->AddCube(x,y,z,posx, posy, posz);
+				App->scene_intro->AddCube(x, y, z, posx, posy, posz);
 			}
 
 		}
 		if (ImGui::CollapsingHeader("Cylinder")) {
 			ImGui::InputFloat("Height", &h);
-			ImGui::InputFloat("Radius" ,&r);
+			ImGui::InputFloat("Radius", &r);
 			ImGui::InputFloat("Pos x", &posx);
 			ImGui::InputFloat("Pos y", &posy);
 			ImGui::InputFloat("Pos z", &posz);
@@ -202,15 +202,72 @@ update_status ModuleImGui::Update(float dt)
 			ImGui::InputFloat("Pos z", &posz);
 
 			if (ImGui::Button("Create Plane")) {
-				App->scene_intro->AddPlane(x, y,z,d, posx, posy, posz);
+				App->scene_intro->AddPlane(x, y, z, d, posx, posy, posz);
 			}
 
 		}
-
-
-			ImGui::End();
-		
+		ImGui::End();
 	}
+		if (properties) {
+			curr_obj = App->scene_intro->objects.front();
+			ImGui::Begin("Properties", &properties);
+			if (ImGui::CollapsingHeader("Transform")) {
+				float3 pos(curr_obj->GetPosition().x, curr_obj->GetPosition().y, curr_obj->GetPosition().z);
+				float3 rot(curr_obj->GetRotation().x, curr_obj->GetRotation().y, curr_obj->GetRotation().z);
+				float3 scale(curr_obj->GetScale().x, curr_obj->GetScale().y, curr_obj->GetScale().z);
+
+				ImGui::Text("Position");
+				ImGui::InputFloat("x", &pos.x);
+				ImGui::InputFloat("y", &pos.y);
+				ImGui::InputFloat("z", &pos.z);
+
+				ImGui::Text("Rotation:");
+				ImGui::InputFloat("x", &rot.x);
+				ImGui::InputFloat("y", &rot.y);
+				ImGui::InputFloat("z", &rot.z);
+
+				ImGui::Text("Scale");
+				ImGui::InputFloat("x", &scale.x);
+				ImGui::InputFloat("y", &scale.y);
+				ImGui::InputFloat("z", &scale.z);
+
+			}
+			if (ImGui::CollapsingHeader("Geometry")) {
+				if (!App->loader->meshes.empty()) {
+					ImGui::Text("Tris: %d", curr_obj->mesh->num_vertices / 3);
+				}
+				else {
+					ImGui::Text("No geometry loaded yet");
+				}
+			}
+			if (ImGui::CollapsingHeader("Texture")) {
+				if (!App->tex->Empty()) {
+					ImGui::Text("Width: %d", curr_obj->texture->Getwidth());
+					ImGui::Text("Height: %d", curr_obj->texture->Getheight());
+					ImTextureID img = (void*)App->tex->GetTexture()->Getid();
+					
+					ImGui::Image(img, ImVec2(100, 100));
+				}
+				else {
+					ImGui::Text("No texture loaded.");
+				}
+					
+			}
+			ImGui::End();
+		}
+
+			
+		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+			if (!App->loader->meshes.empty()) {
+				if (properties) {
+					properties = false;
+				}
+				else {
+					properties = true;
+				}
+			}
+		}
+	
 
 	//Draw();
 
@@ -508,4 +565,9 @@ void ModuleImGui::LogFps(float fps, float ms) {
 void ModuleImGui::AddPanel(Panel * panel)
 {
 	panels.push_back(panel);
+}
+
+void ModuleImGui::Setproperties(bool set)
+{
+	properties = set;
 }
