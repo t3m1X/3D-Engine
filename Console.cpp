@@ -6,10 +6,10 @@ Console::Console(){
 	Name = "Console";
 	Shortcut = SDL_SCANCODE_0;
 	Active = true;
-	w = 400;
-	h= 105;
+	w = 850;
+	h= 400;
 	x= 50;
-	y= 50;
+	y= 600;
 
 }
 

@@ -40,6 +40,7 @@ private:
 	bool show_test_window = false;
 	bool geometry = false;
 	bool properties = false;
+	bool about = false;
 	//Console* console = nullptr;
 	ConfigPanel* configuration = nullptr;
 	float x, y, z, r,posx,posy,posz,h,d;
