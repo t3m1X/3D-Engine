@@ -24,11 +24,9 @@ void Console::Clear()
 }
 void Console::AddLog(const char* entry)
 {
-	if (App->con != nullptr) {
-		if (entry != nullptr) {
-			Buf.append(entry);
-			ScrollToBottom = true;
-		}
+	if (App->con != nullptr && entry != nullptr) {
+		Buf.append(entry);
+		ScrollToBottom = true;
 	}
 }
 void Console::Draw(Application* App)

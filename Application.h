@@ -35,6 +35,7 @@ public:
 	list<Module*> list_modules;
 	Console* con;
 	ModuleTextures* tex;
+
 private:
 
 	Timer	ms_timer;
