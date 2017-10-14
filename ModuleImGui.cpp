@@ -28,9 +28,9 @@ bool ModuleImGui::Init(JSON_File* conf)
 	LoadStyle("blue_yellow");
 	ImGuiIO& io = ImGui::GetIO();
 	io.IniFilename = "Settings/imgui.ini";
-	console = new Console();
+	//console = new Console();
 	configuration = new ConfigPanel(App);
-	panels.push_back(console);
+	//panels.push_back(console);
 	panels.push_back(configuration);
 	x = 0;
 	y = 0;

@@ -33,7 +33,7 @@ public:
 	void Load(JSON_File*c);
 	void Save(JSON_File*c);
 	void Draw(Mesh*m);
-	GLuint LoadTexBuffer(GLuint * texture, uint size, int width, int height, uint wrap_s, uint wrap_t, uint mag, uint min);
+	
 
 public:
 

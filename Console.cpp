@@ -1,4 +1,5 @@
 #include "Console.h"
+#include "Application.h"
 
 Console::Console(){
 
@@ -13,7 +14,9 @@ Console::Console(){
 }
 
 Console::~Console()
-{}
+{
+	Clear();
+}
 
 void Console::Clear()
 {
@@ -21,8 +24,12 @@ void Console::Clear()
 }
 void Console::AddLog(const char* entry)
 {
-	Buf.append(entry);
-	ScrollToBottom = true;
+	if (App->con != nullptr) {
+		if (entry != nullptr) {
+			Buf.append(entry);
+			ScrollToBottom = true;
+		}
+	}
 }
 void Console::Draw(Application* App)
 {

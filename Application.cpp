@@ -48,6 +48,7 @@ Application::Application()
 	// They will CleanUp() in reverse order
 
 	// Main Modules
+	
 	AddModule(json);
 	AddModule(window);
 	AddModule(camera);
@@ -55,16 +56,17 @@ Application::Application()
 	AddModule(audio);
 	AddModule(loader);
 	AddModule(physics);
-	AddModule(imgui);
 	AddModule(tex);
 	
 
 	// Scenes
 	AddModule(scene_intro);
 	AddModule(player);
+	
 
 	// Renderer last!
 	AddModule(renderer3D);
+	AddModule(imgui);
 	
 	
 }

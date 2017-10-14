@@ -26,10 +26,12 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
-	for (list<Primitive*>::iterator it = bodies.begin(); it != bodies.end(); ++it) {
-		delete (*it);
+	if (!bodies.empty()) {
+		for (list<Primitive*>::iterator it = bodies.begin(); it != bodies.end(); ++it) {
+			delete (*it);
+		}
+		bodies.clear();
 	}
-	bodies.clear();
 	return true;
 }
 

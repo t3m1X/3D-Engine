@@ -37,7 +37,7 @@ private:
 	std::list<Panel*> panels;
 	bool show_test_window = false;
 	bool geometry = false;
-	Console* console = nullptr;
+	//Console* console = nullptr;
 	ConfigPanel* configuration = nullptr;
 	float x, y, z, r,posx,posy,posz,h,d;
 
