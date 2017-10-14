@@ -3,9 +3,12 @@
 
 #include <iostream>
 #include <vector>
-#include "glmath.h"
-#include "ModuleLoader.h"
 #include "ModuleTextures.h"
+#include "glmath.h"
+#include "MathGeoLib\include\MathGeoLib.h"
+
+struct Texture;
+struct Mesh;
 
 class GameObject
 {
@@ -38,6 +41,7 @@ public:
 public:
 	
 	Mesh* mesh;
+	OBB boundingbox;
 	Texture*    texture = nullptr;
 
 private:

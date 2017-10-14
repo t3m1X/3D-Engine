@@ -3,6 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleLoader.h"
 #include "Primitive.h"
 #include "Geomath.h"
 #include "imgui_impl_sdl.h"

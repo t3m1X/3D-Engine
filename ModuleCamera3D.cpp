@@ -3,6 +3,7 @@
 #include "PhysBody3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
+#include "ModuleSceneIntro.h"
 #include "imgui.h"
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
@@ -45,15 +46,16 @@ update_status ModuleCamera3D::Update(float dt)
 {
 
 	vec3 newPos(0,0,0);
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && !App->scene_intro->objects.empty()) {
+		ModuleCamera3D::Move(vec3(0, App->scene_intro->objects.back()->boundingbox.r.y * 2, App->scene_intro->objects.back()->boundingbox.r.z * 2) - App->camera->Position);
+		ModuleCamera3D::LookAt(vec3(0, 0, 0));
+	}
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
-
 
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 			speed = 8.0f * dt;
 
 		//WASD MOVEMENT + R AND F TO MOVE UP AND DOWN
-		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed*dt;
-		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed*dt;
 
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed*dt;
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed*dt;

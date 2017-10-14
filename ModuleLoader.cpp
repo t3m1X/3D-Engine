@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "ModuleSceneIntro.h"
 #include "ModuleImGui.h"
+#include "ModuleCamera3D.h"
 
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
@@ -122,6 +123,8 @@ void ModuleLoader::LoadFBX(char* path)
 			GameObject* new_obj = new GameObject((uint)meshes.size(), new_mesh);
 			App->scene_intro->AddObject(new_obj);
 			App->imgui->Setproperties(true);
+			App->camera->Move(vec3(0, new_obj->boundingbox.r.y * 2, new_obj->boundingbox.r.z * 2) - App->camera->Position);
+			App->camera->LookAt(vec3(0, 0, 0));
 		}
 
 		aiReleaseImport(scene);

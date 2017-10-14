@@ -1,14 +1,27 @@
 #include "GameObject.h"
 #include "Application.h"
 #include "ModuleLoader.h"
+
 GameObject::GameObject(int _id, Mesh * m)
 {
 	mesh = m;
-	this->id = _id;
+	id = _id;
 	SetName("Game Object");
 	position = (0, 0, 0);
 	rotation = (0, 0, 0);
 	scale = (1, 1, 1);
+
+
+	boundingbox.r = { 0,0,0 };
+	for (int i = 0; i < mesh->num_vertices * 3; ++i)
+	{
+		if (boundingbox.r.x < mesh->vertices[i])
+			boundingbox.r.x = mesh->vertices[i];
+		if (boundingbox.r.y < mesh->vertices[++i])
+			boundingbox.r.y = mesh->vertices[i];
+		if (boundingbox.r.z > mesh->vertices[++i])
+			boundingbox.r.z = mesh->vertices[i];
+	}
 }
 
 GameObject::~GameObject()
@@ -18,7 +31,7 @@ GameObject::~GameObject()
 void GameObject::Update()
 {
 	/////// Just for now, since it only supports one texture at a time
-	this->tex = App->loader->texture;
+	tex = App->loader->texture;
 	if (!App->tex->Empty()) {
 		texture = App->tex->GetTexture();
 	}
@@ -27,7 +40,7 @@ void GameObject::Update()
 void GameObject::Draw()
 {
 	
-	this->mesh->Render(this->tex);
+	this->mesh->Render(tex);
 	
 }
 
@@ -72,7 +85,7 @@ void GameObject::SetSelected(const bool & set)
 
 void GameObject::SetTexture(Texture * tex)
 {
-	this->texture = tex;
+	texture = tex;
 }
 
 const int GameObject::GetId() const
