@@ -99,19 +99,15 @@ update_status ModuleImGui::Update(float dt)
 			if (ImGui::MenuItem("Report bug")) {
 				App->RequestBrowser("https://github.com/rogerbusquets97/3D-Engine/issues");
 			}
-			ImGui::EndMenu();
-		}
+			if (ImGui::MenuItem("About")) {
+				about = true;
+			}
 
-		if (ImGui::BeginMenu("About"))
-		{
-			ImGui::Text("About Roger's Engine:");
-			ImGui::Text("3D engine developed as a project for UPC's video games degree.");
-			ImGui::Separator();
-			ImGui::Text("By Roger Busquets.");
-			ImGui::Text("This engine is licensed under the Public Domain.");
 
 			ImGui::EndMenu();
 		}
+
+		
 
 		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) {
 			if (!configuration->IsActive()) {
@@ -257,6 +253,52 @@ update_status ModuleImGui::Update(float dt)
 			ImGui::End();
 		}
 
+		if (about) {
+			if (ImGui::Begin("About",&about))
+			{
+				ImGui::Text("Roger's Engine v.%s", App->GetVersion());
+				ImGui::Text("About Roger's Engine:");
+				ImGui::Text("3D engine developed as a project for UPC's video games degree by Roger Busquets Duran and Sergi Parra Ramirez.");
+				ImGui::Separator();
+				if (ImGui::CollapsingHeader("License")) {
+					ImGui::Text("MIT License");
+					ImGui::Text("Copyright(c) 2017 Roger Busquets Duran and Sergi Parra Ramirez");
+					ImGui::Text("Permission is hereby granted, free of charge, to any person obtaining a copy");
+					ImGui::Text("of this software and associated documentation files(the 'Software'), to deal");
+					ImGui::Text("in the Software without restriction, including without limitation the rights");
+					ImGui::Text("to use, copy, modify, merge, publish, distribute, sublicense, and / or sell");
+					ImGui::Text("copies of the Software, and to permit persons to whom the Software is");
+					ImGui::Text("furnished to do so, subject to the following conditions :");
+
+					ImGui::TextColored({ 1, 0.2f, 0.2f, 1 }, "The above copyright notice and this permission notice shall be included in all");
+					ImGui::TextColored({ 1, 0.2f, 0.2f, 1 }, "copies or substantial portions of the Software.");
+
+					ImGui::Text("THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR");
+					ImGui::Text("IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,");
+					ImGui::Text("FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE");
+					ImGui::Text("AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER");
+					ImGui::Text("LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,");
+					ImGui::Text("OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE");
+					ImGui::Text("SOFTWARE.");
+				}
+				if (ImGui::CollapsingHeader("Libraries")) {
+					ImGui::Text("SDL : v2.0.4");
+					ImGui::Text("MathGeoLib : v1.5");
+					ImGui::Text("ImGui : v1.52");
+					ImGui::Text("Parson : 2017 version");
+					ImGui::Text("OpenGL : v2.1");
+					ImGui::Text("Glew: v2.1");
+					ImGui::Text("Devil : v1.7.8");
+					ImGui::Text("assimp");
+					ImGui::Text("mmgr");
+
+				}
+
+
+				
+			}
+			ImGui::End();
+		}
 			
 		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 			if (!App->loader->meshes.empty()) {
