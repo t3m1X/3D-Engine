@@ -87,7 +87,14 @@ update_status ModuleImGui::Update(float dt)
 			}
 
 			ImGui::MenuItem("Geometry", NULL, &geometry);
-			
+			if (ImGui::MenuItem("Console", "0")) {
+				if (!App->con->IsActive()) {
+					App->con->Enable();
+				}
+				else {
+					App->con->Disable();
+				}
+			}
 
 			ImGui::EndMenu();
 		}

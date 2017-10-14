@@ -74,11 +74,12 @@ void ModuleLoader::LoadFBX(char* path)
 			new_mesh->num_vertices = m->mNumVertices;
 			new_mesh->vertices = new float[new_mesh->num_vertices * 3];
 			memcpy(new_mesh->vertices, m->mVertices, sizeof(float) * new_mesh->num_vertices * 3);
-			//App->con->AddLog("New mesh with %d vertices", new_mesh->num_vertices);
+			LOG("New mesh with %d vertices", new_mesh->num_vertices);
+			
 			glGenBuffers(1, (GLuint*) &(new_mesh->id_vertices));
 			glBindBuffer(GL_ARRAY_BUFFER, new_mesh->id_vertices);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_vertices * 3, new_mesh->vertices, GL_STATIC_DRAW);
-
+			LOG("New mesh sended to VRAM");
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			//Indices
 
@@ -96,7 +97,7 @@ void ModuleLoader::LoadFBX(char* path)
 				}
 
 			}
-			
+			LOG("New mesh with %d indices", new_mesh->num_indices);
 			glGenBuffers(1, (GLuint*) &(new_mesh->id_indices));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->id_indices);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
@@ -112,10 +113,11 @@ void ModuleLoader::LoadFBX(char* path)
 				glGenBuffers(1, (GLuint*)&(new_mesh->id_uv));
 				glBindBuffer(GL_ARRAY_BUFFER, (GLuint) new_mesh->id_uv);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_uv* 3, new_mesh->UVs, GL_STATIC_DRAW);
+				LOG("Loading UVs succesfully");
 			}
 			else
 			{
-				App->con->AddLog("No Texture Coords found");
+				LOG("No Texture Coords found");
 			}
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0);

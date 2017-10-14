@@ -119,7 +119,7 @@ uint ModuleTextures::LoadTexture(const char* path)
 											
 	if (success)
 	{
-
+		LOG("Image loaded succesfully");
 		Texture* tex;
 		ILinfo ImageInfo;
 		iluGetImageInfo(&ImageInfo);
@@ -148,7 +148,7 @@ uint ModuleTextures::LoadTexture(const char* path)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 		glTexImage2D(GL_TEXTURE_2D,0,ilGetInteger(IL_IMAGE_FORMAT),ilGetInteger(IL_IMAGE_WIDTH),ilGetInteger(IL_IMAGE_HEIGHT),0,ilGetInteger(IL_IMAGE_FORMAT),GL_UNSIGNED_BYTE,	ilGetData());
-		App->con->AddLog("texture generated");
+		LOG("New texture generated");
 		tex = new Texture();
 		tex->SetWidth(ImageInfo.Width);
 		tex->Setheight(ImageInfo.Height);
@@ -158,11 +158,11 @@ uint ModuleTextures::LoadTexture(const char* path)
 	}
 	else 
 	{
-		App->con->AddLog("Error loading the file");
+		LOG("Error loading the file");
 		
 	}
 
-	App->con->AddLog("Image loaded");
+	
 	/*Texture* tex = new Texture();
 	tex->SetId((uint)textureID);
 	ilDeleteImages(1, &imageID);
