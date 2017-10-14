@@ -4,11 +4,11 @@ Console::Console(){
 
 	Name = "Console";
 	Shortcut = SDL_SCANCODE_0;
-	Active = false;
-	w = 658;
+	Active = true;
+	w = 400;
 	h= 105;
-	x= 325;
-	y= 919;
+	x= 50;
+	y= 50;
 
 }
 
@@ -26,7 +26,7 @@ void Console::AddLog(const char* entry)
 }
 void Console::Draw(Application* App)
 {
-	ImGui::Begin("Console", &Active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoFocusOnAppearing);
+	ImGui::Begin("Console", &Active);
 	ImGui::TextUnformatted(Buf.begin());
 	if (ScrollToBottom)
 		ImGui::SetScrollHere(1.0f);

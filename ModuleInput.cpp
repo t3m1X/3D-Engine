@@ -152,3 +152,7 @@ void ModuleInput::ImGuiDraw()
 
 	}
 }
+int ModuleInput::GetMouseWheel() const
+{
+	return mouse_z;
+}

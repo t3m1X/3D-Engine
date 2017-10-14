@@ -17,6 +17,9 @@
 #include "Console.h"
 #include "ModuleTextures.h"
 
+
+
+
 class ModuleImGui;
 class JSON_File;
 class ModuleJSON;
@@ -55,6 +58,7 @@ private:
 	const char* organization = nullptr;
 	const char* version = nullptr;
 	JSON_File * config = nullptr;
+	
 
 public:
 
@@ -79,6 +83,7 @@ public:
 	const char* GetVersion()const;
 	void LoadConfig(const char* path);
 	void SaveConfig(Module*module);
+	
 
 private:
 

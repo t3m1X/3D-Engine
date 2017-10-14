@@ -48,6 +48,12 @@ bool ModuleLoader::CleanUp()
 
 void ModuleLoader::LoadFBX(char* path)
 {
+	if (!meshes.empty()) {
+		for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
+			delete (*it);
+		}
+		meshes.clear();
+	}
 	struct aiLogStream stream;
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	aiAttachLogStream(&stream);
@@ -63,7 +69,7 @@ void ModuleLoader::LoadFBX(char* path)
 			new_mesh->num_vertices = m->mNumVertices;
 			new_mesh->vertices = new float[new_mesh->num_vertices * 3];
 			memcpy(new_mesh->vertices, m->mVertices, sizeof(float) * new_mesh->num_vertices * 3);
-			LOG("New mesh with %d vertices", new_mesh->num_vertices);
+			//App->con->AddLog("New mesh with %d vertices", new_mesh->num_vertices);
 			glGenBuffers(1, (GLuint*) &(new_mesh->id_vertices));
 			glBindBuffer(GL_ARRAY_BUFFER, new_mesh->id_vertices);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_vertices * 3, new_mesh->vertices, GL_STATIC_DRAW);
@@ -100,7 +106,7 @@ void ModuleLoader::LoadFBX(char* path)
 
 				glGenBuffers(1, (GLuint*)&(new_mesh->id_uv));
 				glBindBuffer(GL_ARRAY_BUFFER, (GLuint) new_mesh->id_uv);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(uint) * new_mesh->num_uv* 3, new_mesh->UVs, GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_uv* 3, new_mesh->UVs, GL_STATIC_DRAW);
 			}
 			else
 			{

@@ -49,6 +49,8 @@ ModuleTextures::~ModuleTextures()
 
 bool ModuleTextures::Init(JSON_File* conf)
 {
+
+	SetName("Textures");
 	bool ret = true;
 	ilInit();
 	iluInit();

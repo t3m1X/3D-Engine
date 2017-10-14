@@ -17,6 +17,9 @@ public:
 	void LookAt(const vec3 &Spot);
 	void Move(const vec3 &Movement);
 	float* GetViewMatrix();
+	void Focus(const vec3 target, const float dist);
+	void Orbit(const vec3& orbit_center, const float& motion_x, const float& motion_y);
+	void Rotate(const float& motion_x, const float& motion_y);
 	void ImGuiDraw();
 
 private:
@@ -30,4 +33,6 @@ public:
 private:
 
 	mat4x4 ViewMatrix, ViewMatrixInverse;
+	float speed = 3.0f;
+	float Sensitivity = 0.25f;
 };

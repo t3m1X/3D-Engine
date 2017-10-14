@@ -57,7 +57,7 @@ public:
 	{
 		return mouse_y_motion;
 	}
-
+	int ModuleInput::GetMouseWheel() const;
 	void ImGuiDraw();
 
 private:
