@@ -6,6 +6,8 @@
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
+#include "GameObject.h"
+#include "ModuleSceneIntro.h"
 
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
@@ -28,9 +30,9 @@ bool ModuleLoader::Init()
 update_status ModuleLoader::Update(float dt)
 {
 	
-	for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
+	/*for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
 		(*it)->Render(texture);
-	}
+	}*/
 
 	
 	return update_status::UPDATE_CONTINUE;
@@ -116,6 +118,8 @@ void ModuleLoader::LoadFBX(char* path)
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			meshes.push_back(new_mesh);
+			GameObject* new_obj = new GameObject((uint)meshes.size(), new_mesh);
+			App->scene_intro->AddObject(new_obj);
 		}
 
 		aiReleaseImport(scene);

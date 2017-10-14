@@ -12,6 +12,8 @@ public:
 	int Getwidth();
 	int Getheight();
 	void SetId(uint id);
+	void SetWidth(int w);
+	void Setheight(int h);
 private:
 	uint id = 0;
 	int width = 0;

@@ -32,7 +32,7 @@ public:
 	void ImGuiDraw();
 	void Load(JSON_File*c);
 	void Save(JSON_File*c);
-	void Draw(Mesh*m);
+	//void Draw(Mesh*m);
 	
 
 public:

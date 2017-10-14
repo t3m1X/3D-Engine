@@ -79,6 +79,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConfigPanel.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Geomath.h" />
     <ClInclude Include="glew\include\GL\eglew.h" />
     <ClInclude Include="glew\include\GL\glew.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConfigPanel.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glew\glew.c" />
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="gpudetect\DeviceId.cpp" />

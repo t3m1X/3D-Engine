@@ -146,7 +146,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-	//App->scene_intro->Draw();
+	App->scene_intro->Draw();
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	UI_attributes();
 	App->imgui->Draw();
@@ -345,7 +345,7 @@ void ModuleRenderer3D::Save(JSON_File* c)
 	c->Save();
 }
 
-void ModuleRenderer3D::Draw(Mesh * m)
+/*void ModuleRenderer3D::Draw(Mesh * m)
 {
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -357,4 +357,4 @@ void ModuleRenderer3D::Draw(Mesh * m)
 	glBindTexture(GL_TEXTURE_2D, App->loader->texture);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
+}*/

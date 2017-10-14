@@ -32,12 +32,24 @@ bool ModuleSceneIntro::CleanUp()
 		}
 		bodies.clear();
 	}
+	if (!objects.empty()) {
+		for (list<GameObject*>::iterator it = objects.begin(); it != objects.end(); ++it) {
+			delete (*it);
+		}
+		objects.clear();
+	}
+
 	return true;
 }
 
 void ModuleSceneIntro::AddBody(Primitive * body)
 {
 	bodies.push_back(body);
+}
+
+void ModuleSceneIntro::AddObject(GameObject * obj)
+{
+	objects.push_back(obj);
 }
 
 void ModuleSceneIntro::AddSphere(float x, float y, float z, float radius)
@@ -80,6 +92,16 @@ void ModuleSceneIntro::Draw()
 	for (list<Primitive*>::iterator it = bodies.begin(); it != bodies.end(); ++it) {
 		(*it)->Render();
 	}
+
+	for (list<GameObject*>::iterator it = objects.begin(); it != objects.end(); ++it) {
+		(*it)->Draw();
+	}
+
+}
+
+bool ModuleSceneIntro::Empty()
+{
+	return objects.empty();
 }
 
 // Update
@@ -87,82 +109,11 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	bPlane p(0, 1, 0, 0);
 	p.axis = true;
-	/*glLineWidth(2.0f);
-	glBegin(GL_LINES);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(0.f, 10.f, 0.f);
-	glEnd();
-	glLineWidth(1.0f);*/
 	
+	for (list<GameObject*>::iterator it = objects.begin(); it != objects.end(); ++it) {
+		(*it)->Update();
+	}
 
-
-	//uint my_id = 0;
-	//glGenBuffers(1, (GLuint*) &(my_id));
-	//glBindBuffer(GL_ARRAY_BUFFER, my_id);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(float)*36 * 3, vertices, GL_STATIC_DRAW);
-
-	//glEnableClientState(GL_VERTEX_ARRAY);
-	//glBindBuffer(GL_ARRAY_BUFFER, my_id);
-	//glVertexPointer(3, GL_FLOAT, 0, NULL);
-	//// ... draw other buffers
-	//glDrawArrays(GL_TRIANGLES, 0, 36 * 3);
-	//glDisableClientState(GL_VERTEX_ARRAY);
-
-
-
-
-	//glBegin(GL_TRIANGLES);
-	//glVertex3f(0.f, 0.f, 0.f);
-	//glVertex3f(1.f, 0.f, 0.f);
-	//glVertex3f(0.f, 1.f, 0.f);
-	//glVertex3f(1.f, 1.f, 0.f);
-	//glVertex3f(0.f, 1.f, 0.f);
-	//glVertex3f(1.f, 0.f, 0.f);
-
-	//glVertex3f(0.f, 0.f, -1.f);
-	//glVertex3f(0.f, 0.f, 0.f);
-	//glVertex3f(0.f, 1.f, -1.f);
-	//glVertex3f(0.f, 1.f, 0.f);
-	//glVertex3f(0.f, 1.f, -1.f);
-	//glVertex3f(0.f, 0.f, 0.f);
-	//
-	//glVertex3f(1.f, 0.f, 0.f);
-	//glVertex3f(1.f, 0.f, -1.f);
-	//glVertex3f(1.f, 1.f, -1.f);
-	//glVertex3f(1.f, 1.f, 0.f);
-	//glVertex3f(1.f, 0.f, 0.f);
-	//glVertex3f(1.f, 1.f, -1.f);
-	//
-	//glVertex3f(0.f, 0.f, -1.f);
-	//glVertex3f(0.f, 1.f, -1.f);
-	//glVertex3f(1.f, 0.f, -1.f);
-	//glVertex3f(1.f, 1.f, -1.f);
-	//glVertex3f(1.f, 0.f, -1.f);
-	//glVertex3f(0.f, 1.f, -1.f);
-	//
-	//glVertex3f(0.f, 1.f, 0.f);
-	//glVertex3f(1.f, 1.f, 0.f);
-	//glVertex3f(0.f, 1.f, -1.f);
-	//glVertex3f(1.f, 1.f, -1.f);
-	//glVertex3f(0.f, 1.f, -1.f);
-	//glVertex3f(1.f, 1.f, 0.f);
-	//
-	//glVertex3f(0.f, 0.f, 0.f);
-	//glVertex3f(0.f, 0.f, -1.f);
-	//glVertex3f(1.f, 0.f, 0.f);
-	//glVertex3f(1.f, 0.f, -1.f);
-	//glVertex3f(1.f, 0.f, 0.f);
-	//glVertex3f(0.f, 0.f, -1.f);
-
-
-
-
-	//
-
-
-
-
-	//glEnd();
 	p.Render();
 
 	
