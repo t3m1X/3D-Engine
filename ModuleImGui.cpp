@@ -255,7 +255,7 @@ update_status ModuleImGui::Update(float dt)
 		if (about) {
 			if (ImGui::Begin("About",&about))
 			{
-				ImGui::Text("Roger's Engine %s", App->GetVersion());
+				ImGui::Text("Roger's Engine v.%s", App->GetVersion());
 				ImGui::Text("About Roger's Engine:");
 				ImGui::Text("3D engine developed as a project for UPC's video games degree by Roger Busquets Duran and Sergi Parra Ramirez.");
 				ImGui::Separator();
@@ -286,7 +286,7 @@ update_status ModuleImGui::Update(float dt)
 					ImGui::Text("ImGui : v1.52");
 					ImGui::Text("Parson : 2017 version");
 					ImGui::Text("OpenGL : v2.1");
-					ImGui::Text("Glew: v2.0");
+					ImGui::Text("Glew: v2.1");
 					ImGui::Text("Devil : v1.7.8");
 					ImGui::Text("assimp");
 					ImGui::Text("mmgr");
