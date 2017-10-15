@@ -137,12 +137,12 @@ void ModuleLoader::LoadFBX(char* path)
 			GameObject* new_obj = new GameObject((uint)meshes.size(), new_mesh);
 			App->scene_intro->AddObject(new_obj);
 			App->imgui->Setproperties(true);
-<<<<<<< HEAD
+
 			//App->camera->FocusMesh(new_mesh);
 			App->camera->Move(vec3(0, new_obj->boundingbox.r.y * 2, new_obj->boundingbox.r.z * 2) - App->camera->Position);
-=======
+
 			App->camera->Move(vec3(0, new_obj->boundingbox.r.y + 5, new_obj->boundingbox.r.z - 5) - App->camera->Position);
->>>>>>> origin/develop
+
 			App->camera->LookAt(vec3(0, 0, 0));
 		}
 
