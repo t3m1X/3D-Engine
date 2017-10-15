@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "ModuleLoader.h"
 
-GameObject::GameObject(int _id, Mesh * m)
+GameObject::GameObject(int _id, std::list<Mesh*>& m)
 {
 	mesh = m;
 	id = _id;
@@ -11,17 +11,29 @@ GameObject::GameObject(int _id, Mesh * m)
 	rotation = (0, 0, 0);
 	scale = (1, 1, 1);
 
+	vertices = 0;
+	tris = 0;
 
 	boundingbox.r = { 0,0,0 };
-	for (int i = 0; i < mesh->num_vertices * 3; ++i)
-	{
-		if (boundingbox.r.x < mesh->vertices[i])
-			boundingbox.r.x = mesh->vertices[i];
-		if (boundingbox.r.y < mesh->vertices[++i])
-			boundingbox.r.y = mesh->vertices[i];
-		if (boundingbox.r.z > mesh->vertices[++i])
-			boundingbox.r.z = mesh->vertices[i];
+
+	for (list<Mesh*>::iterator it = mesh.begin(); it != mesh.end(); ++it) {
+		for (int i = 0; i < (*it)->num_vertices * 3; ++i)
+		{
+			if (boundingbox.r.x < (*it)->vertices[i])
+				boundingbox.r.x = (*it)->vertices[i];
+			if (boundingbox.r.y < (*it)->vertices[++i])
+				boundingbox.r.y = (*it)->vertices[i];
+			if (boundingbox.r.z >(*it)->vertices[++i])
+				boundingbox.r.z = (*it)->vertices[i];
+		}
 	}
+
+	for (list<Mesh*>::iterator it = mesh.begin(); it != mesh.end(); ++it) {
+		vertices += (*it)->num_vertices;
+		tris += (*it)->num_faces;
+	}
+
+
 }
 
 GameObject::~GameObject()
@@ -39,8 +51,9 @@ void GameObject::Update()
 
 void GameObject::Draw()
 {
-	
-	this->mesh->Render(tex);
+	for (list<Mesh*>::iterator it = mesh.begin(); it != mesh.end(); ++it) {
+		(*it)->Render(tex);
+	}
 	
 }
 
@@ -66,7 +79,10 @@ void GameObject::SetEnabled(const bool & set)
 
 void GameObject::CleanUp()
 {
-	this->mesh->CleanUp();
+	for (list<Mesh*>::iterator it = mesh.begin(); it != mesh.end(); ++it) {
+		(*it)->CleanUp();
+	}
+
 }
 
 const char * GameObject::GetName() const

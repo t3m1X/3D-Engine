@@ -13,7 +13,7 @@ struct Mesh;
 class GameObject
 {
 public:
-	GameObject(int _id, Mesh* m);
+	GameObject(int _id, std::list< Mesh*>& m);
 	virtual ~GameObject();
 
 	void Update();
@@ -40,10 +40,11 @@ public:
 
 public:
 	
-	Mesh* mesh;
+	std::list<Mesh*>mesh;
 	OBB boundingbox;
 	Texture*    texture = nullptr;
-
+	uint		tris = 0;
+	uint        vertices = 0;
 private:
 
 	std::string name;
