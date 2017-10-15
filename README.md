@@ -16,16 +16,23 @@ Link to the Github Repository ![https://github.com/rogerbusquets97/3D-Engine](ht
 ### View
 
 **Configuration(C)**_: Shows the customizable properties for each module (camera, renderer, input, application and hardware for now).
+
 **Properties (P)**_: Shows info about the current object in scene (transform, geometry and texture).
+
 **Geometry**_: Open a menu that allows you to create several basic primitives.
+
 **Console (C)**_: Allows to turn on and off the console (it is visible at the beggining of the application)
 
 ### Help
 
 **Documentation**_: Opens the following link to the wiki : ![https://github.com/rogerbusquets97/3D-Engine/wiki](https://github.com/rogerbusquets97/3D-Engine/wiki)
+
 **Report bug**_: Opens the following link to github issues: ![https://github.com/rogerbusquets97/3D-Engine/issues](https://github.com/rogerbusquets97/3D-Engine/issues)
+
 **Github repository**_: Opens the following to to the github repository : ![https://github.com/rogerbusquets97/3D-Engine](https://github.com/rogerbusquets97/3D-Engine)
+
 **Download latest**_: Opens the following link to the latests release : ![https://github.com/rogerbusquets97/3D-Engine/releases](https://github.com/rogerbusquets97/3D-Engine/releases)
+
 
 ## About
 
