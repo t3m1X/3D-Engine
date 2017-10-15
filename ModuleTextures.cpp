@@ -83,15 +83,13 @@ update_status ModuleTextures::Update()
 
 bool ModuleTextures::CleanUp()
 {
-	bool ret = true;
-	for (list<Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
+	while (!textures.empty())
 	{
-		delete *it;
+		if (textures.front() != nullptr)
+			delete[] textures.front();
+		textures.pop_front();
 	}
-
-	textures.clear();
-
-	return ret;
+	return true;
 }
 
 Texture * ModuleTextures::GetTexture()
@@ -164,7 +162,7 @@ uint ModuleTextures::LoadTexture(const char* path)
 		tex->Setheight(ImageInfo.Height);
 		tex->SetId(textureID);
 		textures.push_back(tex);
-		
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	else 
 	LOG("Texture load: Error loading the file %s", path);

@@ -86,6 +86,18 @@ update_status ModuleImGui::Update(float dt)
 				}
 			}
 
+			if (ImGui::MenuItem("Properties", "P"))
+			{
+				if (!properties) {
+					if (!App->scene_intro->Empty())
+					properties = true;
+				}
+				else {
+					properties = false;
+				}
+			}
+
+
 			ImGui::MenuItem("Geometry", NULL, &geometry);
 			if (ImGui::MenuItem("Console", "0")) {
 				if (!App->con->IsActive()) {

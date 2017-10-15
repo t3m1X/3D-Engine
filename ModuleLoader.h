@@ -26,6 +26,7 @@ public:
 	void Render(uint id);
 	void CleanUp();
 	void SetWire(bool w);
+	~Mesh();
 };
 class ModuleLoader : public Module {
 

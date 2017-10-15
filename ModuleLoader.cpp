@@ -63,6 +63,7 @@ void ModuleLoader::LoadFBX(char* path)
 		meshes.clear();
 		App->scene_intro->Clear();
 		if (texture != 0) {
+			glDeleteTextures(1, &texture);
 			texture = 0;
 			App->tex->Clear();
 		}
@@ -237,4 +238,12 @@ void Mesh::CleanUp()
 void Mesh::SetWire(bool w)
 {
 	wire = w;
+}
+
+Mesh::~Mesh()
+{
+	glDeleteBuffers(1, (GLuint*)&this->id_vertices);
+	glDeleteBuffers(1, (GLuint*)&this->id_indices);
+	glDeleteBuffers(1, (GLuint*)&this->id_uv);
+	LOG("Mesh destroyed");
 }
