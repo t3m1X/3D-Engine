@@ -245,7 +245,16 @@ void ModuleCamera3D::CalculateViewMatrix()
 void ModuleCamera3D::ImGuiDraw() {
 
 	if (ImGui::CollapsingHeader(this->GetName())) {
+		
+		ImGui::SliderFloat("Camera speed", &speed, 0, 120);
+		ImGui::Text("Speed:");
+		ImGui::SameLine();
+		ImGui::Text("%f", speed);
 
+		ImGui::SliderFloat("Sensitivity", &Sensitivity, 0, 1);
+		ImGui::Text("Sensitivity:");
+		ImGui::SameLine();
+		ImGui::Text("%f", Sensitivity);
 	}
 }
 
