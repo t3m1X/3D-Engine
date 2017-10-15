@@ -100,6 +100,16 @@ Texture * ModuleTextures::GetTexture()
 	return textures.front();
 }
 
+void ModuleTextures::Clear()
+{
+	for (list<Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
+	{
+		delete *it;
+	}
+
+	textures.clear();
+}
+
 bool ModuleTextures::Empty()
 {
 	return textures.empty();

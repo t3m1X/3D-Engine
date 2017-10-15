@@ -66,6 +66,7 @@ void GameObject::SetEnabled(const bool & set)
 
 void GameObject::CleanUp()
 {
+	this->mesh->CleanUp();
 }
 
 const char * GameObject::GetName() const

@@ -12,6 +12,7 @@ public:
 	uint* indices = nullptr;
 	uint id_indices = 0; // id in VRAM
 	uint num_vertices = 0;
+	uint num_faces = 0;
 	float* vertices = nullptr;
 	float* UVs = nullptr;
 	uint id_uv = 0;
@@ -22,6 +23,7 @@ public:
 		texture = tex;
 	}
 	void Render(uint id);
+	void CleanUp();
 
 };
 class ModuleLoader : public Module {
@@ -33,6 +35,7 @@ class ModuleLoader : public Module {
 		update_status Update(float dt);
 		bool CleanUp();
 		void LoadFBX(char* path);
+		void UnloadMesh(Mesh* m);
 	
 	public:
 		uint texture = 0;

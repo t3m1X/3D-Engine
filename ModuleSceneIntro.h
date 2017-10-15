@@ -31,6 +31,7 @@ public:
 	void Wireframe(bool b);
 	void Draw();
 	bool Empty();
+	void Clear();
 	
 public:
 	std::list<Primitive*> bodies;

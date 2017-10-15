@@ -31,6 +31,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 	Texture* GetTexture();
+	void Clear();
 	bool Empty();
 
 	uint LoadTexture(const char* path);

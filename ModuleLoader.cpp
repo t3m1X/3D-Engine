@@ -43,10 +43,12 @@ update_status ModuleLoader::Update(float dt)
 bool ModuleLoader::CleanUp()
 {
 	aiDetachAllLogStreams();
-	while (!meshes.empty())
-	{
-		delete[] meshes.front();
-		meshes.pop_front();
+	if (!meshes.empty()) {
+		for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
+		//	UnloadMesh(*it);
+			delete (*it);
+		}
+		meshes.clear();
 	}
 	return true;
 }
@@ -55,10 +57,18 @@ void ModuleLoader::LoadFBX(char* path)
 {
 	if (!meshes.empty()) {
 		for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
+			//UnloadMesh(*it);
 			delete (*it);
 		}
 		meshes.clear();
+		App->scene_intro->Clear();
+		if (texture != 0) {
+			texture = 0;
+			App->tex->Clear();
+		}
+
 	}
+	
 	struct aiLogStream stream;
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	aiAttachLogStream(&stream);
@@ -70,7 +80,8 @@ void ModuleLoader::LoadFBX(char* path)
 		for ( int i = 0; i < scene->mNumMeshes; i++) {
 			//Vertices
 			aiMesh* m = scene->mMeshes[i];
-			Mesh* new_mesh = new Mesh;
+			Mesh* new_mesh = new Mesh();
+			new_mesh->num_faces = m->mNumFaces;
 			new_mesh->num_vertices = m->mNumVertices;
 			new_mesh->vertices = new float[new_mesh->num_vertices * 3];
 			memcpy(new_mesh->vertices, m->mVertices, sizeof(float) * new_mesh->num_vertices * 3);
@@ -125,6 +136,7 @@ void ModuleLoader::LoadFBX(char* path)
 			GameObject* new_obj = new GameObject((uint)meshes.size(), new_mesh);
 			App->scene_intro->AddObject(new_obj);
 			App->imgui->Setproperties(true);
+			//App->camera->FocusMesh(new_mesh);
 			App->camera->Move(vec3(0, new_obj->boundingbox.r.y * 2, new_obj->boundingbox.r.z * 2) - App->camera->Position);
 			App->camera->LookAt(vec3(0, 0, 0));
 		}
@@ -133,6 +145,35 @@ void ModuleLoader::LoadFBX(char* path)
 	}
 	else
 		LOG("Error loading scene %s", path);
+}
+
+void ModuleLoader::UnloadMesh(Mesh * m)
+{
+	for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) 
+	{
+		if ((*it) == m)
+		{
+			// Unload from memory
+			if ((*it)->id_vertices != 0)
+			{
+				glDeleteBuffers(1, (GLuint*)(*it)->id_vertices);
+			}
+
+			if ((*it)->id_indices != 0)
+			{
+				glDeleteBuffers(1, (GLuint*)(*it)->id_indices);
+			}
+
+			if ((*it)->id_uv != 0)
+			{
+				glDeleteBuffers(1, (GLuint*)(*it)->id_uv);
+			}
+
+			(*it)->CleanUp();
+			meshes.erase(it);
+			break;
+		}
+	}
 }
 
 void Mesh::Render(uint id)
@@ -166,4 +207,13 @@ void Mesh::Render(uint id)
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+}
+
+void Mesh::CleanUp()
+{
+	id_vertices = 0;
+	num_indices = 0;
+
+	id_indices = 0;
+	num_vertices = 0;
 }

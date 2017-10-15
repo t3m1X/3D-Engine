@@ -2,7 +2,9 @@
 #include "Module.h"
 #include "Globals.h"
 #include "glmath.h"
+#include "ModuleLoader.h"
 
+#define CAMERA_PROPORTION 1.5;
 class ModuleCamera3D : public Module
 {
 public:
@@ -21,6 +23,7 @@ public:
 	void Orbit(const vec3& orbit_center, const float& motion_x, const float& motion_y);
 	void Rotate(const float& motion_x, const float& motion_y);
 	void ImGuiDraw();
+	//void FocusMesh(Mesh* m);
 
 private:
 

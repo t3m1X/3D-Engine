@@ -238,7 +238,7 @@ update_status ModuleImGui::Update(float dt)
 			}
 			if (ImGui::CollapsingHeader("Geometry")) {
 				if (!App->loader->meshes.empty()) {
-					ImGui::Text("Tris: %d", curr_obj->mesh->num_vertices / 3);
+					ImGui::Text("Tris: %d", curr_obj->mesh->num_faces);
 				}
 				else {
 					ImGui::Text("No geometry loaded yet");

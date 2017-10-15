@@ -104,6 +104,16 @@ bool ModuleSceneIntro::Empty()
 	return objects.empty();
 }
 
+void ModuleSceneIntro::Clear()
+{
+	if (!objects.empty()) {
+		for (list<GameObject*>::iterator it = objects.begin(); it != objects.end(); ++it) {
+			delete (*it);
+		}
+		objects.clear();
+	}
+}
+
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
