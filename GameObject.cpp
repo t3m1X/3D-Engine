@@ -115,17 +115,17 @@ const bool GameObject::GetSelected() const
 	return selected;
 }
 
-const vec3 GameObject::GetPosition()
+const vec3 GameObject::GetPosition()const
 {
 	return position;
 }
 
-const vec3 GameObject::GetRotation()
+const vec3 GameObject::GetRotation()const
 {
 	return rotation;
 }
 
-const vec3 GameObject::GetScale()
+const vec3 GameObject::GetScale()const
 {
 	return scale;
 }

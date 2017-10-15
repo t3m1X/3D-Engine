@@ -23,7 +23,7 @@ public:
 	void SetTexture(Texture* tex) {
 		texture = tex;
 	}
-	void Render(uint id);
+	void Render(uint id)const;
 	void CleanUp();
 	void SetWire(bool w);
 	~Mesh();

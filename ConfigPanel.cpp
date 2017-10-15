@@ -29,7 +29,7 @@ void ConfigPanel::Draw(Application* App) {
 	ImGui::End();
 }
 
-void ConfigPanel::DrawApp(Application* App) {
+void ConfigPanel::DrawApp(Application* App){
 
 	
 	int max_fps = App->GetFramerateLimit();

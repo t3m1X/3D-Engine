@@ -99,7 +99,7 @@ void ModuleSceneIntro::Draw()
 
 }
 
-bool ModuleSceneIntro::Empty()
+bool ModuleSceneIntro::Empty()const
 {
 	return objects.empty();
 }

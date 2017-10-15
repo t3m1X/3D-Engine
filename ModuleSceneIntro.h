@@ -30,7 +30,7 @@ public:
 	void AddPlane(float x, float y, float z, float d, float posx, float posy, float posz);
 	void Wireframe(bool b);
 	void Draw();
-	bool Empty();
+	bool Empty()const;
 	void Clear();
 	
 public:

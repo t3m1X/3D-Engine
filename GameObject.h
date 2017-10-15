@@ -33,9 +33,9 @@ public:
 
 	const int GetId() const;
 	const bool GetSelected() const;
-	const vec3 GetPosition();
-	const vec3 GetRotation();
-	const vec3 GetScale();
+	const vec3 GetPosition()const;
+	const vec3 GetRotation()const;
+	const vec3 GetScale()const;
 
 
 public:

@@ -190,7 +190,7 @@ void ModuleLoader::SetWire(bool w)
 	}
 }
 
-void Mesh::Render(uint id)
+void Mesh::Render(uint id)const
 {
 	if (wire)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
