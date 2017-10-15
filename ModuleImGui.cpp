@@ -1,6 +1,9 @@
 #include "ModuleImGui.h"
-#include "ModuleWindow.h"
 #include "Application.h"
+#include "ModuleWindow.h"
+#include "ModuleInput.h"
+#include "ModuleSceneIntro.h"
+#include "ModuleLoader.h"
 #include "Primitive.h"
 #include "Geomath.h"
 #include "imgui_impl_sdl.h"
@@ -8,7 +11,7 @@
 #include <cmath>
 #include <random>
 
-ModuleImGui::ModuleImGui(Application * app, bool start_enabled) : Module(app, start_enabled)
+ModuleImGui::ModuleImGui(bool start_enabled) : Module(start_enabled)
 {
 	
 }
@@ -26,9 +29,9 @@ bool ModuleImGui::Init(JSON_File* conf)
 	LoadStyle("blue_yellow");
 	ImGuiIO& io = ImGui::GetIO();
 	io.IniFilename = "Settings/imgui.ini";
-	console = new Console();
+	//console = new Console();
 	configuration = new ConfigPanel(App);
-	panels.push_back(console);
+	//panels.push_back(console);
 	panels.push_back(configuration);
 	x = 0;
 	y = 0;
@@ -83,8 +86,27 @@ update_status ModuleImGui::Update(float dt)
 				}
 			}
 
+			if (ImGui::MenuItem("Properties", "P"))
+			{
+				if (!properties) {
+					if (!App->scene_intro->Empty())
+					properties = true;
+				}
+				else {
+					properties = false;
+				}
+			}
+
+
 			ImGui::MenuItem("Geometry", NULL, &geometry);
-			
+			if (ImGui::MenuItem("Console", "0")) {
+				if (!App->con->IsActive()) {
+					App->con->Enable();
+				}
+				else {
+					App->con->Disable();
+				}
+			}
 
 			ImGui::EndMenu();
 		}
@@ -96,19 +118,22 @@ update_status ModuleImGui::Update(float dt)
 			if (ImGui::MenuItem("Report bug")) {
 				App->RequestBrowser("https://github.com/rogerbusquets97/3D-Engine/issues");
 			}
-			ImGui::EndMenu();
-		}
+			if (ImGui::MenuItem("Github repository")) {
+				App->RequestBrowser("https://github.com/rogerbusquets97/3D-Engine");
+			}
+			if (ImGui::MenuItem("Download latest")) {
+				App->RequestBrowser("https://github.com/rogerbusquets97/3D-Engine/releases");
+			}
 
-		if (ImGui::BeginMenu("About"))
-		{
-			ImGui::Text("About Roger's Engine:");
-			ImGui::Text("3D engine developed as a project for UPC's video games degree.");
-			ImGui::Separator();
-			ImGui::Text("By Roger Busquets.");
-			ImGui::Text("This engine is licensed under the Public Domain.");
 
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("About")) {
+			 
+				about = true;
+				ImGui::EndMenu();
+		}
+		
 
 		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) {
 			if (!configuration->IsActive()) {
@@ -152,7 +177,7 @@ update_status ModuleImGui::Update(float dt)
 	}
 
 	if (geometry) {
-			
+
 		ImGui::Begin("Geometry", &geometry);
 		if (ImGui::CollapsingHeader("Spheres")) {
 			ImGui::InputFloat("x", &posx);
@@ -173,13 +198,13 @@ update_status ModuleImGui::Update(float dt)
 			ImGui::InputFloat("Pos z", &posz);
 
 			if (ImGui::Button("Create Cube")) {
-				App->scene_intro->AddCube(x,y,z,posx, posy, posz);
+				App->scene_intro->AddCube(x, y, z, posx, posy, posz);
 			}
 
 		}
 		if (ImGui::CollapsingHeader("Cylinder")) {
 			ImGui::InputFloat("Height", &h);
-			ImGui::InputFloat("Radius" ,&r);
+			ImGui::InputFloat("Radius", &r);
 			ImGui::InputFloat("Pos x", &posx);
 			ImGui::InputFloat("Pos y", &posy);
 			ImGui::InputFloat("Pos z", &posz);
@@ -200,15 +225,119 @@ update_status ModuleImGui::Update(float dt)
 			ImGui::InputFloat("Pos z", &posz);
 
 			if (ImGui::Button("Create Plane")) {
-				App->scene_intro->AddPlane(x, y,z,d, posx, posy, posz);
+				App->scene_intro->AddPlane(x, y, z, d, posx, posy, posz);
 			}
 
 		}
-
-
-			ImGui::End();
-		
+		ImGui::End();
 	}
+		if (properties) {
+			curr_obj = App->scene_intro->objects.front();
+			ImGui::Begin("Properties", &properties);
+			if (ImGui::CollapsingHeader("Transform")) {
+				float3 pos(curr_obj->GetPosition().x, curr_obj->GetPosition().y, curr_obj->GetPosition().z);
+				float3 rot(curr_obj->GetRotation().x, curr_obj->GetRotation().y, curr_obj->GetRotation().z);
+				float3 scale(curr_obj->GetScale().x, curr_obj->GetScale().y, curr_obj->GetScale().z);
+
+				ImGui::Text("Position");
+				ImGui::InputFloat("x", &pos.x);
+				ImGui::InputFloat("y", &pos.y);
+				ImGui::InputFloat("z", &pos.z);
+
+				ImGui::Text("Rotation:");
+				ImGui::InputFloat("x", &rot.x);
+				ImGui::InputFloat("y", &rot.y);
+				ImGui::InputFloat("z", &rot.z);
+
+				ImGui::Text("Scale");
+				ImGui::InputFloat("x", &scale.x);
+				ImGui::InputFloat("y", &scale.y);
+				ImGui::InputFloat("z", &scale.z);
+
+			}
+			if (ImGui::CollapsingHeader("Geometry")) {
+				if (!App->loader->meshes.empty()) {
+					ImGui::Text("Tris: %d", curr_obj->tris);
+					ImGui::Text("Vertices: %d", curr_obj->vertices);
+				}
+				else {
+					ImGui::Text("No geometry loaded yet");
+				}
+			}
+			if (ImGui::CollapsingHeader("Texture")) {
+				if (!App->tex->Empty()) {
+					ImGui::Text("Width: %d", curr_obj->texture->Getwidth());
+					ImGui::Text("Height: %d", curr_obj->texture->Getheight());
+					ImTextureID img = (void*)App->tex->GetTexture()->Getid();
+					
+					ImGui::Image(img, ImVec2(100, 100));
+				}
+				else {
+					ImGui::Text("No texture loaded.");
+				}
+					
+			}
+			ImGui::End();
+		}
+
+		if (about) {
+			if (ImGui::Begin("About",&about))
+			{
+				ImGui::Text("Roger's Engine v.%s", App->GetVersion());
+				ImGui::Text("About Roger's Engine:");
+				ImGui::Text("3D engine developed as a project for UPC's video games degree by Roger Busquets Duran and Sergi Parra Ramirez.");
+				ImGui::Separator();
+				if (ImGui::CollapsingHeader("License")) {
+					ImGui::Text("MIT License");
+					ImGui::Text("Copyright(c) 2017 Roger Busquets Duran and Sergi Parra Ramirez");
+					ImGui::Text("Permission is hereby granted, free of charge, to any person obtaining a copy");
+					ImGui::Text("of this software and associated documentation files(the 'Software'), to deal");
+					ImGui::Text("in the Software without restriction, including without limitation the rights");
+					ImGui::Text("to use, copy, modify, merge, publish, distribute, sublicense, and / or sell");
+					ImGui::Text("copies of the Software, and to permit persons to whom the Software is");
+					ImGui::Text("furnished to do so, subject to the following conditions :");
+
+					ImGui::TextColored({ 1, 0.2f, 0.2f, 1 }, "The above copyright notice and this permission notice shall be included in all");
+					ImGui::TextColored({ 1, 0.2f, 0.2f, 1 }, "copies or substantial portions of the Software.");
+
+					ImGui::Text("THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR");
+					ImGui::Text("IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,");
+					ImGui::Text("FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE");
+					ImGui::Text("AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER");
+					ImGui::Text("LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,");
+					ImGui::Text("OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE");
+					ImGui::Text("SOFTWARE.");
+				}
+				if (ImGui::CollapsingHeader("Libraries")) {
+					ImGui::Text("SDL : v2.0.4");
+					ImGui::Text("MathGeoLib : v1.5");
+					ImGui::Text("ImGui : v1.52");
+					ImGui::Text("Parson : 2017 version");
+					ImGui::Text("OpenGL : v2.1");
+					ImGui::Text("Glew: v2.1");
+					ImGui::Text("Devil : v1.7.8");
+					ImGui::Text("assimp");
+					ImGui::Text("mmgr");
+
+				}
+
+
+				
+			}
+			ImGui::End();
+		}
+			
+		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+			if (!App->loader->meshes.empty()) {
+				if (properties) {
+					properties = false;
+				}
+				else {
+					properties = true;
+				}
+			}
+		}
+	
 
 	//Draw();
 
@@ -506,4 +635,9 @@ void ModuleImGui::LogFps(float fps, float ms) {
 void ModuleImGui::AddPanel(Panel * panel)
 {
 	panels.push_back(panel);
+}
+
+void ModuleImGui::Setproperties(bool set)
+{
+	properties = set;
 }

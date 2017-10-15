@@ -1,10 +1,14 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "ModuleLoader.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleImGui.h"
+#include "imgui.h"
 
 #define MAX_KEYS 300
 
-ModuleInput::ModuleInput(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleInput::ModuleInput(bool start_enabled) : Module(start_enabled)
 {
 	keyboard = new KEY_STATE[MAX_KEYS];
 	memset(keyboard, KEY_IDLE, sizeof(KEY_STATE) * MAX_KEYS);
@@ -109,10 +113,25 @@ update_status ModuleInput::PreUpdate(float dt)
 			break;
 
 			case SDL_WINDOWEVENT:
-			{
-				if(e.window.event == SDL_WINDOWEVENT_RESIZED)
-					App->renderer3D->OnResize(e.window.data1, e.window.data2);
+			if(e.window.event == SDL_WINDOWEVENT_RESIZED)
+				App->renderer3D->OnResize(e.window.data1, e.window.data2);
+			break;
+			
+
+			case SDL_DROPFILE:
+			char* drop_filedir = e.drop.file;
+			char* filext = strrchr(drop_filedir, '.');
+			for (char* p = filext + 1; *p != '\0'; *p = toupper(*p), p++);
+			if (strncmp(filext, ".FBX", 4) == 0) {
+				App->loader->LoadFBX(drop_filedir);
 			}
+			if (strncmp(filext, ".PNG", 4) == 0) {
+				App->loader->texture = App->tex->LoadTexture(drop_filedir);
+			}
+			SDL_free(drop_filedir);
+			drop_filedir = nullptr;
+			break;
+			
 		}
 	}
 
@@ -135,4 +154,8 @@ void ModuleInput::ImGuiDraw()
 	if (ImGui::CollapsingHeader(this->GetName())) {
 
 	}
+}
+int ModuleInput::GetMouseWheel() const
+{
+	return mouse_z;
 }

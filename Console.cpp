@@ -1,19 +1,22 @@
 #include "Console.h"
+#include "Application.h"
 
 Console::Console(){
 
 	Name = "Console";
 	Shortcut = SDL_SCANCODE_0;
-	Active = false;
-	w = 658;
-	h= 105;
-	x= 325;
-	y= 919;
+	Active = true;
+	w = 850;
+	h= 400;
+	x= 50;
+	y= 600;
 
 }
 
 Console::~Console()
-{}
+{
+	Clear();
+}
 
 void Console::Clear()
 {
@@ -21,12 +24,14 @@ void Console::Clear()
 }
 void Console::AddLog(const char* entry)
 {
-	Buf.append(entry);
-	ScrollToBottom = true;
+	if (App->con != nullptr && entry != nullptr) {
+		Buf.append(entry);
+		ScrollToBottom = true;
+	}
 }
 void Console::Draw(Application* App)
 {
-	ImGui::Begin("Console", &Active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoFocusOnAppearing);
+	ImGui::Begin("Console", &Active);
 	ImGui::TextUnformatted(Buf.begin());
 	if (ScrollToBottom)
 		ImGui::SetScrollHere(1.0f);

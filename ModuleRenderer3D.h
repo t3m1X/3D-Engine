@@ -4,6 +4,7 @@
 #include "glmath.h"
 #include "Light.h"
 
+
 #include "glew\include\GL\glew.h"
 #include "SDL\include\SDL_opengl.h"
 #include <gl\GL.h>
@@ -13,10 +14,12 @@
 #define STD_AMBIENT_LIGHTING 0.6f
 #define STD_MATERIAL_AMBIENT 1.0f
 
+struct Mesh;
+
 class ModuleRenderer3D : public Module
 {
 public:
-	ModuleRenderer3D(Application* app, bool start_enabled = true);
+	ModuleRenderer3D(bool start_enabled = true);
 	~ModuleRenderer3D();
 
 	bool Init(JSON_File* conf);
@@ -29,6 +32,8 @@ public:
 	void ImGuiDraw();
 	void Load(JSON_File*c);
 	void Save(JSON_File*c);
+	//void Draw(Mesh*m);
+	
 
 public:
 

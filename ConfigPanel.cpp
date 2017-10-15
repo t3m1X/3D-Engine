@@ -1,6 +1,6 @@
 #include "ConfigPanel.h"
 #include "Application.h"
-
+#include "mmgr\mmgr.h"
 
 
 ConfigPanel::ConfigPanel(Application* App) : Panel("Configuration", SDL_SCANCODE_4),
@@ -40,6 +40,18 @@ void ConfigPanel::DrawApp(Application* App) {
 	ImGui::SameLine();
 	ImGui::Text("%i", App->GetFramerateLimit());
 
+	std::vector<float> mem_container;
+	sMStats stats;
+
+	stats = m_getMemoryStatistics();
+
+	mem_container.push_back((float)stats.totalReportedMemory);
+
+	if (mem_container.size() > 500) {
+		mem_container.erase(mem_container.begin(), mem_container.begin() + 1);
+	}
+
+
 	if (ImGui::CollapsingHeader("Application"))
 	{
 
@@ -69,6 +81,12 @@ void ConfigPanel::DrawApp(Application* App) {
 		sprintf_s(title, 25, "Milliseconds %0.1f", ms_log[ms_log.size() - 1]);
 		ImGui::PlotHistogram("##milliseconds", &ms_log[0], ms_log.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
 
+		if (!mem_container.empty())
+		{
+			char title[25];
+			sprintf_s(title, 25, "%.1f", mem_container[mem_container.size() - 1]);
+			ImGui::PlotHistogram("Memory", &mem_container[0], mem_container.size(), 0, title, 0.0f, 30000.0f, ImVec2(0, 100));
+		}
 	}
 }
 

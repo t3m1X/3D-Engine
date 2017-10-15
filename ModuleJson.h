@@ -36,7 +36,7 @@ private:
 class ModuleJSON : public Module
 {
 public:
-	ModuleJSON(Application* app, bool start_enabled = true);
+	ModuleJSON(bool start_enabled = true);
 	~ModuleJSON();
 
 	bool Awake();

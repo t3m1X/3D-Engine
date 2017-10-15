@@ -1,14 +1,18 @@
 
 #include "Application.h"
 #include "ModuleRenderer3D.h"
-
+#include "ModuleLoader.h"
+#include "ModuleWindow.h"
+#include "ModuleCamera3D.h"
+#include "ModuleImGui.h"
+#include "ModuleSceneIntro.h"
 
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 //#pragma comment (lib, "glew/lib/Release/x64/glew32s.lib")
 
-ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleRenderer3D::ModuleRenderer3D(bool start_enabled) : Module(start_enabled)
 {
 	SetName("Renderer");
 }
@@ -259,10 +263,10 @@ void ModuleRenderer3D::ImGuiDraw()
 		}
 		if (ImGui::Checkbox("Wireframe Mode", &enable_wireframe)) {
 			if (enable_wireframe) {
-				App->scene_intro->Wireframe(enable_wireframe);
+				App->loader->SetWire(enable_wireframe);
 			}
 			else {
-				App->scene_intro->Wireframe(enable_wireframe);
+				App->loader->SetWire(enable_wireframe);
 			}
 			App->SaveConfig(App->renderer3D);
 		}
@@ -340,3 +344,17 @@ void ModuleRenderer3D::Save(JSON_File* c)
 
 	c->Save();
 }
+
+/*void ModuleRenderer3D::Draw(Mesh * m)
+{
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, m->id_vertices);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->id_indices);
+	glDrawElements(GL_TRIANGLES, m->num_indices, GL_UNSIGNED_INT, NULL);
+	glBindTexture(GL_TEXTURE_2D, App->loader->texture);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}*/

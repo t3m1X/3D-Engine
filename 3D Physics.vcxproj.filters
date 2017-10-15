@@ -40,6 +40,9 @@
     <Filter Include="Sources\Glew">
       <UniqueIdentifier>{40eb95af-bf0e-49a5-89a1-720cd151ee70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\mmgr">
+      <UniqueIdentifier>{87a56397-972d-4283-83dd-e0248d23c207}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -324,6 +327,18 @@
     <ClInclude Include="glew\include\GL\glew.h">
       <Filter>Sources\Glew</Filter>
     </ClInclude>
+    <ClInclude Include="vPrimitive.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleLoader.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleTextures.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Sources\Modules\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -514,6 +529,21 @@
     </ClCompile>
     <ClCompile Include="glew\glew.c">
       <Filter>Sources\Glew</Filter>
+    </ClCompile>
+    <ClCompile Include="vPrimitive.cpp">
+      <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleLoader.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTextures.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Sources\Modules\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="mmgr\mmgr.cpp">
+      <Filter>Sources\mmgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

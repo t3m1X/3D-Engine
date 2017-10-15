@@ -2,7 +2,7 @@
     "app": {
         "name": "Roger's Engine",
         "organization": "Roger's Engine",
-        "version": "0.1.7"
+        "version": "0.2"
     },
     "window": {
         "width": 1280,

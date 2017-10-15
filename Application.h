@@ -1,25 +1,21 @@
 #pragma once
 
-
 #include "Globals.h"
-#include "Timer.h"
 #include "Module.h"
-#include "ModuleWindow.h"
-#include "ModuleInput.h"
-#include "ModuleAudio.h"
-#include "ModuleSceneIntro.h"
-#include "ModuleRenderer3D.h"
-#include "ModuleCamera3D.h"
-#include "ModulePhysics3D.h"
-#include "ModulePlayer.h"
-#include "ModuleImGui.h"
-#include "ModuleJson.h"
-#include "Console.h"
+#include "Timer.h"
 
-class ModuleImGui;
-class JSON_File;
-class ModuleJSON;
 class ModuleWindow;
+class ModuleInput;
+class ModuleAudio;
+class ModuleLoader;
+class ModuleSceneIntro;
+class ModuleRenderer3D;
+class ModuleCamera3D;
+class ModulePhysics3D;
+class ModulePlayer;
+class ModuleImGui;
+class ModuleTextures;
+class ModuleJSON;
 class Console;
 
 class Application
@@ -35,8 +31,11 @@ public:
 	ModulePlayer* player;
 	ModuleImGui* imgui;
 	ModuleJSON* json;
+	ModuleLoader* loader;
 	list<Module*> list_modules;
 	Console* con;
+	ModuleTextures* tex;
+
 private:
 
 	Timer	ms_timer;
@@ -51,6 +50,7 @@ private:
 	const char* organization = nullptr;
 	const char* version = nullptr;
 	JSON_File * config = nullptr;
+	
 
 public:
 
@@ -75,6 +75,7 @@ public:
 	const char* GetVersion()const;
 	void LoadConfig(const char* path);
 	void SaveConfig(Module*module);
+	
 
 private:
 
@@ -83,3 +84,6 @@ private:
 	void FinishUpdate();
 
 };
+
+// Global var made extern for Application ---
+extern Application* App;
