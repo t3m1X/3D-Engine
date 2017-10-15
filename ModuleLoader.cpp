@@ -74,8 +74,10 @@ void ModuleLoader::LoadFBX(char* path)
 	aiAttachLogStream(&stream);
 
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
+	LOG("FBX Load: Loading %s", path);
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		LOG("FBX Load: Loading %d meshes", scene->mNumMeshes);
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 		for ( int i = 0; i < scene->mNumMeshes; i++) {
 			//Vertices
@@ -127,24 +129,27 @@ void ModuleLoader::LoadFBX(char* path)
 				LOG("Loading UVs succesfully");
 			}
 			else
-			{
-				LOG("No Texture Coords found");
-			}
+				LOG("FBX Load: No texture coordinates found");
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			meshes.push_back(new_mesh);
+			LOG("FBX Load: Mesh loaded with %d vertices and %d indices", new_mesh->num_vertices, new_mesh->num_indices);
 			GameObject* new_obj = new GameObject((uint)meshes.size(), new_mesh);
 			App->scene_intro->AddObject(new_obj);
 			App->imgui->Setproperties(true);
+<<<<<<< HEAD
 			//App->camera->FocusMesh(new_mesh);
 			App->camera->Move(vec3(0, new_obj->boundingbox.r.y * 2, new_obj->boundingbox.r.z * 2) - App->camera->Position);
+=======
+			App->camera->Move(vec3(0, new_obj->boundingbox.r.y + 5, new_obj->boundingbox.r.z - 5) - App->camera->Position);
+>>>>>>> origin/develop
 			App->camera->LookAt(vec3(0, 0, 0));
 		}
 
 		aiReleaseImport(scene);
 	}
 	else
-		LOG("Error loading scene %s", path);
+		LOG("FBX Load: Error loading scene %s", path);
 }
 
 void ModuleLoader::UnloadMesh(Mesh * m)

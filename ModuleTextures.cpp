@@ -125,7 +125,7 @@ uint ModuleTextures::LoadTexture(const char* path)
 	ilGenImages(1, &imageID); 		
 	ilBindImage(imageID); 			
 	success = ilLoadImage(path); 	
-	
+	LOG("Texture load: Loading %s", path);
 											
 	if (success)
 	{
@@ -144,7 +144,7 @@ uint ModuleTextures::LoadTexture(const char* path)
 		
 		if (!success)
 		{
-			LOG("Image conversion failed: %s\n", ilGetError());
+			LOG("Texture load: Image conversion failed: %s\n", ilGetError());
 		}
 
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -158,7 +158,7 @@ uint ModuleTextures::LoadTexture(const char* path)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 		glTexImage2D(GL_TEXTURE_2D,0,ilGetInteger(IL_IMAGE_FORMAT),ilGetInteger(IL_IMAGE_WIDTH),ilGetInteger(IL_IMAGE_HEIGHT),0,ilGetInteger(IL_IMAGE_FORMAT),GL_UNSIGNED_BYTE,	ilGetData());
-		LOG("New texture generated");
+		LOG("Texture load: Texture generated");
 		tex = new Texture();
 		tex->SetWidth(ImageInfo.Width);
 		tex->Setheight(ImageInfo.Height);
@@ -167,12 +167,8 @@ uint ModuleTextures::LoadTexture(const char* path)
 		
 	}
 	else 
-	{
-		LOG("Error loading the file");
-		
-	}
+	LOG("Texture load: Error loading the file %s", path);
 
-	
 	/*Texture* tex = new Texture();
 	tex->SetId((uint)textureID);
 	ilDeleteImages(1, &imageID);
