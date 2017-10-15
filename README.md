@@ -11,21 +11,21 @@ Link to the Github Repository ![https://github.com/rogerbusquets97/3D-Engine](ht
 
 ### File
 
-*_**Quit (Alt + F4)**_: Exits the application.
+**Quit (Alt + F4)**_: Exits the application.
 
 ### View
 
-*_** Configuration(C)**_: Shows the customizable properties for each module (camera, renderer, input, application and hardware for now).
-*_** Properties (P)**_: Shows info about the current object in scene (transform, geometry and texture).
-*_** Geometry**_: Open a menu that allows you to create several basic primitives.
-*_** Console (C)**_: Allows to turn on and off the console (it is visible at the beggining of the application)
+**Configuration(C)**_: Shows the customizable properties for each module (camera, renderer, input, application and hardware for now).
+**Properties (P)**_: Shows info about the current object in scene (transform, geometry and texture).
+**Geometry**_: Open a menu that allows you to create several basic primitives.
+**Console (C)**_: Allows to turn on and off the console (it is visible at the beggining of the application)
 
 ### Help
 
-*_** Documentation**_: Opens the following link to the wiki : ![https://github.com/rogerbusquets97/3D-Engine/wiki](https://github.com/rogerbusquets97/3D-Engine/wiki)
-*_** Report bug**_: Opens the following link to github issues: ![https://github.com/rogerbusquets97/3D-Engine/issues](https://github.com/rogerbusquets97/3D-Engine/issues)
-*_** Github repository**_: Opens the following to to the github repository : ![https://github.com/rogerbusquets97/3D-Engine](https://github.com/rogerbusquets97/3D-Engine)
-*_** Download latest**_: Opens the following link to the latests release : ![https://github.com/rogerbusquets97/3D-Engine/releases](https://github.com/rogerbusquets97/3D-Engine/releases)
+**Documentation**_: Opens the following link to the wiki : ![https://github.com/rogerbusquets97/3D-Engine/wiki](https://github.com/rogerbusquets97/3D-Engine/wiki)
+**Report bug**_: Opens the following link to github issues: ![https://github.com/rogerbusquets97/3D-Engine/issues](https://github.com/rogerbusquets97/3D-Engine/issues)
+**Github repository**_: Opens the following to to the github repository : ![https://github.com/rogerbusquets97/3D-Engine](https://github.com/rogerbusquets97/3D-Engine)
+**Download latest**_: Opens the following link to the latests release : ![https://github.com/rogerbusquets97/3D-Engine/releases](https://github.com/rogerbusquets97/3D-Engine/releases)
 
 ## About
 
