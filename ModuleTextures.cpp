@@ -119,7 +119,7 @@ uint ModuleTextures::LoadTexture(const char* path)
 											
 	if (success)
 	{
-
+		LOG("Image loaded succesfully");
 		Texture* tex;
 		ILinfo ImageInfo;
 		iluGetImageInfo(&ImageInfo);
@@ -157,10 +157,7 @@ uint ModuleTextures::LoadTexture(const char* path)
 		
 	}
 	else 
-	{
-		LOG("Texture load: Error loading the file %s", path);
-		
-	}
+	LOG("Texture load: Error loading the file %s", path);
 
 	/*Texture* tex = new Texture();
 	tex->SetId((uint)textureID);
