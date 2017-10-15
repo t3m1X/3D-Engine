@@ -124,14 +124,15 @@ update_status ModuleImGui::Update(float dt)
 			if (ImGui::MenuItem("Download latest")) {
 				App->RequestBrowser("https://github.com/rogerbusquets97/3D-Engine/releases");
 			}
-			if (ImGui::MenuItem("About")) {
-				about = true;
-			}
 
 
 			ImGui::EndMenu();
 		}
-
+		if (ImGui::BeginMenu("About")) {
+			 
+				about = true;
+				ImGui::EndMenu();
+		}
 		
 
 		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) {
