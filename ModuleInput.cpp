@@ -153,6 +153,16 @@ void ModuleInput::ImGuiDraw()
 {
 	if (ImGui::CollapsingHeader(this->GetName())) {
 
+		ImGui::Text("Mouse Position");
+		ImGui::Text("X: %d", mouse_x);
+		ImGui::Text("Y: %d", mouse_y);
+		ImGui::Separator();
+		ImGui::Text("Wheel: %d", mouse_z);
+		ImGui::Separator();
+		ImGui::Text("X motion: %d", mouse_x_motion);
+		ImGui::Text("Y motion: %d", mouse_y_motion);
+		
+
 	}
 }
 int ModuleInput::GetMouseWheel() const
