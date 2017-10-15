@@ -30,12 +30,16 @@ public:
 	void SetName(const std::string& set);
 	void SetSelected(const bool& set);
 	void SetTexture(Texture* tex);
-
+	void SetPosition(float3 pos);
+	void SetScale(float3 scale);
+	void SetRotation(float3 rot);
+	void SetTransform(const float4x4& matrix);
 	const int GetId() const;
 	const bool GetSelected() const;
-	const vec3 GetPosition()const;
-	const vec3 GetRotation()const;
-	const vec3 GetScale()const;
+	const float3 GetPosition()const;
+	const float3 GetRotation()const;
+	const float3 GetScale()const;
+
 
 
 public:
@@ -51,9 +55,10 @@ private:
 	bool		enabled = true;
 	int			id = 0;
 	bool		selected = false;
-	vec3        position;
-	vec3        scale;
-	vec3        rotation;
+	float4x4    transform;
+	float3        position;
+	float3        scale;
+	float3        rotation;
 	uint		tex = 0;
 };
 

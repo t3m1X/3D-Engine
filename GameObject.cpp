@@ -7,9 +7,9 @@ GameObject::GameObject(int _id, std::list<Mesh*>& m)
 	mesh = m;
 	id = _id;
 	SetName("Game Object");
-	position = (0, 0, 0);
-	rotation = (0, 0, 0);
-	scale = (1, 1, 1);
+	position = { 0, 0, 0 };
+	rotation = { 0, 0, 0 };
+	scale = { 0, 0, 0 };
 
 	vertices = 0;
 	tris = 0;
@@ -105,6 +105,30 @@ void GameObject::SetTexture(Texture * tex)
 	texture = tex;
 }
 
+void GameObject::SetPosition(float3 pos)
+{
+	position = pos;
+}
+
+void GameObject::SetScale(float3 scale)
+{
+	this->scale = scale;
+}
+
+void GameObject::SetRotation(float3 rot)
+{
+	rotation = rot;
+}
+
+void GameObject::SetTransform(const float4x4 & matrix)
+{
+	transform.Set(matrix);
+
+	float3x3 rot_mat;
+	transform.Decompose(position, rot_mat, scale);
+	rotation = rot_mat.ToEulerXYZ();
+}
+
 const int GameObject::GetId() const
 {
 	return id;
@@ -115,17 +139,17 @@ const bool GameObject::GetSelected() const
 	return selected;
 }
 
-const vec3 GameObject::GetPosition()const
+const float3 GameObject::GetPosition()const
 {
 	return position;
 }
 
-const vec3 GameObject::GetRotation()const
+const float3 GameObject::GetRotation()const
 {
 	return rotation;
 }
 
-const vec3 GameObject::GetScale()const
+const float3 GameObject::GetScale()const
 {
 	return scale;
 }

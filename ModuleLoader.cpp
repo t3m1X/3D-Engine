@@ -74,6 +74,7 @@ void ModuleLoader::LoadFBX(char* path)
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	aiAttachLogStream(&stream);
 
+	
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	LOG("FBX Load: Loading %s", path);
 	if (scene != nullptr && scene->HasMeshes())
@@ -132,14 +133,23 @@ void ModuleLoader::LoadFBX(char* path)
 			else
 				LOG("FBX Load: No texture coordinates found");
 
+			
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			meshes.push_back(new_mesh);
 			LOG("FBX Load: Mesh loaded with %d vertices and %d indices", new_mesh->num_vertices, new_mesh->num_indices);
 			
 		}
 
+		
 		GameObject* new_obj = new GameObject((uint)meshes.size(), meshes);
 		App->scene_intro->AddObject(new_obj);
+		aiNode* root = scene->mRootNode;
+
+		aiMatrix4x4 m = root->mTransformation;
+		
+		float4x4 transform(m.a1, m.a2, m.a3, m.a4, m.b1, m.b2, m.b3, m.b4, m.c1, m.c2, m.c3, m.c4, m.d1, m.d2, m.d3, m.d4);
+
+		new_obj->SetTransform(transform);
 		App->imgui->Setproperties(true);
 
 		//App->camera->FocusMesh(new_mesh);
