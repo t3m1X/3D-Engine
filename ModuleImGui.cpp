@@ -106,6 +106,12 @@ update_status ModuleImGui::Update(float dt)
 			if (ImGui::MenuItem("Report bug")) {
 				App->RequestBrowser("https://github.com/rogerbusquets97/3D-Engine/issues");
 			}
+			if (ImGui::MenuItem("Github repository")) {
+				App->RequestBrowser("https://github.com/rogerbusquets97/3D-Engine");
+			}
+			if (ImGui::MenuItem("Download latest")) {
+				App->RequestBrowser("https://github.com/rogerbusquets97/3D-Engine/releases");
+			}
 			if (ImGui::MenuItem("About")) {
 				about = true;
 			}
