@@ -180,15 +180,7 @@ update_status ModuleImGui::Update(float dt)
 	if (geometry) {
 
 		ImGui::Begin("Geometry", &geometry);
-		if (ImGui::CollapsingHeader("Spheres")) {
-			ImGui::InputFloat("x", &posx);
-			ImGui::InputFloat("y", &posy);
-			ImGui::InputFloat("z", &posz);
-			ImGui::InputFloat("Radius", &r);
-			if (ImGui::Button("Create Sphere")) {
-				App->scene_intro->AddSphere(posx, posy, posz, r);
-			}
-		}
+		
 		if (ImGui::CollapsingHeader("Cubes")) {
 			ImGui::InputFloat("Size x", &x);
 			ImGui::InputFloat("Size y", &y);

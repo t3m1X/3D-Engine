@@ -55,7 +55,6 @@ class bSphere : public Primitive
 public:
 	bSphere();
 	bSphere(float radius);
-	void InnerRender() const;
 public:
 	float radius;
 };

@@ -3,9 +3,9 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "Primitive.h"
-#include "glut/glut.h"
+//#include "glut/glut.h"
 
-#pragma comment (lib, "glut/glut32.lib")
+//#pragma comment (lib, "glut/glut32.lib")
 
 // ------------------------------------------------------------
 Primitive::Primitive() : transform(IdentityMatrix), color(White), wire(false), axis(false), type(PrimitiveTypes::Primitive_Point)
@@ -179,11 +179,6 @@ bSphere::bSphere() : Primitive(), radius(1.0f)
 bSphere::bSphere(float radius) : Primitive(), radius(radius)
 {
 	type = PrimitiveTypes::Primitive_Sphere;
-}
-
-void bSphere::InnerRender() const
-{
-	glutSolidSphere(radius, 25, 25);
 }
 
 
