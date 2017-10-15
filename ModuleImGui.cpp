@@ -41,6 +41,7 @@ bool ModuleImGui::Init(JSON_File* conf)
 	posy = 0;
 	posz = 0;
 	h = 0;
+	d = 0;
 	return ret;
 }
 
