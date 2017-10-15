@@ -263,10 +263,10 @@ void ModuleRenderer3D::ImGuiDraw()
 		}
 		if (ImGui::Checkbox("Wireframe Mode", &enable_wireframe)) {
 			if (enable_wireframe) {
-				App->scene_intro->Wireframe(enable_wireframe);
+				App->loader->SetWire(enable_wireframe);
 			}
 			else {
-				App->scene_intro->Wireframe(enable_wireframe);
+				App->loader->SetWire(enable_wireframe);
 			}
 			App->SaveConfig(App->renderer3D);
 		}

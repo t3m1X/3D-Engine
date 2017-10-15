@@ -18,13 +18,14 @@ public:
 	uint id_uv = 0;
 	uint num_uv = 0;
 	Texture* texture = nullptr;
+	bool wire = false;
 public:
 	void SetTexture(Texture* tex) {
 		texture = tex;
 	}
 	void Render(uint id);
 	void CleanUp();
-
+	void SetWire(bool w);
 };
 class ModuleLoader : public Module {
 
@@ -36,10 +37,11 @@ class ModuleLoader : public Module {
 		bool CleanUp();
 		void LoadFBX(char* path);
 		void UnloadMesh(Mesh* m);
-	
+		void SetWire(bool w);
 	public:
 		uint texture = 0;
 		std::list<Mesh*>meshes;
+		bool wire = false;
 
 };
 

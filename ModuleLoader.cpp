@@ -181,10 +181,21 @@ void ModuleLoader::UnloadMesh(Mesh * m)
 	}
 }
 
+void ModuleLoader::SetWire(bool w)
+{
+	for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
+		(*it)->SetWire(w);
+	}
+}
+
 void Mesh::Render(uint id)
 {
-	glEnableClientState(GL_VERTEX_ARRAY);
+	if (wire)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+	glEnableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, id_vertices);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_indices);
@@ -221,4 +232,9 @@ void Mesh::CleanUp()
 
 	id_indices = 0;
 	num_vertices = 0;
+}
+
+void Mesh::SetWire(bool w)
+{
+	wire = w;
 }
