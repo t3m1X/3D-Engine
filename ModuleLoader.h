@@ -4,30 +4,8 @@
 #include "Module.h"
 #include "Globals.h"
 #include "ModuleTextures.h"
+#include "Mesh.h"
 
-struct Mesh {
-public:
-	uint id_vertices = 0; // id in VRAM
-	uint num_indices = 0;
-	uint* indices = nullptr;
-	uint id_indices = 0; // id in VRAM
-	uint num_vertices = 0;
-	uint num_faces = 0;
-	float* vertices = nullptr;
-	float* UVs = nullptr;
-	uint id_uv = 0;
-	uint num_uv = 0;
-	Texture* texture = nullptr;
-	bool wire = false;
-public:
-	void SetTexture(Texture* tex) {
-		texture = tex;
-	}
-	void Render(uint id)const;
-	void CleanUp();
-	void SetWire(bool w);
-	~Mesh();
-};
 class ModuleLoader : public Module {
 
 	public:

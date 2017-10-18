@@ -224,54 +224,54 @@ update_status ModuleImGui::Update(float dt)
 		}
 		ImGui::End();
 	}
-		if (properties) {
-			curr_obj = App->scene_intro->objects.front();
-			ImGui::Begin("Properties", &properties);
-			if (ImGui::CollapsingHeader("Transform")) {
-				float3 pos(curr_obj->GetPosition().x, curr_obj->GetPosition().y, curr_obj->GetPosition().z);
-				float3 rot(curr_obj->GetRotation().x, curr_obj->GetRotation().y, curr_obj->GetRotation().z);
-				float3 scale(curr_obj->GetScale().x, curr_obj->GetScale().y, curr_obj->GetScale().z);
+	if (properties) {
+		curr_obj = App->scene_intro->objects.front();
+		ImGui::Begin("Properties", &properties);
+		if (ImGui::CollapsingHeader("Transform")) {
+			//float3 pos(curr_obj->GetPosition().x, curr_obj->GetPosition().y, curr_obj->GetPosition().z);
+			//float3 rot(curr_obj->GetRotation().x, curr_obj->GetRotation().y, curr_obj->GetRotation().z);
+			//float3 scale(curr_obj->GetScale().x, curr_obj->GetScale().y, curr_obj->GetScale().z);
 
-				ImGui::Text("Position");
-				ImGui::InputFloat("x", &pos.x);
-				ImGui::InputFloat("y", &pos.y);
-				ImGui::InputFloat("z", &pos.z);
+		/*	ImGui::Text("Position");
+			ImGui::InputFloat("x", &pos.x);
+			ImGui::InputFloat("y", &pos.y);
+			ImGui::InputFloat("z", &pos.z);
 
-				ImGui::Text("Rotation:");
-				ImGui::InputFloat("x", &rot.x);
-				ImGui::InputFloat("y", &rot.y);
-				ImGui::InputFloat("z", &rot.z);
+			ImGui::Text("Rotation:");
+			ImGui::InputFloat("x", &rot.x);
+			ImGui::InputFloat("y", &rot.y);
+			ImGui::InputFloat("z", &rot.z);
 
-				ImGui::Text("Scale");
-				ImGui::InputFloat("x", &scale.x);
-				ImGui::InputFloat("y", &scale.y);
-				ImGui::InputFloat("z", &scale.z);
-
-			}
-			if (ImGui::CollapsingHeader("Geometry")) {
-				if (!App->loader->meshes.empty()) {
-					ImGui::Text("Tris: %d", curr_obj->tris);
-					ImGui::Text("Vertices: %d", curr_obj->vertices);
-				}
-				else {
-					ImGui::Text("No geometry loaded yet");
-				}
-			}
-			if (ImGui::CollapsingHeader("Texture")) {
-				if (!App->tex->Empty()) {
-					ImGui::Text("Width: %d", curr_obj->texture->Getwidth());
-					ImGui::Text("Height: %d", curr_obj->texture->Getheight());
-					ImTextureID img = (void*)App->tex->GetTexture()->Getid();
-					
-					ImGui::Image(img, ImVec2(100, 100));
-				}
-				else {
-					ImGui::Text("No texture loaded.");
-				}
-					
-			}
-			ImGui::End();
+			ImGui::Text("Scale");
+			ImGui::InputFloat("x", &scale.x);
+			ImGui::InputFloat("y", &scale.y);
+			ImGui::InputFloat("z", &scale.z);
 		}
+		if (ImGui::CollapsingHeader("Geometry")) {
+			if (!App->loader->meshes.empty()) {
+				ImGui::Text("Tris: %d", curr_obj->tris);
+				ImGui::Text("Vertices: %d", curr_obj->vertices);
+			}
+			else {
+				ImGui::Text("No geometry loaded yet");
+			}
+		}
+		if (ImGui::CollapsingHeader("Texture")) {
+			if (!App->tex->Empty()) {
+				ImGui::Text("Width: %d", curr_obj->texture->Getwidth());
+				ImGui::Text("Height: %d", curr_obj->texture->Getheight());
+				ImTextureID img = (void*)App->tex->GetTexture()->Getid();
+
+				ImGui::Image(img, ImVec2(100, 100));
+			}
+			else {
+				ImGui::Text("No texture loaded.");
+			}
+
+		}
+		ImGui::End();*/
+		}
+	}
 
 		if (about) {
 			if (ImGui::Begin("About",&about))

@@ -14,12 +14,13 @@ public:
 	void SetId(uint id);
 	void SetWidth(int w);
 	void Setheight(int h);
-	
+
 private:
 	uint id = 0;
 	int width = 0;
 	int height = 0;
 };
+
 
 class ModuleTextures : public Module {
 public:

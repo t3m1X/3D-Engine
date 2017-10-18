@@ -30,6 +30,15 @@ bool Component::IsActive()
 	return active;
 }
 
+void Component::UI_draw()
+{
+}
+
+void Component::Setname(const char * n)
+{
+	name = n;
+}
+
 COMPONENT_TYPE Component::GetType()
 {
 	return type;

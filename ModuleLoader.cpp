@@ -10,6 +10,8 @@
 #include "ModuleSceneIntro.h"
 #include "ModuleImGui.h"
 #include "ModuleCamera3D.h"
+#include "Mesh.h"
+#include "Transform.h"
 
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
@@ -83,19 +85,18 @@ void ModuleLoader::LoadFBX(char* path)
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 		for ( int i = 0; i < scene->mNumMeshes; i++) {
 			//Vertices
+			
+			GameObject* new_obj = new GameObject("Game Object ", i );
 			aiMesh* m = scene->mMeshes[i];
-			Mesh* new_mesh = new Mesh();
+			Mesh* new_mesh = new Mesh(new_obj);
 			new_mesh->num_faces = m->mNumFaces;
 			new_mesh->num_vertices = m->mNumVertices;
 			new_mesh->vertices = new float[new_mesh->num_vertices * 3];
 			memcpy(new_mesh->vertices, m->mVertices, sizeof(float) * new_mesh->num_vertices * 3);
 			LOG("New mesh with %d vertices", new_mesh->num_vertices);
-			
-			glGenBuffers(1, (GLuint*) &(new_mesh->id_vertices));
-			glBindBuffer(GL_ARRAY_BUFFER, new_mesh->id_vertices);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_vertices * 3, new_mesh->vertices, GL_STATIC_DRAW);
+			new_mesh->GenerateVertexBuffer();
 			LOG("New mesh sended to VRAM");
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			
 			//Indices
 
 			if (m->HasFaces()) {
@@ -113,10 +114,7 @@ void ModuleLoader::LoadFBX(char* path)
 
 			}
 			LOG("New mesh with %d indices", new_mesh->num_indices);
-			glGenBuffers(1, (GLuint*) &(new_mesh->id_indices));
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->id_indices);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			new_mesh->GenerateIndicesBuffer();
 		
 			//UVS
 			if (m->HasTextureCoords(0)) 
@@ -125,39 +123,41 @@ void ModuleLoader::LoadFBX(char* path)
 				new_mesh->UVs = new float[new_mesh->num_uv * 3];
 				memcpy(new_mesh->UVs, m->mTextureCoords[0], sizeof(float)*new_mesh->num_uv * 3);
 
-				glGenBuffers(1, (GLuint*)&(new_mesh->id_uv));
-				glBindBuffer(GL_ARRAY_BUFFER, (GLuint) new_mesh->id_uv);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_uv* 3, new_mesh->UVs, GL_STATIC_DRAW);
+				new_mesh->GenerateUVBuffer();
 				LOG("Loading UVs succesfully");
 			}
 			else
 				LOG("FBX Load: No texture coordinates found");
 
 			
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			meshes.push_back(new_mesh);
 			LOG("FBX Load: Mesh loaded with %d vertices and %d indices", new_mesh->num_vertices, new_mesh->num_indices);
 			
+			new_obj->AddComponent(new_mesh);
+			LOG("Created new object");
+
+			aiNode* root = scene->mRootNode;
+			aiVector3D translation;
+			aiVector3D scaling;
+			aiQuaternion rotation;
+
+			root->mTransformation.Decompose(scaling, rotation, translation);
+
+			float3 pos(translation.x, translation.y, translation.z);
+			float3 scale(scaling.x, scaling.y, scaling.z);
+			Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+
+			Transform* trans = new Transform(scale, rot, pos, new_obj);
+			new_obj->AddComponent(trans);
+
 		}
 
-		
-		GameObject* new_obj = new GameObject((uint)meshes.size(), meshes);
-		App->scene_intro->AddObject(new_obj);
-		aiNode* root = scene->mRootNode;
-
-		aiMatrix4x4 m = root->mTransformation;
-		
-		float4x4 transform(m.a1, m.a2, m.a3, m.a4, m.b1, m.b2, m.b3, m.b4, m.c1, m.c2, m.c3, m.c4, m.d1, m.d2, m.d3, m.d4);
-
-		new_obj->SetTransform(transform);
-		App->imgui->Setproperties(true);
-
 		//App->camera->FocusMesh(new_mesh);
-		App->camera->Move(vec3(0, new_obj->boundingbox.r.y * 2, new_obj->boundingbox.r.z * 2) - App->camera->Position);
+		/*App->camera->Move(vec3(0, new_obj->boundingbox.r.y * 2, new_obj->boundingbox.r.z * 2) - App->camera->Position);
 
 		App->camera->Move(vec3(0, new_obj->boundingbox.r.y + 5, new_obj->boundingbox.r.z - 5) - App->camera->Position);
 
-		App->camera->LookAt(vec3(0, 0, 0));
+		App->camera->LookAt(vec3(0, 0, 0));*/
 		aiReleaseImport(scene);
 	}
 	else
@@ -200,61 +200,4 @@ void ModuleLoader::SetWire(bool w)
 	}
 }
 
-void Mesh::Render(uint id)const
-{
-	if (wire)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, id_vertices);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_indices);
-
-	//Apply UV if exist
-	if (num_uv != 0)
-	{
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, id_uv);
-		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-	}
-
-	//glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, (GLuint)id);
-
-	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, NULL);
-
-	
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	//Unbind textures affter rendering
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-}
-
-void Mesh::CleanUp()
-{
-	id_vertices = 0;
-	num_indices = 0;
-
-	id_indices = 0;
-	num_vertices = 0;
-}
-
-void Mesh::SetWire(bool w)
-{
-	wire = w;
-}
-
-Mesh::~Mesh()
-{
-	glDeleteBuffers(1, (GLuint*)&this->id_vertices);
-	glDeleteBuffers(1, (GLuint*)&this->id_indices);
-	glDeleteBuffers(1, (GLuint*)&this->id_uv);
-	LOG("Mesh destroyed");
-}

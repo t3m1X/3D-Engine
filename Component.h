@@ -3,6 +3,8 @@
 
 #include "GameObject.h"
 
+class GameObject;
+
 enum COMPONENT_TYPE {
 	MESH = 0,
 	MATERIAL,
@@ -19,10 +21,12 @@ class Component {
 		virtual void Enable();
 		virtual void Disable();
 		virtual bool IsActive();
+		virtual void UI_draw();
+		virtual void Setname(const char* n);
 		COMPONENT_TYPE GetType();
 
 	private:
-
+		const char* name;
 		COMPONENT_TYPE type;
 		bool active;
 		GameObject* owner;
