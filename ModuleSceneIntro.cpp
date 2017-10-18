@@ -34,6 +34,7 @@ bool ModuleSceneIntro::CleanUp()
 	}
 	if (!objects.empty()) {
 		for (list<GameObject*>::iterator it = objects.begin(); it != objects.end(); ++it) {
+			(*it)->CleanUp();
 			delete (*it);
 		}
 		objects.clear();

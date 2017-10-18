@@ -43,6 +43,15 @@
     <Filter Include="Sources\mmgr">
       <UniqueIdentifier>{87a56397-972d-4283-83dd-e0248d23c207}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Modules\Game\GameObjects">
+      <UniqueIdentifier>{63c6b3d6-c02c-4dd1-b08a-22218b871732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Modules\Game\GameObjects\Components">
+      <UniqueIdentifier>{b45eeafe-0184-4dd0-aafb-1dc599fb7d5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Modules\Game\Scene">
+      <UniqueIdentifier>{85449918-1ee4-4305-ac4e-477dddb435c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -80,9 +89,6 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Sources\Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleSceneIntro.h">
-      <Filter>Sources\Modules\Game</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Sources\Tools</Filter>
@@ -337,7 +343,19 @@
       <Filter>Sources\Modules</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Sources\Modules\Game</Filter>
+      <Filter>Sources\Modules\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSceneIntro.h">
+      <Filter>Sources\Modules\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -379,9 +397,6 @@
     </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Sources\Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleSceneIntro.cpp">
-      <Filter>Sources\Modules\Game</Filter>
     </ClCompile>
     <ClCompile Include="ModulePhysics3D.cpp">
       <Filter>Sources\Modules</Filter>
@@ -539,11 +554,23 @@
     <ClCompile Include="ModuleTextures.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Sources\Modules\Game</Filter>
-    </ClCompile>
     <ClCompile Include="mmgr\mmgr.cpp">
       <Filter>Sources\mmgr</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Sources\Modules\Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSceneIntro.cpp">
+      <Filter>Sources\Modules\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
