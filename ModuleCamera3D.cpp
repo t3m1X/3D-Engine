@@ -46,10 +46,10 @@ update_status ModuleCamera3D::Update(float dt)
 {
 
 	vec3 newPos(0,0,0);
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && !App->scene_intro->objects.empty()) {
+	/*if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && !App->scene_intro->objects.empty()) {
 		ModuleCamera3D::Move(vec3(0, App->scene_intro->objects.back()->boundingbox.r.y + 5, App->scene_intro->objects.back()->boundingbox.r.z - 5) - App->camera->Position);
 		ModuleCamera3D::LookAt(vec3(0, 0, 0));
-	}
+	}*/
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
 
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)

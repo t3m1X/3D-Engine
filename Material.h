@@ -5,6 +5,8 @@
 #include "ModuleTextures.h"
 #include "Component.h"
 
+
+
 class Material : public Component {
 
 	public:
@@ -12,8 +14,11 @@ class Material : public Component {
 		Material(GameObject* own);
 		virtual ~Material();
 		void AddTexture(Texture* tex);
+		Texture* FindtexturebyType(TEXTURE_TYPE type);
+
 
 	private: 
+		//// it will only have one texture for now
 		std::vector<Texture*> textures;
 
 

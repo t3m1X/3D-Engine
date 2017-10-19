@@ -212,13 +212,13 @@ void ModuleRenderer3D::Custom_attributes()
 	{
 		glDisable(GL_FOG);
 	}
-	if (enable_wireframe) {
+	/*if (enable_wireframe) {
 		App->scene_intro->Wireframe(enable_wireframe);
 	}
 	else {
 		App->scene_intro->Wireframe(enable_wireframe);
 	}
-
+	*/
 }
 
 

@@ -24,6 +24,7 @@ class Component {
 		virtual void UI_draw();
 		virtual void Setname(const char* n);
 		COMPONENT_TYPE GetType();
+		void SetType(COMPONENT_TYPE t);
 
 	private:
 		const char* name;

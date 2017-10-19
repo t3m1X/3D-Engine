@@ -57,7 +57,7 @@ bool ModuleLoader::CleanUp()
 
 void ModuleLoader::LoadFBX(char* path)
 {
-	if (!meshes.empty()) {
+	/*if (!meshes.empty()) {
 		for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
 			//UnloadMesh(*it);
 			delete (*it);
@@ -70,7 +70,7 @@ void ModuleLoader::LoadFBX(char* path)
 			App->tex->Clear();
 		}
 
-	}
+	}*/
 	
 	struct aiLogStream stream;
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
@@ -94,7 +94,10 @@ void ModuleLoader::LoadFBX(char* path)
 			new_mesh->vertices = new float[new_mesh->num_vertices * 3];
 			memcpy(new_mesh->vertices, m->mVertices, sizeof(float) * new_mesh->num_vertices * 3);
 			LOG("New mesh with %d vertices", new_mesh->num_vertices);
-			new_mesh->GenerateVertexBuffer();
+			glGenBuffers(1, (GLuint*) &(new_mesh->id_vertices));
+			glBindBuffer(GL_ARRAY_BUFFER,new_mesh->id_vertices);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_vertices * 3, new_mesh->vertices, GL_STATIC_DRAW);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			LOG("New mesh sended to VRAM");
 			
 			//Indices
@@ -114,7 +117,10 @@ void ModuleLoader::LoadFBX(char* path)
 
 			}
 			LOG("New mesh with %d indices", new_mesh->num_indices);
-			new_mesh->GenerateIndicesBuffer();
+			glGenBuffers(1, (GLuint*) &(new_mesh->id_indices));
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->id_indices);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		
 			//UVS
 			if (m->HasTextureCoords(0)) 
@@ -123,7 +129,11 @@ void ModuleLoader::LoadFBX(char* path)
 				new_mesh->UVs = new float[new_mesh->num_uv * 3];
 				memcpy(new_mesh->UVs, m->mTextureCoords[0], sizeof(float)*new_mesh->num_uv * 3);
 
-				new_mesh->GenerateUVBuffer();
+				glGenBuffers(1, (GLuint*)&(new_mesh->id_uv));
+				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)new_mesh->id_uv);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_uv * 3, new_mesh->UVs, GL_STATIC_DRAW);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 				LOG("Loading UVs succesfully");
 			}
 			else
@@ -134,6 +144,7 @@ void ModuleLoader::LoadFBX(char* path)
 			LOG("FBX Load: Mesh loaded with %d vertices and %d indices", new_mesh->num_vertices, new_mesh->num_indices);
 			
 			new_obj->AddComponent(new_mesh);
+			new_obj->Enable();
 			LOG("Created new object");
 
 			aiNode* root = scene->mRootNode;
@@ -150,6 +161,8 @@ void ModuleLoader::LoadFBX(char* path)
 			Transform* trans = new Transform(scale, rot, pos, new_obj);
 			new_obj->AddComponent(trans);
 
+			App->scene_intro->AddObject(new_obj);
+			App->scene_intro->SetobjSelected(new_obj);
 		}
 
 		//App->camera->FocusMesh(new_mesh);

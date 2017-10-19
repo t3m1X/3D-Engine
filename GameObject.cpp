@@ -1,6 +1,9 @@
 #include "GameObject.h"
 #include "Application.h"
 #include "ModuleLoader.h"
+#include "Material.h"
+#include "glew\include\GL\glew.h"
+
 
 GameObject::GameObject(const char* name, int id)
 {
@@ -36,12 +39,68 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
+
+	for (uint i = 0; i < children.size(); i++) {
+		children[i]->Update();
+	}
 	
 }
 
 void GameObject::Draw()
 {
+	bool has_mesh = false;
+	bool has_material = false;
+
+	for (uint i = 0; i < components.size(); i++) {
+		if (components[i]->GetType() == MESH) {
+			has_mesh = true; /////Assuming there's one mesh per game object
+		}
+		if (components[i]->GetType() == MATERIAL) {
+			has_material = true;
+		}
+	}
+	if (has_mesh) {
+		
+		Mesh* m = (Mesh*)this->FindComponentbyType(MESH); 
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, m->id_vertices);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->id_indices);
+
+		//Apply UV if exist
+		if (m->num_uv != 0)
+		{
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, m->id_uv);
+			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+		}
+
+		if (has_material) {
+			Material* mat = (Material*)this->FindComponentbyType(MATERIAL);
+			glBindTexture(GL_TEXTURE_2D, (GLuint)mat->FindtexturebyType(DIFFUSE)->Getid());
+		}
+		
+		glDrawElements(GL_TRIANGLES, m->num_indices, GL_UNSIGNED_INT, NULL);
+
+
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		//Unbind textures affter rendering
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		//LOG("Rendering object");
+	}
 	
+	if (!children.empty()) {
+		for (uint i = 0; i < children.size(); i++) {
+			children[i]->Draw();
+		}
+	}
 	
 }
 
@@ -96,9 +155,23 @@ void GameObject::AddComponent(Component * c)
 	components.push_back(c);
 }
 
+void GameObject::AddChild(GameObject * child)
+{
+	children.push_back(child);
+}
+
 
 const bool GameObject::GetSelected() const
 {
 	return selected;
+}
+
+Component * GameObject::FindComponentbyType(COMPONENT_TYPE type)
+{
+	for (uint i = 0; i < components.size(); i++) {
+		if (components[i]->GetType() == type) {
+			return components[i];
+		}
+	}
 }
 

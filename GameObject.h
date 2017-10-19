@@ -11,10 +11,12 @@
 struct Texture;
 struct Mesh;
 class Component;
+enum COMPONENT_TYPE;
 
 class GameObject
 {
 public:
+
 	GameObject(const char* name, int id);
 	virtual ~GameObject();
 
@@ -33,9 +35,12 @@ public:
 	void SetSelected(const bool& set);
 	//void AddEmptyComponent(COMPONENT_TYPE t);
 	void AddComponent(Component* c);
+	void AddChild(GameObject* child);
 	//void RemoveComponent(Component* c);
 	const bool GetSelected() const;
-
+	Component* FindComponentbyType(COMPONENT_TYPE type);
+	//void UIDraw();
+		
 public:
 	
 	OBB boundingbox;

@@ -126,7 +126,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				App->loader->LoadFBX(drop_filedir);
 			}
 			if (strncmp(filext, ".PNG", 4) == 0) {
-				App->loader->texture = App->tex->LoadTexture(drop_filedir);
+				//App->loader->texture = App->tex->LoadTexture(drop_filedir);
 			}
 			SDL_free(drop_filedir);
 			drop_filedir = nullptr;

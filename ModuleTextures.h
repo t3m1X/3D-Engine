@@ -3,6 +3,11 @@
 
 #include "Module.h"
 
+enum TEXTURE_TYPE {
+	DIFFUSE = 0,
+	UNKNOWN
+};
+
 struct Texture {
 
 public:
@@ -14,9 +19,12 @@ public:
 	void SetId(uint id);
 	void SetWidth(int w);
 	void Setheight(int h);
+	void SetTextureType(TEXTURE_TYPE t);
+	TEXTURE_TYPE GetType();
 
 private:
 	uint id = 0;
+	TEXTURE_TYPE type;
 	int width = 0;
 	int height = 0;
 };
@@ -35,7 +43,7 @@ public:
 	void Clear();
 	bool Empty();
 
-	uint LoadTexture(const char* path);
+	Texture* LoadTexture(const char* path);
 
 private:
 	std::list<Texture*>textures;

@@ -34,6 +34,7 @@ void Component::UI_draw()
 {
 }
 
+
 void Component::Setname(const char * n)
 {
 	name = n;
@@ -42,4 +43,9 @@ void Component::Setname(const char * n)
 COMPONENT_TYPE Component::GetType()
 {
 	return type;
+}
+
+void Component::SetType(COMPONENT_TYPE t)
+{
+	type = t;
 }

@@ -89,13 +89,13 @@ update_status ModuleImGui::Update(float dt)
 
 			if (ImGui::MenuItem("Properties", "P"))
 			{
-				if (!properties) {
+				/*if (!properties) {
 					if (!App->scene_intro->Empty())
 					properties = true;
 				}
 				else {
 					properties = false;
-				}
+				}*/
 			}
 
 
@@ -177,54 +177,12 @@ update_status ModuleImGui::Update(float dt)
 		ImGui::ShowTestWindow();
 	}
 
-	if (geometry) {
+	/*if (geometry) {
 
-		ImGui::Begin("Geometry", &geometry);
 		
-		if (ImGui::CollapsingHeader("Cubes")) {
-			ImGui::InputFloat("Size x", &x);
-			ImGui::InputFloat("Size y", &y);
-			ImGui::InputFloat("Size z", &z);
+	}*/
 
-			ImGui::InputFloat("Pos x", &posx);
-			ImGui::InputFloat("Pos y", &posy);
-			ImGui::InputFloat("Pos z", &posz);
-
-			if (ImGui::Button("Create Cube")) {
-				App->scene_intro->AddCube(x, y, z, posx, posy, posz);
-			}
-
-		}
-		if (ImGui::CollapsingHeader("Cylinder")) {
-			ImGui::InputFloat("Height", &h);
-			ImGui::InputFloat("Radius", &r);
-			ImGui::InputFloat("Pos x", &posx);
-			ImGui::InputFloat("Pos y", &posy);
-			ImGui::InputFloat("Pos z", &posz);
-
-			if (ImGui::Button("Create Cylinder")) {
-				App->scene_intro->AddCylinder(r, h, posx, posy, posz);
-			}
-
-		}
-		if (ImGui::CollapsingHeader("Plane")) {
-			ImGui::InputFloat("Size x", &x);
-			ImGui::InputFloat("Size y", &y);
-			ImGui::InputFloat("Size z", &z);
-			ImGui::InputFloat("D", &d);
-
-			ImGui::InputFloat("Pos x", &posx);
-			ImGui::InputFloat("Pos y", &posy);
-			ImGui::InputFloat("Pos z", &posz);
-
-			if (ImGui::Button("Create Plane")) {
-				App->scene_intro->AddPlane(x, y, z, d, posx, posy, posz);
-			}
-
-		}
-		ImGui::End();
-	}
-	if (properties) {
+	/*if (properties) {
 		curr_obj = App->scene_intro->objects.front();
 		ImGui::Begin("Properties", &properties);
 		if (ImGui::CollapsingHeader("Transform")) {
@@ -269,9 +227,9 @@ update_status ModuleImGui::Update(float dt)
 			}
 
 		}
-		ImGui::End();*/
+		ImGui::End();
 		}
-	}
+	}*/
 
 		if (about) {
 			if (ImGui::Begin("About",&about))

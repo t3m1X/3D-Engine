@@ -3,7 +3,7 @@
 
 Mesh::Mesh(GameObject * own) : Component(own)
 {
-
+	this->SetType(MESH);
 }
 
 void Mesh::Render(uint id)const

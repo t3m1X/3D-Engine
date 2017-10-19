@@ -22,18 +22,14 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 	//void ModuleSceneIntro::OnCollision(PhysBody3D * body1, PhysBody3D * body2);
-	void AddBody(Primitive*body);
-	void AddObject(GameObject* obj);
-	void AddSphere(float x, float y, float z, float radius);
-	void AddCube(float x, float y, float z, float posx, float posy, float posz);
-	void AddCylinder(float radius, float height, float posx, float posy, float posz);
-	void AddPlane(float x, float y, float z, float d, float posx, float posy, float posz);
-	void Wireframe(bool b);
 	void Draw();
-	bool Empty()const;
+	void AddObject(GameObject* obj);
+	void SetobjSelected(GameObject* obj);
+	GameObject* GetSelected()const;
 	void Clear();
 	
 public:
-	std::list<Primitive*> bodies;
-	std::list<GameObject*>objects;
+//	std::list<Primitive*> bodies;
+	GameObject* root;
+	GameObject* selected =nullptr;
 };

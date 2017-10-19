@@ -7,6 +7,8 @@ Transform::Transform(float3 s, Quat rot, float3 pos , GameObject* own) : Compone
 	rot = rotation;
 	position = pos;
 	Euler_rotation = rot.ToEulerXYZ();
+
+	this->SetType(TRANSFORM);
 	
 }
 

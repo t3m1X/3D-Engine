@@ -49,6 +49,16 @@ void Texture::Setheight(int h)
 	height = h;
 }
 
+void Texture::SetTextureType(TEXTURE_TYPE t)
+{
+	type = t;
+}
+
+TEXTURE_TYPE Texture::GetType()
+{
+	return type;
+}
+
 ModuleTextures::ModuleTextures(bool start_enabled) : Module(start_enabled)
 {
 }
@@ -113,7 +123,7 @@ bool ModuleTextures::Empty()
 	return textures.empty();
 }
 
-uint ModuleTextures::LoadTexture(const char* path)
+Texture* ModuleTextures::LoadTexture(const char* path)
 {
 
 	ILuint imageID;				
@@ -161,15 +171,12 @@ uint ModuleTextures::LoadTexture(const char* path)
 		tex->SetWidth(ImageInfo.Width);
 		tex->Setheight(ImageInfo.Height);
 		tex->SetId(textureID);
+		tex->SetTextureType(DIFFUSE);/// for now we just have diffuse
 		textures.push_back(tex);
 		glBindTexture(GL_TEXTURE_2D, 0);
+		return tex;
 	}
 	else 
 	LOG("Texture load: Error loading the file %s", path);
-
-	/*Texture* tex = new Texture();
-	tex->SetId((uint)textureID);
-	ilDeleteImages(1, &imageID);
-	textures.push_back(tex);*/
-	return textureID; 
+	return nullptr; 
 }

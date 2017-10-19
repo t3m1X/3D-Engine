@@ -18,6 +18,7 @@ public:
 	void GenerateUVBuffer();
 	void CleanUp();
 	void SetWire(bool w);
+	;
 	~Mesh();
 
 public:
