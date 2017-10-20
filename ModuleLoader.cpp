@@ -57,6 +57,7 @@ bool ModuleLoader::CleanUp()
 		}
 		meshes.clear();
 	}
+	LOG("All meshes deleted");
 	return true;
 }
 
@@ -76,7 +77,7 @@ void ModuleLoader::LoadFBX(char* path)
 		for ( int i = 0; i < scene->mNumMeshes; i++) {
 			//Vertices
 			
-			GameObject* new_obj = new GameObject("Game Object ", i );
+			GameObject* new_obj = new GameObject("Game Object ", obj_count++);
 			App->imgui->curr_obj = new_obj;
 			aiMesh* m = scene->mMeshes[i];
 			Mesh* new_mesh = new Mesh(new_obj);
@@ -150,7 +151,6 @@ void ModuleLoader::LoadFBX(char* path)
 
 			Transform* trans = new Transform(scale, rot, pos, new_obj);
 			new_obj->AddComponent(trans);
-
 			App->scene_intro->AddObject(new_obj);
 			App->scene_intro->SetobjSelected(new_obj);
 

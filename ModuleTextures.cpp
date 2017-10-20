@@ -99,6 +99,7 @@ bool ModuleTextures::CleanUp()
 			delete[] textures.front();
 		textures.pop_front();
 	}
+	LOG("Deleted all textures");
 	return true;
 }
 

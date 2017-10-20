@@ -22,6 +22,7 @@ class ModuleLoader : public Module {
 		uint texture = 0;
 		std::list<Mesh*>meshes;
 		bool wire = false;
+		uint obj_count = 0;
 
 };
 

@@ -3,11 +3,12 @@
 
 Transform::Transform(float3 s, Quat rot, float3 pos , GameObject* own) : Component(own)
 {
-	transform.SetIdentity();
+	local_transform.SetIdentity();
 	scale = s;
 	rot = rotation;
 	position = pos;
 	Euler_rotation = rot.ToEulerXYZ();
+	global_transform.SetIdentity();
 
 	this->SetType(TRANSFORM);
 	
@@ -16,8 +17,8 @@ Transform::Transform(float3 s, Quat rot, float3 pos , GameObject* own) : Compone
 Transform::Transform(float4x4 trans, GameObject * own) : Component(own)
 {
 	float3x3 rot;
-	transform.Set(trans);
-	transform.Decompose(position, rot, scale);
+	local_transform.Set(trans);
+	local_transform.Decompose(position, rot, scale);
 	Euler_rotation = rot.ToEulerXYZ();
 	rotation.FromEulerXYZ(Euler_rotation.x, Euler_rotation.y, Euler_rotation.z);
 }
@@ -29,6 +30,8 @@ Transform::~Transform()
 void Transform::SetPosition(float3 p)
 {
 	position = p;
+
+	RecalculateLocalTransform();
 }
 
 void Transform::SetPosition(float x, float y, float z)
@@ -36,11 +39,14 @@ void Transform::SetPosition(float x, float y, float z)
 	position.x = x;
 	position.y = y;
 	position.z = z;
+
+	RecalculateLocalTransform();
 }
 
 void Transform::SetScale(float3 s)
 {
 	scale = s;
+	RecalculateLocalTransform();
 }
 
 void Transform::SetScale(float x, float y, float z)
@@ -48,11 +54,13 @@ void Transform::SetScale(float x, float y, float z)
 	scale.x = x;
 	scale.y = y;
 	scale.z = z;
+	RecalculateLocalTransform();
 }
 
 void Transform::SetRotation(Quat rot)
 {
 	rotation = rot;
+	RecalculateLocalTransform();
 }
 
 void Transform::UI_draw()
@@ -74,4 +82,23 @@ void Transform::UI_draw()
 		ImGui::InputFloat("z", &scale.z);
 	}
 	
+}
+
+const float4x4 Transform::GetLocalTransform() const
+{
+	return local_transform;
+}
+void Transform::SetLocalTransform(const float4x4 & transform)
+{
+	local_transform = transform;
+}
+
+const float4x4 Transform::GetGlobalTransform() const
+{
+	return global_transform;
+}
+
+void Transform::RecalculateLocalTransform()
+{
+	local_transform = float4x4::FromTRS(position, rotation, scale);
 }

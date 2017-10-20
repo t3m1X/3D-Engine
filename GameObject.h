@@ -42,6 +42,8 @@ public:
 	void UIDraw();
 	void DrawComponents();
 	vector<GameObject*> GetChild();
+
+	
 		
 public:
 	
@@ -55,6 +57,7 @@ private:
 	std::vector<Component*> components;
 	std::vector<GameObject*> children;
 	GameObject* parent;
+	
 
 };
 

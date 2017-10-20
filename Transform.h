@@ -22,12 +22,18 @@ class Transform : public Component {
 		void SetRotation(Quat rot);
 		void UI_draw();
 
+		const float4x4 GetLocalTransform() const;
+		void SetLocalTransform(const float4x4& transform);
+		const float4x4 GetGlobalTransform() const;
+		void RecalculateLocalTransform();
+
 	private:
-		float4x4 transform;
+		float4x4 local_transform;
 		float3 position;
 		float3 scale;
 		Quat rotation;
 		float3 Euler_rotation;
+		float4x4 global_transform;
 
 
 

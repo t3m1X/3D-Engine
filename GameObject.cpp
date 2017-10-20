@@ -4,6 +4,7 @@
 #include "Material.h"
 #include "glew\include\GL\glew.h"
 #include "ModuleImGui.h"
+#include "Transform.h"
 
 
 GameObject::GameObject(const char* name, int id)
@@ -52,6 +53,8 @@ void GameObject::Draw()
 	bool has_mesh = false;
 	bool has_material = false;
 
+
+
 	for (uint i = 0; i < components.size(); i++) {
 		if (components[i]->GetType() == MESH) {
 			has_mesh = true; /////Assuming there's one mesh per game object
@@ -59,6 +62,12 @@ void GameObject::Draw()
 		if (components[i]->GetType() == MATERIAL) {
 			has_material = true;
 		}
+		if (components[i]->GetType() == TRANSFORM) {
+			Transform* tr = (Transform*)components[i];
+			glPushMatrix();
+			glMultMatrixf(tr->GetGlobalTransform().Transposed().ptr());
+		}
+		
 	}
 	if (has_mesh) {
 		
@@ -102,6 +111,7 @@ void GameObject::Draw()
 			children[i]->Draw();
 		}
 	}
+	glPopMatrix();
 	
 }
 
@@ -131,6 +141,7 @@ void GameObject::CleanUp()
 		delete components[i];
 	}
 	for (int i = 0; i < children.size(); i++) {
+		children[i]->CleanUp();
 		delete children[i];
 	}
 
@@ -187,11 +198,9 @@ void GameObject::UIDraw()
 		flags |= ImGuiTreeNodeFlags_Selected;
 	}
 
-	if (ImGui::IsItemClicked(1)) {
-		App->imgui->curr_obj = this;
-	}
 
 	if (ImGui::TreeNodeEx(name.c_str(), flags)) {
+		App->imgui->curr_obj = this;
 
 		for (uint i = 0; i < children.size(); i++) {
 			children[i]->UIDraw();
@@ -216,4 +225,5 @@ vector<GameObject*> GameObject::GetChild()
 {
 	return children;
 }
+
 
