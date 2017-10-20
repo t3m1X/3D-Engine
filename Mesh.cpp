@@ -1,5 +1,6 @@
 #include "Mesh.h"
 #include "glew\include\GL\glew.h"
+#include "ModuleImGui.h"
 
 Mesh::Mesh(GameObject * own) : Component(own)
 {
@@ -104,6 +105,15 @@ void Mesh::CleanUp()
 void Mesh::SetWire(bool w)
 {
 	wire = w;
+}
+
+void Mesh::UI_draw()
+{
+	if (ImGui::CollapsingHeader("Mesh")) {
+		ImGui::Text("Faces: %d", num_faces);
+		ImGui::Text("Vertices: %d", num_vertices);
+		ImGui::Text("UVs: %d", num_uv);
+	}
 }
 
 Mesh::~Mesh()

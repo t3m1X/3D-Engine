@@ -26,10 +26,12 @@ public:
 	void AddObject(GameObject* obj);
 	void SetobjSelected(GameObject* obj);
 	GameObject* GetSelected()const;
+	void DrawHierarchy()const;
 	void Clear();
 	
 public:
 //	std::list<Primitive*> bodies;
 	GameObject* root;
 	GameObject* selected =nullptr;
+	bool hierarchy = true;
 };

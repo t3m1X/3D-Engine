@@ -4,6 +4,7 @@
 #include "Primitive.h"
 #include "PhysBody3D.h"
 #include "ModulePlayer.h"
+#include "ModuleImGui.h"
 
 
 ModuleSceneIntro::ModuleSceneIntro(bool start_enabled) : Module(start_enabled)
@@ -69,6 +70,16 @@ GameObject * ModuleSceneIntro::GetSelected() const
 	}
 }
 
+void ModuleSceneIntro::DrawHierarchy() const
+{
+
+	ImGui::Begin("Hierarchy");
+	root->UIDraw();
+	
+
+	ImGui::End();
+}
+
 void ModuleSceneIntro::Clear()
 {
 	
@@ -81,6 +92,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	bPlane p(0, 1, 0, 0);
 	p.axis = true;
 	
+	DrawHierarchy();
 	root->Update();
 	root->Draw();
 	p.Render();

@@ -39,7 +39,9 @@ public:
 	//void RemoveComponent(Component* c);
 	const bool GetSelected() const;
 	Component* FindComponentbyType(COMPONENT_TYPE type);
-	//void UIDraw();
+	void UIDraw();
+	void DrawComponents();
+	vector<GameObject*> GetChild();
 		
 public:
 	

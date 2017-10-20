@@ -77,6 +77,7 @@ void ModuleLoader::LoadFBX(char* path)
 			//Vertices
 			
 			GameObject* new_obj = new GameObject("Game Object ", i );
+			App->imgui->curr_obj = new_obj;
 			aiMesh* m = scene->mMeshes[i];
 			Mesh* new_mesh = new Mesh(new_obj);
 			new_mesh->num_faces = m->mNumFaces;

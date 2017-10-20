@@ -3,12 +3,13 @@
 #include "ModuleLoader.h"
 #include "Material.h"
 #include "glew\include\GL\glew.h"
+#include "ModuleImGui.h"
 
 
 GameObject::GameObject(const char* name, int id)
 {
-	this->name = name + std::to_string(id);
-	SetName("Game Object");
+	std::string n = name + std::to_string(id);
+	SetName(n.c_str());
 
 	/*
 	boundingbox.r = { 0,0,0 };
@@ -173,5 +174,46 @@ Component * GameObject::FindComponentbyType(COMPONENT_TYPE type)
 			return components[i];
 		}
 	}
+}
+
+void GameObject::UIDraw()
+{
+	uint flags = 0;
+	if (children.size() == 0) {
+		flags |= ImGuiTreeNodeFlags_Leaf;
+	}
+	if (App->imgui->curr_obj==this)
+	{
+		flags |= ImGuiTreeNodeFlags_Selected;
+	}
+
+	if (ImGui::IsItemClicked(1)) {
+		App->imgui->curr_obj = this;
+	}
+
+	if (ImGui::TreeNodeEx(name.c_str(), flags)) {
+
+		for (uint i = 0; i < children.size(); i++) {
+			children[i]->UIDraw();
+		}
+
+		ImGui::TreePop();
+	}
+
+	
+}
+
+void GameObject::DrawComponents()
+{
+	if (!components.empty()) {
+		for (uint i = 0; i < components.size(); i++) {
+			components[i]->UI_draw();
+		}
+	}
+}
+
+vector<GameObject*> GameObject::GetChild()
+{
+	return children;
 }
 

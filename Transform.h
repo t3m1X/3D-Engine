@@ -20,7 +20,7 @@ class Transform : public Component {
 		void SetScale(float x, float y, float z);
 
 		void SetRotation(Quat rot);
-
+		void UI_draw();
 
 	private:
 		float4x4 transform;

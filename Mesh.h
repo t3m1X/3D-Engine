@@ -18,7 +18,7 @@ public:
 	void GenerateUVBuffer();
 	void CleanUp();
 	void SetWire(bool w);
-	;
+	void UI_draw();
 	~Mesh();
 
 public:

@@ -33,6 +33,7 @@ public:
 	void LogFps(float fps, float ms);
 	void AddPanel(Panel* panel);
 	void Setproperties(bool set);
+	GameObject* curr_obj;
 
 private:
 
@@ -44,7 +45,7 @@ private:
 	//Console* console = nullptr;
 	ConfigPanel* configuration = nullptr;
 	float x, y, z, r,posx,posy,posz,h,d;
-	GameObject* curr_obj;
+	
 	
 	///just for testing mathgeolib///
 };

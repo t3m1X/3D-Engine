@@ -15,6 +15,7 @@ class Material : public Component {
 		virtual ~Material();
 		void AddTexture(Texture* tex);
 		Texture* FindtexturebyType(TEXTURE_TYPE type);
+		void UI_draw();
 
 
 	private: 
