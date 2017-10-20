@@ -17,6 +17,7 @@ class ModuleLoader : public Module {
 		void LoadFBX(char* path);
 		void UnloadMesh(Mesh* m);
 		void SetWire(bool w);
+		
 	public:
 		uint texture = 0;
 		std::list<Mesh*>meshes;

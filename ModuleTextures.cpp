@@ -129,7 +129,11 @@ Texture* ModuleTextures::LoadTexture(const char* path)
 	ILuint imageID;				
 	GLuint textureID;		
 	ILboolean success;			
-	ILenum error;				
+	ILenum error;		
+/*	const char* drop_filedir = path;
+	const char* filext = strrchr(drop_filedir, '.');
+	for (char* p = filext + 1; *p != '\0'; *p = toupper(*p), p++);*/
+
 	ilGenImages(1, &imageID); 		
 	ilBindImage(imageID); 			
 	success = ilLoadImage(path); 	

@@ -12,7 +12,7 @@
 #include "ModuleCamera3D.h"
 #include "Mesh.h"
 #include "Transform.h"
-
+#include "Material.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
@@ -28,6 +28,11 @@ ModuleLoader::~ModuleLoader()
 
 bool ModuleLoader::Init()
 {
+
+	struct aiLogStream stream;
+	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
+	aiAttachLogStream(&stream);
+
 	return true;
 }
 
@@ -72,9 +77,7 @@ void ModuleLoader::LoadFBX(char* path)
 
 	}*/
 	
-	struct aiLogStream stream;
-	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
-	aiAttachLogStream(&stream);
+	
 
 	
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
@@ -146,7 +149,6 @@ void ModuleLoader::LoadFBX(char* path)
 			new_obj->AddComponent(new_mesh);
 			new_obj->Enable();
 			LOG("Created new object");
-
 			aiNode* root = scene->mRootNode;
 			aiVector3D translation;
 			aiVector3D scaling;
@@ -163,6 +165,28 @@ void ModuleLoader::LoadFBX(char* path)
 
 			App->scene_intro->AddObject(new_obj);
 			App->scene_intro->SetobjSelected(new_obj);
+
+			////////Materials
+			if (scene->HasMaterials()) {
+				for (uint i = 0; i < scene->mNumMaterials; i++) {
+					aiString tex_path;
+					//////Just diffuse for now
+					if (scene->mMaterials[m->mMaterialIndex]->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+						scene->mMaterials[m->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, m->mMaterialIndex, &tex_path);
+						Texture* diffuse = App->tex->LoadTexture(tex_path.C_Str());
+						if (diffuse != nullptr) {
+							Material* mat = new Material(new_obj);
+							mat->AddTexture(diffuse);
+							new_obj->AddComponent(mat);
+						}
+						
+						
+					}
+					
+				}
+				
+			}
+
 		}
 
 		//App->camera->FocusMesh(new_mesh);
@@ -171,6 +195,7 @@ void ModuleLoader::LoadFBX(char* path)
 		App->camera->Move(vec3(0, new_obj->boundingbox.r.y + 5, new_obj->boundingbox.r.z - 5) - App->camera->Position);
 
 		App->camera->LookAt(vec3(0, 0, 0));*/
+		
 		aiReleaseImport(scene);
 	}
 	else
@@ -212,5 +237,6 @@ void ModuleLoader::SetWire(bool w)
 		(*it)->SetWire(w);
 	}
 }
+
 
 
