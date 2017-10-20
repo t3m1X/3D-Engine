@@ -146,7 +146,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-	App->scene_intro->Draw();
+	//App->scene_intro->Draw();
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	UI_attributes();
 	App->imgui->Draw();

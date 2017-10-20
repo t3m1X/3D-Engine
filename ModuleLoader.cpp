@@ -62,20 +62,7 @@ bool ModuleLoader::CleanUp()
 
 void ModuleLoader::LoadFBX(char* path)
 {
-	/*if (!meshes.empty()) {
-		for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
-			//UnloadMesh(*it);
-			delete (*it);
-		}
-		meshes.clear();
-		App->scene_intro->Clear();
-		if (texture != 0) {
-			glDeleteTextures(1, &texture);
-			texture = 0;
-			App->tex->Clear();
-		}
-
-	}*/
+	App->con->Clear();
 	
 	
 
