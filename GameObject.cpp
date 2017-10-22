@@ -63,7 +63,7 @@ void GameObject::Draw()
 			has_material = true;
 		}
 		if (components[i]->GetType() == TRANSFORM) {
-			tr = (Transform*)components[i];
+			tr = (Transform*)this->FindComponentbyType(TRANSFORM);
 		}
 		
 	}
@@ -71,8 +71,8 @@ void GameObject::Draw()
 		
 		Mesh* m = (Mesh*)this->FindComponentbyType(MESH); 
 
-		glPushMatrix();
-		glMultMatrixf(tr->GetLocalTransform().Transposed().ptr());
+		//glPushMatrix();
+		//glMultMatrixf(tr->GetLocalTransform().Transposed().ptr());
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, m->id_vertices);
@@ -112,7 +112,7 @@ void GameObject::Draw()
 			children[i]->Draw();
 		}
 	}
-	glPopMatrix();
+	//glPopMatrix();
 	
 }
 
@@ -201,7 +201,9 @@ void GameObject::UIDraw()
 
 
 	if (ImGui::TreeNodeEx(name.c_str(), flags)) {
-		App->imgui->curr_obj = this;
+		if (ImGui::IsItemClicked()) {
+			App->imgui->curr_obj = this;
+		}
 
 		for (uint i = 0; i < children.size(); i++) {
 			children[i]->UIDraw();

@@ -86,7 +86,7 @@ void Transform::UI_draw()
 
 const float4x4 Transform::GetLocalTransform() const
 {
-	return local_transform;
+	return float4x4::FromTRS(position, rotation, scale);
 }
 void Transform::SetLocalTransform(const float4x4 & transform)
 {
