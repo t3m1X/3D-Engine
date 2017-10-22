@@ -52,7 +52,7 @@ void GameObject::Draw()
 {
 	bool has_mesh = false;
 	bool has_material = false;
-
+	Transform* tr;
 
 
 	for (uint i = 0; i < components.size(); i++) {
@@ -63,15 +63,16 @@ void GameObject::Draw()
 			has_material = true;
 		}
 		if (components[i]->GetType() == TRANSFORM) {
-			Transform* tr = (Transform*)components[i];
-			glPushMatrix();
-			glMultMatrixf(tr->GetGlobalTransform().Transposed().ptr());
+			tr = (Transform*)components[i];
 		}
 		
 	}
 	if (has_mesh) {
 		
 		Mesh* m = (Mesh*)this->FindComponentbyType(MESH); 
+
+		glPushMatrix();
+		glMultMatrixf(tr->GetLocalTransform().Transposed().ptr());
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, m->id_vertices);
