@@ -13,6 +13,7 @@
 #include "Mesh.h"
 #include "Transform.h"
 #include "Material.h"
+#include <queue>
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
@@ -70,14 +71,20 @@ void ModuleLoader::LoadFBX(char* path)
 	
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	LOG("FBX Load: Loading %s", path);
-	if (scene != nullptr && scene->HasMeshes())
+	LOG("FBX Load: Loading %d meshes", scene->mNumMeshes);
+	std::queue<pair<aiNode*, GameObject*>> nodes;
+	nodes.push({ scene->mRootNode, nullptr });
+	while(!nodes.empty())
 	{
-		LOG("FBX Load: Loading %d meshes", scene->mNumMeshes);
+		//Creating new gameobject
+		GameObject* new_obj = new GameObject("Game Object ", obj_count++, nodes.front().second);
+		//Adding 
+		for (int i = 0; i < nodes.front().first->mNumChildren; ++i)
+			nodes.push({ nodes.front().first->mChildren[i], new_obj});
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
-		for ( int i = 0; i < scene->mNumMeshes; i++) {
+		for ( int i = 0; i < nodes.front().first->mNumMeshes; i++) {
 			//Vertices
 			
-			GameObject* new_obj = new GameObject("Game Object ", obj_count++);
 			App->imgui->curr_obj = new_obj;
 			aiMesh* m = scene->mMeshes[i];
 			Mesh* new_mesh = new Mesh(new_obj);
@@ -138,12 +145,11 @@ void ModuleLoader::LoadFBX(char* path)
 			new_obj->AddComponent(new_mesh);
 			new_obj->Enable();
 			LOG("Created new object");
-			aiNode* root = scene->mRootNode;
 			aiVector3D translation;
 			aiVector3D scaling;
 			aiQuaternion rotation;
 
-			root->mTransformation.Decompose(scaling, rotation, translation);
+			nodes.front().first->mTransformation.Decompose(scaling, rotation, translation);
 
 			float3 pos(translation.x, translation.y, translation.z);
 			float3 scale(scaling.x, scaling.y, scaling.z);
@@ -185,6 +191,7 @@ void ModuleLoader::LoadFBX(char* path)
 		App->camera->LookAt(vec3(0, 0, 0));*/
 		
 		aiReleaseImport(scene);
+		nodes.pop();
 	}
 	else
 		LOG("FBX Load: Error loading scene %s", path);

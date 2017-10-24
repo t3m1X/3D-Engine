@@ -7,10 +7,10 @@
 #include "Transform.h"
 
 
-GameObject::GameObject(const char* name, int id)
+GameObject::GameObject(const char* name, GameObject* _parent) : parent(_parent)
 {
-	std::string n = name + std::to_string(id);
-	SetName(n.c_str());
+	/*std::string n = name + std::to_string(id);*/
+	SetName(name);
 
 	/*
 	boundingbox.r = { 0,0,0 };
@@ -71,8 +71,8 @@ void GameObject::Draw()
 		
 		Mesh* m = (Mesh*)this->FindComponentbyType(MESH); 
 
-		//glPushMatrix();
-		//glMultMatrixf(tr->GetLocalTransform().Transposed().ptr());
+		glPushMatrix();
+		glMultMatrixf(tr->GetLocalTransform().Transposed().ptr());
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, m->id_vertices);
@@ -104,6 +104,7 @@ void GameObject::Draw()
 
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glPopMatrix();
 		//LOG("Rendering object");
 	}
 	
@@ -112,7 +113,6 @@ void GameObject::Draw()
 			children[i]->Draw();
 		}
 	}
-	//glPopMatrix();
 	
 }
 
