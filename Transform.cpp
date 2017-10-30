@@ -102,3 +102,8 @@ void Transform::RecalculateLocalTransform()
 {
 	local_transform = float4x4::FromTRS(position, rotation, scale);
 }
+
+float3 Transform::GetPosition() const
+{
+	return position;
+}

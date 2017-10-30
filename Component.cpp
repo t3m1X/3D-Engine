@@ -49,3 +49,8 @@ void Component::SetType(COMPONENT_TYPE t)
 {
 	type = t;
 }
+
+GameObject * Component::GetOwner() const
+{
+	return owner;
+}

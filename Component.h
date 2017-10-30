@@ -25,6 +25,7 @@ class Component {
 		virtual void Setname(const char* n);
 		COMPONENT_TYPE GetType();
 		void SetType(COMPONENT_TYPE t);
+		GameObject* GetOwner()const;
 
 	private:
 		const char* name;

@@ -76,8 +76,10 @@
   <ItemGroup>
     <ClInclude Include="..\imgui-1.51\imgui.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentCamera.h" />
     <ClInclude Include="ConfigPanel.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="GameObject.h" />
@@ -179,8 +181,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentCamera.cpp" />
     <ClCompile Include="ConfigPanel.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="GameObject.cpp" />
