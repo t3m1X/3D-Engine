@@ -12,6 +12,8 @@ GameObject::GameObject(const char* name, GameObject* _parent) : parent(_parent)
 	/*std::string n = name + std::to_string(id);*/
 	SetName(name);
 
+	if (_parent != nullptr)
+		_parent->AddChild(this);
 	/*
 	boundingbox.r = { 0,0,0 };
 

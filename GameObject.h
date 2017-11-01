@@ -18,7 +18,6 @@ class GameObject
 public:
 
 	GameObject(const char* name, GameObject* _parent = nullptr);
-	GameObject(int id, GameObject* _parent = nullptr);
 	virtual ~GameObject();
 
 	void Update();

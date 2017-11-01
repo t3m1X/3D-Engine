@@ -64,11 +64,6 @@ bool ModuleLoader::CleanUp()
 
 void ModuleLoader::LoadFBX(char* path)
 {
-	App->con->Clear();
-	
-	
-
-	
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	LOG("FBX Load: Loading %s", path);
 	LOG("FBX Load: Loading %d meshes", scene->mNumMeshes);
@@ -77,15 +72,40 @@ void ModuleLoader::LoadFBX(char* path)
 		nodes.push({ scene->mRootNode, nullptr });
 		while (!nodes.empty())
 		{
+			pair<aiNode*, GameObject*> cnode = nodes.front();
 			//Creating new gameobject
-			GameObject* new_obj = new GameObject(nodes.front().first->mName.C_Str, nodes.front().second);
-			//Adding 
-			for (int i = 0; i < nodes.front().first->mNumChildren; ++i)
-				nodes.push({ nodes.front().first->mChildren[i], new_obj });
-			// Use scene->mNumMeshes to iterate on scene->mMeshes array
-			for (int i = 0; i < nodes.front().first->mNumMeshes; i++) {
-				//Vertices
+			GameObject* new_obj = new GameObject(cnode.first->mName.C_Str, cnode.second);
 
+			//Adding childs to queue
+			for (int i = 0; i < nodes.front().first->mNumChildren; ++i)
+				nodes.push({ cnode.first->mChildren[i], new_obj });
+
+			GameObject* parent = new_obj;
+			// Use scene->mNumMeshes to iterate on scene->mMeshes array
+			for (int i = 0; i < cnode.first->mNumMeshes; i++, new_obj = new GameObject(scene->mMeshes[i]->mName.C_Str, parent)) {
+
+				//Transform
+				float3 pos(0, 0, 0);
+				float3 scale(1, 1, 1);
+				Quat rot({ 1,0,0 }, 0);
+
+				if (new_obj == parent)
+				{
+					LOG("Loading transform");
+					aiVector3D translation;
+					aiVector3D scaling;
+					aiQuaternion rotation;
+
+					cnode.first->mTransformation.Decompose(scaling, rotation, translation);
+					pos = { translation.x, translation.y, translation.z };
+					scale = { scaling.x, scaling.y, scaling.z };
+					rot = Quat( rotation.x, rotation.y, rotation.z, rotation.w );
+				}
+
+				Transform* trans = new Transform(scale, rot, pos, new_obj);
+				new_obj->AddComponent(trans);
+
+				//Vertices
 				App->imgui->curr_obj = new_obj;
 				aiMesh* m = scene->mMeshes[i];
 				Mesh* new_mesh = new Mesh(new_obj);
@@ -98,14 +118,13 @@ void ModuleLoader::LoadFBX(char* path)
 				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->id_vertices);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_vertices * 3, new_mesh->vertices, GL_STATIC_DRAW);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
-				LOG("New mesh sended to VRAM");
+				LOG("New mesh sent to VRAM");
 
 				//Indices
 
 				if (m->HasFaces()) {
 					new_mesh->num_indices = m->mNumFaces * 3;
 					new_mesh->indices = new uint[new_mesh->num_indices];
-
 					for (uint i = 0; i < m->mNumFaces; ++i)
 					{
 						if (m->mFaces[i].mNumIndices != 3) {
@@ -146,54 +165,27 @@ void ModuleLoader::LoadFBX(char* path)
 				new_obj->AddComponent(new_mesh);
 				new_obj->Enable();
 				LOG("Created new object");
-				aiVector3D translation;
-				aiVector3D scaling;
-				aiQuaternion rotation;
 
-				nodes.front().first->mTransformation.Decompose(scaling, rotation, translation);
+				////////Material
+				aiString tex_path;
+				//////Just diffuse for now
+				if (scene->mMaterials[m->mMaterialIndex]->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+					scene->mMaterials[m->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, m->mMaterialIndex, &tex_path);
+					Texture* diffuse = App->tex->LoadTexture(tex_path.C_Str());
+					if (diffuse != nullptr) {
+						Material* mat = new Material(new_obj);
+						mat->AddTexture(diffuse);
+						new_obj->AddComponent(mat);
+					}
+				}
 
-				float3 pos(translation.x, translation.y, translation.z);
-				float3 scale(scaling.x, scaling.y, scaling.z);
-				Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
-
-				Transform* trans = new Transform(scale, rot, pos, new_obj);
-				new_obj->AddComponent(trans);
 				App->scene_intro->AddObject(new_obj);
 				App->scene_intro->SetobjSelected(new_obj);
 
-				////////Materials
-				if (scene->HasMaterials()) {
-					for (uint i = 0; i < scene->mNumMaterials; i++) {
-						aiString tex_path;
-						//////Just diffuse for now
-						if (scene->mMaterials[m->mMaterialIndex]->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-							scene->mMaterials[m->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, m->mMaterialIndex, &tex_path);
-							Texture* diffuse = App->tex->LoadTexture(tex_path.C_Str());
-							if (diffuse != nullptr) {
-								Material* mat = new Material(new_obj);
-								mat->AddTexture(diffuse);
-								new_obj->AddComponent(mat);
-							}
-
-
-						}
-
-					}
-
-				}
-
 			}
-
-			//App->camera->FocusMesh(new_mesh);
-			/*App->camera->Move(vec3(0, new_obj->boundingbox.r.y * 2, new_obj->boundingbox.r.z * 2) - App->camera->Position);
-
-			App->camera->Move(vec3(0, new_obj->boundingbox.r.y + 5, new_obj->boundingbox.r.z - 5) - App->camera->Position);
-
-			App->camera->LookAt(vec3(0, 0, 0));*/
-
-			aiReleaseImport(scene);
 			nodes.pop();
 		}
+		aiReleaseImport(scene);
 	}
 	else
 		LOG("FBX Load: Error loading scene %s", path);
