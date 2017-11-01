@@ -96,8 +96,6 @@ update_status ModuleSceneIntro::Update(float dt)
 	root->Update();
 	root->Draw();
 	p.Render();
-
-	
 	
 	return UPDATE_CONTINUE;
 }

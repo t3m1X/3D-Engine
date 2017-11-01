@@ -5,7 +5,7 @@ Transform::Transform(float3 s, Quat rot, float3 pos , GameObject* own) : Compone
 {
 	local_transform.SetIdentity();
 	scale = s;
-	rot = rotation;
+	rotation = rot;
 	position = pos;
 	Euler_rotation = rot.ToEulerXYZ();
 	global_transform.SetIdentity();

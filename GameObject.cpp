@@ -54,7 +54,7 @@ void GameObject::Draw()
 {
 	bool has_mesh = false;
 	bool has_material = false;
-	Transform* tr;
+	Transform* tr = nullptr;
 
 
 	for (uint i = 0; i < components.size(); i++) {
@@ -70,6 +70,8 @@ void GameObject::Draw()
 		
 	}
 	if (has_mesh) {
+
+		glMatrixMode(GL_MODELVIEW);
 		
 		Mesh* m = (Mesh*)this->FindComponentbyType(MESH); 
 
@@ -106,15 +108,12 @@ void GameObject::Draw()
 
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glPopMatrix();
-		//LOG("Rendering object");
+		
 	}
 	
-	if (!children.empty()) {
-		for (uint i = 0; i < children.size(); i++) {
+	for (uint i = 0; i < children.size(); i++)
 			children[i]->Draw();
-		}
-	}
+	glPopMatrix();
 	
 }
 

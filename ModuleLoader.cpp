@@ -66,23 +66,28 @@ void ModuleLoader::LoadFBX(char* path)
 {
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	LOG("FBX Load: Loading %s", path);
-	LOG("FBX Load: Loading %d meshes", scene->mNumMeshes);
 	if (scene->mRootNode != nullptr) {
 		std::queue<pair<aiNode*, GameObject*>> nodes;
 		nodes.push({ scene->mRootNode, nullptr });
 		while (!nodes.empty())
 		{
 			pair<aiNode*, GameObject*> cnode = nodes.front();
+			LOG("FBX Load: Loading node with %d meshes", cnode.first->mNumMeshes);
 			//Creating new gameobject
-			GameObject* new_obj = new GameObject(cnode.first->mName.C_Str, cnode.second);
+			GameObject* new_obj = new GameObject(/*cnode.first->mName.C_Str()*/"", cnode.second);
+			if (cnode.first == scene->mRootNode) {
+				App->scene_intro->AddObject(new_obj);
+				App->scene_intro->SetobjSelected(new_obj);
+			}
 
 			//Adding childs to queue
-			for (int i = 0; i < nodes.front().first->mNumChildren; ++i)
+			LOG("FBX Load: Queueing %d child nodes", cnode.first->mNumChildren);
+			for (int i = 0; i < cnode.first->mNumChildren; ++i)
 				nodes.push({ cnode.first->mChildren[i], new_obj });
 
 			GameObject* parent = new_obj;
 			// Use scene->mNumMeshes to iterate on scene->mMeshes array
-			for (int i = 0; i < cnode.first->mNumMeshes; i++, new_obj = new GameObject(scene->mMeshes[i]->mName.C_Str, parent)) {
+			for (int i = 0; i < cnode.first->mNumMeshes; i++, new_obj = new GameObject(/*scene->mMeshes[i]->mName.C_Str()*/"", parent)) {
 
 				//Transform
 				float3 pos(0, 0, 0);
@@ -178,9 +183,6 @@ void ModuleLoader::LoadFBX(char* path)
 						new_obj->AddComponent(mat);
 					}
 				}
-
-				App->scene_intro->AddObject(new_obj);
-				App->scene_intro->SetobjSelected(new_obj);
 
 			}
 			nodes.pop();
