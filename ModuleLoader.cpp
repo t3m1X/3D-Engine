@@ -13,6 +13,7 @@
 #include "Mesh.h"
 #include "Transform.h"
 #include "Material.h"
+#include <queue>
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
@@ -63,127 +64,129 @@ bool ModuleLoader::CleanUp()
 
 void ModuleLoader::LoadFBX(char* path)
 {
-	App->con->Clear();
-	
-	
-
-	
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	LOG("FBX Load: Loading %s", path);
-	if (scene != nullptr && scene->HasMeshes())
-	{
-		LOG("FBX Load: Loading %d meshes", scene->mNumMeshes);
-		// Use scene->mNumMeshes to iterate on scene->mMeshes array
-		for ( int i = 0; i < scene->mNumMeshes; i++) {
-			//Vertices
-			
-			GameObject* new_obj = new GameObject("Game Object ", obj_count++);
-			App->imgui->curr_obj = new_obj;
-			aiMesh* m = scene->mMeshes[i];
-			Mesh* new_mesh = new Mesh(new_obj);
-			new_mesh->num_faces = m->mNumFaces;
-			new_mesh->num_vertices = m->mNumVertices;
-			new_mesh->vertices = new float[new_mesh->num_vertices * 3];
-			memcpy(new_mesh->vertices, m->mVertices, sizeof(float) * new_mesh->num_vertices * 3);
-			LOG("New mesh with %d vertices", new_mesh->num_vertices);
-			glGenBuffers(1, (GLuint*) &(new_mesh->id_vertices));
-			glBindBuffer(GL_ARRAY_BUFFER,new_mesh->id_vertices);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_vertices * 3, new_mesh->vertices, GL_STATIC_DRAW);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			LOG("New mesh sended to VRAM");
-			
-			//Indices
+	if (scene->mRootNode != nullptr) {
+		std::queue<pair<aiNode*, GameObject*>> nodes;
+		nodes.push({ scene->mRootNode, nullptr });
+		while (!nodes.empty())
+		{
+			pair<aiNode*, GameObject*> cnode = nodes.front();
+			LOG("FBX Load: Loading node with %d meshes", cnode.first->mNumMeshes);
+			//Creating new gameobject
+			GameObject* new_obj = new GameObject(cnode.first->mName.C_Str(), cnode.second);
+			if (cnode.first == scene->mRootNode) {
+				App->scene_intro->AddObject(new_obj);
+				App->scene_intro->SetobjSelected(new_obj);
+			}
 
-			if (m->HasFaces()) {
-				new_mesh->num_indices = m->mNumFaces * 3;
-				new_mesh->indices = new uint[new_mesh->num_indices];
+			//Adding childs to queue
+			LOG("FBX Load: Queueing %d child nodes", cnode.first->mNumChildren);
+			for (int i = 0; i < cnode.first->mNumChildren; ++i)
+				nodes.push({ cnode.first->mChildren[i], new_obj });
 
-				for (uint i = 0; i < m->mNumFaces; ++i)
+			GameObject* parent = new_obj;
+			// Use scene->mNumMeshes to iterate on scene->mMeshes array
+			for (int i = 0; i < cnode.first->mNumMeshes; i++, new_obj = new GameObject(cnode.first->mName.C_Str(), i, parent)) {
+
+				//Transform
+				float3 pos(0, 0, 0);
+				float3 scale(1, 1, 1);
+				Quat rot({ 1,0,0 }, 0);
+
+				if (new_obj == parent)
 				{
-					if (m->mFaces[i].mNumIndices != 3) {
-						LOG("WARNING, geometry face with != 3 indices!");
-					}
-					else
-						memcpy(&new_mesh->indices[i * 3], m->mFaces[i].mIndices, 3 * sizeof(uint));
+					LOG("Loading transform");
+					aiVector3D translation;
+					aiVector3D scaling;
+					aiQuaternion rotation;
+
+					cnode.first->mTransformation.Decompose(scaling, rotation, translation);
+					pos = { translation.x, translation.y, translation.z };
+					scale = { scaling.x, scaling.y, scaling.z };
+					rot = Quat( rotation.x, rotation.y, rotation.z, rotation.w );
 				}
 
-			}
-			LOG("New mesh with %d indices", new_mesh->num_indices);
-			glGenBuffers(1, (GLuint*) &(new_mesh->id_indices));
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->id_indices);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		
-			//UVS
-			if (m->HasTextureCoords(0)) 
-			{
-				new_mesh->num_uv = m->mNumVertices;
-				new_mesh->UVs = new float[new_mesh->num_uv * 3];
-				memcpy(new_mesh->UVs, m->mTextureCoords[0], sizeof(float)*new_mesh->num_uv * 3);
+				Transform* trans = new Transform(scale, rot, pos, new_obj);
+				new_obj->AddComponent(trans);
 
-				glGenBuffers(1, (GLuint*)&(new_mesh->id_uv));
-				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)new_mesh->id_uv);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_uv * 3, new_mesh->UVs, GL_STATIC_DRAW);
+				//Vertices
+				App->imgui->curr_obj = new_obj;
+				aiMesh* m = scene->mMeshes[cnode.first->mMeshes[i]];
+				Mesh* new_mesh = new Mesh(new_obj);
+				new_mesh->num_faces = m->mNumFaces;
+				new_mesh->num_vertices = m->mNumVertices;
+				new_mesh->vertices = new float[new_mesh->num_vertices * 3];
+				memcpy(new_mesh->vertices, m->mVertices, sizeof(float) * new_mesh->num_vertices * 3);
+				LOG("New mesh with %d vertices", new_mesh->num_vertices);
+				glGenBuffers(1, (GLuint*) &(new_mesh->id_vertices));
+				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->id_vertices);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_vertices * 3, new_mesh->vertices, GL_STATIC_DRAW);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
+				LOG("New mesh sent to VRAM");
 
-				LOG("Loading UVs succesfully");
-			}
-			else
-				LOG("FBX Load: No texture coordinates found");
+				//Indices
 
-			
-			meshes.push_back(new_mesh);
-			LOG("FBX Load: Mesh loaded with %d vertices and %d indices", new_mesh->num_vertices, new_mesh->num_indices);
-			
-			new_obj->AddComponent(new_mesh);
-			new_obj->Enable();
-			LOG("Created new object");
-			aiNode* root = scene->mRootNode;
-			aiVector3D translation;
-			aiVector3D scaling;
-			aiQuaternion rotation;
-
-			root->mTransformation.Decompose(scaling, rotation, translation);
-
-			float3 pos(translation.x, translation.y, translation.z);
-			float3 scale(scaling.x, scaling.y, scaling.z);
-			Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
-
-			Transform* trans = new Transform(scale, rot, pos, new_obj);
-			new_obj->AddComponent(trans);
-			App->scene_intro->AddObject(new_obj);
-			App->scene_intro->SetobjSelected(new_obj);
-
-			////////Materials
-			if (scene->HasMaterials()) {
-				for (uint i = 0; i < scene->mNumMaterials; i++) {
-					aiString tex_path;
-					//////Just diffuse for now
-					if (scene->mMaterials[m->mMaterialIndex]->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-						scene->mMaterials[m->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, m->mMaterialIndex, &tex_path);
-						Texture* diffuse = App->tex->LoadTexture(tex_path.C_Str());
-						if (diffuse != nullptr) {
-							Material* mat = new Material(new_obj);
-							mat->AddTexture(diffuse);
-							new_obj->AddComponent(mat);
+				if (m->HasFaces()) {
+					new_mesh->num_indices = m->mNumFaces * 3;
+					new_mesh->indices = new uint[new_mesh->num_indices];
+					for (uint i = 0; i < m->mNumFaces; ++i)
+					{
+						if (m->mFaces[i].mNumIndices != 3) {
+							LOG("WARNING, geometry face with != 3 indices!");
 						}
-						
-						
+						else
+							memcpy(&new_mesh->indices[i * 3], m->mFaces[i].mIndices, 3 * sizeof(uint));
 					}
-					
+
 				}
-				
+				LOG("New mesh with %d indices", new_mesh->num_indices);
+				glGenBuffers(1, (GLuint*) &(new_mesh->id_indices));
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->id_indices);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+				//UVS
+				if (m->HasTextureCoords(0))
+				{
+					new_mesh->num_uv = m->mNumVertices;
+					new_mesh->UVs = new float[new_mesh->num_uv * 3];
+					memcpy(new_mesh->UVs, m->mTextureCoords[0], sizeof(float)*new_mesh->num_uv * 3);
+
+					glGenBuffers(1, (GLuint*)&(new_mesh->id_uv));
+					glBindBuffer(GL_ARRAY_BUFFER, (GLuint)new_mesh->id_uv);
+					glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_uv * 3, new_mesh->UVs, GL_STATIC_DRAW);
+					glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+					LOG("Loading UVs succesfully");
+				}
+				else
+					LOG("FBX Load: No texture coordinates found");
+
+
+				meshes.push_back(new_mesh);
+				LOG("FBX Load: Mesh loaded with %d vertices and %d indices", new_mesh->num_vertices, new_mesh->num_indices);
+
+				new_obj->AddComponent(new_mesh);
+				new_obj->RecalculateAABB();
+				new_obj->Enable();
+				LOG("Created new object");
+
+				////////Material
+				aiString tex_path;
+				//////Just diffuse for now
+				if (scene->mMaterials[m->mMaterialIndex]->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+					scene->mMaterials[m->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, m->mMaterialIndex, &tex_path);
+					Texture* diffuse = App->tex->LoadTexture(tex_path.C_Str());
+					if (diffuse != nullptr) {
+						Material* mat = new Material(new_obj);
+						mat->AddTexture(diffuse);
+						new_obj->AddComponent(mat);
+					}
+				}
 			}
-
+			nodes.pop();
 		}
-
-		//App->camera->FocusMesh(new_mesh);
-		/*App->camera->Move(vec3(0, new_obj->boundingbox.r.y * 2, new_obj->boundingbox.r.z * 2) - App->camera->Position);
-
-		App->camera->Move(vec3(0, new_obj->boundingbox.r.y + 5, new_obj->boundingbox.r.z - 5) - App->camera->Position);
-
-		App->camera->LookAt(vec3(0, 0, 0));*/
-		
 		aiReleaseImport(scene);
 	}
 	else
