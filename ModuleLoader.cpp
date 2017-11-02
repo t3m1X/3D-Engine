@@ -74,7 +74,7 @@ void ModuleLoader::LoadFBX(char* path)
 			pair<aiNode*, GameObject*> cnode = nodes.front();
 			LOG("FBX Load: Loading node with %d meshes", cnode.first->mNumMeshes);
 			//Creating new gameobject
-			GameObject* new_obj = new GameObject(/*cnode.first->mName.C_Str()*/"", cnode.second);
+			GameObject* new_obj = new GameObject(cnode.first->mName.C_Str(), cnode.second);
 			if (cnode.first == scene->mRootNode) {
 				App->scene_intro->AddObject(new_obj);
 				App->scene_intro->SetobjSelected(new_obj);
@@ -87,7 +87,7 @@ void ModuleLoader::LoadFBX(char* path)
 
 			GameObject* parent = new_obj;
 			// Use scene->mNumMeshes to iterate on scene->mMeshes array
-			for (int i = 0; i < cnode.first->mNumMeshes; i++, new_obj = new GameObject(/*scene->mMeshes[i]->mName.C_Str()*/"", parent)) {
+			for (int i = 0; i < cnode.first->mNumMeshes; i++, new_obj = new GameObject(cnode.first->mName.C_Str(), i, parent)) {
 
 				//Transform
 				float3 pos(0, 0, 0);
@@ -168,6 +168,7 @@ void ModuleLoader::LoadFBX(char* path)
 				LOG("FBX Load: Mesh loaded with %d vertices and %d indices", new_mesh->num_vertices, new_mesh->num_indices);
 
 				new_obj->AddComponent(new_mesh);
+				new_obj->RecalculateAABB();
 				new_obj->Enable();
 				LOG("Created new object");
 
@@ -183,7 +184,6 @@ void ModuleLoader::LoadFBX(char* path)
 						new_obj->AddComponent(mat);
 					}
 				}
-
 			}
 			nodes.pop();
 		}

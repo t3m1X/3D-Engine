@@ -7,10 +7,43 @@
 #include "Transform.h"
 
 
-GameObject::GameObject(const char* name, GameObject* _parent) : parent(_parent)
+GameObject::GameObject(std::string name, GameObject* _parent) : parent(_parent)
 {
 	/*std::string n = name + std::to_string(id);*/
 	SetName(name);
+
+	if (_parent != nullptr)
+		_parent->AddChild(this);
+	/*
+	boundingbox.r = { 0,0,0 };
+
+	for (list<Mesh*>::iterator it = mesh.begin(); it != mesh.end(); ++it) {
+	for (int i = 0; i < (*it)->num_vertices * 3; ++i)
+	{
+	if (boundingbox.r.x < (*it)->vertices[i])
+	boundingbox.r.x = (*it)->vertices[i];
+	if (boundingbox.r.y < (*it)->vertices[++i])
+	boundingbox.r.y = (*it)->vertices[i];
+	if (boundingbox.r.z >(*it)->vertices[++i])
+	boundingbox.r.z = (*it)->vertices[i];
+	}
+	}
+
+	for (list<Mesh*>::iterator it = mesh.begin(); it != mesh.end(); ++it) {
+	vertices += (*it)->num_vertices;
+	tris += (*it)->num_faces;
+	}*/
+
+
+}
+
+GameObject::GameObject(std::string name, uint id, GameObject* _parent) : parent(_parent)
+{
+	/*std::string n = name + std::to_string(id);*/
+	name += "_" + std::to_string(id);
+	SetName(name);
+	//else
+	//	SetName("");
 
 	if (_parent != nullptr)
 		_parent->AddChild(this);
@@ -223,6 +256,19 @@ void GameObject::DrawComponents()
 			components[i]->UI_draw();
 		}
 	}
+}
+
+void GameObject::RecalculateAABB()
+{
+	bool has_mesh = false;
+	Mesh* m;
+	for (uint i = 0; i < components.size() && !has_mesh; i++) 
+		if (components[i]->GetType() == MESH) {
+			has_mesh = true; /////Assuming there's one mesh per game object
+			m = (Mesh*)components[i];
+		}
+	if (has_mesh)
+		boundingbox.Enclose((float3*)m->vertices, m->num_vertices);
 }
 
 vector<GameObject*> GameObject::GetChild()

@@ -9,7 +9,7 @@
 
 ModuleSceneIntro::ModuleSceneIntro(bool start_enabled) : Module(start_enabled)
 {
-	root = new GameObject("root", 0);
+	root = new GameObject("root", nullptr);
 	root->SetName("Game");
 
 	selected = nullptr;

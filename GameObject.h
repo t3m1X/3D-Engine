@@ -17,7 +17,8 @@ class GameObject
 {
 public:
 
-	GameObject(const char* name, GameObject* _parent = nullptr);
+	GameObject(std::string name, GameObject* _parent = nullptr);
+	GameObject(std::string name, uint id, GameObject* _parent = nullptr);
 	virtual ~GameObject();
 
 	void Update();
@@ -41,13 +42,14 @@ public:
 	Component* FindComponentbyType(COMPONENT_TYPE type);
 	void UIDraw();
 	void DrawComponents();
+	void RecalculateAABB();
 	vector<GameObject*> GetChild();
 
 	
 		
 public:
 	
-	OBB boundingbox;
+	AABB boundingbox;
 
 private:
 
@@ -56,8 +58,7 @@ private:
 	bool		selected = false;
 	std::vector<Component*> components;
 	std::vector<GameObject*> children;
-	GameObject* parent;
-	
+	GameObject* parent;	
 
 };
 
