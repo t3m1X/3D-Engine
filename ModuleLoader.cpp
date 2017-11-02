@@ -112,7 +112,7 @@ void ModuleLoader::LoadFBX(char* path)
 
 				//Vertices
 				App->imgui->curr_obj = new_obj;
-				aiMesh* m = scene->mMeshes[i];
+				aiMesh* m = scene->mMeshes[cnode.first->mMeshes[i]];
 				Mesh* new_mesh = new Mesh(new_obj);
 				new_mesh->num_faces = m->mNumFaces;
 				new_mesh->num_vertices = m->mNumVertices;
