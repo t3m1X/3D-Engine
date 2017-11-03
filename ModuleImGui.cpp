@@ -89,13 +89,12 @@ update_status ModuleImGui::Update(float dt)
 
 			if (ImGui::MenuItem("Properties", "P"))
 			{
-				/*if (!properties) {
-					if (!App->scene_intro->Empty())
+				if (!properties){
 					properties = true;
 				}
 				else {
 					properties = false;
-				}*/
+				}
 			}
 
 
