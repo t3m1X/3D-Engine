@@ -78,12 +78,6 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
-	Transform* trans = (Transform*)FindComponentbyType(TRANSFORM);
-	if (trans != nullptr) {
-		LOG("Transform bounding box");
-		boundingbox.Transform(trans->GetGlobalTransform());
-	}
-
 	for (uint i = 0; i < children.size(); i++) {
 		children[i]->Update();
 	}
@@ -226,10 +220,28 @@ void GameObject::AddChild(GameObject * child)
 }
 
 
-const bool GameObject::GetSelected() const
+ float4x4 GameObject::GetGlobalTransform()
 {
-	return selected;
+	 float4x4 ret;
+	 ret.SetIdentity();
+
+	 if (parent != nullptr && parent->HasComponent(TRANSFORM))
+		 ret = ret * ((Transform*) parent->FindComponentbyType(TRANSFORM))->GetLocalTransform();
+	
+	 if (HasComponent(TRANSFORM))
+		 ret = ret * ((Transform*)FindComponentbyType(TRANSFORM))->GetLocalTransform();
+
+	 return ret;
 }
+
+ bool GameObject::HasComponent(COMPONENT_TYPE type)
+ {
+	 bool ret = false;
+	 for (uint i = 0; i < components.size() && !ret; i++)
+		 ret = components[i]->GetType() == type;
+
+	 return ret;
+ }
 
 Component * GameObject::FindComponentbyType(COMPONENT_TYPE type)
 {
@@ -286,9 +298,10 @@ void GameObject::RecalculateAABB()
 			has_mesh = true; /////Assuming there's one mesh per game object
 			m = (Mesh*)components[i];
 		}
-	if (has_mesh)
-		boundingbox.Transform(trans->GetLocalTransform());
+	if (has_mesh) {
 		boundingbox.Enclose((float3*)m->vertices, m->num_vertices);
+		boundingbox.TransformAsAABB(GetGlobalTransform());
+	}
 }
 
 vector<GameObject*> GameObject::GetChild()

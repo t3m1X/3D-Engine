@@ -38,7 +38,8 @@ public:
 	void AddComponent(Component* c);
 	void AddChild(GameObject* child);
 	//void RemoveComponent(Component* c);
-	const bool GetSelected() const;
+	float4x4 GetGlobalTransform();
+	bool HasComponent(COMPONENT_TYPE type);
 	Component* FindComponentbyType(COMPONENT_TYPE type);
 	void UIDraw();
 	void DrawComponents();
