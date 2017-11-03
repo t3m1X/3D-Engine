@@ -3,6 +3,8 @@
 #include "Globals.h"
 #include "glmath.h"
 #include "ModuleLoader.h"
+#include "Camera.h"
+#include "ComponentCamera.h"
 
 #define CAMERA_PROPORTION 1.5;
 class ModuleCamera3D : public Module
@@ -23,7 +25,11 @@ public:
 	void Orbit(const vec3& orbit_center, const float& motion_x, const float& motion_y);
 	void Rotate(const float& motion_x, const float& motion_y);
 	void ImGuiDraw();
+	void SetCurrentCamera(Camera3D* cam);
+	Camera3D* GetCurrentCamera() const;
+	Camera3D* GetEditorCamera() const;
 	//void FocusMesh(Mesh* m);
+	void DrawDebug();
 
 private:
 
@@ -35,7 +41,11 @@ public:
 
 private:
 
+	Camera3D* editor_camera = nullptr;
+	Camera3D* curr_camera = nullptr;
+
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 	float speed = 3.0f;
 	float Sensitivity = 0.25f;
+	bool debug = true;
 };

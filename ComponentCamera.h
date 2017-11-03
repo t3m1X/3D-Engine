@@ -1,8 +1,10 @@
 #ifndef __COMPONENTCAMERA__H__
 #define __COMPONENTCAMERA__H__
 
-#include "Camera.h"
+
 #include "Component.h"
+
+class Camera3D;
 
 class ComponentCamera : public Component {
 
@@ -14,10 +16,11 @@ public:
 	void Start();
 	void Update();
 	void CleanUp();
-	Camera* GetCamera()const;
+	Camera3D* GetCamera()const;
+	bool IsInside(AABB& bounding_box);
 
 private:
-	Camera* camera = nullptr;
+	Camera3D* camera = nullptr;
 };
 
 

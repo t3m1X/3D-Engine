@@ -5,6 +5,9 @@
 #include "PhysBody3D.h"
 #include "ModulePlayer.h"
 #include "ModuleImGui.h"
+#include "Transform.h"
+#include "ModuleCamera3D.h"
+
 
 
 ModuleSceneIntro::ModuleSceneIntro(bool start_enabled) : Module(start_enabled)
@@ -12,8 +15,9 @@ ModuleSceneIntro::ModuleSceneIntro(bool start_enabled) : Module(start_enabled)
 	root = new GameObject("root", nullptr);
 	root->SetName("Game");
 
-	selected = nullptr;
+	
 
+	selected = nullptr;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -26,6 +30,25 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+
+	GameObject* cam_obj = new GameObject("Camera", root);
+
+	Quat rot = Quat::identity;
+	float3 scale;
+	float3 pos;
+	scale.Set(1, 1, 1);
+	pos.Set(0, 0, 0);
+	Transform* trans = new Transform(scale, rot, pos, cam_obj);
+	cam_obj->AddComponent(trans);
+	ComponentCamera* cam = new ComponentCamera(cam_obj);
+	cam_obj->AddComponent(cam);
+
+
+
+
+	
+	App->camera->SetCurrentCamera(cam->GetCamera());
+
 	return ret;
 }
 
