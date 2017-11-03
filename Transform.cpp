@@ -97,22 +97,6 @@ void Transform::UI_draw()
 			scale.z = sca[2];
 		}
 	}
-	/*if (ImGui::CollapsingHeader("Transform")) {
-		ImGui::Text("Position");
-		ImGui::InputFloat("x", &position.x);
-		ImGui::InputFloat("y", &position.y);
-		ImGui::InputFloat("z", &position.z);
-		ImGui::Separator();
-		ImGui::Text("Rotation:");
-		ImGui::InputFloat("x", &Euler_rotation.x);
-		ImGui::InputFloat("y", &Euler_rotation.y);
-		ImGui::InputFloat("z", &Euler_rotation.z);
-		ImGui::Separator();
-		ImGui::Text("Scale");
-		ImGui::InputFloat("x", &scale.x);
-		ImGui::InputFloat("y", &scale.y);
-		ImGui::InputFloat("z", &scale.z);
-	}*/
 	
 }
 

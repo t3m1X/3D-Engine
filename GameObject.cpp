@@ -76,15 +76,23 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
+	Transform* trans = (Transform*)FindComponentbyType(TRANSFORM);
+	if(trans!=nullptr)
+	boundingbox.Transform(trans->GetGlobalTransform());
 
 	for (uint i = 0; i < children.size(); i++) {
 		children[i]->Update();
+	}
+
+	for (uint i = 0; i < components.size(); i++) {
+		components[i]->Update();
 	}
 	
 }
 
 void GameObject::Draw()
 {
+
 	bool has_mesh = false;
 	bool has_material = false;
 	Transform* tr = nullptr;
@@ -103,6 +111,8 @@ void GameObject::Draw()
 		
 	}
 	if (has_mesh) {
+
+		DrawBox();
 
 		glMatrixMode(GL_MODELVIEW);
 		
@@ -139,15 +149,19 @@ void GameObject::Draw()
 		//Unbind textures affter rendering
 		glBindTexture(GL_TEXTURE_2D, 0);
 
+	
+
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		
 	}
 	
+	
 	for (uint i = 0; i < children.size(); i++)
 			children[i]->Draw();
 	glPopMatrix();
 	
+	DrawBox();
 }
 
 void GameObject::Enable()
@@ -274,6 +288,72 @@ void GameObject::RecalculateAABB()
 vector<GameObject*> GameObject::GetChild()
 {
 	return children;
+}
+
+void GameObject::DrawBox()
+{
+	const int s = 24;
+
+	float3* lines = new float3[s];
+	float3* colors = new float3[s];
+	float3 half_size = boundingbox.Size()/2;
+
+	lines[0] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z - half_size.z);
+	lines[1] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z - half_size.z);
+
+	lines[2] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z - half_size.z);
+	lines[3] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z - half_size.z);
+
+	lines[4] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z - half_size.z);
+	lines[5] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z + half_size.z);
+
+	lines[6] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z + half_size.z);
+	lines[7] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z + half_size.z);
+	lines[8] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z + half_size.z);
+	lines[9] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z - half_size.z);
+	lines[10] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z - half_size.z);
+	lines[11] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z + half_size.z);
+	lines[12] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z + half_size.z);
+	lines[13] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z + half_size.z);
+	lines[14] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z + half_size.z);
+	lines[15] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z - half_size.z);
+	lines[16] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z - half_size.z);
+	lines[17] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z - half_size.z);
+	lines[18] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z + half_size.z);
+	lines[19] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z + half_size.z);
+
+	lines[20] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z + half_size.z);
+	lines[21] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z + half_size.z);
+
+	lines[22] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z - half_size.z);
+	lines[23] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z - half_size.z);
+
+	for (int i = 0; i < s; i++)
+	{
+		colors[i] = float3(60, 1, 1);
+	}
+
+	glLineWidth((float)5);
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, (float*)lines->ptr());
+
+	if (colors != nullptr)
+	{
+		glEnableClientState(GL_COLOR_ARRAY);
+		glColorPointer(3, GL_FLOAT, 0, (float*)colors->ptr());
+	}
+
+	glDrawArrays(GL_LINES, 0, s);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+
+	glLineWidth(1);
+
+
+	delete[] lines;
+	delete[] colors;
 }
 
 

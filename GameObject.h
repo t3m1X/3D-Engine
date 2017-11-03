@@ -44,7 +44,7 @@ public:
 	void DrawComponents();
 	void RecalculateAABB();
 	vector<GameObject*> GetChild();
-
+	void DrawBox();
 	
 		
 public:
