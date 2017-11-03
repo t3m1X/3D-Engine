@@ -168,6 +168,7 @@ void ModuleLoader::LoadFBX(char* path)
 				LOG("FBX Load: Mesh loaded with %d vertices and %d indices", new_mesh->num_vertices, new_mesh->num_indices);
 
 				new_obj->AddComponent(new_mesh);
+			
 				new_obj->RecalculateAABB();
 				new_obj->Enable();
 				LOG("Created new object");

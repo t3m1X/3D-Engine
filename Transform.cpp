@@ -40,6 +40,7 @@ void Transform::SetPosition(float x, float y, float z)
 	position.y = y;
 	position.z = z;
 
+
 	RecalculateLocalTransform();
 }
 

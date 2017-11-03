@@ -14,6 +14,8 @@ GameObject::GameObject(std::string name, GameObject* _parent) : parent(_parent)
 
 	if (_parent != nullptr)
 		_parent->AddChild(this);
+
+	boundingbox.SetNegativeInfinity();
 	/*
 	boundingbox.r = { 0,0,0 };
 
@@ -77,8 +79,10 @@ GameObject::~GameObject()
 void GameObject::Update()
 {
 	Transform* trans = (Transform*)FindComponentbyType(TRANSFORM);
-	if(trans!=nullptr)
-	boundingbox.Transform(trans->GetLocalTransform());
+	if (trans != nullptr) {
+		LOG("Transform bounding box");
+		boundingbox.Transform(trans->GetGlobalTransform());
+	}
 
 	for (uint i = 0; i < children.size(); i++) {
 		children[i]->Update();
