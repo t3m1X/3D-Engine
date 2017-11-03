@@ -78,7 +78,7 @@ void GameObject::Update()
 {
 	Transform* trans = (Transform*)FindComponentbyType(TRANSFORM);
 	if(trans!=nullptr)
-	boundingbox.Transform(trans->GetGlobalTransform());
+	boundingbox.Transform(trans->GetLocalTransform());
 
 	for (uint i = 0; i < children.size(); i++) {
 		children[i]->Update();
@@ -276,12 +276,14 @@ void GameObject::RecalculateAABB()
 {
 	bool has_mesh = false;
 	Mesh* m;
+	Transform* trans = (Transform*)FindComponentbyType(TRANSFORM);
 	for (uint i = 0; i < components.size() && !has_mesh; i++) 
 		if (components[i]->GetType() == MESH) {
 			has_mesh = true; /////Assuming there's one mesh per game object
 			m = (Mesh*)components[i];
 		}
 	if (has_mesh)
+		boundingbox.Transform(trans->GetLocalTransform());
 		boundingbox.Enclose((float3*)m->vertices, m->num_vertices);
 }
 
@@ -292,46 +294,59 @@ vector<GameObject*> GameObject::GetChild()
 
 void GameObject::DrawBox()
 {
+	float3 corners[8];
+	boundingbox.GetCornerPoints(corners);
 	const int s = 24;
 
 	float3* lines = new float3[s];
 	float3* colors = new float3[s];
-	float3 half_size = boundingbox.Size()/2;
 
-	lines[0] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z - half_size.z);
-	lines[1] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z - half_size.z);
+	lines[0] = float3(corners[0].x, corners[0].y, corners[0].z);
+	lines[1] = float3(corners[2].x, corners[2].y, corners[2].z);
 
-	lines[2] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z - half_size.z);
-	lines[3] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z - half_size.z);
+	lines[2] = float3(corners[2].x, corners[2].y, corners[2].z);
+	lines[3] = float3(corners[6].x, corners[6].y, corners[6].z);
 
-	lines[4] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z - half_size.z);
-	lines[5] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z + half_size.z);
+	lines[4] = float3(corners[4].x, corners[4].y, corners[4].z);
+	lines[5] = float3(corners[6].x, corners[6].y, corners[6].z);
 
-	lines[6] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z + half_size.z);
-	lines[7] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z + half_size.z);
-	lines[8] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z + half_size.z);
-	lines[9] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z - half_size.z);
-	lines[10] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z - half_size.z);
-	lines[11] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z + half_size.z);
-	lines[12] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z + half_size.z);
-	lines[13] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z + half_size.z);
-	lines[14] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z + half_size.z);
-	lines[15] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z - half_size.z);
-	lines[16] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z - half_size.z);
-	lines[17] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z - half_size.z);
-	lines[18] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z + half_size.z);
-	lines[19] = float3(boundingbox.CenterPoint().x - half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z + half_size.z);
+	lines[6] = float3(corners[4].x, corners[4].y, corners[4].z);
+	lines[7] = float3(corners[0].x, corners[0].y, corners[0].z);
 
-	lines[20] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z + half_size.z);
-	lines[21] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z + half_size.z);
+	//
 
-	lines[22] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y + half_size.y, boundingbox.CenterPoint().z - half_size.z);
-	lines[23] = float3(boundingbox.CenterPoint().x + half_size.x, boundingbox.CenterPoint().y - half_size.y, boundingbox.CenterPoint().z - half_size.z);
+	lines[8] = float3(corners[1].x, corners[1].y, corners[1].z);
+	lines[9] = float3(corners[3].x, corners[3].y, corners[3].z);
+
+	lines[10] = float3(corners[3].x, corners[3].y, corners[3].z);
+	lines[11] = float3(corners[7].x, corners[7].y, corners[7].z);
+
+	lines[12] = float3(corners[5].x, corners[5].y, corners[5].z);
+	lines[13] = float3(corners[7].x, corners[7].y, corners[7].z);
+
+	lines[14] = float3(corners[5].x, corners[5].y, corners[5].z);
+	lines[15] = float3(corners[1].x, corners[1].y, corners[1].z);
+
+	//
+
+	lines[16] = float3(corners[0].x, corners[0].y, corners[0].z);
+	lines[17] = float3(corners[1].x, corners[1].y, corners[1].z);
+
+	lines[18] = float3(corners[2].x, corners[2].y, corners[2].z);
+	lines[19] = float3(corners[3].x, corners[3].y, corners[3].z);
+
+	lines[20] = float3(corners[4].x, corners[4].y, corners[4].z);
+	lines[21] = float3(corners[5].x, corners[5].y, corners[5].z);
+
+	lines[22] = float3(corners[6].x, corners[6].y, corners[6].z);
+	lines[23] = float3(corners[7].x, corners[7].y, corners[7].z);
 
 	for (int i = 0; i < s; i++)
 	{
 		colors[i] = float3(60, 1, 1);
 	}
+
+	//	DrawLinesList(lines, s, 5, colors);
 
 	glLineWidth((float)5);
 
@@ -350,7 +365,6 @@ void GameObject::DrawBox()
 	glDisableClientState(GL_COLOR_ARRAY);
 
 	glLineWidth(1);
-
 
 	delete[] lines;
 	delete[] colors;
