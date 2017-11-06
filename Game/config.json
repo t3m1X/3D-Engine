@@ -17,7 +17,7 @@
     "renderer": {
         "depth_test": true,
         "cull_face": true,
-        "color_material": false,
+        "color_material": true,
         "lightning": true,
         "2D_texture": true,
         "wireframe": false,

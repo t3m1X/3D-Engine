@@ -28,10 +28,10 @@ OctreeNode::~OctreeNode()
 
 void OctreeNode::Subdivide()
 {
-	if (!IsALeaf()) {
+	if (children[0]==nullptr) {
 		AABB new_box;
-		float3 new_lenght = this->box_size / 2;
-		float3 center = box.CenterPoint();
+		float3 new_lenght = box.HalfSize();
+		float3 center = this->box.CenterPoint();
 
 		int child_index = 0;
 
@@ -48,12 +48,15 @@ void OctreeNode::Subdivide()
 					new_box.maxPoint = max_point;
 
 					children[child_index] = new OctreeNode(new_box,this);
+					children[child_index]->box_size = new_lenght;
+					LOG("New node created with size %f", new_lenght.x);
 					child_index++;
 				}
 			}
 		}
 
 		this->leaf = true;
+		LOG("Node subdivided");
 	}
 	else {
 		for (int i = 0; i < 8; i++) {
@@ -113,7 +116,7 @@ void OctreeNode::DebugDrawNode()
 
 	for (int i = 0; i < s; i++)
 	{
-		colors[i] = float3(60, 1, 1);
+		colors[i] = float3(60, 60, 60);
 	}
 
 	//	DrawLinesList(lines, s, 5, colors);
@@ -142,13 +145,18 @@ void OctreeNode::DebugDrawNode()
 
 void OctreeNode::DebugDraw()
 {
+
 	DebugDrawNode();
 
-	if (this->IsALeaf()) {
-		for (uint i = 0; i < 8; i++) {
+	if (this->children[0] != nullptr)
+	{
+		for (int i = 0; i < 8; i++)
+		{
 			children[i]->DebugDrawNode();
 		}
 	}
+
+	
 }
 
 bool OctreeNode::IsALeaf()
