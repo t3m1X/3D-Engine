@@ -366,6 +366,9 @@
     <ClInclude Include="ComponentCamera.h">
       <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Octree.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -589,6 +592,9 @@
     </ClCompile>
     <ClCompile Include="ComponentCamera.cpp">
       <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree.cpp">
+      <Filter>Sources\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

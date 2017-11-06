@@ -79,11 +79,7 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
-<<<<<<< HEAD
-=======
-	
 
->>>>>>> 8c1c76505ef8e707cc046cc605bb1baaad44113e
 	for (uint i = 0; i < children.size(); i++) {
 		children[i]->Update();
 	}

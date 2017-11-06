@@ -7,6 +7,7 @@
 #include "ModuleImGui.h"
 #include "Transform.h"
 #include "ModuleCamera3D.h"
+#include "ModuleInput.h"
 
 
 
@@ -44,7 +45,15 @@ bool ModuleSceneIntro::Start()
 	cam_obj->AddComponent(cam);
 
 
+	float3 max_point;
+	float3 min_point;
 
+	max_point.Set(10, 10, 10);
+	min_point.Set(-10, 0, -10);
+
+	octree = new Octree();
+
+	octree->Create(max_point, min_point);
 
 	
 	App->camera->SetCurrentCamera(cam->GetCamera());
@@ -118,7 +127,13 @@ update_status ModuleSceneIntro::Update(float dt)
 	DrawHierarchy();
 	root->Update();
 	root->Draw();
+	octree->DebugDraw();
 	p.Render();
+
+
+	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) {
+		octree->Divide();
+	}
 	
 	return UPDATE_CONTINUE;
 }
