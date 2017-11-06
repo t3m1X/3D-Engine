@@ -42,7 +42,7 @@ public:
 	void DebugDraw();
 	void Divide();
 	void CollectIntersections(std::list<GameObject*>& intersections_list, GameObject* go);
-
+	void InsertGO(GameObject* go);
 
 private:
 	int depth=0; //max num of subdivisions

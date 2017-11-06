@@ -267,3 +267,10 @@ void Octree::CollectIntersections(std::list<GameObject*>& intersections_list, Ga
 		}
 	}
 }
+
+void Octree::InsertGO(GameObject * go)
+{
+	if (root != nullptr) {
+		root->AddGO(go);
+	}
+}
