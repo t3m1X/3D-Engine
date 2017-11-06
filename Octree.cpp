@@ -164,6 +164,60 @@ bool OctreeNode::IsALeaf()
 	return leaf;
 }
 
+void OctreeNode::AddGO(GameObject * go)
+{
+	if (children[0] == nullptr)
+	{
+		if (!IsFull())
+		{
+			objects.push_back(go);
+		}
+		else
+		{
+			Subdivide();
+		}
+	}
+
+	if (children[0] != nullptr)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			if (children[i]->box.Intersects(go->boundingbox))
+			{
+				children[i]->AddGO(go);
+				break;
+			}
+		}
+	}
+}
+
+bool OctreeNode::IsFull()
+{
+	return objects.size() == capacity;
+}
+
+void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list, GameObject * go)
+{
+	if (children[0] != nullptr)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			if (children[i]->box.Intersects(go->boundingbox))
+			{
+				children[i]->CollectIntersections(intersections_list, go);
+			}
+		}
+	}
+
+	for (uint i = 0; i < objects.size(); i++)
+	{
+		if ((objects[i]->boundingbox.Intersects(go->boundingbox)))
+		{
+			intersections_list.push_back(objects[i]);
+		}
+	}
+}
+
 Octree::Octree()
 {
 	depth = 0;
@@ -200,5 +254,16 @@ void Octree::Divide()
 			}
 		
 		
+	}
+}
+
+void Octree::CollectIntersections(std::list<GameObject*>& intersections_list, GameObject * go)
+{
+	if (root != nullptr)
+	{
+		if (go->boundingbox.Intersects(root->box))
+		{
+			root->CollectIntersections(intersections_list, go);
+		}
 	}
 }
