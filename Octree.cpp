@@ -49,7 +49,7 @@ void OctreeNode::Subdivide()
 
 					children[child_index] = new OctreeNode(new_box,this);
 					children[child_index]->box_size = new_lenght;
-					LOG("New node created with size %f", new_lenght.x);
+					LOG("New node created with size %f", children[child_index]->box_size.x);
 					child_index++;
 				}
 			}
@@ -152,7 +152,7 @@ void OctreeNode::DebugDraw()
 	{
 		for (int i = 0; i < 8; i++)
 		{
-			children[i]->DebugDrawNode();
+			children[i]->DebugDraw();
 		}
 	}
 
