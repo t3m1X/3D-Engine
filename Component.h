@@ -28,7 +28,7 @@ class Component {
 		void SetType(COMPONENT_TYPE t);
 		GameObject* GetOwner()const;
 
-	private:
+	protected:
 		const char* name;
 		COMPONENT_TYPE type;
 		bool active;

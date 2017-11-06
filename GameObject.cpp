@@ -79,11 +79,6 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
-<<<<<<< HEAD
-=======
-	
-
->>>>>>> 8c1c76505ef8e707cc046cc605bb1baaad44113e
 	for (uint i = 0; i < children.size(); i++) {
 		children[i]->Update();
 	}
@@ -227,20 +222,26 @@ void GameObject::AddChild(GameObject * child)
 	children.push_back(child);
 }
 
-
- float4x4 GameObject::GetGlobalTransform()
-{
-	 float4x4 ret;
-	 ret.SetIdentity();
-
-	 if (parent != nullptr && parent->HasComponent(TRANSFORM))
-		 ret = ret * ((Transform*) parent->FindComponentbyType(TRANSFORM))->GetLocalTransform();
-	
-	 if (HasComponent(TRANSFORM))
-		 ret = ret * ((Transform*)FindComponentbyType(TRANSFORM))->GetLocalTransform();
-
-	 return ret;
-}
+//
+// void GameObject::RecalculateGlobalTrans()
+//{
+//	 Transform* trans = (Transform*)FindComponentbyType(TRANSFORM);
+//	 if (trans != nullptr)
+//	 {
+//		 float4x4 temp;
+//		 temp.SetIdentity();
+//
+//		 if (parent != nullptr && parent->HasComponent(TRANSFORM))
+//			 temp = temp * ((Transform*)parent->FindComponentbyType(TRANSFORM))->GetGlobalTransform();
+//
+//		 temp = temp * trans->GetLocalTransform();
+//		 trans->SetGlobalTransform(temp);
+//
+//		 for (int i = 0; i < children.size(); i++) {
+//			 children[i]->RecalculateGlobalTrans();
+//		 }
+//	 }
+//}
 
  bool GameObject::HasComponent(COMPONENT_TYPE type)
  {
@@ -258,6 +259,8 @@ Component * GameObject::FindComponentbyType(COMPONENT_TYPE type)
 			return components[i];
 		}
 	}
+
+	return nullptr;
 }
 
 void GameObject::UIDraw()
@@ -298,6 +301,7 @@ void GameObject::DrawComponents()
 
 void GameObject::RecalculateAABB()
 {
+	bbinit = true;
 	bool has_mesh = false;
 	Mesh* m;
 	Transform* trans = (Transform*)FindComponentbyType(TRANSFORM);
@@ -307,14 +311,25 @@ void GameObject::RecalculateAABB()
 			m = (Mesh*)components[i];
 		}
 	if (has_mesh) {
-		boundingbox.Enclose((float3*)m->vertices, m->num_vertices);
-		boundingbox.TransformAsAABB(GetGlobalTransform());
+		boundingbox = AABB::MinimalEnclosingAABB((float3*)m->vertices, m->num_vertices);
+		boundingbox.TransformAsAABB(trans->GetGlobalTransform());
 	}
 }
 
-vector<GameObject*> GameObject::GetChild()
+void GameObject::RecalculateAABB(float4x4 transformation)
+{
+	if (bbinit)
+		boundingbox.TransformAsAABB(transformation);
+}
+
+vector<GameObject*> GameObject::GetChild() const
 {
 	return children;
+}
+
+GameObject * GameObject::GetParent() const
+{
+	return parent;
 }
 
 void GameObject::DrawBox()

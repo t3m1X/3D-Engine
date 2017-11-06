@@ -24,8 +24,9 @@ class Transform : public Component {
 
 		const float4x4 GetLocalTransform() const;
 		void SetLocalTransform(const float4x4& transform);
+		void SetGlobalTransform(const float4x4 & transform);
 		const float4x4 GetGlobalTransform() const;
-		void RecalculateLocalTransform();
+		void RecalculateTransform();
 		float3 GetPosition()const;
 
 	private:
