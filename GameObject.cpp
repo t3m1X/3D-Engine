@@ -79,6 +79,7 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
+
 	for (uint i = 0; i < children.size(); i++) {
 		children[i]->Update();
 	}

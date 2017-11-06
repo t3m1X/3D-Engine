@@ -11,16 +11,16 @@ Camera3D::Camera3D()
 	frustum.up = float3::unitY;
 	frustum.verticalFov = 0;
 	frustum.horizontalFov = 0;
-	frustum.farPlaneDistance = 500;
+	frustum.farPlaneDistance = 100;
 	frustum.nearPlaneDistance = 0.3f;
 	aspect_ratio = 0;
 
-	SetNearPlaneDistance(0.1f);
-	SetFarPlaneDistance(100.0f);
+	SetNearPlaneDistance(1.0f);
+	SetFarPlaneDistance(50.0f);
 	SetAspectRatio(1.3f);
 	
 	
-	SetFOV(60);
+	SetFOV(30);
 }
 
 Camera3D::~Camera3D()

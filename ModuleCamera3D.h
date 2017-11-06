@@ -47,5 +47,5 @@ private:
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 	float speed = 3.0f;
 	float Sensitivity = 0.25f;
-	bool debug = true;
+	bool debug = false;
 };
