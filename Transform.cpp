@@ -117,12 +117,12 @@ const float4x4 Transform::GetLocalTransform() const
 }
 void Transform::SetLocalTransform(const float4x4 & transform)
 {
-	local_transform = transform;
+	local_transform.Set(transform);
 }
 
 void Transform::SetGlobalTransform(const float4x4 & transform)
 {
-	global_transform = transform;
+	global_transform.Set(transform);
 }
 
 const float4x4 Transform::GetGlobalTransform() const
@@ -132,21 +132,21 @@ const float4x4 Transform::GetGlobalTransform() const
 
 void Transform::RecalculateTransform()
 {
-	local_transform = float4x4::FromTRS(position, rotation, scale);
-	float4x4 old_global = global_transform;
+	local_transform.Set(float4x4::FromTRS(position, rotation, scale));
+	float4x4 old_global(global_transform);
 
 	if (owner->GetParent() != nullptr) {
 		Transform* parent = (Transform*)owner->GetParent()->FindComponentbyType(TRANSFORM);
 		if (parent != nullptr)
-			global_transform = parent->GetGlobalTransform() * local_transform;
+			global_transform.Set(parent->GetGlobalTransform().Mul(local_transform));
 		else
-			global_transform = local_transform;
+			global_transform.Set(local_transform);
 	}
 	else
-		global_transform = local_transform;
+		global_transform.Set(local_transform);
 
 	if (old_global.IsInvertible())
-		owner->RecalculateAABB(old_global.Inverted() * global_transform); //Calculating the inversed sometimes causes the program to crash
+		owner->RecalculateAABB(old_global.Inverted().Mul(global_transform)); //Calculating the inversed sometimes causes the program to crash
 	else
 		owner->RecalculateAABB();
 
