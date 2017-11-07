@@ -29,6 +29,8 @@ public:
 	GameObject* GetSelected()const;
 	void DrawHierarchy()const;
 	void Clear();
+	void IntersectAABB(LineSegment &picking, std::vector<GameObject*>& DistanceList);
+	GameObject* SelectObject(LineSegment picking);
 	
 public:
 //	std::list<Primitive*> bodies;

@@ -19,6 +19,7 @@ public:
 	void CleanUp();
 	void SetWire(bool w);
 	void UI_draw();
+	bool TriCheck(LineSegment & picking, float& distance, float3 &hitPoint);
 	~Mesh();
 
 public:

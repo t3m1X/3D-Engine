@@ -7,6 +7,7 @@
 #include "imgui.h"
 #include "ModuleRenderer3D.h"
 
+
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
 {
 
@@ -121,18 +122,23 @@ update_status ModuleCamera3D::Update(float dt)
 	// Recalculate matrix -------------
 	//CalculateViewMatrix();
 
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN)
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
-		/*LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(-(1 - App->input->GetNormalizedX() * 2), 1 - App->input->GetNormalizedY() * 2);
+		LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(-(1 - App->input->GetNormalizedX() * 2), 1 - App->input->GetNormalizedY() * 2);
 		pick = picking;
-		selected = App->scene_intro->SelectObject(picking);
-		App->ui->show_Inspector_window = false;
-		App->scene_intro->ObjectSelected(selected);*/
+		App->scene_intro->selected = App->scene_intro->SelectObject(picking);
 	}
 
 	if (debug) {
 		DrawDebug();
 	}
+
+	PrimitiveLine_Ray a(pick.a.x, pick.a.y, pick.a.z, pick.b.x, pick.b.y, pick.b.z);
+	a.color = Blue;
+	a.Render();
+
+
+	
 	return UPDATE_CONTINUE;
 }
 

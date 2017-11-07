@@ -77,7 +77,7 @@ void ModuleLoader::LoadFBX(char* path)
 			GameObject* new_obj = new GameObject(cnode.first->mName.C_Str(), cnode.second);
 			if (cnode.first == scene->mRootNode) {
 				App->scene_intro->AddObject(new_obj);
-				App->scene_intro->SetobjSelected(new_obj);
+				//App->scene_intro->SetobjSelected(new_obj);
 			}
 
 			//Adding childs to queue
@@ -114,7 +114,7 @@ void ModuleLoader::LoadFBX(char* path)
 				new_obj->AddComponent(trans);
 
 				//Vertices
-				App->imgui->curr_obj = new_obj;
+				//App->imgui->curr_obj = new_obj;
 				aiMesh* m = scene->mMeshes[cnode.first->mMeshes[i]];
 				Mesh* new_mesh = new Mesh(new_obj);
 				new_mesh->num_faces = m->mNumFaces;
