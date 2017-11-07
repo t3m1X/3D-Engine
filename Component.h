@@ -8,7 +8,8 @@ class GameObject;
 enum COMPONENT_TYPE {
 	MESH = 0,
 	MATERIAL,
-	TRANSFORM
+	TRANSFORM,
+	CAMERA
 };
 
 class Component {
@@ -27,7 +28,7 @@ class Component {
 		void SetType(COMPONENT_TYPE t);
 		GameObject* GetOwner()const;
 
-	private:
+	protected:
 		const char* name;
 		COMPONENT_TYPE type;
 		bool active;

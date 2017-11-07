@@ -52,6 +52,9 @@
     <Filter Include="Sources\Modules\Game\Scene">
       <UniqueIdentifier>{85449918-1ee4-4305-ac4e-477dddb435c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\ImGui\ImGuizmo">
+      <UniqueIdentifier>{5f04131d-37c6-4e80-805b-91fd3a783348}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -366,6 +369,9 @@
     <ClInclude Include="ComponentCamera.h">
       <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Octree.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -589,6 +595,12 @@
     </ClCompile>
     <ClCompile Include="ComponentCamera.cpp">
       <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree.cpp">
+      <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\ImGuizmo\ImGuizmo.cpp">
+      <Filter>Sources\ImGui\ImGuizmo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

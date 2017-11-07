@@ -4,12 +4,12 @@
 #include "glmath.h"
 #include "Geomath.h"
 
-class Camera {
+class Camera3D {
 
 public:
 
-	Camera();
-	~Camera();
+	Camera3D();
+	~Camera3D();
 
 	void SetPosition(const float3& pos);
 	const float3 GetPosition();
@@ -32,6 +32,7 @@ public:
 	const float4x4 GetProjectionMatrix() const;
 	const float* GetOpenGLViewMatrix() const;
 	const float* GetOpenGLProjectionMatrix() const;
+	const Frustum GetFrustum() const;
 
 	void MoveForward(const float& speed);
 	void MoveBackwards(const float& speed);
@@ -45,6 +46,7 @@ public:
 	void Focus(const float3& focus_center, const float& distance);
 
 	void Look(const float3& look_pos);
+	bool IsInside(AABB& bounding);
 
 private:
 

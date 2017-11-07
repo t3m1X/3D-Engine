@@ -38,26 +38,29 @@ public:
 	void AddComponent(Component* c);
 	void AddChild(GameObject* child);
 	//void RemoveComponent(Component* c);
-	const bool GetSelected() const;
+	bool HasComponent(COMPONENT_TYPE type);
 	Component* FindComponentbyType(COMPONENT_TYPE type);
 	void UIDraw();
 	void DrawComponents();
 	void RecalculateAABB();
-	vector<GameObject*> GetChild();
-
+	void RecalculateAABB(float4x4 transformation);
+	vector<GameObject*> GetChild() const;
+	GameObject* GetParent() const;
+	void DrawBox();
 	
 		
 public:
 	
 	AABB boundingbox;
-
+	std::vector<GameObject*> children;
 private:
 
 	std::string name;
 	bool		enabled = true;
 	bool		selected = false;
+	bool		bbinit = false;
 	std::vector<Component*> components;
-	std::vector<GameObject*> children;
+	
 	GameObject* parent;	
 
 };

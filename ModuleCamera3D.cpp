@@ -5,20 +5,19 @@
 #include "ModuleInput.h"
 #include "ModuleSceneIntro.h"
 #include "imgui.h"
+#include "ModuleRenderer3D.h"
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
 {
-	CalculateViewMatrix();
 
-	X = vec3(1.0f, 0.0f, 0.0f);
-	Y = vec3(0.0f, 1.0f, 0.0f);
-	Z = vec3(0.0f, 0.0f, 1.0f);
-
-	Position = vec3(0.0f, 0.0f, 5.0f);
-	Reference = vec3(0.0f, 0.0f, 0.0f);
-	speed = 3.0f;
+	debug = true;
+	speed = 10.0f;
 	Sensitivity = 0.25f;
 	SetName("Camera");
+	editor_camera = new Camera3D();
+	curr_camera = editor_camera;
+
+
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -37,6 +36,7 @@ bool ModuleCamera3D::Start()
 bool ModuleCamera3D::CleanUp()
 {
 	LOG("Cleaning camera");
+	delete editor_camera;
 
 	return true;
 }
@@ -45,7 +45,7 @@ bool ModuleCamera3D::CleanUp()
 update_status ModuleCamera3D::Update(float dt)
 {
 
-	vec3 newPos(0,0,0);
+	//vec3 newPos(0,0,0);
 	/*if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && !App->scene_intro->objects.empty()) {
 		ModuleCamera3D::Move(vec3(0, App->scene_intro->objects.back()->boundingbox.r.y + 5, App->scene_intro->objects.back()->boundingbox.r.z - 5) - App->camera->Position);
 		ModuleCamera3D::LookAt(vec3(0, 0, 0));
@@ -57,26 +57,29 @@ update_status ModuleCamera3D::Update(float dt)
 
 		//WASD MOVEMENT + R AND F TO MOVE UP AND DOWN
 
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed*dt;
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed*dt;
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) editor_camera->MoveForward(speed*dt);
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) editor_camera->MoveBackwards(speed*dt);
 
 
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed*dt;
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed*dt;
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) editor_camera->MoveLeft(speed*dt);
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) editor_camera->MoveRight(speed*dt);
+
+
+
 
 	}
 	//MOUSE WHEEL
 
 	if (App->input->GetMouseWheel() == 1)
 	{
-		newPos -= Z * speed*dt;
+		editor_camera->MoveForward(speed*dt);
 	}
 	else if (App->input->GetMouseWheel() == -1)
 	{
-		newPos += Z * speed*dt;
+		editor_camera->MoveBackwards(speed*dt);
 	}
-	Position += newPos;
-	Reference += newPos;
+	/*Position += newPos;
+	Reference += newPos;*/
 
 	// Mouse motion ----------------
 
@@ -85,10 +88,10 @@ update_status ModuleCamera3D::Update(float dt)
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
-		Reference = (0, 0, 0);
-
+		//Reference = (0, 0, 0);
+		editor_camera->Rotate(-App->input->GetMouseXMotion()*Sensitivity*0.01f, -App->input->GetMouseYMotion()*Sensitivity*0.01f);
 		Position -= Reference;
-
+		/*
 		if(dx != 0)
 		{
 			float DeltaX = (float)dx * Sensitivity;
@@ -112,12 +115,24 @@ update_status ModuleCamera3D::Update(float dt)
 			}
 		}
 
-		Position = Reference + Z * length(Position);
+		Position = Reference + Z * length(Position);*/
 	}
 
 	// Recalculate matrix -------------
-	CalculateViewMatrix();
+	//CalculateViewMatrix();
 
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN)
+	{
+		/*LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(-(1 - App->input->GetNormalizedX() * 2), 1 - App->input->GetNormalizedY() * 2);
+		pick = picking;
+		selected = App->scene_intro->SelectObject(picking);
+		App->ui->show_Inspector_window = false;
+		App->scene_intro->ObjectSelected(selected);*/
+	}
+
+	if (debug) {
+		DrawDebug();
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -165,7 +180,7 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 // -----------------------------------------------------------------
 float* ModuleCamera3D::GetViewMatrix()
 {
-	return &ViewMatrix;
+	return editor_camera->GetViewMatrix().Transposed().ptr();
 }
 
 
@@ -255,6 +270,101 @@ void ModuleCamera3D::ImGuiDraw() {
 		ImGui::Text("Sensitivity:");
 		ImGui::SameLine();
 		ImGui::Text("%f", Sensitivity);
+	}
+}
+
+void ModuleCamera3D::SetCurrentCamera(Camera3D * cam)
+{
+	curr_camera = cam;
+}
+
+Camera3D * ModuleCamera3D::GetCurrentCamera() const
+{
+	return curr_camera;
+}
+
+Camera3D * ModuleCamera3D::GetEditorCamera() const
+{
+	return editor_camera;
+}
+
+void ModuleCamera3D::DrawDebug()
+{
+	if (curr_camera != editor_camera) {
+		float3 corners[8];
+		curr_camera->GetCorners(corners);
+		const int s = 24;
+
+		float3* lines = new float3[s];
+		float3* colors = new float3[s];
+
+		lines[0] = float3(corners[0].x, corners[0].y, corners[0].z);
+		lines[1] = float3(corners[2].x, corners[2].y, corners[2].z);
+
+		lines[2] = float3(corners[2].x, corners[2].y, corners[2].z);
+		lines[3] = float3(corners[6].x, corners[6].y, corners[6].z);
+
+		lines[4] = float3(corners[4].x, corners[4].y, corners[4].z);
+		lines[5] = float3(corners[6].x, corners[6].y, corners[6].z);
+
+		lines[6] = float3(corners[4].x, corners[4].y, corners[4].z);
+		lines[7] = float3(corners[0].x, corners[0].y, corners[0].z);
+
+		//
+
+		lines[8] = float3(corners[1].x, corners[1].y, corners[1].z);
+		lines[9] = float3(corners[3].x, corners[3].y, corners[3].z);
+
+		lines[10] = float3(corners[3].x, corners[3].y, corners[3].z);
+		lines[11] = float3(corners[7].x, corners[7].y, corners[7].z);
+
+		lines[12] = float3(corners[5].x, corners[5].y, corners[5].z);
+		lines[13] = float3(corners[7].x, corners[7].y, corners[7].z);
+
+		lines[14] = float3(corners[5].x, corners[5].y, corners[5].z);
+		lines[15] = float3(corners[1].x, corners[1].y, corners[1].z);
+
+		//
+
+		lines[16] = float3(corners[0].x, corners[0].y, corners[0].z);
+		lines[17] = float3(corners[1].x, corners[1].y, corners[1].z);
+
+		lines[18] = float3(corners[2].x, corners[2].y, corners[2].z);
+		lines[19] = float3(corners[3].x, corners[3].y, corners[3].z);
+
+		lines[20] = float3(corners[4].x, corners[4].y, corners[4].z);
+		lines[21] = float3(corners[5].x, corners[5].y, corners[5].z);
+
+		lines[22] = float3(corners[6].x, corners[6].y, corners[6].z);
+		lines[23] = float3(corners[7].x, corners[7].y, corners[7].z);
+
+		for (int i = 0; i < s; i++)
+		{
+			colors[i] = float3(60, 1, 1);
+		}
+
+		//	DrawLinesList(lines, s, 5, colors);
+
+		glLineWidth((float)5);
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_FLOAT, 0, (float*)lines->ptr());
+
+		if (colors != nullptr)
+		{
+			glEnableClientState(GL_COLOR_ARRAY);
+			glColorPointer(3, GL_FLOAT, 0, (float*)colors->ptr());
+		}
+
+		glDrawArrays(GL_LINES, 0, s);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+
+		glLineWidth(1);
+
+		delete[] lines;
+		delete[] colors;
 	}
 }
 

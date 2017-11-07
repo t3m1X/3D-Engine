@@ -107,7 +107,10 @@ void ModuleLoader::LoadFBX(char* path)
 					rot = Quat( rotation.x, rotation.y, rotation.z, rotation.w );
 				}
 
-				Transform* trans = new Transform(scale, rot, pos, new_obj);
+				Transform* trans = new Transform(new_obj);
+				trans->SetRotation(rot);
+				trans->SetPosition(pos);
+				trans->SetScale(scale);
 				new_obj->AddComponent(trans);
 
 				//Vertices
@@ -168,6 +171,7 @@ void ModuleLoader::LoadFBX(char* path)
 				LOG("FBX Load: Mesh loaded with %d vertices and %d indices", new_mesh->num_vertices, new_mesh->num_indices);
 
 				new_obj->AddComponent(new_mesh);
+			
 				new_obj->RecalculateAABB();
 				new_obj->Enable();
 				LOG("Created new object");

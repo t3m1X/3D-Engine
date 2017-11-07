@@ -5,6 +5,7 @@
 #include "PhysBody3D.h"
 #include "ModulePlayer.h"
 #include "GameObject.h"
+#include "Octree.h"
 //#include "MathGeoLib\include\MathGeoLib.h"
 //#include "MathGeoLib\include\Geometry\Sphere.h"
 
@@ -33,5 +34,8 @@ public:
 //	std::list<Primitive*> bodies;
 	GameObject* root;
 	GameObject* selected =nullptr;
+	Octree* octree = nullptr;
 	bool hierarchy = true;
+
+
 };

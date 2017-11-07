@@ -10,6 +10,9 @@
 #include "MathGeoLib\include\Algorithm\Random\LCG.h"
 #include <cmath>
 #include <random>
+#include "ModuleCamera3D.h"
+#include "Transform.h"
+#include "Geomath.h"
 
 ModuleImGui::ModuleImGui(bool start_enabled) : Module(start_enabled)
 {
@@ -42,13 +45,16 @@ bool ModuleImGui::Init(JSON_File* conf)
 	posz = 0;
 	h = 0;
 	d = 0;
+
+	curr_operation = ImGuizmo::TRANSLATE;
+	curr_mode = ImGuizmo::LOCAL;
 	return ret;
 }
 
 update_status ModuleImGui::PreUpdate(float dt)
 {
 	ImGui_ImplSdl_NewFrame(App->window->window);
-
+	ImGuizmo::BeginFrame();
 
 	ImGuiIO& io = ImGui::GetIO();
 
@@ -63,6 +69,27 @@ update_status ModuleImGui::Update(float dt)
 
 	ImGuiStyle * style = &ImGui::GetStyle();
 
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+		{
+			curr_operation = ImGuizmo::TRANSLATE;
+		}
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+		{
+			curr_operation = ImGuizmo::ROTATE;
+		}
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+		{
+			curr_operation = ImGuizmo::SCALE;
+		}
+
+	if (App->scene_intro->selected!=nullptr)
+		{
+		Transform* trans = (Transform*)App->scene_intro->selected->FindComponentbyType(TRANSFORM);
+		ImGuiIO& io = ImGui::GetIO();
+		ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+		if(trans!=nullptr)
+		ImGuizmo::Manipulate(App->camera->GetViewMatrix(), App->camera->GetEditorCamera()->GetProjectionMatrix().Transposed().ptr(), curr_operation,curr_mode,trans->GetGlobalTransform().Transposed().ptr());
+		}
 	//Menu///////////////////
 
 	if (ImGui::BeginMainMenuBar()) {
@@ -89,13 +116,12 @@ update_status ModuleImGui::Update(float dt)
 
 			if (ImGui::MenuItem("Properties", "P"))
 			{
-				/*if (!properties) {
-					if (!App->scene_intro->Empty())
+				if (!properties){
 					properties = true;
 				}
 				else {
 					properties = false;
-				}*/
+				}
 			}
 
 

@@ -9,6 +9,8 @@ class Transform : public Component {
 
 	public:
 
+		Transform(GameObject* own);
+
 		Transform(float3 s, Quat rot, float3 pos, GameObject* own);
 		Transform(float4x4 trans, GameObject* own);
 		virtual ~Transform();
@@ -22,10 +24,11 @@ class Transform : public Component {
 		void SetRotation(Quat rot);
 		void UI_draw();
 
-		const float4x4 GetLocalTransform() const;
+		float4x4 GetLocalTransform() const;
 		void SetLocalTransform(const float4x4& transform);
-		const float4x4 GetGlobalTransform() const;
-		void RecalculateLocalTransform();
+		void SetGlobalTransform(const float4x4 & transform);
+		float4x4 GetGlobalTransform() const;
+		void RecalculateTransform();
 		float3 GetPosition()const;
 
 	private:
