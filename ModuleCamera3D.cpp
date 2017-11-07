@@ -120,6 +120,16 @@ update_status ModuleCamera3D::Update(float dt)
 
 	// Recalculate matrix -------------
 	//CalculateViewMatrix();
+
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN)
+	{
+		/*LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(-(1 - App->input->GetNormalizedX() * 2), 1 - App->input->GetNormalizedY() * 2);
+		pick = picking;
+		selected = App->scene_intro->SelectObject(picking);
+		App->ui->show_Inspector_window = false;
+		App->scene_intro->ObjectSelected(selected);*/
+	}
+
 	if (debug) {
 		DrawDebug();
 	}

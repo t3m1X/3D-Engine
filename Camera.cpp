@@ -123,6 +123,11 @@ const float * Camera3D::GetOpenGLProjectionMatrix() const
 	return frustum.ProjectionMatrix().Transposed().ptr();
 }
 
+const Frustum  Camera3D::GetFrustum() const
+{
+	return this->frustum;
+}
+
 void Camera3D::MoveForward(const float & speed)
 {
 	if (speed <= 0)

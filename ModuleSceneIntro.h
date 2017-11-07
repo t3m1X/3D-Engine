@@ -36,4 +36,6 @@ public:
 	GameObject* selected =nullptr;
 	Octree* octree = nullptr;
 	bool hierarchy = true;
+
+
 };

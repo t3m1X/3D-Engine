@@ -48,4 +48,5 @@ private:
 	float speed = 3.0f;
 	float Sensitivity = 0.25f;
 	bool debug = false;
+	LineSegment pick;
 };

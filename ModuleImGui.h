@@ -11,6 +11,7 @@
 #include "SDL/include/SDL_opengl.h"
 #include "Geomath.h"
 #include "GameObject.h"
+#include "ImGui\ImGuizmo\ImGuizmo.h"
 
 class Module;
 class Application;
@@ -45,7 +46,9 @@ private:
 	//Console* console = nullptr;
 	ConfigPanel* configuration = nullptr;
 	float x, y, z, r,posx,posy,posz,h,d;
-	
+
+	ImGuizmo::OPERATION curr_operation;
+	ImGuizmo::MODE curr_mode;
 	
 	///just for testing mathgeolib///
 };

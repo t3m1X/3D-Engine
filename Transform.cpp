@@ -1,8 +1,21 @@
 #include "Transform.h"
 #include "ModuleImGui.h"
 
+Transform::Transform(GameObject* own): Component(own)
+{
+	SetType(TRANSFORM);
+
+
+	position = float3(0.f, 0.f, 0.f);
+	rotation = Quat(0.f, 0.f, 0.f, 0.f);
+	scale = float3(1.f, 1.f, 1.f);
+	local_transform.SetIdentity();
+	global_transform.SetIdentity();
+}
+
 Transform::Transform(float3 s, Quat rot, float3 pos , GameObject* own) : Component(own)
 {
+
 	local_transform.SetIdentity();
 	scale = s;
 	rotation = rot;
@@ -111,7 +124,7 @@ void Transform::UI_draw()
 	
 }
 
-const float4x4 Transform::GetLocalTransform() const
+float4x4 Transform::GetLocalTransform() const
 {
 	return local_transform;
 }
@@ -125,13 +138,30 @@ void Transform::SetGlobalTransform(const float4x4 & transform)
 	global_transform = transform;
 }
 
-const float4x4 Transform::GetGlobalTransform() const
+float4x4 Transform::GetGlobalTransform() const
 {
 	return global_transform;
 }
 
 void Transform::RecalculateTransform()
 {
+
+	/*if (this->GetOwner()->children.empty())
+	{
+		Transform* parent_transform = (Transform*)this->owner->GetParent()->FindComponentbyType(TRANSFORM);
+
+		local_transform = local_transform.FromTRS(position, rotation, scale);
+		local_transform = parent_transform->GetGlobalTransform() * local_transform;
+	}
+	else
+	{
+		local_transform = float4x4::FromTRS(position, rotation, scale);
+		for (std::vector<GameObject*>::iterator it = this->owner->children.begin(); it != this->owner->children.end(); it++)
+		{
+			Transform* child_transform = (Transform*)(*it)->FindComponentbyType(TRANSFORM);
+			child_transform->RecalculateTransform();
+		}
+	}*/
 	local_transform = float4x4::FromTRS(position, rotation, scale);
 	float4x4 old_global = global_transform;
 

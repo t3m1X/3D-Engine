@@ -149,6 +149,28 @@ bool ModuleInput::CleanUp()
 	return true;
 }
 
+const float ModuleInput::GetNormalizedX() const
+{
+	int w;
+	w = App->window->GetWidth();
+
+
+	float normalized_x = (float)(mouse_x / (float)w);
+	return normalized_x;
+}
+
+const float ModuleInput::GetNormalizedY() const
+{
+	int h;
+
+	h = App->window->GetHeight();
+
+
+	float normalized_y = (float)(mouse_y / (float)h);
+
+	return normalized_y;
+}
+
 void ModuleInput::ImGuiDraw()
 {
 	if (ImGui::CollapsingHeader(this->GetName())) {

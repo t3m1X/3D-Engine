@@ -22,7 +22,8 @@ public:
 	bool Init(JSON_File* conf);
 	update_status PreUpdate(float dt);
 	bool CleanUp();
-
+	const float GetNormalizedX()const;
+	const float GetNormalizedY()const;
 	KEY_STATE GetKey(int id) const
 	{
 		return keyboard[id];
@@ -42,6 +43,7 @@ public:
 	{
 		return mouse_y;
 	}
+	
 
 	int GetMouseZ() const
 	{

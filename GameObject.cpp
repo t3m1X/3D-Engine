@@ -305,15 +305,17 @@ void GameObject::RecalculateAABB()
 	bbinit = true;
 	bool has_mesh = false;
 	Mesh* m;
-	Transform* trans = (Transform*)FindComponentbyType(TRANSFORM);
+	Transform* trans = (Transform*)this->FindComponentbyType(TRANSFORM);
 	for (uint i = 0; i < components.size() && !has_mesh; i++) 
 		if (components[i]->GetType() == MESH) {
 			has_mesh = true; /////Assuming there's one mesh per game object
 			m = (Mesh*)components[i];
 		}
 	if (has_mesh) {
-		boundingbox = AABB::MinimalEnclosingAABB((float3*)m->vertices, m->num_vertices);
-		boundingbox.TransformAsAABB(trans->GetGlobalTransform());
+		if (trans != nullptr) {
+			boundingbox = AABB::MinimalEnclosingAABB((float3*)m->vertices, m->num_vertices);
+			boundingbox.TransformAsAABB(trans->GetGlobalTransform());
+		}
 	}
 }
 

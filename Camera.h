@@ -32,6 +32,7 @@ public:
 	const float4x4 GetProjectionMatrix() const;
 	const float* GetOpenGLViewMatrix() const;
 	const float* GetOpenGLProjectionMatrix() const;
+	const Frustum GetFrustum() const;
 
 	void MoveForward(const float& speed);
 	void MoveBackwards(const float& speed);

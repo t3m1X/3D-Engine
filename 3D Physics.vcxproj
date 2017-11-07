@@ -193,6 +193,7 @@
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="gpudetect\DeviceId.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
+    <ClCompile Include="ImGui\ImGuizmo\ImGuizmo.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
     <ClCompile Include="imgui_impl_sdl.cpp" />

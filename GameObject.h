@@ -52,7 +52,7 @@ public:
 public:
 	
 	AABB boundingbox;
-
+	std::vector<GameObject*> children;
 private:
 
 	std::string name;
@@ -60,7 +60,7 @@ private:
 	bool		selected = false;
 	bool		bbinit = false;
 	std::vector<Component*> components;
-	std::vector<GameObject*> children;
+	
 	GameObject* parent;	
 
 };
