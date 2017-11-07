@@ -145,9 +145,9 @@ void Transform::RecalculateTransform()
 	else
 		global_transform.Set(local_transform);
 
-	if (old_global.IsInvertible())
-		owner->RecalculateAABB(old_global.Inverted().Mul(global_transform)); //Calculating the inversed sometimes causes the program to crash
-	else
+	//if (old_global.IsInvertible())
+	//	owner->RecalculateAABB(old_global.Inverted().Mul(global_transform)); //Calculating the inversed sometimes causes the program to crash
+	//else
 		owner->RecalculateAABB();
 
 	vector<GameObject*> childs = owner->GetChild();
