@@ -15,16 +15,19 @@ Transform::Transform(GameObject* own): Component(own)
 
 Transform::Transform(float3 s, Quat rot, float3 pos , GameObject* own) : Component(own)
 {
+	this->SetType(TRANSFORM);
+	rotation = Quat::identity;
 
-	local_transform.SetIdentity();
 	scale = s;
-	rotation = rot;
+	rotation.Set(rot.x,rot.y,rot.z,rot.w);
 	position = pos;
 	Euler_rotation = rot.ToEulerXYZ();
+
 	global_transform.SetIdentity();
+	local_transform.SetIdentity();
 	RecalculateTransform();
 
-	this->SetType(TRANSFORM);
+	
 	
 }
 

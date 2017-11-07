@@ -39,7 +39,10 @@ bool ModuleSceneIntro::Start()
 	float3 pos;
 	scale.Set(1, 1, 1);
 	pos.Set(0, 0, 0);
-	Transform* trans = new Transform(scale, rot, pos, cam_obj);
+	Transform* trans = new Transform(cam_obj);
+	trans->SetRotation(rot);
+	trans->SetPosition(pos);
+	trans->SetScale(scale);
 	cam_obj->AddComponent(trans);
 	ComponentCamera* cam = new ComponentCamera(cam_obj);
 	cam_obj->AddComponent(cam);
