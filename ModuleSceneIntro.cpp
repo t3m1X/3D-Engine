@@ -8,8 +8,9 @@
 #include "Transform.h"
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
+#include <vector>
 
-
+#define MIN_DISTANCE 9999
 
 ModuleSceneIntro::ModuleSceneIntro(bool start_enabled) : Module(start_enabled)
 {
@@ -29,7 +30,7 @@ ModuleSceneIntro::~ModuleSceneIntro()
 // Load assets
 bool ModuleSceneIntro::Start()
 {
-	LOG("Loading Intro assets");
+	LOG_OUT("Loading Intro assets");
 	bool ret = true;
 
 	GameObject* cam_obj = new GameObject("Camera", root);
@@ -60,6 +61,7 @@ bool ModuleSceneIntro::Start()
 
 	
 	App->camera->SetCurrentCamera(cam->GetCamera());
+	selected = cam_obj;
 
 	return ret;
 }
@@ -67,7 +69,7 @@ bool ModuleSceneIntro::Start()
 // Load assets
 bool ModuleSceneIntro::CleanUp()
 {
-	LOG("Unloading Intro scene");
+	LOG_OUT("Unloading Intro scene");
 
 	delete root;
 
@@ -120,6 +122,59 @@ void ModuleSceneIntro::Clear()
 	
 }
 
+void ModuleSceneIntro::IntersectAABB(LineSegment & picking, std::vector<GameObject*>& DistanceList)
+{
+
+	for (uint i = 0; i < root->children.size(); i++) {
+		if (root->children[i]->children.size() > 0) {
+			for (uint j = 0; j < root->children[i]->children.size(); j++) {
+				if (picking.Intersects(root->children[i]->children[j]->boundingbox)) {
+					DistanceList.push_back(root->children[i]->children[j]);
+					LOG_OUT("AABB hit");
+				}
+			}
+		}
+		else {
+			if (picking.Intersects(root->children[i]->boundingbox)) {
+				DistanceList.push_back(root->children[i]);
+				LOG_OUT("AABB hit");
+			}
+		}
+	}
+}
+
+GameObject * ModuleSceneIntro::SelectObject(LineSegment picking)
+{
+	GameObject* closest = nullptr;
+	std::vector<GameObject*>DistanceList;
+
+	IntersectAABB(picking, DistanceList);
+
+	if (DistanceList.size() > 0) {
+		float last_distance = MIN_DISTANCE;
+
+		for (uint i = 0; i < DistanceList.size(); i++) {
+
+			Mesh* m = (Mesh*)DistanceList[i]->FindComponentbyType(MESH);
+			float dist = inf;
+			float3 hitpoint;
+			if (m != nullptr) {
+				bool hit = m->TriCheck(picking, dist, hitpoint);
+				if (hit) {
+					LOG_OUT("HIT!!");
+					if (dist < last_distance) {
+						last_distance = dist;
+						closest = DistanceList[i];
+					}
+				}
+			}
+		}
+
+	}
+
+	return closest;
+}
+
 
 // Update
 update_status ModuleSceneIntro::Update(float dt)
@@ -129,11 +184,11 @@ update_status ModuleSceneIntro::Update(float dt)
 	
 	DrawHierarchy();
 	root->Update();
-	root->Draw();
+	//root->Draw();
 	octree->DebugDraw();
 	p.Render();
 
-
+	
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) {
 		octree->Divide();
 	}

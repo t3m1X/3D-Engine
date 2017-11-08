@@ -22,7 +22,7 @@ Application* App = NULL;
 
 int main(int argc, char ** argv)
 {
-	LOG("Starting game '%s'...", TITLE);
+	LOG_OUT("Starting game '%s'...", TITLE);
 
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
@@ -34,39 +34,39 @@ int main(int argc, char ** argv)
 		{
 		case MAIN_CREATION:
 
-			LOG("-------------- Application Creation --------------");
+			LOG_OUT("-------------- Application Creation --------------");
 			App = new Application();
 			state = MAIN_AWAKE;
 			break;
 
 		case MAIN_AWAKE:
 
-			LOG("-------------- Application Awake --------------");
+			LOG_OUT("-------------- Application Awake --------------");
 			if (App->Awake() == false)
 			{
-				LOG("Application Init exits with ERROR");
+				LOG_OUT("Application Init exits with ERROR");
 				state = MAIN_EXIT;
 			}
 			else
 			{
 				state = MAIN_START;
-				LOG("-------------- Application Starts --------------");
+				LOG_OUT("-------------- Application Starts --------------");
 			}
 
 			break;
 
 		case MAIN_START:
 
-			LOG("-------------- Application Init --------------");
+			LOG_OUT("-------------- Application Init --------------");
 			if (App->Init() == false)
 			{
-				LOG("Application Init exits with ERROR");
+				LOG_OUT("Application Init exits with ERROR");
 				state = MAIN_EXIT;
 			}
 			else
 			{
 				state = MAIN_UPDATE;
-				LOG("-------------- Application Update --------------");
+				LOG_OUT("-------------- Application Update --------------");
 			}
 
 			break;
@@ -77,7 +77,7 @@ int main(int argc, char ** argv)
 
 			if (update_return == UPDATE_ERROR)
 			{
-				LOG("Application Update exits with ERROR");
+				LOG_OUT("Application Update exits with ERROR");
 				state = MAIN_EXIT;
 			}
 
@@ -88,10 +88,10 @@ int main(int argc, char ** argv)
 
 		case MAIN_FINISH:
 
-			LOG("-------------- Application CleanUp --------------");
+			LOG_OUT("-------------- Application CleanUp --------------");
 			if (App->CleanUp() == false)
 			{
-				LOG("Application CleanUp exits with ERROR");
+				LOG_OUT("Application CleanUp exits with ERROR");
 			}
 			else
 				main_return = EXIT_SUCCESS;
@@ -104,6 +104,6 @@ int main(int argc, char ** argv)
 	}
 	delete App;
 	App = nullptr;
-	LOG("Exiting application '%s'...\n", TITLE);
+	LOG_OUT("Exiting application '%s'...\n", TITLE);
 	return main_return;
 }

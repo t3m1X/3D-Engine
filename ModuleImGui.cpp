@@ -84,11 +84,7 @@ update_status ModuleImGui::Update(float dt)
 
 	if (App->scene_intro->selected!=nullptr)
 		{
-		Transform* trans = (Transform*)App->scene_intro->selected->FindComponentbyType(TRANSFORM);
-		ImGuiIO& io = ImGui::GetIO();
-		ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-		if(trans!=nullptr)
-		ImGuizmo::Manipulate(App->camera->GetViewMatrix(), App->camera->GetEditorCamera()->GetProjectionMatrix().Transposed().ptr(), curr_operation,curr_mode,trans->GetGlobalTransform().Transposed().ptr());
+		App->scene_intro->selected->OnGuizmo();
 		}
 	//Menu///////////////////
 
@@ -209,7 +205,7 @@ update_status ModuleImGui::Update(float dt)
 	}*/
 
 	if (properties) {
-
+		curr_obj = App->scene_intro->selected;
 		ImGui::Begin("Properties");
 		
 		if (curr_obj != nullptr) {
@@ -580,4 +576,9 @@ void ModuleImGui::AddPanel(Panel * panel)
 void ModuleImGui::Setproperties(bool set)
 {
 	properties = set;
+}
+
+bool ModuleImGui::HoveringWindow()
+{
+	return ImGui::IsMouseHoveringAnyWindow();
 }

@@ -15,7 +15,12 @@
 /** @file Clock.cpp
 	@brief */
 
-#if defined(__unix__) || defined(__native_client__) || defined(EMSCRIPTEN) || defined(ANDROID) || defined(__APPLE__) || defined (__CYGWIN__)
+#ifdef _WIN32 //Visual Studio changed default define
+#define WIN32
+#endif // _WIN32
+
+
+#if defined(__unix__) || defined(__native_client__) || defined(__EMSCRIPTEN__) || defined(ANDROID) || defined(__APPLE__) || defined (__CYGWIN__)
 #include <time.h>
 #include <errno.h>
 #include <string.h>
@@ -23,10 +28,10 @@
 #endif
 
 #ifdef WIN32
-#include <windows.h>
+#include "../Math/InclWindows.h"
 #endif
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
 
@@ -41,7 +46,7 @@
 MATH_BEGIN_NAMESPACE
 
 #ifdef WIN32
-LARGE_INTEGER Clock::ddwTimerFrequency;
+u64 Clock::ddwTimerFrequency;
 #endif
 
 #ifdef __APPLE__
@@ -58,11 +63,10 @@ void Clock::InitClockData()
 		appStartTime = Tick();
 
 #ifdef WIN32
-	if (!QueryPerformanceFrequency(&ddwTimerFrequency))
+	if (!QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&ddwTimerFrequency)))
 	{
 		LOGE("The system doesn't support high-resolution timers!");
-		ddwTimerFrequency.HighPart = (unsigned long)-1;
-		ddwTimerFrequency.LowPart = (unsigned long)-1;
+		ddwTimerFrequency = (u64)-1;
 	}
 
 	if (appStartTime == 0)
@@ -100,17 +104,17 @@ Clock::Clock()
 void Clock::Sleep(int milliseconds)
 {
 #ifdef WIN8RT
-#pragma WARNING(Clock::Sleep has not been implemented!)
+#pragma warning(Clock::Sleep has not been implemented!)
 #elif defined(WIN32)
 	::Sleep(milliseconds);
-#elif !defined(__native_client__) && !defined(EMSCRIPTEN)
-	//// http://linux.die.net/man/2/nanosleep
-	//timespec ts;
-	//ts.tv_sec = milliseconds / 1000;
-	//ts.tv_nsec = (milliseconds - ts.tv_sec * 1000) * 1000 * 1000;
-	//int ret = nanosleep(&ts, NULL);
-	//if (ret == -1)
-	//	LOGI("nanosleep returned -1! Reason: %s(%d).", strerror(errno), (int)errno);
+#elif !defined(__native_client__) && !defined(__EMSCRIPTEN__)
+	// http://linux.die.net/man/2/nanosleep
+	timespec ts;
+	ts.tv_sec = milliseconds / 1000;
+	ts.tv_nsec = (milliseconds - ts.tv_sec * 1000) * 1000 * 1000;
+	int ret = nanosleep(&ts, NULL);
+	if (ret == -1)
+		LOGI("nanosleep returned -1! Reason: %s(%d).", strerror(errno), (int)errno);
 #else
 #warning Clock::Sleep has not been implemented!
 #endif
@@ -226,11 +230,16 @@ tick_t Clock::Tick()
 	struct timespec res;
 	clock_gettime(CLOCK_REALTIME, &res);
 	return 1000000000ULL*res.tv_sec + (tick_t)res.tv_nsec;
-#elif defined(EMSCRIPTEN)
+#elif defined(__EMSCRIPTEN__)
+
+#ifdef MATH_TICK_IS_FLOAT
+	return (tick_t)emscripten_get_now();
+#else
 	// emscripten_get_now() returns a wallclock time as a float in milliseconds (1e-3).
 	// scale it to microseconds (1e-6) and return as a tick.
 	return (tick_t)(((double)emscripten_get_now()) * 1e3);
-//	return (tick_t)clock();
+#endif
+
 #elif defined(WIN32)
 	LARGE_INTEGER ddwTimer;
 	BOOL success = QueryPerformanceCounter(&ddwTimer);
@@ -269,11 +278,16 @@ tick_t Clock::TicksPerSec()
 {
 #if defined(ANDROID)
 	return 1000000000ULL; // 1e9 == nanoseconds.
-#elif defined(EMSCRIPTEN)
+#elif defined(__EMSCRIPTEN__)
+
+#ifdef MATH_TICK_IS_FLOAT
+	return (tick_t)1000.0;
+#else
 	return 1000000ULL; // 1e6 == microseconds.
-//	return CLOCKS_PER_SEC;
+#endif
+
 #elif defined(WIN32)
-	return ddwTimerFrequency.QuadPart;
+	return ddwTimerFrequency;
 #elif defined(__APPLE__)
 	return ticksPerSecond;
 #elif defined(_POSIX_MONOTONIC_CLOCK)

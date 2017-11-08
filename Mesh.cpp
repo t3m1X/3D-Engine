@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include "glew\include\GL\glew.h"
 #include "ModuleImGui.h"
+#include "Transform.h"
 
 Mesh::Mesh(GameObject * own) : Component(own)
 {
@@ -116,10 +117,45 @@ void Mesh::UI_draw()
 	}
 }
 
+bool Mesh::TriCheck(LineSegment & picking, float & distance, float3 & hitPoint)
+{
+	bool ret = false;
+	Transform* trans = nullptr;
+	float distance2 = distance;
+	float prevDistance = distance;
+
+	trans = (Transform*)GetOwner()->FindComponentbyType(TRANSFORM);
+
+	LineSegment newSegment = picking;
+	newSegment.Transform(trans->GetGlobalTransform().Inverted());
+
+	for (uint i = 0; i < num_indices; i += 3)
+	{
+		Triangle tri(float3(vertices[indices[i] * 3], vertices[indices[i] * 3 + 1], vertices[indices[i] * 3 + 2]), float3(vertices[indices[i + 1] * 3], vertices[indices[i + 1] * 3 + 1], vertices[indices[i + 1] * 3 + 2]), float3(vertices[indices[i + 2] * 3], vertices[indices[i + 2] * 3 + 1], vertices[indices[i + 2] * 3 + 2]));
+
+
+
+		if (newSegment.Intersects(tri, &distance2, &hitPoint))
+		{
+			if (distance2 < prevDistance)
+			{
+				prevDistance = distance2;
+				distance = distance2;
+				ret = true;
+			}
+
+
+		}
+	}
+
+	return ret;
+
+}
+
 Mesh::~Mesh()
 {
 	glDeleteBuffers(1, (GLuint*)&this->id_vertices);
 	glDeleteBuffers(1, (GLuint*)&this->id_indices);
 	glDeleteBuffers(1, (GLuint*)&this->id_uv);
-	LOG("Mesh destroyed");
+	LOG_OUT("Mesh destroyed");
 }

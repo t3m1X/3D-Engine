@@ -6,6 +6,9 @@
 #include "ModuleSceneIntro.h"
 #include "imgui.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleWindow.h"
+#include "ModuleImGui.h"
+
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
 {
@@ -26,7 +29,7 @@ ModuleCamera3D::~ModuleCamera3D()
 // -----------------------------------------------------------------
 bool ModuleCamera3D::Start()
 {
-	LOG("Setting up the camera");
+	LOG_OUT("Setting up the camera");
 	bool ret = true;
 
 	return ret;
@@ -35,7 +38,7 @@ bool ModuleCamera3D::Start()
 // -----------------------------------------------------------------
 bool ModuleCamera3D::CleanUp()
 {
-	LOG("Cleaning camera");
+	LOG_OUT("Cleaning camera");
 	delete editor_camera;
 
 	return true;
@@ -45,27 +48,16 @@ bool ModuleCamera3D::CleanUp()
 update_status ModuleCamera3D::Update(float dt)
 {
 
-	//vec3 newPos(0,0,0);
-	/*if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && !App->scene_intro->objects.empty()) {
-		ModuleCamera3D::Move(vec3(0, App->scene_intro->objects.back()->boundingbox.r.y + 5, App->scene_intro->objects.back()->boundingbox.r.z - 5) - App->camera->Position);
-		ModuleCamera3D::LookAt(vec3(0, 0, 0));
-	}*/
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
 
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 			speed = 8.0f * dt;
 
 		//WASD MOVEMENT + R AND F TO MOVE UP AND DOWN
-
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) editor_camera->MoveForward(speed*dt);
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) editor_camera->MoveBackwards(speed*dt);
-
-
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) editor_camera->MoveLeft(speed*dt);
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) editor_camera->MoveRight(speed*dt);
-
-
-
 
 	}
 	//MOUSE WHEEL
@@ -78,61 +70,47 @@ update_status ModuleCamera3D::Update(float dt)
 	{
 		editor_camera->MoveBackwards(speed*dt);
 	}
-	/*Position += newPos;
-	Reference += newPos;*/
+
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		if (!App->imgui->HoveringWindow()) {
+			float width = (float)App->window->GetWidth();
+			float height = (float)App->window->GetHeight();
+
+			int mouse_x, mouse_y;
+			mouse_x = (float)App->input->GetMouseX();
+			mouse_y = (float)App->input->GetMouseY();
+
+			float normalized_x = -(1.0f - (float(mouse_x) * 2.0f) / width);
+			float normalized_y = 1.0f - (float(mouse_y) * 2.0f) / height;
+
+			LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(normalized_x, normalized_y);
+			pick = picking;
+			App->scene_intro->selected = App->scene_intro->SelectObject(picking);
+		}
+	}
 
 	// Mouse motion ----------------
 
-	if((App->input->GetMouseButton(SDL_BUTTON_LEFT)==KEY_REPEAT)&&(App->input->GetKey(SDL_SCANCODE_LALT)==KEY_REPEAT))
+	else if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
-		//Reference = (0, 0, 0);
 		editor_camera->Rotate(-App->input->GetMouseXMotion()*Sensitivity*0.01f, -App->input->GetMouseYMotion()*Sensitivity*0.01f);
-		Position -= Reference;
-		/*
-		if(dx != 0)
-		{
-			float DeltaX = (float)dx * Sensitivity;
-
-			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-		}
-
-		if(dy != 0)
-		{
-			float DeltaY = (float)dy * Sensitivity;
-
-			Y = rotate(Y, DeltaY, X);
-			Z = rotate(Z, DeltaY, X);
-
-			if(Y.y < 0.0f)
-			{
-				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-				Y = cross(Z, X);
-			}
-		}
-
-		Position = Reference + Z * length(Position);*/
 	}
-
-	// Recalculate matrix -------------
-	//CalculateViewMatrix();
-
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN)
-	{
-		/*LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(-(1 - App->input->GetNormalizedX() * 2), 1 - App->input->GetNormalizedY() * 2);
-		pick = picking;
-		selected = App->scene_intro->SelectObject(picking);
-		App->ui->show_Inspector_window = false;
-		App->scene_intro->ObjectSelected(selected);*/
-	}
+	Position -= Reference;
 
 	if (debug) {
 		DrawDebug();
 	}
+
+	PrimitiveLine_Ray a(pick.a.x, pick.a.y, pick.a.z, pick.b.x, pick.b.y, pick.b.z);
+	a.color = Blue;
+	a.Render();
+	
+
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -178,9 +156,9 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 }
 
 // -----------------------------------------------------------------
-float* ModuleCamera3D::GetViewMatrix()
+float4x4 ModuleCamera3D::GetViewMatrix()
 {
-	return editor_camera->GetViewMatrix().Transposed().ptr();
+	return editor_camera->GetViewMatrix().Transposed();
 }
 
 

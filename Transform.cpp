@@ -1,5 +1,8 @@
 #include "Transform.h"
 #include "ModuleImGui.h"
+#include "ImGui/ImGuizmo/ImGuizmo.h"
+#include "ModuleCamera3D.h"
+#include "ModuleInput.h"
 
 Transform::Transform(GameObject* own): Component(own)
 {
@@ -161,9 +164,9 @@ void Transform::RecalculateTransform()
 	else
 		global_transform.Set(local_transform);
 
-	//if (old_global.IsInvertible())
-	//	owner->RecalculateAABB(old_global.Inverted().Mul(global_transform)); //Calculating the inversed sometimes causes the program to crash
-	//else
+	if (old_global.IsInvertible())
+		owner->RecalculateAABB(old_global.Inverted().Mul(global_transform)); //Calculating the inversed sometimes causes the program to crash
+	else
 		owner->RecalculateAABB();
 
 	vector<GameObject*> childs = owner->GetChild();
@@ -179,4 +182,92 @@ void Transform::RecalculateTransform()
 float3 Transform::GetPosition() const
 {
 	return position;
+}
+
+void Transform::OnGuizmo()
+{
+	ImGuizmo::Enable(true);
+
+	float4x4 projMatrix = App->camera->GetEditorCamera()->GetFrustum().ViewProjMatrix().Transposed();
+	float4x4 trans = global_transform.Transposed();
+
+	ImGuiIO& io = ImGui::GetIO();
+
+	int w, h;
+
+	w = App->window->GetWidth();
+	h = App->window->GetHeight();
+	ImGuizmo::SetRect(0, 0, (float)w, float(h));
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	{
+		ImGuizmo::Manipulate(App->camera->GetViewMatrix().ptr(), projMatrix.ptr(), ImGuizmo::TRANSLATE, ImGuizmo::LOCAL, trans.ptr());
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+	{
+		ImGuizmo::Manipulate(App->camera->GetViewMatrix().ptr(), projMatrix.ptr(), ImGuizmo::ROTATE, ImGuizmo::LOCAL, trans.ptr());
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+		ImGuizmo::Manipulate(App->camera->GetViewMatrix().ptr(), projMatrix.ptr(), ImGuizmo::SCALE, ImGuizmo::LOCAL, trans.ptr());
+	}
+
+	if (ImGuizmo::IsUsing())
+	{
+		
+		ImGuizmo::DecomposeMatrixToComponents(trans.ptr(), (float*)position.ptr(), (float*)Euler_rotation.ptr(), (float*)scale.ptr());
+		global_transform.Transpose();
+		ImGuizmo::RecomposeMatrixFromComponents((float*)position.ptr(), (float*)Euler_rotation.ptr(), (float*)scale.ptr(), global_transform.ptr());
+		global_transform.Transpose();
+	}
+//	LOG_OUT("On Guizmo!!!!");
+
+
+
+
+
+
+}
+
+void Transform::Edit()
+{
+	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
+	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+	if (ImGui::IsKeyPressed(90))
+		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+	if (ImGui::IsKeyPressed(69))
+		mCurrentGizmoOperation = ImGuizmo::ROTATE;
+	if (ImGui::IsKeyPressed(82)) // r Key
+		mCurrentGizmoOperation = ImGuizmo::SCALE;
+	if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
+		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
+		mCurrentGizmoOperation = ImGuizmo::ROTATE;
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
+		mCurrentGizmoOperation = ImGuizmo::SCALE;
+	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+
+	ImGui::InputFloat3("Tr", matrixTranslation, 3);
+	ImGui::InputFloat3("Rt", matrixRotation, 3);
+	ImGui::InputFloat3("Sc", matrixScale, 3);
+
+
+	if (mCurrentGizmoOperation != ImGuizmo::SCALE)
+	{
+		if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
+			mCurrentGizmoMode = ImGuizmo::LOCAL;
+		ImGui::SameLine();
+		if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
+			mCurrentGizmoMode = ImGuizmo::WORLD;
+	}
+	static bool useSnap(false);
+	if (ImGui::IsKeyPressed(83))
+		useSnap = !useSnap;
+	ImGui::Checkbox("", &useSnap);
+	ImGui::SameLine();
+
+	ImGuiIO& io = ImGui::GetIO();
+	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
 }

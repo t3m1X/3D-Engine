@@ -24,7 +24,7 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Init(JSON_File* conf)
 {
-	LOG("Creating 3D Renderer context");
+	LOG_OUT("Creating 3D Renderer context");
 	bool ret = true;
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -40,7 +40,7 @@ bool ModuleRenderer3D::Init(JSON_File* conf)
 	context = SDL_GL_CreateContext(App->window->window);
 	if(context == NULL)
 	{
-		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
+		LOG_OUT("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 	
@@ -48,7 +48,7 @@ bool ModuleRenderer3D::Init(JSON_File* conf)
 	{
 		//Use Vsync
 		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
-			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+			LOG_OUT("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
@@ -58,7 +58,7 @@ bool ModuleRenderer3D::Init(JSON_File* conf)
 		GLenum error = glGetError();
 		if(error != GL_NO_ERROR)
 		{
-			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			LOG_OUT("Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
 
@@ -70,7 +70,7 @@ bool ModuleRenderer3D::Init(JSON_File* conf)
 		error = glGetError();
 		if(error != GL_NO_ERROR)
 		{
-			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			LOG_OUT("Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
 		
@@ -84,20 +84,20 @@ bool ModuleRenderer3D::Init(JSON_File* conf)
 		error = glGetError();
 		if(error != GL_NO_ERROR)
 		{
-			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			LOG_OUT("Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
 
 		GLenum err = glewInit();
 		if (err != GLEW_OK) {
-			LOG("GLEW NOT OK");
+			LOG_OUT("GLEW NOT OK");
 			exit(EXIT_FAILURE);
 		}
-		LOG("Using Glew %s", glewGetString(GLEW_VERSION));
-		LOG("Vendor: %s", glGetString(GL_VENDOR));
-		LOG("Renderer: %s", glGetString(GL_RENDERER));
-		LOG("OpenGL version supported %s", glGetString(GL_VERSION));
-		LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+		LOG_OUT("Using Glew %s", glewGetString(GLEW_VERSION));
+		LOG_OUT("Vendor: %s", glGetString(GL_VENDOR));
+		LOG_OUT("Renderer: %s", glGetString(GL_RENDERER));
+		LOG_OUT("OpenGL version supported %s", glGetString(GL_VERSION));
+		LOG_OUT("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
 		GLfloat LightModelAmbient[] = {0.6f, 0.6f, 0.6f, 1.0f};
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
@@ -131,7 +131,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->GetViewMatrix());
+	glLoadMatrixf(App->camera->GetViewMatrix().ptr());
 
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
@@ -147,10 +147,13 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	//App->scene_intro->Draw();
+	
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	App->scene_intro->Draw();
 	UI_attributes();
 	App->imgui->Draw();
 	Custom_attributes();
+	
 	SDL_GL_SwapWindow(App->window->window);
 	
 	return UPDATE_CONTINUE;
@@ -159,7 +162,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 // Called before quitting
 bool ModuleRenderer3D::CleanUp()
 {
-	LOG("Destroying 3D Renderer");
+	LOG_OUT("Destroying 3D Renderer");
 	
 	
 

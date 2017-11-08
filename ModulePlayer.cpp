@@ -19,14 +19,14 @@ ModulePlayer::~ModulePlayer()
 // Load assets
 bool ModulePlayer::Start()
 {
-	LOG("Loading player");
+	LOG_OUT("Loading player");
 	return true;
 }
 
 // Unload assets
 bool ModulePlayer::CleanUp()
 {
-	LOG("Unloading player");
+	LOG_OUT("Unloading player");
 	return true;
 }
 

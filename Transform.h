@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "glmath.h"
 #include "MathGeoLib\include\MathGeoLib.h"
+#include "ModuleCamera3D.h"
 
 class Transform : public Component {
 
@@ -30,6 +31,8 @@ class Transform : public Component {
 		float4x4 GetGlobalTransform() const;
 		void RecalculateTransform();
 		float3 GetPosition()const;
+		void OnGuizmo();
+		void Edit();
 
 	private:
 		float4x4 local_transform;
