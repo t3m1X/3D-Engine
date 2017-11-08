@@ -65,19 +65,17 @@ void Camera3D::SetFarPlaneDistance(const float & set)
 
 void Camera3D::SetFOV(const float & set)
 {
-	if (set > 0)
-		frustum.verticalFov = DEGTORAD * set;
+	float aspect_ratio = frustum.AspectRatio();
 
-	if (aspect_ratio > 0)
-		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect_ratio); 
+	frustum.verticalFov = DEGTORAD * set;
+	SetAspectRatio(aspect_ratio);
 }
 
 void Camera3D::SetAspectRatio(const float & set)
 {
 	aspect_ratio = set;
 
-	if (frustum.verticalFov > 0)
-		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect_ratio);
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect_ratio);
 }
 
 const float Camera3D::GetNearPlaneFistance() const

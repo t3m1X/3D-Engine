@@ -7,6 +7,7 @@
 #include "imgui.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleWindow.h"
+#include "ModuleImGui.h"
 
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
@@ -125,29 +126,30 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
-		float width = (float)App->window->GetWidth();
-		float height = (float)App->window->GetHeight();
+		if (!App->imgui->HoveringWindow()) {
+			float width = (float)App->window->GetWidth();
+			float height = (float)App->window->GetHeight();
 
-		int mouse_x, mouse_y;
-		mouse_x = (float)App->input->GetMouseX();
-		mouse_y = (float)App->input->GetMouseY();
+			int mouse_x, mouse_y;
+			mouse_x = (float)App->input->GetMouseX();
+			mouse_y = (float)App->input->GetMouseY();
 
-		float normalized_x = -(1.0f - (float(mouse_x) * 2.0f) / width);
-		float normalized_y = 1.0f - (float(mouse_y) * 2.0f) / height;
+			float normalized_x = -(1.0f - (float(mouse_x) * 2.0f) / width);
+			float normalized_y = 1.0f - (float(mouse_y) * 2.0f) / height;
 
-		LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(normalized_x, normalized_y); 
-		pick = picking;
-		App->scene_intro->selected = App->scene_intro->SelectObject(picking);
+			LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(normalized_x, normalized_y);
+			pick = picking;
+			App->scene_intro->selected = App->scene_intro->SelectObject(picking);
+		}
 	}
+		if (debug) {
+			DrawDebug();
+		}
 
-	if (debug) {
-		DrawDebug();
-	}
-
-	PrimitiveLine_Ray a(pick.a.x, pick.a.y, pick.a.z, pick.b.x, pick.b.y, pick.b.z);
-	a.color = Blue;
-	a.Render();
-
+		PrimitiveLine_Ray a(pick.a.x, pick.a.y, pick.a.z, pick.b.x, pick.b.y, pick.b.z);
+		a.color = Blue;
+		a.Render();
+	
 
 	
 	return UPDATE_CONTINUE;

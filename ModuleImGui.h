@@ -35,6 +35,7 @@ public:
 	void AddPanel(Panel* panel);
 	void Setproperties(bool set);
 	GameObject* curr_obj;
+	bool HoveringWindow();
 
 private:
 
