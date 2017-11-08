@@ -17,6 +17,7 @@ class ModuleImGui;
 class ModuleTextures;
 class ModuleJSON;
 class Console;
+class FileSystem;
 
 class Application
 {
@@ -35,6 +36,8 @@ public:
 	list<Module*> list_modules;
 	Console* con;
 	ModuleTextures* tex;
+	FileSystem* fs;
+	
 
 private:
 

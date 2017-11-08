@@ -33,6 +33,21 @@ int Texture::Getheight()
 	return height;
 }
 
+const char * Texture::GetPath() const
+{
+	return path;
+}
+
+const char * Texture::GetName() const
+{
+	return name;
+}
+
+int Texture::GetFormat() const
+{
+	return format;
+}
+
 void Texture::SetId(uint id)
 {
 	
@@ -52,6 +67,21 @@ void Texture::Setheight(int h)
 void Texture::SetTextureType(TEXTURE_TYPE t)
 {
 	type = t;
+}
+
+void Texture::SetPath(const char * path)
+{
+	this->path = path;
+}
+
+void Texture::SetName(const char * name)
+{
+	this->name = name;
+}
+
+void Texture::SetFormat(int  f)
+{
+	this->format = f;
 }
 
 TEXTURE_TYPE Texture::GetType()
@@ -76,6 +106,13 @@ bool ModuleTextures::Init(JSON_File* conf)
 	iluInit();
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
+
+	clamp_type = clampingTexType_ClampRepeat;
+	interpolation_type = interpolationTexType_Linear;
+
+	clamping_str = "Clamp to Edge\0Repeat\0Mirrored Repeat\0";
+	interpolate_str = "Nearest\0Linear\0";
+
 	LOG("Devil init");
 	return ret;
 }

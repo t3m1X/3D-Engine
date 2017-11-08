@@ -15,6 +15,7 @@
 #include "ModuleImGui.h"
 #include "ModuleJson.h"
 #include "ModuleTextures.h"
+#include "ModuleFilesystem.h"
 
 
 Application::Application()
@@ -29,6 +30,7 @@ Application::Application()
 	organization = nullptr;
 	version = nullptr;
 	window = new ModuleWindow();
+	fs = new FileSystem();
 	input = new ModuleInput();
 	audio = new ModuleAudio(true);
 	scene_intro = new ModuleSceneIntro();
@@ -40,7 +42,6 @@ Application::Application()
 	json = new ModuleJSON();
 	loader = new ModuleLoader();
 	tex = new ModuleTextures();
-
 	con = new Console();
 	imgui->AddPanel(con);
 	// The order of calls is very important!
@@ -57,6 +58,7 @@ Application::Application()
 	AddModule(loader);
 	AddModule(physics);
 	AddModule(tex);
+	AddModule(fs);
 	
 
 	// Scenes
@@ -67,6 +69,7 @@ Application::Application()
 	// Renderer last!
 	AddModule(renderer3D);
 	AddModule(imgui);
+
 	
 	
 }

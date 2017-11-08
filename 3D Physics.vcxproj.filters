@@ -55,6 +55,9 @@
     <Filter Include="Sources\ImGui\ImGuizmo">
       <UniqueIdentifier>{5f04131d-37c6-4e80-805b-91fd3a783348}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Modules\Game\Importer">
+      <UniqueIdentifier>{7485f9c5-0b75-4d50-a911-61a3493c12cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -375,6 +378,18 @@
     <ClInclude Include="ModuleFilesystem.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Importer.h">
+      <Filter>Sources\Modules\Game\Importer</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialImporter.h">
+      <Filter>Sources\Modules\Game\Importer</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshImporter.h">
+      <Filter>Sources\Modules\Game\Importer</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureImporter.h">
+      <Filter>Sources\Modules\Game\Importer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -607,6 +622,15 @@
     </ClCompile>
     <ClCompile Include="ModuleFilesystem.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialImporter.cpp">
+      <Filter>Sources\Modules\Game\Importer</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshImporter.cpp">
+      <Filter>Sources\Modules\Game\Importer</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureImporter.cpp">
+      <Filter>Sources\Modules\Game\Importer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

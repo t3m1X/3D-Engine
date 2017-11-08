@@ -28,7 +28,16 @@ public:
 
 	vector<string> ListFiles(const char * path, const char* extension = "*") const;
 
-private:
+	uint Load(const char* path, char** buffer);
+	bool SaveUnique(const char* path, const char* file_content, const char* name, const char* extension, int size, std::string& output_file, bool gen_uid = true); 
+
+	string GetFileFromPath(const char * path);
+	inline bool exists(const std::string& path) {
+		struct stat buffer;
+		return (stat(path.c_str(), &buffer) == 0);
+	}
+
+public:
 	string base_path;
 	string settings_path;
 	string assets_path;

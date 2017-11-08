@@ -2,6 +2,7 @@
 #include "Application.h"
 #include <Windows.h>
 #include <fstream>
+#include "mmgr\mmgr.h"
 
 void ReplaceCharacter(string& str, char old_c, char new_c)
 {
@@ -9,7 +10,7 @@ void ReplaceCharacter(string& str, char old_c, char new_c)
 		if (*it == old_c) *it = new_c;
 }
 
-FileSystem::FileSystem(bool start_enabled)
+FileSystem::FileSystem(bool start_enabled) : Module(start_enabled)
 {
 	SetName("FileSystem");
 
@@ -235,4 +236,97 @@ vector<string> FileSystem::ListFiles(const char * path, const char* extension) c
 	FindClose(handle);
 
 	return files;
+}
+
+uint FileSystem::Load(const char * path, char ** buffer)
+{
+	uint ret = 0;
+
+	std::ofstream;
+	FILE* load_file = fopen(path, "rb");
+
+	if (load_file) {
+
+		int size = 0;
+
+		std::ifstream in(path, std::ifstream::ate | std::ifstream::binary);
+		size = in.tellg();
+
+		if (size > 0) {
+			*buffer = new char[size];
+			uint readed = (uint)fread(*buffer, sizeof(char), size, load_file);
+			if (readed != size) {
+				LOG("ERROR while reading file:\n\t%s", path);
+				if (*buffer != nullptr)
+					delete[] buffer;
+			}
+			else {
+				ret = readed;
+			}
+		}
+		if (fclose(load_file) != 0) {
+			LOG("ERROR while closing file:\n\t%s", path);
+		}
+	}
+	else {
+		LOG("ERROR while opening file:\n\t%s\n\t%s", path, strerror(errno));
+	}
+
+	return ret;
+}
+
+bool FileSystem::SaveUnique(const char * path, const char * file_content, const char * name, const char * extension, int size, std::string & output_file, bool gen_uid)
+{
+	bool ret = false;
+
+	uint uniqueID = 0;
+	string file;
+
+	if (gen_uid == true) {
+		do {
+			file = path;
+			file += name;
+			file += "_";
+			file += std::to_string(uniqueID++);
+			file += ".";
+			file += extension;
+		} while (exists(file));
+	}
+	else {
+		file = path;
+		file += name;
+		file += ".";
+		file += extension;
+	}
+
+	std::ofstream;
+	FILE* new_file = fopen(file.c_str(), "wb");
+
+	if (new_file)
+	{
+		fwrite(file_content, sizeof(char), size, new_file);
+		ret = true;
+	}
+	else
+	{
+		LOG("ERROR saving unique file %s: ", name);
+	}
+
+	fclose(new_file);
+	return ret;
+}
+
+std::string FileSystem::GetFileFromPath(const char * path)
+{
+	std::string ret;
+
+	for (int i = 0; path[i] != '\0'; i++) {
+		if (path[i] == '\\' || path[i] == '/') {
+			ret.clear();
+			continue;
+		}
+		ret += path[i];
+	}
+
+	return ret;
 }
