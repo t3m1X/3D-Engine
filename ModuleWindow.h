@@ -40,6 +40,7 @@ public:
 	void ImGuiDraw();
 	void Load(JSON_File* config);
 	void Save(JSON_File* config);
+	uint ModuleWindow::GetRefreshRate() const;
 
 public:
 	//The window we'll be rendering to

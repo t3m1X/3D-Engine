@@ -6,6 +6,7 @@
 #include "ModuleSceneIntro.h"
 #include "imgui.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleWindow.h"
 
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
@@ -124,7 +125,17 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
-		LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(-(1 - App->input->GetNormalizedX() * 2), 1 - App->input->GetNormalizedY() * 2);
+		float width = (float)App->window->GetWidth();
+		float height = (float)App->window->GetHeight();
+
+		int mouse_x, mouse_y;
+		mouse_x = (float)App->input->GetMouseX();
+		mouse_y = (float)App->input->GetMouseY();
+
+		float normalized_x = -(1.0f - (float(mouse_x) * 2.0f) / width);
+		float normalized_y = 1.0f - (float(mouse_y) * 2.0f) / height;
+
+		LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(normalized_x, normalized_y); 
 		pick = picking;
 		App->scene_intro->selected = App->scene_intro->SelectObject(picking);
 	}

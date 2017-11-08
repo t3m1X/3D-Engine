@@ -77,6 +77,9 @@ bool ModuleWindow::Init(JSON_File* conf)
 	SetResizable(resizable);
 	SetFullScreenDesktop(fullscreen_desktop);
 	SetTitle(App->GetName());
+
+	SDL_SetWindowSize(window, screen_width, screen_height);
+
 	return ret;
 }
 
@@ -310,3 +313,17 @@ uint ModuleWindow::GetWidth() const
 	return screen_width;
 }
 
+uint ModuleWindow::GetRefreshRate() const
+{
+	uint ret = 0;
+
+	SDL_DisplayMode dm;
+	if (SDL_GetDesktopDisplayMode(0, &dm) != 0) {
+		LOG("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
+	}
+	else {
+		ret = dm.refresh_rate;
+	}
+
+	return ret;
+}
