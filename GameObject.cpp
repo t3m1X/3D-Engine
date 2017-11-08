@@ -94,7 +94,7 @@ void GameObject::Update()
 void GameObject::Draw()
 {
 
-	if (App->camera->GetCurrentCamera()->IsInside(this->boundingbox)) {
+	//if (App->camera->GetCurrentCamera()->IsInside(this->boundingbox)) {
 		bool has_mesh = false;
 		bool has_material = false;
 		Transform* tr = nullptr;
@@ -167,7 +167,7 @@ void GameObject::Draw()
 		glPopMatrix();
 
 		DrawBox();
-	}
+	/*}*/
 }
 
 void GameObject::Enable()

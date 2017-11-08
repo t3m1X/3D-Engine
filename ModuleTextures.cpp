@@ -76,7 +76,7 @@ bool ModuleTextures::Init(JSON_File* conf)
 	iluInit();
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
-	LOG("Devil init");
+	LOG_OUT("Devil init");
 	return ret;
 }
 
@@ -99,7 +99,7 @@ bool ModuleTextures::CleanUp()
 			delete[] textures.front();
 		textures.pop_front();
 	}
-	LOG("Deleted all textures");
+	LOG_OUT("Deleted all textures");
 	return true;
 }
 
@@ -138,11 +138,11 @@ Texture* ModuleTextures::LoadTexture(const char* path)
 	ilGenImages(1, &imageID); 		
 	ilBindImage(imageID); 			
 	success = ilLoadImage(path); 	
-	LOG("Texture load: Loading %s", path);
+	LOG_OUT("Texture load: Loading %s", path);
 											
 	if (success)
 	{
-		LOG("Image loaded succesfully");
+		LOG_OUT("Image loaded succesfully");
 		Texture* tex;
 		ILinfo ImageInfo;
 		iluGetImageInfo(&ImageInfo);
@@ -157,7 +157,7 @@ Texture* ModuleTextures::LoadTexture(const char* path)
 		
 		if (!success)
 		{
-			LOG("Texture load: Image conversion failed: %s\n", ilGetError());
+			LOG_OUT("Texture load: Image conversion failed: %s\n", ilGetError());
 		}
 
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -171,7 +171,7 @@ Texture* ModuleTextures::LoadTexture(const char* path)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 		glTexImage2D(GL_TEXTURE_2D,0,ilGetInteger(IL_IMAGE_FORMAT),ilGetInteger(IL_IMAGE_WIDTH),ilGetInteger(IL_IMAGE_HEIGHT),0,ilGetInteger(IL_IMAGE_FORMAT),GL_UNSIGNED_BYTE,	ilGetData());
-		LOG("Texture load: Texture generated");
+		LOG_OUT("Texture load: Texture generated");
 		tex = new Texture();
 		tex->SetWidth(ImageInfo.Width);
 		tex->Setheight(ImageInfo.Height);
@@ -182,6 +182,6 @@ Texture* ModuleTextures::LoadTexture(const char* path)
 		return tex;
 	}
 	else 
-	LOG("Texture load: Error loading the file %s", path);
+	LOG_OUT("Texture load: Error loading the file %s", path);
 	return nullptr; 
 }

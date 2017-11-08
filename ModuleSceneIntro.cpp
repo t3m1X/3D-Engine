@@ -30,7 +30,7 @@ ModuleSceneIntro::~ModuleSceneIntro()
 // Load assets
 bool ModuleSceneIntro::Start()
 {
-	LOG("Loading Intro assets");
+	LOG_OUT("Loading Intro assets");
 	bool ret = true;
 
 	GameObject* cam_obj = new GameObject("Camera", root);
@@ -69,7 +69,7 @@ bool ModuleSceneIntro::Start()
 // Load assets
 bool ModuleSceneIntro::CleanUp()
 {
-	LOG("Unloading Intro scene");
+	LOG_OUT("Unloading Intro scene");
 
 	delete root;
 
@@ -130,14 +130,14 @@ void ModuleSceneIntro::IntersectAABB(LineSegment & picking, std::vector<GameObje
 			for (uint j = 0; j < root->children[i]->children.size(); j++) {
 				if (picking.Intersects(root->children[i]->children[j]->boundingbox)) {
 					DistanceList.push_back(root->children[i]->children[j]);
-					LOG("AABB hit");
+					LOG_OUT("AABB hit");
 				}
 			}
 		}
 		else {
 			if (picking.Intersects(root->children[i]->boundingbox)) {
 				DistanceList.push_back(root->children[i]);
-				LOG("AABB hit");
+				LOG_OUT("AABB hit");
 			}
 		}
 	}
@@ -161,7 +161,7 @@ GameObject * ModuleSceneIntro::SelectObject(LineSegment picking)
 			if (m != nullptr) {
 				bool hit = m->TriCheck(picking, dist, hitpoint);
 				if (hit) {
-					LOG("HIT!!");
+					LOG_OUT("HIT!!");
 					if (dist < last_distance) {
 						last_distance = dist;
 						closest = DistanceList[i];

@@ -49,14 +49,14 @@ void OctreeNode::Subdivide()
 
 					children[child_index] = new OctreeNode(new_box,this);
 					children[child_index]->box_size = new_lenght;
-					LOG("New node created with size %f", children[child_index]->box_size.x);
+					LOG_OUT("New node created with size %f", children[child_index]->box_size.x);
 					child_index++;
 				}
 			}
 		}
 
 		this->leaf = true;
-		LOG("Node subdivided");
+		LOG_OUT("Node subdivided");
 	}
 	else {
 		for (int i = 0; i < 8; i++) {

@@ -16,7 +16,7 @@ bool ModuleJSON::Awake()
 {
 	bool ret = true;
 
-	LOG("Loading JSON Module");
+	LOG_OUT("Loading JSON Module");
 
 	return ret;
 }
@@ -44,11 +44,11 @@ JSON_File* ModuleJSON::LoadJSON(const char * path)
 
 		if (user_data == nullptr)
 		{
-			LOG("Error loading %s", path);
+			LOG_OUT("Error loading %s", path);
 		}
 		else
 		{
-			LOG("Succes loading %s", path);
+			LOG_OUT("Succes loading %s", path);
 
 			JSON_File* new_doc = new JSON_File(user_data, root_object, path);
 			files.push_back(new_doc);
@@ -77,7 +77,7 @@ JSON_File* ModuleJSON::CreateJSON(const char * path)
 
 	if (exists)
 	{
-		LOG("Error creating %s. There is already a file with this path/name", path);
+		LOG_OUT("Error creating %s. There is already a file with this path/name", path);
 	}
 	else
 	{
@@ -85,7 +85,7 @@ JSON_File* ModuleJSON::CreateJSON(const char * path)
 
 		if (root_value == nullptr)
 		{
-			LOG("Error creating %s. Wrong path?", path);
+			LOG_OUT("Error creating %s. Wrong path?", path);
 		}
 		else
 		{
@@ -106,7 +106,7 @@ bool ModuleJSON::CleanUp()
 {
 	bool ret = true;
 
-	LOG("Unloading JSON Module");
+	LOG_OUT("Unloading JSON Module");
 
 	for (list<JSON_File*>::iterator it = files.begin(); it != files.end();)
 	{

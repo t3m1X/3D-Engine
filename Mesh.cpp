@@ -157,5 +157,5 @@ Mesh::~Mesh()
 	glDeleteBuffers(1, (GLuint*)&this->id_vertices);
 	glDeleteBuffers(1, (GLuint*)&this->id_indices);
 	glDeleteBuffers(1, (GLuint*)&this->id_uv);
-	LOG("Mesh destroyed");
+	LOG_OUT("Mesh destroyed");
 }

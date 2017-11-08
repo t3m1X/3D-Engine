@@ -19,12 +19,12 @@ ModuleWindow::~ModuleWindow()
 bool ModuleWindow::Init(JSON_File* conf)
 {
 	
-	LOG("Init SDL window & surface");
+	LOG_OUT("Init SDL window & surface");
 	bool ret = true;
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
+		LOG_OUT("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 	else
@@ -62,7 +62,7 @@ bool ModuleWindow::Init(JSON_File* conf)
 
 		if(window == NULL)
 		{
-			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+			LOG_OUT("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
 		}
 		else
@@ -86,7 +86,7 @@ bool ModuleWindow::Init(JSON_File* conf)
 // Called before quitting
 bool ModuleWindow::CleanUp()
 {
-	LOG("Destroying SDL window and quitting all SDL systems");
+	LOG_OUT("Destroying SDL window and quitting all SDL systems");
 
 	//Destroy window
 	if(window != NULL)
@@ -154,14 +154,14 @@ void ModuleWindow::SetFullscreen(bool set)
 		if (fullscreen == true)
 		{
 			if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
-				LOG("Could not switch to fullscreen: %s\n", SDL_GetError());
+				LOG_OUT("Could not switch to fullscreen: %s\n", SDL_GetError());
 			fullscreen_desktop = false;
 			SDL_Log("this is a test");
 		}
 		else
 		{
 			if (SDL_SetWindowFullscreen(window, 0) != 0)
-				LOG("Could not switch to windowed: %s\n", SDL_GetError());
+				LOG_OUT("Could not switch to windowed: %s\n", SDL_GetError());
 		}
 	}
 }
@@ -189,13 +189,13 @@ void ModuleWindow::SetFullScreenDesktop(bool set)
 		if (fullscreen_desktop == true)
 		{
 			if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
-				LOG("Could not switch to fullscreen desktop: %s\n", SDL_GetError());
+				LOG_OUT("Could not switch to fullscreen desktop: %s\n", SDL_GetError());
 			fullscreen = false;
 		}
 		else
 		{
 			if (SDL_SetWindowFullscreen(window, 0) != 0)
-				LOG("Could not switch to windowed: %s\n", SDL_GetError());
+				LOG_OUT("Could not switch to windowed: %s\n", SDL_GetError());
 		}
 	}
 }
@@ -204,7 +204,7 @@ void ModuleWindow::SetBrightness(float set)
 {
 	CAP(set);
 	if (SDL_SetWindowBrightness(window, set) != 0)
-		LOG("Could not change window brightness: %s\n", SDL_GetError());
+		LOG_OUT("Could not change window brightness: %s\n", SDL_GetError());
 }
 
 void ModuleWindow::ImGuiDraw()
@@ -319,7 +319,7 @@ uint ModuleWindow::GetRefreshRate() const
 
 	SDL_DisplayMode dm;
 	if (SDL_GetDesktopDisplayMode(0, &dm) != 0) {
-		LOG("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
+		LOG_OUT("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
 	}
 	else {
 		ret = dm.refresh_rate;
