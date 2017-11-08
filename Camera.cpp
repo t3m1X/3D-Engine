@@ -135,7 +135,6 @@ void Camera3D::MoveForward(const float & speed)
 	float3 movement = float3::zero;
 	movement += frustum.Front() * speed;
 	frustum.Translate(movement);
-	frustum.SetUp(frustum.Up());
 }
 
 void Camera3D::MoveBackwards(const float & speed)
@@ -146,7 +145,6 @@ void Camera3D::MoveBackwards(const float & speed)
 	float3 movement = float3::zero;
 	movement -= frustum.Front() * speed;
 	frustum.Translate(movement);
-	frustum.SetUp(frustum.Up());
 }
 
 void Camera3D::MoveRight(const float & speed)
@@ -157,7 +155,6 @@ void Camera3D::MoveRight(const float & speed)
 	float3 movement = float3::zero;
 	movement += frustum.WorldRight() * speed;
 	frustum.Translate(movement);
-	frustum.SetUp(frustum.Up());
 }
 
 void Camera3D::MoveLeft(const float & speed)
@@ -168,7 +165,6 @@ void Camera3D::MoveLeft(const float & speed)
 	float3 movement = float3::zero;
 	movement -= frustum.WorldRight() * speed;
 	frustum.Translate(movement);
-	frustum.SetUp(frustum.Up());
 }
 
 void Camera3D::MoveUp(const float & speed)
@@ -179,7 +175,6 @@ void Camera3D::MoveUp(const float & speed)
 	float3 movement = float3::zero;
 	movement += float3::unitY * speed;
 	frustum.Translate(movement);
-	frustum.SetUp(frustum.Up());
 }
 
 void Camera3D::MoveDown(const float & speed)
@@ -190,7 +185,6 @@ void Camera3D::MoveDown(const float & speed)
 	float3 movement = float3::zero;
 	movement -= float3::unitY * speed;
 	frustum.Translate(movement);
-	frustum.SetUp(frustum.Up());
 }
 
 void Camera3D::Orbit(const float3 & rotate_center, const float & motion_x, const float & motion_y)

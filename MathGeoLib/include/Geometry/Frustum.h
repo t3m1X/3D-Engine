@@ -542,7 +542,8 @@ public:
 	/** @param transform The transformation to apply to this Frustum. This transformation must be
 		affine, and must contain an orthogonal set of column vectors (may not contain shear or projection).
 		The transformation can only contain uniform scale, and may not contain mirroring.
-		@see Translate(), Scale(), classes float3x3, float3x4, float4x4, Quat. */
+		@see Translate(), Scale(), classes float3x3, float3x4, float4x4, Quat. 
+		@note Calling this function recomputes the cached view and projection matrices of this Frustum.*/
 	void Transform(const float3x3 &transform);
 	void Transform(const float3x4 &transform);
 	void Transform(const float4x4 &transform);
