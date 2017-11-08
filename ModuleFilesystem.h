@@ -13,11 +13,29 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	std::string CreateFolder(const char* path, const char* name);
+	string GetBasePath() const;
+	string GetSettingsPath() const;
+	string GetAssetsPath() const;
+	string GetLibraryPath() const;
+	string GetMeshLibraryPath() const;
+	string GetTextureLibraryPath() const;
+
+	string CreateFolder(const char* path, const char* name);
 	bool FSave(const char * path, const char * content, const char * name, const char * extension, int size);
 	bool FDelete(const char* file);
-	bool FMove(const char* file, const char* destination, bool overwrite);
-	bool FCopy(const char* file, const char* destination, bool overwrite);
+	bool FMove(const char* filepath, const char* destination, bool overwrite);
+	bool FCopy(const char* filepath, const char* destination, bool overwrite);
+
+	vector<string> ListFiles(const char * path, const char* extension = "*") const;
+
+private:
+	string base_path;
+	string settings_path;
+	string assets_path;
+	string library_path;
+	string mesh_library_path;
+	string texture_library_path;
+
 };
 
 #endif

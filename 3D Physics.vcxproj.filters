@@ -372,6 +372,9 @@
     <ClInclude Include="Octree.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleFilesystem.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -601,6 +604,9 @@
     </ClCompile>
     <ClCompile Include="ImGui\ImGuizmo\ImGuizmo.cpp">
       <Filter>Sources\ImGui\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleFilesystem.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
