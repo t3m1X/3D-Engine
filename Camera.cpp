@@ -5,6 +5,7 @@
 
 Camera3D::Camera3D()
 {
+	frustum.type = FrustumType::PerspectiveFrustum;
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 
 	frustum.SetPos(float3::zero);

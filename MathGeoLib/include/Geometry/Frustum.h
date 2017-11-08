@@ -97,10 +97,11 @@ enum FrustumHandedness
 /// Represents either an orthographic or a perspective viewing frustum.
 class Frustum
 {
-private:
+public:
 	/// Specifies whether this frustum is a perspective or an orthographic frustum.
 	/** [noscript] @todo Remove the noscript attribute. */
 	FrustumType type;
+private:
 	/// Specifies whether the [-1,1] or [0,1] range is used for the post-projective depth range.
 	FrustumProjectiveSpace projectiveSpace;
 	/// Specifies the chirality of world and view spaces.
@@ -173,7 +174,7 @@ public:
 			if the defaults were uninitialized.
 		[opaque-qtscript] @todo remove the opaque-qtscript attribute.
 		@see type, pos, front, up, nearPlaneDistance, projectiveSpace, handedness, farPlaneDistance, horizontalFov, verticalFov, orthographicWidth, orthographicHeight. */
-	Frustum();
+	Frustum() {}
 
 	/// Sets the type of this Frustum.
 	/** @note Calling this function recomputes the cached view and projection matrices of this Frustum.

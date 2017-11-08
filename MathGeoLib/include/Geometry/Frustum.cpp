@@ -54,35 +54,35 @@
 
 MATH_BEGIN_NAMESPACE
 
-Frustum::Frustum()
-:type(InvalidFrustum),
-pos(vec::nan),
-front(vec::nan),
-up(vec::nan),
-nearPlaneDistance(FLOAT_NAN),
-farPlaneDistance(FLOAT_NAN),
-worldMatrix(float3x4::nan),
-viewProjMatrix(float4x4::nan)
-{
-	// For conveniency, allow automatic initialization of the graphics API and handedness in use.
-	// If neither of the #defines are set, user must specify per-instance.
-
-#ifdef MATH_USE_DIRECT3D
-	projectiveSpace = FrustumSpaceD3D;
-#elif defined(MATH_USE_OPENGL)
-	projectiveSpace = FrustumSpaceGL;
-#else
-	projectiveSpace = FrustumSpaceInvalid;
-#endif
-
-#ifdef MATH_LEFTHANDED_CAMERA
-	handedness = FrustumLeftHanded;
-#elif defined(MATH_RIGHTHANDED_CAMERA)
-	handedness = FrustumRightHanded;
-#else
-	handedness = FrustumHandednessInvalid;
-#endif
-}
+//Frustum::Frustum()
+//:type(InvalidFrustum),
+//pos(vec::nan),
+//front(vec::nan),
+//up(vec::nan),
+//nearPlaneDistance(FLOAT_NAN),
+//farPlaneDistance(FLOAT_NAN),
+//worldMatrix(float3x4::nan),
+//viewProjMatrix(float4x4::nan)
+//{
+//	// For conveniency, allow automatic initialization of the graphics API and handedness in use.
+//	// If neither of the #defines are set, user must specify per-instance.
+//
+//#ifdef MATH_USE_DIRECT3D
+//	projectiveSpace = FrustumSpaceD3D;
+//#elif defined(MATH_USE_OPENGL)
+//	projectiveSpace = FrustumSpaceGL;
+//#else
+//	projectiveSpace = FrustumSpaceInvalid;
+//#endif
+//
+//#ifdef MATH_LEFTHANDED_CAMERA
+//	handedness = FrustumLeftHanded;
+//#elif defined(MATH_RIGHTHANDED_CAMERA)
+//	handedness = FrustumRightHanded;
+//#else
+//	handedness = FrustumHandednessInvalid;
+//#endif
+//}
 
 void Frustum::SetKind(FrustumProjectiveSpace p, FrustumHandedness h)
 {
