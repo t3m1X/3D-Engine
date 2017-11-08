@@ -197,9 +197,9 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 }
 
 // -----------------------------------------------------------------
-float* ModuleCamera3D::GetViewMatrix()
+float4x4 ModuleCamera3D::GetViewMatrix()
 {
-	return editor_camera->GetViewMatrix().Transposed().ptr();
+	return editor_camera->GetViewMatrix().Transposed();
 }
 
 

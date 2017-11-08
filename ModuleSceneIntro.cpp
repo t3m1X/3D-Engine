@@ -183,7 +183,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	
 	DrawHierarchy();
 	root->Update();
-	root->Draw();
+	//root->Draw();
 	octree->DebugDraw();
 	p.Render();
 

@@ -131,7 +131,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->GetViewMatrix());
+	glLoadMatrixf(App->camera->GetViewMatrix().ptr());
 
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
@@ -147,10 +147,13 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	//App->scene_intro->Draw();
+	
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 	UI_attributes();
 	App->imgui->Draw();
 	Custom_attributes();
+	App->scene_intro->Draw();
 	SDL_GL_SwapWindow(App->window->window);
 	
 	return UPDATE_CONTINUE;

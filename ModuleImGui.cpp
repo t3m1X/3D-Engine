@@ -84,15 +84,7 @@ update_status ModuleImGui::Update(float dt)
 
 	if (App->scene_intro->selected!=nullptr)
 		{
-		Transform* trans = (Transform*)App->scene_intro->selected->FindComponentbyType(TRANSFORM);
-		ImGuiIO& io = ImGui::GetIO();
-		ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-		if (trans != nullptr) {
-			//ImGuizmo::SetDrawlist();
-			ImGuizmo::Manipulate(App->camera->GetViewMatrix(), App->camera->GetEditorCamera()->GetProjectionMatrix().Transposed().ptr(), curr_operation, curr_mode, trans->GetGlobalTransform().Transposed().ptr());
-			ImGuizmo::Enable(true);
-			
-		}
+		App->scene_intro->selected->OnGuizmo();
 		}
 	//Menu///////////////////
 

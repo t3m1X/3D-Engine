@@ -115,6 +115,7 @@ void GameObject::Draw()
 
 			DrawBox();
 
+			
 			glMatrixMode(GL_MODELVIEW);
 
 			Mesh* m = (Mesh*)this->FindComponentbyType(MESH);
@@ -136,6 +137,7 @@ void GameObject::Draw()
 			}
 
 			if (has_material) {
+				glDisable(GL_COLOR_MATERIAL);
 				Material* mat = (Material*)this->FindComponentbyType(MATERIAL);
 				glBindTexture(GL_TEXTURE_2D, (GLuint)mat->FindtexturebyType(DIFFUSE)->Getid());
 			}
@@ -154,6 +156,7 @@ void GameObject::Draw()
 
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glEnable(GL_COLOR_MATERIAL);
 
 		}
 
@@ -411,6 +414,13 @@ void GameObject::DrawBox()
 
 	delete[] lines;
 	delete[] colors;
+}
+
+void GameObject::OnGuizmo()
+{
+	Transform* trans = (Transform*)FindComponentbyType(TRANSFORM);
+	if(trans!=nullptr)
+	trans->OnGuizmo();
 }
 
 

@@ -47,6 +47,7 @@ public:
 	vector<GameObject*> GetChild() const;
 	GameObject* GetParent() const;
 	void DrawBox();
+	void OnGuizmo();
 	
 		
 public:
