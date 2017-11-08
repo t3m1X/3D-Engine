@@ -149,11 +149,11 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	//App->scene_intro->Draw();
 	
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
+	App->scene_intro->Draw();
 	UI_attributes();
 	App->imgui->Draw();
 	Custom_attributes();
-	App->scene_intro->Draw();
+	
 	SDL_GL_SwapWindow(App->window->window);
 	
 	return UPDATE_CONTINUE;
