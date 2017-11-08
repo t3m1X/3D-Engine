@@ -6,6 +6,7 @@
 #include "ModuleImGui.h"
 #include "Transform.h"
 #include "ModuleCamera3D.h"
+#include "ModuleSceneIntro.h"
 
 
 GameObject::GameObject(std::string name, GameObject* _parent) : parent(_parent)
@@ -281,7 +282,7 @@ void GameObject::UIDraw()
 
 	if (ImGui::TreeNodeEx(name.c_str(), flags)) {
 		if (ImGui::IsItemClicked()) {
-			App->imgui->curr_obj = this;
+			App->scene_intro->selected = this;
 		}
 
 		for (uint i = 0; i < children.size(); i++) {

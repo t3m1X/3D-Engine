@@ -33,7 +33,7 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	/*GameObject* cam_obj = new GameObject("Camera", root);
+	GameObject* cam_obj = new GameObject("Camera", root);
 
 	Quat rot = Quat::identity;
 	float3 scale;
@@ -46,7 +46,7 @@ bool ModuleSceneIntro::Start()
 	trans->SetScale(scale);
 	cam_obj->AddComponent(trans);
 	ComponentCamera* cam = new ComponentCamera(cam_obj);
-	cam_obj->AddComponent(cam);*/
+	cam_obj->AddComponent(cam);
 
 
 	float3 max_point;
@@ -60,7 +60,8 @@ bool ModuleSceneIntro::Start()
 	octree->Create(max_point, min_point);
 
 	
-	//App->camera->SetCurrentCamera(cam->GetCamera());
+	App->camera->SetCurrentCamera(cam->GetCamera());
+	selected = cam_obj;
 
 	return ret;
 }
