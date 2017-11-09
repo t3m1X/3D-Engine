@@ -33,7 +33,7 @@ bool ModuleSceneIntro::Start()
 	LOG_OUT("Loading Intro assets");
 	bool ret = true;
 
-	GameObject* cam_obj = new GameObject("Camera", root);
+	/*GameObject* cam_obj = new GameObject("Camera", root);
 
 	Quat rot = Quat::identity;
 	float3 scale;
@@ -62,7 +62,7 @@ bool ModuleSceneIntro::Start()
 	
 	App->camera->SetCurrentCamera(cam->GetCamera());
 	selected = cam_obj;
-
+	*/
 	return ret;
 }
 
@@ -185,7 +185,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	DrawHierarchy();
 	root->Update();
 	//root->Draw();
-	octree->DebugDraw();
+	//octree->DebugDraw();
 	p.Render();
 
 	
