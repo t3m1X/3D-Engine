@@ -55,9 +55,6 @@
     <Filter Include="Sources\ImGui\ImGuizmo">
       <UniqueIdentifier>{5f04131d-37c6-4e80-805b-91fd3a783348}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Modules\Game\Importer">
-      <UniqueIdentifier>{7485f9c5-0b75-4d50-a911-61a3493c12cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources\MathGeoLib\Algorithm">
       <UniqueIdentifier>{c4270821-1c72-43be-8584-029cffeaf5d0}</UniqueIdentifier>
     </Filter>
@@ -69,6 +66,9 @@
     </Filter>
     <Filter Include="Sources\MathGeoLib\Time">
       <UniqueIdentifier>{ec51fc52-acb2-491c-ad49-c42543cc6ab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Modules\Importer">
+      <UniqueIdentifier>{7485f9c5-0b75-4d50-a911-61a3493c12cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -400,16 +400,16 @@
       <Filter>Sources\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Importer.h">
-      <Filter>Sources\Modules\Game\Importer</Filter>
+      <Filter>Sources\Modules\Importer</Filter>
     </ClInclude>
     <ClInclude Include="MaterialImporter.h">
-      <Filter>Sources\Modules\Game\Importer</Filter>
+      <Filter>Sources\Modules\Importer</Filter>
     </ClInclude>
     <ClInclude Include="MeshImporter.h">
-      <Filter>Sources\Modules\Game\Importer</Filter>
+      <Filter>Sources\Modules\Importer</Filter>
     </ClInclude>
     <ClInclude Include="TextureImporter.h">
-      <Filter>Sources\Modules\Game\Importer</Filter>
+      <Filter>Sources\Modules\Importer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -549,13 +549,13 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="MaterialImporter.cpp">
-      <Filter>Sources\Modules\Game\Importer</Filter>
+      <Filter>Sources\Modules\Importer</Filter>
     </ClCompile>
     <ClCompile Include="MeshImporter.cpp">
-      <Filter>Sources\Modules\Game\Importer</Filter>
+      <Filter>Sources\Modules\Importer</Filter>
     </ClCompile>
     <ClCompile Include="TextureImporter.cpp">
-      <Filter>Sources\Modules\Game\Importer</Filter>
+      <Filter>Sources\Modules\Importer</Filter>
     </ClCompile>
     <ClCompile Include="MathGeoLib\include\Algorithm\Random\LCG.cpp">
       <Filter>Sources\MathGeoLib\Algorithm\Random</Filter>

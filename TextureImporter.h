@@ -3,7 +3,7 @@
 #define __TEXTUREIMPORTER_H__
 
 #include "Importer.h"
-#include "ModuleTextures.h"
+struct Texture;
 
 class TextureImporter {
 public:

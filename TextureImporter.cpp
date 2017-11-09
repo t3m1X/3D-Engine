@@ -1,6 +1,8 @@
+#include "Application.h"
 #include "TextureImporter.h"
 #include "ModuleFilesystem.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleTextures.h"
 
 #include "Devil\include\il.h"
 #include "Devil\include\ilu.h"
@@ -69,7 +71,7 @@ bool TextureImporter::Import(const void * buffer, uint size, std::string & outpu
 	}
 
 	if (ret == false)
-		LOG("ERROR importing texture from buffer");
+		LOG_OUT("ERROR importing texture from buffer");
 
 	return ret;
 }
@@ -104,7 +106,7 @@ bool TextureImporter::Load(const char * exported_file)
 		}
 		if (!ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE)) {
 			error = ilGetError();
-			LOG("Texture Image conversion Failed: %d %s", error, iluErrorString(error));
+			LOG_OUT("Texture Image conversion Failed: %d %s", error, iluErrorString(error));
 		}
 		else {
 
@@ -166,14 +168,14 @@ bool TextureImporter::Load(const char * exported_file)
 	}
 	else {
 		error = ilGetError();
-		LOG("Image Load Error %d %s", error, iluErrorString(error));
+		LOG_OUT("Image Load Error %d %s", error, iluErrorString(error));
 	}
 
 	//glBindTexture(GL_TEXTURE_2D, 0);
 
 	ilDeleteImages(1, &imageID);
 
-	LOG("Texture Load End:\n\t%s", exported_file);
+	LOG_OUT("Texture Load End:\n\t%s", exported_file);
 
 	return ret;
 }
@@ -201,7 +203,7 @@ bool TextureImporter::Load(const char * exported_file, Texture * tex)
 			}
 			if (!ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE)) {
 				error = ilGetError();
-				LOG("Texture Image conversion Failed: %d %s", error, iluErrorString(error));
+				LOG_OUT("Texture Image conversion Failed: %d %s", error, iluErrorString(error));
 			}
 			else {
 
@@ -264,14 +266,14 @@ bool TextureImporter::Load(const char * exported_file, Texture * tex)
 		}
 		else {
 			error = ilGetError();
-			LOG("Image Load Error %d %s", error, iluErrorString(error));
+			LOG_OUT("Image Load Error %d %s", error, iluErrorString(error));
 		}
 
 		//glBindTexture(GL_TEXTURE_2D, 0);
 
 		ilDeleteImages(1, &imageID);
 
-		LOG("Texture Load End:\n\t%s", exported_file);
+		LOG_OUT("Texture Load End:\n\t%s", exported_file);
 
 		return ret;
 	};

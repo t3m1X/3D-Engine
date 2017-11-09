@@ -3,6 +3,8 @@
 #define __MESHIMPORTER_H__
 
 #include "Importer.h"
+#include "Globals.h"
+#include <string>
 
 class MeshImporter : Importer {
 public:
