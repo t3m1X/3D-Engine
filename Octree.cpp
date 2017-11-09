@@ -171,10 +171,12 @@ void OctreeNode::AddGO(GameObject * go)
 		if (!IsFull())
 		{
 			objects.push_back(go);
+			LOG_OUT("Object added to the octree");
 		}
 		else
 		{
 			Subdivide();
+			LOG_OUT("Object added to the octree, forced division");
 		}
 	}
 
@@ -191,9 +193,39 @@ void OctreeNode::AddGO(GameObject * go)
 	}
 }
 
+void OctreeNode::EraseInNode(GameObject * go)
+{
+	if (std::find(objects.begin(), objects.end(), go) != objects.end())
+	{
+		objects.remove(go);
+	}
+
+	if (children[0] != nullptr)
+	{
+		int childs_obj_num = 0;
+		for (int i = 0; i < 8; i++)
+		{
+			children[i]->EraseInNode(go);
+			childs_obj_num += children[i]->objects.size();
+		}
+		if (childs_obj_num == 0)
+		{
+			ClearNode();
+		}
+	}
+}
+
 bool OctreeNode::IsFull()
 {
 	return objects.size() == capacity;
+}
+
+void OctreeNode::ClearNode()
+{
+	for (int i = 0; i < 8; ++i)
+	{
+		RELEASE(children[i]);
+	}
 }
 
 void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list, GameObject * go)
@@ -209,11 +241,11 @@ void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list
 		}
 	}
 
-	for (uint i = 0; i < objects.size(); i++)
+	for (std::list<GameObject*>::iterator it = objects.begin(); it != objects.end(); it++)
 	{
-		if ((objects[i]->boundingbox.Intersects(go->boundingbox)))
+		if ((*it)->boundingbox.Intersects(go->boundingbox))
 		{
-			intersections_list.push_back(objects[i]);
+			intersections_list.push_back(*it);
 		}
 	}
 }
@@ -273,4 +305,24 @@ void Octree::InsertGO(GameObject * go)
 	if (root != nullptr) {
 		root->AddGO(go);
 	}
+}
+
+void Octree::EraseGO(GameObject * go)
+{
+	if (root != nullptr)
+	{
+
+		root->EraseInNode(go);
+	}
+
+		/*if (go->boundingbox.minPoint.x == root->box.minPoint.x || go->boundingbox.minPoint.y == root->box.minPoint.y || go->boundingbox.minPoint.z == root->box.minPoint.z ||go->boundingbox.maxPoint.x == root->box.maxPoint.x || go->boundingbox.maxPoint.y == root->box.maxPoint.y || go->boundingbox.maxPoint.z == root->box.maxPoint.z)
+		{
+			need_update = true;
+		}
+
+		if (!need_update)
+		{
+			root->EraseInNode(go);
+		}
+	}*/
 }

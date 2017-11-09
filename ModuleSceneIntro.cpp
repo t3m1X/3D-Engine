@@ -81,7 +81,11 @@ bool ModuleSceneIntro::CleanUp()
 void ModuleSceneIntro::AddObject(GameObject * obj)
 {
 	root->AddChild(obj);
-	objects.push_back(obj);
+
+	if (obj->GetStatic()) {
+		octree->InsertGO(obj);
+	}
+	
 }
 
 

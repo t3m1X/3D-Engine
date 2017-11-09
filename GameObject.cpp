@@ -18,6 +18,7 @@ GameObject::GameObject(std::string name, GameObject* _parent) : parent(_parent)
 		_parent->AddChild(this);
 
 	boundingbox.SetNegativeInfinity();
+	Static = false;
 	/*
 	boundingbox.r = { 0,0,0 };
 
@@ -51,6 +52,8 @@ GameObject::GameObject(std::string name, uint id, GameObject* _parent) : parent(
 
 	if (_parent != nullptr)
 		_parent->AddChild(this);
+
+	Static = false;
 	/*
 	boundingbox.r = { 0,0,0 };
 
@@ -297,6 +300,16 @@ void GameObject::UIDraw()
 
 void GameObject::DrawComponents()
 {
+	if (ImGui::Checkbox("Static",&Static)) {
+		if (GetStatic()) {
+			
+			App->scene_intro->octree->InsertGO(this);
+		}
+		else {
+			
+			App->scene_intro->octree->EraseGO(this);
+		}
+	}
 	if (!components.empty()) {
 		for (uint i = 0; i < components.size(); i++) {
 			components[i]->UI_draw();
@@ -429,7 +442,7 @@ bool GameObject::GetStatic()
 	return Static;
 }
 
-void GameObject::SetStatic(bool & set)
+void GameObject::SetStatic(bool  set)
 {
 	Static = set;
 }
