@@ -33,7 +33,7 @@ bool ModuleSceneIntro::Start()
 	LOG_OUT("Loading Intro assets");
 	bool ret = true;
 
-	/*GameObject* cam_obj = new GameObject("Camera", root);
+	GameObject* cam_obj = new GameObject("Camera", root);
 
 	Quat rot = Quat::identity;
 	float3 scale;
@@ -59,10 +59,11 @@ bool ModuleSceneIntro::Start()
 
 	octree->Create(max_point, min_point);
 
+
 	
 	App->camera->SetCurrentCamera(cam->GetCamera());
 	selected = cam_obj;
-	*/
+	
 	return ret;
 }
 
@@ -80,6 +81,7 @@ bool ModuleSceneIntro::CleanUp()
 void ModuleSceneIntro::AddObject(GameObject * obj)
 {
 	root->AddChild(obj);
+	objects.push_back(obj);
 }
 
 
@@ -175,6 +177,17 @@ GameObject * ModuleSceneIntro::SelectObject(LineSegment picking)
 	return closest;
 }
 
+void ModuleSceneIntro::FillOctree()
+{
+	if (!objects.empty()) {
+		for (uint i = 0; i < objects.size(); i++) {
+			if (objects[i]->GetStatic()) {
+				octree->InsertGO(objects[i]);
+			}
+		}
+	}
+}
+
 
 // Update
 update_status ModuleSceneIntro::Update(float dt)
@@ -185,7 +198,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	DrawHierarchy();
 	root->Update();
 	//root->Draw();
-	//octree->DebugDraw();
+	octree->DebugDraw();
 	p.Render();
 
 	

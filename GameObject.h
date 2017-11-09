@@ -48,7 +48,8 @@ public:
 	GameObject* GetParent() const;
 	void DrawBox();
 	void OnGuizmo();
-	
+	bool GetStatic();
+	void SetStatic(bool &set);
 		
 public:
 	
@@ -60,6 +61,7 @@ private:
 	bool		enabled = true;
 	bool		selected = false;
 	bool		bbinit = false;
+	bool		Static = false;
 	std::vector<Component*> components;
 	
 	GameObject* parent;	

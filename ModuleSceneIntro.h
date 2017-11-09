@@ -31,12 +31,14 @@ public:
 	void Clear();
 	void IntersectAABB(LineSegment &picking, std::vector<GameObject*>& DistanceList);
 	GameObject* SelectObject(LineSegment picking);
+	void FillOctree();
 	
 public:
 //	std::list<Primitive*> bodies;
 	GameObject* root;
 	GameObject* selected =nullptr;
 	Octree* octree = nullptr;
+	std::vector<GameObject*>objects;
 	bool hierarchy = true;
 
 
