@@ -385,6 +385,8 @@ void Octree::EraseGO(GameObject * go)
 	{
 
 		root->EraseInNode(go);
+		App->scene_intro->non_static_objects.push_back(go);
+		App->scene_intro->static_objects.remove(go);
 		
 	}
 

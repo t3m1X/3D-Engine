@@ -50,6 +50,7 @@ public:
 	void OnGuizmo();
 	bool GetStatic();
 	void SetStatic(bool set);
+	bool HasMesh();
 		
 public:
 	

@@ -18,7 +18,7 @@ GameObject::GameObject(std::string name, GameObject* _parent) : parent(_parent)
 		_parent->AddChild(this);
 
 	boundingbox.SetNegativeInfinity();
-	Static = false;
+	//Static = false;
 	/*
 	boundingbox.r = { 0,0,0 };
 
@@ -449,6 +449,18 @@ bool GameObject::GetStatic()
 void GameObject::SetStatic(bool  set)
 {
 	Static = set;
+}
+
+bool GameObject::HasMesh()
+{
+	bool ret=false;
+
+	for (uint i = 0; i < components.size(); i++) {
+		if (components[i]->GetType() == MESH) {
+			ret = true;
+		}
+	}
+	return ret;
 }
 
 

@@ -85,11 +85,11 @@ void ModuleSceneIntro::AddObject(GameObject * obj)
 
 	if (obj->GetStatic()) {
 		octree->InsertGO(obj);
-		static_objects.push_back(obj);
+	//	static_objects.push_back(obj);
 		LOG_OUT("Insterted in static objects");
 	}
 	else {
-		non_static_objects.push_back(obj);
+		//non_static_objects.push_back(obj);
 		LOG_OUT("Insterted in non static objects");
 	}
 
@@ -110,10 +110,10 @@ void ModuleSceneIntro::Draw()
 		}
 	}
 
-	/*for (std::list<GameObject*>::iterator it = non_static_objects.begin(); it != non_static_objects.end(); it++) {
+	for (std::list<GameObject*>::iterator it = non_static_objects.begin(); it != non_static_objects.end(); it++) {
 		(*it)->Draw();
 		//LOG_OUT("Drawing non static objects");
-	}*/
+	}
 //	root->Draw();
 
 }
