@@ -97,7 +97,7 @@ void GameObject::Update()
 void GameObject::Draw()
 {
 
-	if (App->camera->GetCurrentCamera()->IsInside(this->boundingbox)) {
+	
 		bool has_mesh = false;
 		bool has_material = false;
 		Transform* tr = nullptr;
@@ -170,7 +170,7 @@ void GameObject::Draw()
 		glPopMatrix();
 
 		DrawBox();
-	}
+	
 }
 
 void GameObject::Enable()
@@ -301,13 +301,17 @@ void GameObject::UIDraw()
 void GameObject::DrawComponents()
 {
 	if (ImGui::Checkbox("Static",&Static)) {
+
 		if (GetStatic()) {
 			
 			App->scene_intro->octree->InsertGO(this);
+			
 		}
 		else {
 			
 			App->scene_intro->octree->EraseGO(this);
+			
+			
 		}
 	}
 	if (!components.empty()) {

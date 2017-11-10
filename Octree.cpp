@@ -1,5 +1,8 @@
 #include "Octree.h"
 #include "ModuleRenderer3D.h"
+#include "Camera.h"	
+#include "ModuleSceneIntro.h"
+#include "Application.h"
 
 
 OctreeNode::OctreeNode(AABB& box, OctreeNode* p)
@@ -250,6 +253,53 @@ void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list
 	}
 }
 
+void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list, Camera3D* frust)
+{
+
+
+	if (children[0] != nullptr)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			if (frust->IsInside(children[i]->box))
+			{
+				children[i]->CollectIntersections(intersections_list, frust);
+			}
+		}
+	}
+
+	for (std::list<GameObject*>::iterator it = objects.begin(); it != objects.end(); it++)
+	{
+		if (frust->IsInside((*it)->boundingbox))
+		{
+			intersections_list.push_back(*it);
+		}
+	}
+
+}
+
+void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list, LineSegment line)
+{
+	if (children[0] != nullptr)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			if (children[i]->box.Intersects(line))
+			{
+				children[i]->CollectIntersections(intersections_list, line);
+			}
+		}
+	}
+
+	for (std::list<GameObject*>::iterator it = objects.begin(); it != objects.end(); it++)
+	{
+		if ((*it)->boundingbox.Intersects(line))
+		{
+			intersections_list.push_back(*it);
+		}
+	}
+}
+
 Octree::Octree()
 {
 	depth = 0;
@@ -300,10 +350,32 @@ void Octree::CollectIntersections(std::list<GameObject*>& intersections_list, Ga
 	}
 }
 
+void Octree::CollectIntersections(std::list<GameObject*>& intersections_list, Camera3D* frust)
+{
+	if (root != nullptr)
+	{
+		if (frust->IsInside(root->box))
+		{
+			root->CollectIntersections(intersections_list, frust);
+		}
+	}
+}
+
+void Octree::CollectIntersections(std::list<GameObject*>& intersections_list, LineSegment line)
+{
+	if (root != nullptr)
+	{
+		if (line.Intersects(root->box))
+		{
+			root->CollectIntersections(intersections_list, line);
+		}
+	}
+}
+
 void Octree::InsertGO(GameObject * go)
 {
 	if (root != nullptr) {
-		root->AddGO(go);
+		root->AddGO(go);		
 	}
 }
 
@@ -313,6 +385,7 @@ void Octree::EraseGO(GameObject * go)
 	{
 
 		root->EraseInNode(go);
+		
 	}
 
 		/*if (go->boundingbox.minPoint.x == root->box.minPoint.x || go->boundingbox.minPoint.y == root->box.minPoint.y || go->boundingbox.minPoint.z == root->box.minPoint.z ||go->boundingbox.maxPoint.x == root->box.maxPoint.x || go->boundingbox.maxPoint.y == root->box.maxPoint.y || go->boundingbox.maxPoint.z == root->box.maxPoint.z)

@@ -195,7 +195,7 @@ void Transform::OnGuizmo()
 
 
 	float4x4 projMatrix = App->camera->GetEditorCamera()->GetFrustum().ViewProjMatrix().Transposed();
-	float4x4 trans = global_transform;
+	float4x4 trans = local_transform;
 
 	
 
@@ -215,6 +215,7 @@ void Transform::OnGuizmo()
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuizmo::SetRect(0, 0, io.DisplaySize.x + 2, io.DisplaySize.y + 2);
 	ImGuizmo::Manipulate(App->camera->GetEditorCamera()->GetViewMatrix().ptr(), projMatrix.ptr(), mCurrentGizmoOperation , ImGuizmo::LOCAL, trans.ptr());
+
 	if (ImGuizmo::IsUsing())
 	{
 		App->camera->SetCameraActive(false);
