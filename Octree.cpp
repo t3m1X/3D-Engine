@@ -316,6 +316,10 @@ void Octree::Create(float3 max_point, float3 min_point)
 {
 	AABB box(min_point, max_point);
 	root = new OctreeNode(box);
+	need_update = false;
+
+	this->max_point = max_point;
+	this->min_point = min_point;
 }
 
 void Octree::DebugDraw()
@@ -375,8 +379,50 @@ void Octree::CollectIntersections(std::list<GameObject*>& intersections_list, Li
 void Octree::InsertGO(GameObject * go)
 {
 	if (root != nullptr) {
-		root->AddGO(go);		
+
+		{
+			//If the box that we need to insert is out of the octree, we will need to update the octree.
+			if (go->boundingbox.minPoint.x < root->box.minPoint.x)
+			{
+				min_point.x = go->boundingbox.minPoint.x;
+				need_update = true;
+			}
+			if (go->boundingbox.minPoint.y < root->box.minPoint.y)
+			{
+				min_point.y = go->boundingbox.minPoint.y;
+				need_update = true;
+			}
+			if (go->boundingbox.minPoint.z < root->box.minPoint.z)
+			{
+				min_point.z = go->boundingbox.minPoint.z;
+				need_update = true;
+			}
+			if (go->boundingbox.maxPoint.x > root->box.maxPoint.x)
+			{
+				max_point.x = go->boundingbox.maxPoint.x;
+				need_update = true;
+			}
+			if (go->boundingbox.maxPoint.y > root->box.maxPoint.y)
+			{
+				max_point.y = go->boundingbox.maxPoint.y;
+				need_update = true;
+			}
+			if (go->boundingbox.maxPoint.z > root->box.maxPoint.z)
+			{
+				max_point.z = go->boundingbox.maxPoint.z;
+				need_update = true;
+			}
+
+			if (!need_update)
+			{
+				root->AddGO(go);
+			}
+
+		}
+		
 	}
+
+	
 }
 
 void Octree::EraseGO(GameObject * go)
@@ -401,3 +447,4 @@ void Octree::EraseGO(GameObject * go)
 		}
 	}*/
 }
+

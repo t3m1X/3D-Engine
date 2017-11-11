@@ -32,6 +32,7 @@ public:
 	void IntersectAABB(LineSegment &picking, std::vector<GameObject*>& DistanceList);
 	GameObject* SelectObject(LineSegment picking);
 	void FillOctree();
+	void RecalculateOctree();
 	
 public:
 //	std::list<Primitive*> bodies;

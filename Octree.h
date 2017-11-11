@@ -52,11 +52,18 @@ public:
 	void CollectIntersections(std::list<GameObject*>& intersections_list, LineSegment &line);
 	void InsertGO(GameObject* go);
 	void EraseGO(GameObject* go);
+	
 
+public:
+	bool need_update = false;
+	float3 max_point;
+	float3 min_point;
 private:
 	int depth=0; //max num of subdivisions
 	OctreeNode* root;
-	bool need_update;
+	
+
+	
 };
 
 

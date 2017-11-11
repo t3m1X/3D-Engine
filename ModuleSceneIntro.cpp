@@ -232,6 +232,46 @@ void ModuleSceneIntro::FillOctree()
 	}
 }
 
+void ModuleSceneIntro::RecalculateOctree()
+{
+	float3 new_min_point = octree->min_point;
+	float3 new_max_point = octree->max_point;
+
+	for (std::list<GameObject*>::iterator it = static_objects.begin(); it != static_objects.end(); it++) {
+
+		if ((*it)->boundingbox.minPoint.x < new_min_point.x)
+		{
+			new_min_point.x = (*it)->boundingbox.minPoint.x;
+		}
+		if ((*it)->boundingbox.minPoint.y < new_min_point.y)
+		{
+			new_min_point.y = (*it)->boundingbox.minPoint.y;
+		}
+		if ((*it)->boundingbox.minPoint.z < new_min_point.z)
+		{
+			new_min_point.z = (*it)->boundingbox.minPoint.z;
+		}
+		if ((*it)->boundingbox.maxPoint.x > new_max_point.x)
+		{
+			new_max_point.x = (*it)->boundingbox.maxPoint.x;
+		}
+		if ((*it)->boundingbox.maxPoint.y > new_max_point.y)
+		{
+			new_max_point.y = (*it)->boundingbox.maxPoint.y;
+		}
+		if ((*it)->boundingbox.maxPoint.z > new_max_point.z)
+		{
+			new_max_point.z = (*it)->boundingbox.maxPoint.z;
+		}
+
+	}
+
+	delete octree;
+	octree = new Octree();
+	octree->Create(new_max_point, new_min_point);
+	octree->need_update = false;
+}
+
 
 // Update
 update_status ModuleSceneIntro::Update(float dt)
@@ -239,6 +279,10 @@ update_status ModuleSceneIntro::Update(float dt)
 	bPlane p(0, 1, 0, 0);
 	p.axis = true;
 	
+	if (octree->need_update) {
+		
+		RecalculateOctree();
+	}
 	DrawHierarchy();
 	root->Update();
 	//root->Draw();
