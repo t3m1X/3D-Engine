@@ -1,18 +1,18 @@
 {
     "app": {
-        "name": "Roger's Engine",
-        "organization": "Roger's Engine",
+        "name": "RoSer Engine",
+        "organization": "Roger and Sergi",
         "version": "0.2"
     },
     "window": {
-        "width": 1280,
-        "height": 1024,
+        "width": 1920,
+        "height": 1080,
         "fullscreen": false,
         "resizable": false,
         "borderless": false,
         "fulldekstop": false,
         "maximized": true,
-        "fulldesktop": false
+        "fulldesktop": true
     },
     "renderer": {
         "depth_test": true,

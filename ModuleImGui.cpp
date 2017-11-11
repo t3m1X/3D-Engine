@@ -7,16 +7,29 @@
 #include "Primitive.h"
 #include "Geomath.h"
 #include "imgui_impl_sdl.h"
+#include "imgui_docking.h"
 #include "MathGeoLib\include\Algorithm\Random\LCG.h"
 #include <cmath>
 #include <random>
 #include "ModuleCamera3D.h"
 #include "Transform.h"
 #include "Geomath.h"
+#include "imconfig.h"
+#include "Panel.h"
+#include "Console.h"
+#include "Viewer.h"
+#include "ConfigPanel.h"
+#include "SDL/include/SDL_opengl.h"
+#include "GameObject.h"
+#include "About.h"
+#include "Properties.h"
+#include "Hierarchy.h"
+#include "HardwarePanel.h"
 
 ModuleImGui::ModuleImGui(bool start_enabled) : Module(start_enabled)
 {
-	
+	SetName("ImGui");
+	memset(layout_name, 0, sizeof(layout_name));
 }
 
 ModuleImGui::~ModuleImGui()
@@ -26,37 +39,44 @@ ModuleImGui::~ModuleImGui()
 
 bool ModuleImGui::Init(JSON_File* conf)
 {
+
 	bool ret = true;
 
-	ImGui_ImplSdl_Init(App->window->window);
+	ret = ImGui_ImplSdlGL2_Init(App->window->window);
 	LoadStyle("blue_yellow");
+	b_y = true;
+	b_w = g = b_o = false;
 	ImGuiIO& io = ImGui::GetIO();
 	io.IniFilename = "Settings/imgui.ini";
-	//console = new Console();
-	configuration = new ConfigPanel(App);
-	//panels.push_back(console);
+	console = new Console();
+	configuration = new ConfigPanel();
+	viewer = new Viewer();
+	about = new About();
+	properties = new Properties();
+	hierarchy = new Hierarchy();
+	hardware = new HardwarePanel(false);
+	panels.push_back(console);
 	panels.push_back(configuration);
-	x = 0;
-	y = 0;
-	z = 0;
-	r = 0;
-	posx = 0;
-	posy = 0;
-	posz = 0;
-	h = 0;
-	d = 0;
+	panels.push_back(viewer);
+	panels.push_back(about);
+	panels.push_back(properties);
+	panels.push_back(hierarchy);
+	panels.push_back(hardware);
 
 	curr_operation = ImGuizmo::TRANSLATE;
 	curr_mode = ImGuizmo::LOCAL;
+
+	LoadLayouts();
 	return ret;
 }
 
 update_status ModuleImGui::PreUpdate(float dt)
 {
-	ImGui_ImplSdl_NewFrame(App->window->window);
+	ImGui_ImplSdlGL2_NewFrame(App->window->window);
 	ImGuizmo::BeginFrame();
 
-	ImGuiIO& io = ImGui::GetIO();
+	igBeginWorkspace( false, ImVec2(-3, 21), ImVec2(App->window->GetWidth(), App->window->GetHeight() - 21),
+		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoBringToFrontOnFocus);
 
 	//Set Keyboard / Mouse bindings here
 
@@ -65,7 +85,11 @@ update_status ModuleImGui::PreUpdate(float dt)
 
 update_status ModuleImGui::Update(float dt)
 {
-	
+
+	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+		(*it)->Draw();
+
+	igEndWorkspace();
 
 	ImGuiStyle * style = &ImGui::GetStyle();
 
@@ -100,34 +124,60 @@ update_status ModuleImGui::Update(float dt)
 		if (ImGui::BeginMenu("View"))
 		{
 			
-			if (ImGui::MenuItem("Configuration", "C"))
+			ImGui::MenuItem("Configuration", "C", &configuration->Active);
+			ImGui::MenuItem("Inspector", "P", &properties->Active);
+			ImGui::MenuItem("Hierarchy", NULL, &hierarchy->Active);
+			ImGui::MenuItem("Hardware", NULL, &hardware->Active);
+			ImGui::MenuItem("Console", "0", &console->Active);
+
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Layouts"))
+		{
+			ImGui::Text("Current: %s", current_layout);
+
+			ImGui::Separator();
+			for (list<string>::iterator it = layouts.begin(); it != layouts.end();)
 			{
-				if (!configuration->IsActive()) {
-					configuration->Enable();
-				}
-				else {
-					configuration->Disable();
-				}
-			}
+				ImGui::Text((*it).c_str());
 
-			if (ImGui::MenuItem("Properties", "P"))
+				ImGui::SameLine();
+
+				string id = (*it) + "set";
+				ImGui::PushID(id.c_str());
+				if (ImGui::SmallButton("Set"))
+				{
+					SaveCurrentLayout();
+					SetCurrentLayout((*it).c_str());
+				}
+				ImGui::PopID();
+
+				ImGui::SameLine();
+
+				id = (*it) + "x";
+				ImGui::PushID(id.c_str());
+				if (ImGui::SmallButton("x"))
+				{
+					SetCurrentLayout("default");
+					DeleteLayout((*it).c_str());
+					it = layouts.erase(it);
+					SaveLayouts();
+				}
+				else
+					++it;
+
+				ImGui::PopID();
+			}
+			ImGui::Separator();
+
+			ImGui::InputText("", layout_name, 25);
+			if (ImGui::Button("Save layout"))
 			{
-				if (!properties){
-					properties = true;
-				}
-				else {
-					properties = false;
-				}
-			}
-
-
-			ImGui::MenuItem("Geometry", NULL, &geometry);
-			if (ImGui::MenuItem("Console", "0")) {
-				if (!App->con->IsActive()) {
-					App->con->Enable();
-				}
-				else {
-					App->con->Disable();
+				string lname = layout_name;
+				if (lname != "")
+				{
+					NewLayout(layout_name);
+					SaveLayouts();
 				}
 			}
 
@@ -148,23 +198,13 @@ update_status ModuleImGui::Update(float dt)
 				App->RequestBrowser("https://github.com/rogerbusquets97/3D-Engine/releases");
 			}
 
-
+			ImGui::MenuItem("About", NULL, &about->Active);
 			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("About")) {
-			 
-				about = true;
-				ImGui::EndMenu();
 		}
 		
 
 		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) {
-			if (!configuration->IsActive()) {
-				configuration->Enable();
-			}
-			else {
-				configuration->Disable();
-			}
+			configuration->ToggleActive();
 		}
 
 		
@@ -172,23 +212,23 @@ update_status ModuleImGui::Update(float dt)
 	ImGui::EndMainMenuBar();
 }
 
-	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
-	{
-		if (App->input->GetKey(it._Ptr->_Myval->GetShortcut()) == KEY_DOWN) {
-			if (it._Ptr->_Myval->IsActive()) {
-				it._Ptr->_Myval->Disable();
-			}
-			else {
-				it._Ptr->_Myval->Enable();
-			}
-		}
+	//for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+	//{
+	//	if (App->input->GetKey(it._Ptr->_Myval->GetShortcut()) == KEY_DOWN) {
+	//		if (it._Ptr->_Myval->IsActive()) {
+	//			it._Ptr->_Myval->Disable();
+	//		}
+	//		else {
+	//			it._Ptr->_Myval->Enable();
+	//		}
+	//	}
 
-		if (it._Ptr->_Myval->IsActive()) {
-			ImGui::SetNextWindowPos(ImVec2((float)it._Ptr->_Myval->x, (float)it._Ptr->_Myval->y), ImGuiSetCond_Always);
-			ImGui::SetNextWindowSize(ImVec2((float)it._Ptr->_Myval->w, (float)it._Ptr->_Myval->h), ImGuiSetCond_Always);
-			it._Ptr->_Myval->Draw(App);
-		}
-	}
+	//	if (it._Ptr->_Myval->IsActive()) {
+	//		ImGui::SetNextWindowPos(ImVec2((float)it._Ptr->_Myval->x, (float)it._Ptr->_Myval->y), ImGuiSetCond_Always);
+	//		ImGui::SetNextWindowSize(ImVec2((float)it._Ptr->_Myval->w, (float)it._Ptr->_Myval->h), ImGuiSetCond_Always);
+	//		it._Ptr->_Myval->Draw();
+	//	}
+	//}
 	///////////////////////
 
 	
@@ -204,75 +244,20 @@ update_status ModuleImGui::Update(float dt)
 		
 	}*/
 
-	if (properties) {
-		curr_obj = App->scene_intro->selected;
-		ImGui::Begin("Properties");
-		
-		if (curr_obj != nullptr) {
-			curr_obj->DrawComponents();
-		}
-		
-		ImGui::End();
-		}
-	
-
-		if (about) {
-			if (ImGui::Begin("About",&about))
-			{
-				ImGui::Text("Roger's Engine v.%s", App->GetVersion());
-				ImGui::Text("About Roger's Engine:");
-				ImGui::Text("3D engine developed as a project for UPC's video games degree by Roger Busquets Duran and Sergi Parra Ramirez.");
-				ImGui::Separator();
-				if (ImGui::CollapsingHeader("License")) {
-					ImGui::Text("MIT License");
-					ImGui::Text("Copyright(c) 2017 Roger Busquets Duran and Sergi Parra Ramirez");
-					ImGui::Text("Permission is hereby granted, free of charge, to any person obtaining a copy");
-					ImGui::Text("of this software and associated documentation files(the 'Software'), to deal");
-					ImGui::Text("in the Software without restriction, including without limitation the rights");
-					ImGui::Text("to use, copy, modify, merge, publish, distribute, sublicense, and / or sell");
-					ImGui::Text("copies of the Software, and to permit persons to whom the Software is");
-					ImGui::Text("furnished to do so, subject to the following conditions :");
-
-					ImGui::TextColored({ 1, 0.2f, 0.2f, 1 }, "The above copyright notice and this permission notice shall be included in all");
-					ImGui::TextColored({ 1, 0.2f, 0.2f, 1 }, "copies or substantial portions of the Software.");
-
-					ImGui::Text("THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR");
-					ImGui::Text("IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,");
-					ImGui::Text("FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE");
-					ImGui::Text("AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER");
-					ImGui::Text("LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,");
-					ImGui::Text("OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE");
-					ImGui::Text("SOFTWARE.");
-				}
-				if (ImGui::CollapsingHeader("Libraries")) {
-					ImGui::Text("SDL : v2.0.4");
-					ImGui::Text("MathGeoLib : v1.5");
-					ImGui::Text("ImGui : v1.52");
-					ImGui::Text("Parson : 2017 version");
-					ImGui::Text("OpenGL : v2.1");
-					ImGui::Text("Glew: v2.1");
-					ImGui::Text("Devil : v1.7.8");
-					ImGui::Text("assimp");
-					ImGui::Text("mmgr");
-
-				}
-
-
-				
-			}
-			ImGui::End();
-		}
+	//if (properties) {
+	//	curr_obj = App->scene_intro->selected;
+	//	ImGui::Begin("Properties");
+	//	
+	//	if (curr_obj != nullptr) {
+	//		curr_obj->DrawComponents();
+	//	}
+	//	
+	//	ImGui::End();
+	//}
 			
-		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
-			if (!App->loader->meshes.empty()) {
-				if (properties) {
-					properties = false;
-				}
-				else {
-					properties = true;
-				}
-			}
-		}
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+		properties->ToggleActive();
+	}
 	
 
 	//Draw();
@@ -286,12 +271,24 @@ update_status ModuleImGui::PostUpdate(float dt)
 	return update_status::UPDATE_CONTINUE;
 }
 
-bool ModuleImGui::CleanUp()
-{
+bool ModuleImGui::CleanUp() {
+	SaveLayouts();
 	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
 	{
+		(*it)->CleanUp();
 		delete *it;
 	}
+
+	console = nullptr;
+	configuration = nullptr;
+	viewer = nullptr;
+	about = nullptr;
+	properties = nullptr;
+	hierarchy = nullptr;
+	hardware = nullptr;
+
+	LOG_OUT("Shutting down ImGui");
+	ImGui_ImplSdlGL2_Shutdown();
 
 	return true;
 }
@@ -431,8 +428,8 @@ void ModuleImGui::LoadStyle(char * name)
 
 		style->Colors[ImGuiCol_Text] = ImVec4(0.90f, 0.90f, 0.90f, 1.00f);
 		style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.60f, 0.60f, 0.60f, 1.00f);
-		style->Colors[ImGuiCol_WindowBg] = ImVec4(0.20f, 0.20f, 0.20f, 0.70f);
-		style->Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.22f, 0.22f, 0.22f, 0.00f);
+		style->Colors[ImGuiCol_WindowBg] = ImVec4(0.20f, 0.20f, 0.20f, 1.00f);
+		style->Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.22f, 0.22f, 0.22f, 1.00f);
 		style->Colors[ImGuiCol_PopupBg] = ImVec4(0.20f, 0.20f, 0.20f, 0.90f);
 		style->Colors[ImGuiCol_Border] = ImVec4(0.19f, 0.19f, 0.19f, 0.80f);
 		style->Colors[ImGuiCol_BorderShadow] = ImVec4(0.20f, 0.20f, 0.20f, 0.00f);
@@ -541,7 +538,7 @@ void ModuleImGui::LoadStyle(char * name)
 
 void ModuleImGui::ImGuiInput(SDL_Event* ev) {
 	// ImGui Input
-	ImGui_ImplSdl_ProcessEvent(ev);
+	ImGui_ImplSdlGL2_ProcessEvent(ev);
 }
 
 
@@ -573,12 +570,150 @@ void ModuleImGui::AddPanel(Panel * panel)
 	panels.push_back(panel);
 }
 
-void ModuleImGui::Setproperties(bool set)
+void ModuleImGui::ImGuiDraw()
 {
-	properties = set;
+	if (ImGui::CollapsingHeader("User Interface")) {
+		ImGui::Text("UI Style:");
+		if (ImGui::Checkbox("Black and white", &b_w) && b_w) {
+			LoadStyle("black_white");
+			g = b_o = b_y = false;
+		}
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Grey", &g) && g)
+		{
+			LoadStyle("grey");
+			b_w = b_o = b_y = false;
+		}
+
+		if (ImGui::Checkbox("Black and orange", &b_o) && b_o)
+		{
+			LoadStyle("black_orange");
+			b_w = g = b_y = false;
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Blue and yellow", &b_y) && b_y)
+		{
+			LoadStyle("blue_yellow");
+			b_w = g = b_o = false;
+		}
+	}
 }
 
 bool ModuleImGui::HoveringWindow()
 {
 	return ImGui::IsMouseHoveringAnyWindow();
+}
+
+Console * ModuleImGui::GetConsole() const
+{
+	return console;
+}
+
+void ModuleImGui::LoadLayouts()
+{
+	if (layout_config == nullptr)
+		layout_config = App->json->LoadJSON("layouts.json");
+
+	if (layout_config != nullptr)
+	{
+		int size = layout_config->ArraySize("layouts");
+		for (int i = 0; i < size; i++)
+		{
+			string current = layout_config->ArrayGetString("layouts", i);
+			bool found = false;
+			for (list<string>::iterator it = layouts.begin(); it != layouts.end() && !found; it++)
+				found = *it == current;
+
+			if (!found) layouts.push_back(current);
+		}
+
+		SetCurrentLayout(layout_config->GetString("editor.current_layout", ""));
+	}
+	else
+	{
+		SetCurrentLayout("default");
+	}
+}
+
+void ModuleImGui::SaveLayouts()
+{
+	if (layout_config == nullptr)
+		layout_config = App->json->LoadJSON("layouts.json");
+
+	if (layout_config == nullptr)
+		layout_config = App->json->CreateJSON("layouts.json");
+
+	if (layout_config != nullptr)
+	{
+		layout_config->SetString("editor.current_layout", current_layout);
+
+		layout_config->ClearArray("layouts");
+		layout_config->AddArray("layouts");
+		for (list<string>::iterator it = layouts.begin(); it != layouts.end(); it++)
+		{
+			layout_config->ArrayAddString("layouts", (*it).c_str());
+		}
+	}
+
+	SaveCurrentLayout();
+}
+
+void ModuleImGui::SetCurrentLayout(const char * name)
+{
+	string clay = name;
+	current_layout = "default";
+	for (list<string>::iterator it = layouts.begin(); it != layouts.end(); it++)
+	{
+		if (*it == clay)
+		{
+			current_layout = name;
+			break;
+		}
+	}
+	ReloadCurrentLayout();
+}
+
+void ModuleImGui::ReloadCurrentLayout()
+{
+	if (layout_config != nullptr)
+	{
+		layout_config->RootObject();
+		getDockContext()->LoadLayout(layout_config, current_layout);
+	}
+}
+
+void ModuleImGui::SaveCurrentLayout()
+{
+	if (layout_config != nullptr)
+	{
+		layout_config->RootObject();
+
+		getDockContext()->SaveLayout(layout_config, current_layout);
+		layout_config->Save();
+	}
+}
+
+void ModuleImGui::NewLayout(const char * name)
+{
+	string nlay = name;
+	bool found = false;
+	for (list<string>::iterator it = layouts.begin(); it != layouts.end() && !found; ++it)
+		found = nlay == *it;
+
+	if (!found)
+	{
+		layouts.push_back(name);
+		current_layout = name;
+		SaveCurrentLayout();
+	}
+}
+
+void ModuleImGui::DeleteLayout(const char * name)
+{
+	if (layout_config != nullptr)
+	{
+		layout_config->RemoveObject(name);
+		layout_config->Save();
+	}
 }

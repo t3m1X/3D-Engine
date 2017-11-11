@@ -74,7 +74,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\imgui-1.51\imgui.h" />
+    <ClInclude Include="About.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
@@ -82,6 +82,7 @@
     <ClInclude Include="ComponentCamera.h" />
     <ClInclude Include="ConfigPanel.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="FBO.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Geomath.h" />
     <ClInclude Include="glew\include\GL\eglew.h" />
@@ -93,7 +94,14 @@
     <ClInclude Include="gpudetect\DeviceId.h" />
     <ClInclude Include="gpudetect\dxgi1_4.h" />
     <ClInclude Include="Hardware.h" />
+    <ClInclude Include="HardwarePanel.h" />
+    <ClInclude Include="Hierarchy.h" />
+    <ClInclude Include="Properties.h" />
+    <ClInclude Include="Viewer.h" />
+    <ClInclude Include="imgui.h" />
+    <ClInclude Include="imgui_docking.h" />
     <ClInclude Include="imgui_impl_sdl.h" />
+    <ClInclude Include="imgui_internal.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MathGeoLib\include\Algorithm\GJK.h" />
@@ -184,6 +192,7 @@
     <ClInclude Include="vPrimitive.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="About.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -191,14 +200,20 @@
     <ClCompile Include="ComponentCamera.cpp" />
     <ClCompile Include="ConfigPanel.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="FBO.cpp" />
+    <ClCompile Include="HardwarePanel.cpp" />
+    <ClCompile Include="Hierarchy.cpp" />
+    <ClCompile Include="Properties.cpp" />
+    <ClCompile Include="Viewer.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glew\glew.c" />
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="gpudetect\DeviceId.cpp" />
-    <ClCompile Include="ImGui\imgui.cpp" />
+    <ClCompile Include="imgui.cpp" />
     <ClCompile Include="ImGui\ImGuizmo\ImGuizmo.cpp" />
-    <ClCompile Include="ImGui\imgui_demo.cpp" />
-    <ClCompile Include="ImGui\imgui_draw.cpp" />
+    <ClCompile Include="imgui_demo.cpp" />
+    <ClCompile Include="imgui_docking.cpp" />
+    <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="imgui_impl_sdl.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="log.cpp" />

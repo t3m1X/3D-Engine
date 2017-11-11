@@ -16,7 +16,6 @@ class ModulePlayer;
 class ModuleImGui;
 class ModuleTextures;
 class ModuleJSON;
-class Console;
 
 class Application
 {
@@ -33,7 +32,6 @@ public:
 	ModuleJSON* json;
 	ModuleLoader* loader;
 	list<Module*> list_modules;
-	Console* con;
 	ModuleTextures* tex;
 
 private:

@@ -117,7 +117,7 @@ void GameObject::Draw()
 			DrawBox();
 
 			
-			glMatrixMode(GL_MODELVIEW);
+			//glMatrixMode(GL_MODELVIEW);
 
 			Mesh* m = (Mesh*)this->FindComponentbyType(MESH);
 
@@ -138,7 +138,7 @@ void GameObject::Draw()
 			}
 
 			if (has_material) {
-				glDisable(GL_COLOR_MATERIAL);
+				/*glDisable(GL_COLOR_MATERIAL);*/
 				Material* mat = (Material*)this->FindComponentbyType(MATERIAL);
 				glBindTexture(GL_TEXTURE_2D, (GLuint)mat->FindtexturebyType(DIFFUSE)->Getid());
 			}
@@ -161,12 +161,13 @@ void GameObject::Draw()
 
 		}
 
+		glBindTexture(GL_TEXTURE_2D, 0);
 
 		for (uint i = 0; i < children.size(); i++)
 			children[i]->Draw();
-		glPopMatrix();
 
-		DrawBox();
+		glPopMatrix();
+		/*DrawBox();*/
 	/*}*/
 }
 
@@ -266,6 +267,11 @@ Component * GameObject::FindComponentbyType(COMPONENT_TYPE type)
 	}
 
 	return nullptr;
+}
+
+vector<Component*> GameObject::GetComponents() const
+{
+	return components;
 }
 
 void GameObject::UIDraw()

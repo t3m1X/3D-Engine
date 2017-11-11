@@ -7,6 +7,7 @@
 #include "ComponentCamera.h"
 
 #define CAMERA_PROPORTION 1.5;
+
 class ModuleCamera3D : public Module
 {
 public:
@@ -28,6 +29,7 @@ public:
 	void SetCurrentCamera(Camera3D* cam);
 	Camera3D* GetCurrentCamera() const;
 	Camera3D* GetEditorCamera() const;
+
 	//void FocusMesh(Mesh* m);
 	void DrawDebug();
 

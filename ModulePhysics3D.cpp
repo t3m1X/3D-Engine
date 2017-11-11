@@ -344,9 +344,6 @@ void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, c
 
 void ModulePhysics3D::ImGuiDraw()
 {
-	if (ImGui::CollapsingHeader(this->GetName())) {
-
-	}
 }
 
 

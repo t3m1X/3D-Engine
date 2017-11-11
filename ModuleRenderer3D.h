@@ -15,6 +15,7 @@
 #define STD_MATERIAL_AMBIENT 1.0f
 
 struct Mesh;
+class FBO;
 
 class ModuleRenderer3D : public Module
 {
@@ -26,9 +27,12 @@ public:
 	update_status PreUpdate(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
+
+	void OnResize(int width, int height);
+	uint GetFrameBuffer();
+
 	void UI_attributes();
 	void Custom_attributes();
-	void OnResize(int width, int height);
 	void ImGuiDraw();
 	void Load(JSON_File*c);
 	void Save(JSON_File*c);
@@ -52,4 +56,7 @@ public:
 	GLfloat fog_density;
 	float light_model_ambient;
 	float material_ambient;
+
+private:
+	FBO* fbo_texture;
 };
