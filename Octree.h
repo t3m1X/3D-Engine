@@ -21,7 +21,7 @@ public:
 
 	void CollectIntersections(std::list<GameObject*>& intersections_list, GameObject* go);
 	void CollectIntersections(std::list<GameObject*>& intersections_list, Camera3D* frust);
-	void CollectIntersections(std::list<GameObject*>& intersections_list, LineSegment line);
+	void CollectIntersections(std::list<GameObject*>& intersections_list, LineSegment& line);
 
 public:
 	OctreeNode* children[8];
@@ -49,7 +49,7 @@ public:
 	void Divide();
 	void CollectIntersections(std::list<GameObject*>& intersections_list, GameObject* go);
 	void CollectIntersections(std::list<GameObject*>& intersections_list, Camera3D* frust);
-	void CollectIntersections(std::list<GameObject*>& intersections_list, LineSegment line);
+	void CollectIntersections(std::list<GameObject*>& intersections_list, LineSegment &line);
 	void InsertGO(GameObject* go);
 	void EraseGO(GameObject* go);
 

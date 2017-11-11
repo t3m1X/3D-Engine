@@ -278,7 +278,7 @@ void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list
 
 }
 
-void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list, LineSegment line)
+void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list, LineSegment &line)
 {
 	if (children[0] != nullptr)
 	{
@@ -361,7 +361,7 @@ void Octree::CollectIntersections(std::list<GameObject*>& intersections_list, Ca
 	}
 }
 
-void Octree::CollectIntersections(std::list<GameObject*>& intersections_list, LineSegment line)
+void Octree::CollectIntersections(std::list<GameObject*>& intersections_list, LineSegment& line)
 {
 	if (root != nullptr)
 	{

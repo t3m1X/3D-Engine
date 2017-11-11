@@ -153,7 +153,24 @@ void ModuleSceneIntro::Clear()
 void ModuleSceneIntro::IntersectAABB(LineSegment & picking, std::vector<GameObject*>& DistanceList)
 {
 
-	for (uint i = 0; i < root->children.size(); i++) {
+	std::list<GameObject*> distance_list;
+	octree->CollectIntersections(distance_list,picking);
+
+	for (std::list<GameObject*>::iterator it = distance_list.begin(); it != distance_list.end(); it++) {
+		if (picking.Intersects((*it)->boundingbox)) {
+			DistanceList.push_back((*it));
+			LOG_OUT("AABB hit");
+		}
+	}
+
+	for (std::list<GameObject*>::iterator it = non_static_objects.begin(); it != non_static_objects.end(); it++) {
+		if (picking.Intersects((*it)->boundingbox)) {
+			DistanceList.push_back((*it));
+			LOG_OUT("AABB hit");
+		}
+	}
+
+	/*for (uint i = 0; i < root->children.size(); i++) {
 		if (root->children[i]->children.size() > 0) {
 			for (uint j = 0; j < root->children[i]->children.size(); j++) {
 				if (picking.Intersects(root->children[i]->children[j]->boundingbox)) {
@@ -168,13 +185,14 @@ void ModuleSceneIntro::IntersectAABB(LineSegment & picking, std::vector<GameObje
 				LOG_OUT("AABB hit");
 			}
 		}
-	}
+	}*/
 }
 
 GameObject * ModuleSceneIntro::SelectObject(LineSegment picking)
 {
 	GameObject* closest = nullptr;
 	std::vector<GameObject*>DistanceList;
+
 
 	IntersectAABB(picking, DistanceList);
 
