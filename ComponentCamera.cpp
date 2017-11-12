@@ -11,7 +11,7 @@ ComponentCamera::ComponentCamera(GameObject * own) : Component(own)
 	camera = new Camera3D();
 	SetType(CAMERA);
 
-
+	
 	
 
 	

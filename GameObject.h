@@ -49,18 +49,22 @@ public:
 	GameObject* GetParent() const;
 	void DrawBox();
 	void OnGuizmo();
-	
+	bool GetStatic();
+	void SetStatic(bool set);
+	bool HasMesh();
 		
 public:
 	
 	AABB boundingbox;
 	std::vector<GameObject*> children;
+	bool		Static = false;
 private:
 
 	std::string name;
 	bool		enabled = true;
 	bool		selected = false;
 	bool		bbinit = false;
+	
 	std::vector<Component*> components;
 	
 	GameObject* parent;	

@@ -101,7 +101,7 @@ public:
 	/// Specifies whether this frustum is a perspective or an orthographic frustum.
 	/** [noscript] @todo Remove the noscript attribute. */
 	FrustumType type;
-private:
+public:
 	/// Specifies whether the [-1,1] or [0,1] range is used for the post-projective depth range.
 	FrustumProjectiveSpace projectiveSpace;
 	/// Specifies the chirality of world and view spaces.

@@ -18,6 +18,7 @@ GameObject::GameObject(std::string name, GameObject* _parent) : parent(_parent)
 		_parent->AddChild(this);
 
 	boundingbox.SetNegativeInfinity();
+	//Static = false;
 	/*
 	boundingbox.r = { 0,0,0 };
 
@@ -51,6 +52,8 @@ GameObject::GameObject(std::string name, uint id, GameObject* _parent) : parent(
 
 	if (_parent != nullptr)
 		_parent->AddChild(this);
+
+	Static = false;
 	/*
 	boundingbox.r = { 0,0,0 };
 
@@ -94,7 +97,7 @@ void GameObject::Update()
 void GameObject::Draw()
 {
 
-	//if (App->camera->GetCurrentCamera()->IsInside(this->boundingbox)) {
+	
 		bool has_mesh = false;
 		bool has_material = false;
 		Transform* tr = nullptr;
@@ -167,8 +170,6 @@ void GameObject::Draw()
 			children[i]->Draw();
 
 		glPopMatrix();
-		/*DrawBox();*/
-	/*}*/
 }
 
 void GameObject::Enable()
@@ -303,6 +304,20 @@ void GameObject::UIDraw()
 
 void GameObject::DrawComponents()
 {
+	if (ImGui::Checkbox("Static",&Static)) {
+
+		if (GetStatic()) {
+			
+			App->scene_intro->octree->InsertGO(this);
+			
+		}
+		else {
+			
+			App->scene_intro->octree->EraseGO(this);
+			
+			
+		}
+	}
 	if (!components.empty()) {
 		for (uint i = 0; i < components.size(); i++) {
 			components[i]->UI_draw();
@@ -428,6 +443,28 @@ void GameObject::OnGuizmo()
 	Transform* trans = (Transform*)FindComponentbyType(TRANSFORM);
 	if(trans!=nullptr)
 	trans->OnGuizmo();
+}
+
+bool GameObject::GetStatic()
+{
+	return Static;
+}
+
+void GameObject::SetStatic(bool  set)
+{
+	Static = set;
+}
+
+bool GameObject::HasMesh()
+{
+	bool ret=false;
+
+	for (uint i = 0; i < components.size(); i++) {
+		if (components[i]->GetType() == MESH) {
+			ret = true;
+		}
+	}
+	return ret;
 }
 
 

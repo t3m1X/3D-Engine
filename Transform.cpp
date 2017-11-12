@@ -189,44 +189,69 @@ float3 Transform::GetPosition() const
 
 void Transform::OnGuizmo()
 {
+
+	
+	
 	ImGuizmo::Enable(true);
+	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
+	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+
 
 	float4x4 projMatrix = App->camera->GetEditorCamera()->GetFrustum().ViewProjMatrix().Transposed();
-	float4x4 trans = global_transform.Transposed();
+	float4x4 trans = local_transform;
 
-	ImGuiIO& io = ImGui::GetIO();
-
-	int w, h;
-
-	w = App->window->GetWidth();
-	h = App->window->GetHeight();
-	ImGuizmo::SetRect(0, 0, (float)w, float(h));
+	
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 	{
-		ImGuizmo::Manipulate(App->camera->GetViewMatrix().ptr(), projMatrix.ptr(), ImGuizmo::TRANSLATE, ImGuizmo::LOCAL, trans.ptr());
+		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
 	{
-		ImGuizmo::Manipulate(App->camera->GetViewMatrix().ptr(), projMatrix.ptr(), ImGuizmo::ROTATE, ImGuizmo::LOCAL, trans.ptr());
+		mCurrentGizmoOperation = ImGuizmo::SCALE;
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
-		ImGuizmo::Manipulate(App->camera->GetViewMatrix().ptr(), projMatrix.ptr(), ImGuizmo::SCALE, ImGuizmo::LOCAL, trans.ptr());
+		mCurrentGizmoOperation = ImGuizmo::ROTATE;
 	}
+
+	ImGuiIO& io = ImGui::GetIO();
+	ImGuizmo::SetRect(0, 0, io.DisplaySize.x + 2, io.DisplaySize.y + 2);
+	ImGuizmo::Manipulate(App->camera->GetEditorCamera()->GetViewMatrix().ptr(), projMatrix.ptr(), mCurrentGizmoOperation , ImGuizmo::LOCAL, trans.ptr());
 
 	if (ImGuizmo::IsUsing())
 	{
+		App->camera->SetCameraActive(false);
+		trans.Transpose();
+		float3 new_pos;
+		float3 new_scale;
+		Quat new_q;
+
+		trans.Decompose(new_pos, new_q, new_scale);
+
+		if (mCurrentGizmoOperation == ImGuizmo::TRANSLATE)
+			SetPosition(float3(new_pos.x / 10, new_pos.y / 10, new_pos.z / 10));
+		if (mCurrentGizmoOperation == ImGuizmo::SCALE)
+			SetScale(float3(new_scale.x / 10, new_scale.y / 10, new_scale.z / 10));
+		if (mCurrentGizmoOperation == ImGuizmo::ROTATE)
+		{
+			//SetRotation(new_q.ToEulerXYZ());
+		}
 		
-		ImGuizmo::DecomposeMatrixToComponents(trans.ptr(), (float*)position.ptr(), (float*)Euler_rotation.ptr(), (float*)scale.ptr());
-		global_transform.Transpose();
-		ImGuizmo::RecomposeMatrixFromComponents((float*)position.ptr(), (float*)Euler_rotation.ptr(), (float*)scale.ptr(), global_transform.ptr());
-		global_transform.Transpose();
 	}
-//	LOG_OUT("On Guizmo!!!!");
 
+	/*ImGuizmo::DecomposeMatrixToComponents(trans.ptr(), (float*)position.ptr(), (float*)Euler_rotation.ptr(), (float*)scale.ptr());
+	global_transform.Transpose();
+	ImGuizmo::RecomposeMatrixFromComponents((float*)position.ptr(), (float*)Euler_rotation.ptr(), (float*)scale.ptr(), global_transform.ptr());
+	global_transform.Transpose();*/
+	else {
+		ImGuizmo::Enable(false);
+		App->camera->SetCameraActive(true);
+		//LOG_OUT("On Guizmo!!!!");
 
-
+	}
+	
+	
 
 
 

@@ -19,7 +19,7 @@ ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
 	SetName("Camera");
 	editor_camera = new Camera3D();
 	curr_camera = editor_camera;
-
+	active = true;
 
 }
 
@@ -47,60 +47,60 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
+	if (active) {
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
 
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+				speed = 8.0f * dt;
 
-		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-			speed = 8.0f * dt;
+			//WASD MOVEMENT + R AND F TO MOVE UP AND DOWN
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) editor_camera->MoveForward(speed*dt);
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) editor_camera->MoveBackwards(speed*dt);
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) editor_camera->MoveLeft(speed*dt);
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) editor_camera->MoveRight(speed*dt);
 
-		//WASD MOVEMENT + R AND F TO MOVE UP AND DOWN
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) editor_camera->MoveForward(speed*dt);
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) editor_camera->MoveBackwards(speed*dt);
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) editor_camera->MoveLeft(speed*dt);
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) editor_camera->MoveRight(speed*dt);
-
-	}
-	//MOUSE WHEEL
-
-	if (App->input->GetMouseWheel() == 1)
-	{
-		editor_camera->MoveForward(speed*dt);
-	}
-	else if (App->input->GetMouseWheel() == -1)
-	{
-		editor_camera->MoveBackwards(speed*dt);
-	}
-
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		if (!App->imgui->HoveringWindow()) {
-			float width = (float)App->window->GetWidth();
-			float height = (float)App->window->GetHeight();
-
-			int mouse_x, mouse_y;
-			mouse_x = (float)App->input->GetMouseX();
-			mouse_y = (float)App->input->GetMouseY();
-
-			float normalized_x = -(1.0f - (float(mouse_x) * 2.0f) / width);
-			float normalized_y = 1.0f - (float(mouse_y) * 2.0f) / height;
-
-			LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(normalized_x, normalized_y);
-			pick = picking;
-			App->scene_intro->selected = App->scene_intro->SelectObject(picking);
 		}
+		//MOUSE WHEEL
+
+		if (App->input->GetMouseWheel() == 1)
+		{
+			editor_camera->MoveForward(speed*dt);
+		}
+		else if (App->input->GetMouseWheel() == -1)
+		{
+			editor_camera->MoveBackwards(speed*dt);
+		}
+
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+		{
+			if (!App->imgui->HoveringWindow()) {
+				float width = (float)App->window->GetWidth();
+				float height = (float)App->window->GetHeight();
+
+				int mouse_x, mouse_y;
+				mouse_x = (float)App->input->GetMouseX();
+				mouse_y = (float)App->input->GetMouseY();
+
+				float normalized_x = -(1.0f - (float(mouse_x) * 2.0f) / width);
+				float normalized_y = 1.0f - (float(mouse_y) * 2.0f) / height;
+
+				LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(normalized_x, normalized_y);
+				pick = picking;
+				App->scene_intro->selected = App->scene_intro->SelectObject(picking);
+			}
+		}
+
+		// Mouse motion ----------------
+
+		else if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
+		{
+			int dx = -App->input->GetMouseXMotion();
+			int dy = -App->input->GetMouseYMotion();
+
+			editor_camera->Rotate(-App->input->GetMouseXMotion()*Sensitivity*0.01f, -App->input->GetMouseYMotion()*Sensitivity*0.01f);
+		}
+		Position -= Reference;
 	}
-
-	// Mouse motion ----------------
-
-	else if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-	{
-		int dx = -App->input->GetMouseXMotion();
-		int dy = -App->input->GetMouseYMotion();
-
-		editor_camera->Rotate(-App->input->GetMouseXMotion()*Sensitivity*0.01f, -App->input->GetMouseYMotion()*Sensitivity*0.01f);
-	}
-	Position -= Reference;
-
 	if (debug) {
 		DrawDebug();
 	}
@@ -345,6 +345,11 @@ void ModuleCamera3D::DrawDebug()
 		delete[] lines;
 		delete[] colors;
 	}
+}
+
+void ModuleCamera3D::SetCameraActive(bool set)
+{
+	active = set;
 }
 
 /*void ModuleCamera3D::FocusMesh(Mesh* m)

@@ -76,7 +76,9 @@ void ModuleLoader::LoadFBX(char* path)
 			//Creating new gameobject
 			GameObject* new_obj = new GameObject(cnode.first->mName.C_Str(), cnode.second);
 			if (cnode.first == scene->mRootNode) {
+				
 				App->scene_intro->AddObject(new_obj);
+				
 				//App->scene_intro->SetobjSelected(new_obj);
 			}
 
@@ -115,6 +117,7 @@ void ModuleLoader::LoadFBX(char* path)
 
 				//Vertices
 				//App->imgui->curr_obj = new_obj;
+				
 				aiMesh* m = scene->mMeshes[cnode.first->mMeshes[i]];
 				Mesh* new_mesh = new Mesh(new_obj);
 				new_mesh->num_faces = m->mNumFaces;
@@ -171,9 +174,15 @@ void ModuleLoader::LoadFBX(char* path)
 				LOG_OUT("FBX Load: Mesh loaded with %d vertices and %d indices", new_mesh->num_vertices, new_mesh->num_indices);
 
 				new_obj->AddComponent(new_mesh);
+				
+				App->scene_intro->octree->InsertGO(new_obj);
+				new_obj->SetStatic(true);
+				App->scene_intro->static_objects.push_back(new_obj);
 			
 				new_obj->RecalculateAABB();
 				new_obj->Enable();
+
+				
 				LOG_OUT("Created new object");
 
 				////////Material
