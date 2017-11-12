@@ -1,8 +1,11 @@
+#include "Application.h"
+#include "ModuleInput.h"
 #include "Transform.h"
 #include "ModuleImGui.h"
 #include "ImGui/ImGuizmo/ImGuizmo.h"
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
+#include "ModuleWindow.h"
 
 Transform::Transform(GameObject* own): Component(own)
 {
@@ -86,47 +89,47 @@ void Transform::SetRotation(Quat rot)
 
 void Transform::UI_draw()
 {
-	if (ImGui::CollapsingHeader("Transform")) {
-		float pos[3];
-		float rot[3];
-		float sca[3];
+	ImGui::Separator();
+	float pos[3];
+	float rot[3];
+	float sca[3];
 
-		pos[0] = position.x;
-		pos[1] = position.y;
-		pos[2] = position.z;
+	pos[0] = position.x;
+	pos[1] = position.y;
+	pos[2] = position.z;
 
-		rot[0] = RadToDeg(rotation.ToEulerXYZ().x);
-		rot[1] = RadToDeg(rotation.ToEulerXYZ().y);
-		rot[2] = RadToDeg(rotation.ToEulerXYZ().z);
+	rot[0] = RadToDeg(rotation.ToEulerXYZ().x);
+	rot[1] = RadToDeg(rotation.ToEulerXYZ().y);
+	rot[2] = RadToDeg(rotation.ToEulerXYZ().z);
 
-		sca[0] = scale.x;
-		sca[1] = scale.y;
-		sca[2] = scale.z;
+	sca[0] = scale.x;
+	sca[1] = scale.y;
+	sca[2] = scale.z;
 
-		if (ImGui::DragFloat3("Position:", pos, 0.1f) && !position.Equals(pos[0], pos[1], pos[2])) {
-			position.x = pos[0];
-			position.y = pos[1];
-			position.z = pos[2];
-			RecalculateTransform();
-		}
+	if (ImGui::DragFloat3("Position", pos, 0.1f) && !position.Equals(pos[0], pos[1], pos[2])) {
+		position.x = pos[0];
+		position.y = pos[1];
+		position.z = pos[2];
+		RecalculateTransform();
+	}
 
-		if (ImGui::DragFloat3("Rotation:", rot, 0.1f)) {
-			Quat temp;
-			temp = temp.FromEulerXYZ(DegToRad(rot[0]), DegToRad(rot[1]), DegToRad(rot[2]));
-			if (!(temp.x == rotation.x && temp.y == rotation.y && temp.z == rotation.z && temp.w == rotation.w))
-			{
-				rotation = temp;
-				RecalculateTransform();
-			}
-		}
-
-		if (ImGui::DragFloat3("Scale:", sca, 0.1f) && !scale.Equals(sca[0], sca[1], sca[2])) {
-			scale.x = sca[0];
-			scale.y = sca[1];
-			scale.z = sca[2];
+	if (ImGui::DragFloat3("Rotation", rot, 0.1f)) {
+		Quat temp;
+		temp = temp.FromEulerXYZ(DegToRad(rot[0]), DegToRad(rot[1]), DegToRad(rot[2]));
+		if (!(temp.x == rotation.x && temp.y == rotation.y && temp.z == rotation.z && temp.w == rotation.w))
+		{
+			rotation = temp;
 			RecalculateTransform();
 		}
 	}
+
+	if (ImGui::DragFloat3("Scale", sca, 0.1f) && !scale.Equals(sca[0], sca[1], sca[2])) {
+		scale.x = sca[0];
+		scale.y = sca[1];
+		scale.z = sca[2];
+		RecalculateTransform();
+	}
+	
 	
 }
 

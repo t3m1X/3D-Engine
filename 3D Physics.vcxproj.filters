@@ -25,9 +25,6 @@
     <Filter Include="Sources\MathGeoLib">
       <UniqueIdentifier>{b965591f-97d9-4753-915c-5cdc462b633f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\UI_Panels">
-      <UniqueIdentifier>{726e3944-531c-492c-9fad-1d6d12db3f82}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources\Hardware">
       <UniqueIdentifier>{0b3941cf-4208-4f46-88c1-898cbde355b7}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,9 @@
     </Filter>
     <Filter Include="Sources\MathGeoLib\Time">
       <UniqueIdentifier>{ec51fc52-acb2-491c-ad49-c42543cc6ab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\UI_Panels">
+      <UniqueIdentifier>{726e3944-531c-492c-9fad-1d6d12db3f82}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -122,12 +122,6 @@
     </ClInclude>
     <ClInclude Include="ModuleImGui.h">
       <Filter>Sources\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_impl_sdl.h">
-      <Filter>Sources\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\imgui-1.51\imgui.h">
-      <Filter>Sources\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Geomath.h">
       <Filter>Sources\Helpers</Filter>
@@ -393,6 +387,36 @@
     <ClInclude Include="MathGeoLib\include\Math\simd.h">
       <Filter>Sources\MathGeoLib\Math</Filter>
     </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Sources\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_docking.h">
+      <Filter>Sources\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Sources\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_sdl.h">
+      <Filter>Sources\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer.h">
+      <Filter>Sources\UI_Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="About.h">
+      <Filter>Sources\UI_Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="FBO.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Properties.h">
+      <Filter>Sources\UI_Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="Hierarchy.h">
+      <Filter>Sources\UI_Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="HardwarePanel.h">
+      <Filter>Sources\UI_Panels</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -445,18 +469,6 @@
     </ClCompile>
     <ClCompile Include="ModulePlayer.cpp">
       <Filter>Sources\Modules\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui.cpp">
-      <Filter>Sources\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_demo.cpp">
-      <Filter>Sources\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_draw.cpp">
-      <Filter>Sources\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_impl_sdl.cpp">
-      <Filter>Sources\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ModuleImGui.cpp">
       <Filter>Sources\Modules</Filter>
@@ -631,6 +643,39 @@
     </ClCompile>
     <ClCompile Include="MathGeoLib\include\Math\grisu3_cpp.cpp">
       <Filter>Sources\MathGeoLib\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Sources\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Sources\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_docking.cpp">
+      <Filter>Sources\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Sources\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_sdl.cpp">
+      <Filter>Sources\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer.cpp">
+      <Filter>Sources\UI_Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="About.cpp">
+      <Filter>Sources\UI_Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="FBO.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Properties.cpp">
+      <Filter>Sources\UI_Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="Hierarchy.cpp">
+      <Filter>Sources\UI_Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="HardwarePanel.cpp">
+      <Filter>Sources\UI_Panels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

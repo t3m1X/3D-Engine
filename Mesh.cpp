@@ -110,11 +110,10 @@ void Mesh::SetWire(bool w)
 
 void Mesh::UI_draw()
 {
-	if (ImGui::CollapsingHeader("Mesh")) {
-		ImGui::Text("Faces: %d", num_faces);
-		ImGui::Text("Vertices: %d", num_vertices);
-		ImGui::Text("UVs: %d", num_uv);
-	}
+	ImGui::Separator();
+	ImGui::Text("Faces: %d", num_faces);
+	ImGui::Text("Vertices: %d", num_vertices);
+	ImGui::Text("UVs: %d", num_uv);
 }
 
 bool Mesh::TriCheck(LineSegment & picking, float & distance, float3 & hitPoint)
