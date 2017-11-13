@@ -107,9 +107,7 @@ void ModuleWindow::SetTitle(const char* title)
 
 uint ModuleWindow::GetHeight() const
 {
-	int w, h;
-	SDL_GetWindowSize(window, &w, &h);
-	return h;
+	return screen_height;
 }
 
 void ModuleWindow::SetWidth(uint width)
@@ -312,9 +310,7 @@ void ModuleWindow::Save(JSON_File * c)
 
 uint ModuleWindow::GetWidth() const
 {
-	int w, h;
-	SDL_GetWindowSize(window, &w, &h);
-	return w;
+	return screen_width;
 }
 
 uint ModuleWindow::GetRefreshRate() const

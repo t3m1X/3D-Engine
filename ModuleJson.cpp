@@ -29,7 +29,7 @@ JSON_File* ModuleJSON::LoadJSON(const char * path)
 
 	for (list<JSON_File*>::iterator it = files.begin(); it != files.end(); it++)
 	{
-		if (strcmp(path, (*it)->GetPath()) == 0)
+		if (strcmp(path, (*it)->GetPath()))
 		{
 			file = (*it);
 			exists = true;
@@ -121,13 +121,15 @@ bool ModuleJSON::CleanUp()
 
 void ModuleJSON::ImGuiDraw()
 {
+	if (ImGui::CollapsingHeader(this->GetName())) {
+
+	}
 }
 
 JSON_File::JSON_File(JSON_Value * _value, JSON_Object * _object, const char* _path)
 {
 	val = _value;
 	obj = _object;
-	root = _object;
 	this->path = _path;
 }
 
@@ -155,178 +157,14 @@ const char * JSON_File::GetString(const char * name)
 	return json_object_dotget_string(obj, name);
 }
 
-const char* JSON_File::GetString(const char * name, const char * fallback)
-{
-	if (json_object_dothas_value_of_type(obj, name, json_value_type::JSONString))
-		return json_object_dotget_string(obj, name);
-	else
-		return fallback;
-	
-}
-
 bool JSON_File::GetBool(const char * name)
 {
 	return json_object_dotget_boolean(obj, name);
 }
 
-bool JSON_File::GetBool(const char * name, bool fallback)
-{
-	bool ret = fallback;
-
-	if (json_object_dothas_value_of_type(obj, name, json_value_type::JSONBoolean))
-		ret = json_object_dotget_boolean(obj, name);
-
-	return ret;
-}
-
 double JSON_File::GetNumber(const char * name)
 {
 	return json_object_dotget_number(obj, name);
-}
-
-double JSON_File::GetNumber(const char * name, double fallback)
-{
-	double ret = fallback;
-
-	if (json_object_dothas_value_of_type(obj, name, json_value_type::JSONNumber))
-		ret = json_object_dotget_number(obj, name);
-
-	return ret;
-}
-
-void JSON_File::AddArray(const char * name)
-{
-	json_object_set_value(obj, name, json_value_init_array());
-
-}
-
-void JSON_File::ClearArray(const char * name)
-{
-	JSON_Array* array = json_object_get_array(obj, name);
-
-	if (array != nullptr)
-		json_array_clear(array);
-}
-
-int JSON_File::ArraySize(const char * array)
-{
-	int ret = -1;
-	JSON_Array* arr = json_object_get_array(obj, array);
-
-	if (array != nullptr)
-		ret = json_array_get_count(arr);
-
-	return ret;
-}
-
-void JSON_File::ArrayAddString(const char * array, const char * str)
-{
-	JSON_Array* arr = json_object_get_array(obj, array);
-
-	if (array != nullptr)
-		json_array_append_string(arr, str);
-}
-
-void JSON_File::ArrayAddBool(const char * array, bool b)
-{
-	JSON_Array* arr = json_object_get_array(obj, array);
-
-	if (array != nullptr)
-		json_array_append_boolean(arr, b);
-}
-
-void JSON_File::ArrayAddNumber(const char * array, double num)
-{
-	JSON_Array* arr = json_object_get_array(obj, array);
-
-	if (array != nullptr)
-		json_array_append_number(arr, num);
-}
-
-void JSON_File::ArrayAddObject(const char * array)
-{
-	JSON_Array* arr = json_object_get_array(obj, array);
-
-	if (array != nullptr)
-		json_array_append_value(arr, json_value_init_object());
-}
-
-
-const char * JSON_File::ArrayGetString(const char * array, unsigned int index, const char * fallback)
-{
-	JSON_Array* arr = json_object_get_array(obj, array);
-	if (array != nullptr)
-		return json_array_get_string(arr, index);
-	else
-		return fallback;
-}
-
-bool JSON_File::ArrayGetBool(const char * array, unsigned int index, bool fallback)
-{
-	bool ret = fallback;
-
-	JSON_Array* arr = json_object_get_array(obj, array);
-	if (array != nullptr) {
-		int value = json_array_get_boolean(arr, index);
-		if (value != -1)
-			ret = value;
-	}
-
-	return ret;
-}
-
-double JSON_File::ArrayGetNumber(const char * array, unsigned int index, double fallback)
-{
-	JSON_Array* arr = json_object_get_array(obj, array);
-	if (array != nullptr)
-		return json_array_get_number(arr, index);
-	else
-		return fallback;
-}
-
-void JSON_File::AddObject(const char * name)
-{
-	json_object_set_value(obj, name, json_value_init_object());
-}
-
-void JSON_File::RemoveObject(const char * name)
-{
-	json_object_remove(obj, name);
-}
-
-bool JSON_File::ChangeObject(const char * name)
-{
-	bool ret = false;
-
-	JSON_Object* _obj = json_object_get_object(obj, name);
-
-	if (obj != nullptr)
-	{
-		obj = _obj;
-		ret = true;
-	}
-
-	return ret;
-}
-
-bool JSON_File::ChangeObjectFromArray(const char * array, unsigned int index)
-{
-	bool ret = false;
-	JSON_Array* arr = json_object_get_array(obj, array);
-	if (arr != nullptr) {
-		JSON_Object* _obj = json_array_get_object(arr, index);
-		if (_obj != nullptr)
-		{
-			ret = true;
-			obj = _obj;
-		}
-	}
-	return ret;
-}
-
-void JSON_File::RootObject()
-{
-	obj = root;
 }
 
 const char * JSON_File::GetPath()

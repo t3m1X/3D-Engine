@@ -27,6 +27,7 @@ public:
 	void AddObject(GameObject* obj);
 	void SetobjSelected(GameObject* obj);
 	GameObject* GetSelected()const;
+	void DrawHierarchy()const;
 	void Clear();
 	void IntersectAABB(LineSegment &picking, std::vector<GameObject*>& DistanceList);
 	GameObject* SelectObject(LineSegment picking);

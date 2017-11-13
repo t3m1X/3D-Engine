@@ -25,11 +25,6 @@ void Component::Disable()
 	active = false;
 }
 
-void Component::SetEnabled(const bool& set)
-{
-	set ? Enable() : Disable();
-}
-
 bool Component::IsActive()
 {
 	return active;
@@ -43,11 +38,6 @@ void Component::UI_draw()
 void Component::Setname(const char * n)
 {
 	name = n;
-}
-
-const char * Component::GetName() const
-{
-	return name;
 }
 
 COMPONENT_TYPE Component::GetType()

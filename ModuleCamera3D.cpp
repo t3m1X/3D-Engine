@@ -266,7 +266,6 @@ Camera3D * ModuleCamera3D::GetEditorCamera() const
 	return editor_camera;
 }
 
-
 void ModuleCamera3D::DrawDebug()
 {
 	if (curr_camera != editor_camera) {

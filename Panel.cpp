@@ -12,15 +12,13 @@ Panel::~Panel() {
 
 };
 
-void Panel::SetActive(bool active) {
-	Active = active;
+void Panel::Enable() {
+	Active = true;
 }
 
-void Panel::ToggleActive()
-{
-	Active = !Active;
+void Panel::Disable() {
+	Active = false;
 }
-
 bool Panel::IsActive()const  {
 
 	return Active;

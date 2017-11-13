@@ -2,6 +2,7 @@
 #include <iostream> 
 #include <sstream> 
 
+#include "Console.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
@@ -40,6 +41,8 @@ Application::Application()
 	loader = new ModuleLoader();
 	tex = new ModuleTextures();
 
+	con = new Console();
+	imgui->AddPanel(con);
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
@@ -59,11 +62,12 @@ Application::Application()
 	// Scenes
 	AddModule(scene_intro);
 	AddModule(player);
-	AddModule(imgui);
 	
 
 	// Renderer last!
-	AddModule(renderer3D);	
+	AddModule(renderer3D);
+	AddModule(imgui);
+	
 	
 }
 
@@ -173,7 +177,7 @@ update_status Application::Update()
 bool Application::CleanUp()
 {
 	bool ret = true;
-	for (list<Module*>::reverse_iterator it = list_modules.rbegin(); it != list_modules.rend(); ++it) {
+	for (list<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); ++it) {
 		if ((*it) != nullptr && ret == true) {
 			ret = (*it)->CleanUp();
 		}
@@ -260,7 +264,7 @@ void Application::LoadConfig(const char * path)
 
 	}
 	else {
-		LOG_OUT("Json did not load correctly");
+		con->AddLog("Json did not load correctly");
 	}
 
 	for (list<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); ++it) {

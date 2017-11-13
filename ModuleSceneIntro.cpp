@@ -135,6 +135,16 @@ GameObject * ModuleSceneIntro::GetSelected() const
 	}
 }
 
+void ModuleSceneIntro::DrawHierarchy() const
+{
+
+	ImGui::Begin("Hierarchy");
+	root->UIDraw();
+	
+
+	ImGui::End();
+}
+
 void ModuleSceneIntro::Clear()
 {
 	
@@ -268,13 +278,14 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	bPlane p(0, 1, 0, 0);
 	p.axis = true;
-
+	
 	if (octree->need_update) {
 		
 		RecalculateOctree();
 	}
+	DrawHierarchy();
 	root->Update();
-	root->Draw();
+	//root->Draw();
 	octree->DebugDraw();
 	p.Render();
 

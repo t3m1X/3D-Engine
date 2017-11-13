@@ -11,23 +11,18 @@ class Panel {
 	public:
 		Panel(const char* name, SDL_Scancode shortcut = SDL_SCANCODE_UNKNOWN, bool active = false);
 		Panel();
-
-		virtual void Start() {};
-		virtual void Draw() {};
-		virtual void CleanUp() {};
-
 		virtual ~Panel();
-		void SetActive(bool active);
-		void ToggleActive();
+		void Enable();
+		void Disable();
 		bool IsActive() const;
 		SDL_Scancode GetShortcut();
-
+		virtual void Draw(Application* App) = 0;
 	public:
-		bool Active;
-
+		int x, y, w, h;
 	protected:
 		const char* Name;
 		SDL_Scancode Shortcut;
+		bool Active;
 };
 
 #endif

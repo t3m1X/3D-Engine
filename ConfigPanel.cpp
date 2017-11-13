@@ -1,15 +1,16 @@
 #include "ConfigPanel.h"
-#include "imgui.h"
 #include "Application.h"
-#include "imgui_docking.h"
 #include "mmgr\mmgr.h"
-#include "Application.h"
-#include "ModuleWindow.h"
 
 
-ConfigPanel::ConfigPanel() : Panel("Configuration", SDL_SCANCODE_4),
+ConfigPanel::ConfigPanel(Application* App) : Panel("Configuration", SDL_SCANCODE_4),
 fps_log(FPS_LOG_SIZE), ms_log(FPS_LOG_SIZE)
 {
+	w = 325;
+	h = 417;
+	x = 100;
+	y = 50;
+
 	strcpy(name_buffer, App->GetName());
 	strcpy(organization_buffer, App->GetOrg());
 	strcpy(version_buffer, App->GetVersion());
@@ -17,42 +18,42 @@ fps_log(FPS_LOG_SIZE), ms_log(FPS_LOG_SIZE)
 }
 ConfigPanel::~ConfigPanel() {}
 
-void ConfigPanel::Draw() {
+void ConfigPanel::Draw(Application* App) {
 
-	if (!Active)
-		return;
-
-	if (ImGui::Begin("Hardware", &Active, ImGuiWindowFlags_AlwaysAutoResize)) {
-		DrawApp();
-		for (list<Module*>::iterator it = App->list_modules.begin(); it != App->list_modules.end(); ++it)
-			(*it)->ImGuiDraw();
+	ImGui::Begin("Configuration", &Active);
+	DrawApp(App);
+	DrawHardware();
+	for (list<Module*>::iterator it = App->list_modules.begin(); it != App->list_modules.end(); ++it) {
+		it._Ptr->_Myval->ImGuiDraw();
 	}
 	ImGui::End();
 }
 
-void ConfigPanel::DrawApp(){
+void ConfigPanel::DrawApp(Application* App){
+
+	
+	int max_fps = App->GetFramerateLimit();
+	if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120))
+		App->SetFramerateLimit(max_fps);
+
+	ImGui::Text("Limit Framerate:");
+	ImGui::SameLine();
+	ImGui::Text("%i", App->GetFramerateLimit());
+
+	std::vector<float> mem_container;
+	sMStats stats;
+
+	stats = m_getMemoryStatistics();
+
+	mem_container.push_back((float)stats.totalReportedMemory);
+
+	if (mem_container.size() > 500) {
+		mem_container.erase(mem_container.begin(), mem_container.begin() + 1);
+	}
 
 
-	if (ImGui::CollapsingHeader("Application"), ImGuiTreeNodeFlags_DefaultOpen)
+	if (ImGui::CollapsingHeader("Application"))
 	{
-		int max_fps = App->GetFramerateLimit();
-		if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120))
-			App->SetFramerateLimit(max_fps);
-
-		ImGui::Text("Limit Framerate:");
-		ImGui::SameLine();
-		ImGui::Text("%i", App->GetFramerateLimit());
-
-		std::vector<float> mem_container;
-		sMStats stats;
-
-		stats = m_getMemoryStatistics();
-
-		mem_container.push_back((float)stats.totalReportedMemory);
-
-		if (mem_container.size() > 500) {
-			mem_container.erase(mem_container.begin(), mem_container.begin() + 1);
-		}
 
 		/*ImGui::Text(App->GetName());
 		ImGui::Text(App->GetOrg());
@@ -87,7 +88,6 @@ void ConfigPanel::DrawApp(){
 			ImGui::PlotHistogram("Memory", &mem_container[0], mem_container.size(), 0, title, 0.0f, 30000.0f, ImVec2(0, 100));
 		}
 	}
-
 }
 
 void ConfigPanel::FPS(float fps, float ms) {
@@ -107,6 +107,53 @@ void ConfigPanel::FPS(float fps, float ms) {
 
 	fps_log[count - 1] = fps;
 	ms_log[count - 1] = ms;
+}
+void ConfigPanel::DrawHardware() {
+
+	if (ImGui::CollapsingHeader("Hardware")) {
+
+		Hardware hw;
+		Hardware::hardware_info info;
+		info = hw.GetInfo();
+		ImGui::Text("SDL Version:", info.sdl_version);
+		ImGui::SameLine();
+		ImGui::Text("%u", info.sdl_version);
+		ImGui::Separator();
+
+		ImGui::Text("CPUs:", "%u (Cache: %ukb)", info.cpu_count, info.l1_cachekb);
+		ImGui::SameLine();
+		ImGui::Text("%u", info.cpu_count, info.l1_cachekb);
+
+		ImGui::Text("System RAM:");
+		ImGui::SameLine();
+		ImGui::Text("%.1fGb", info.ram_gb);
+
+		ImGui::Separator();
+		ImGui::Text("GPU:");
+		ImGui::SameLine();
+		ImGui::Text("vendor %u device %u", info.gpu_vendor, info.gpu_device);
+
+		ImGui::Text("Brand:");
+		ImGui::SameLine();
+		ImGui::Text(info.gpu_brand);
+
+		ImGui::Text("VRAM Budget:");
+		ImGui::SameLine();
+		ImGui::Text("%.1f Mb", info.vram_mb_budget);
+
+		ImGui::Text("VRAM Usage:");
+		ImGui::SameLine();
+		ImGui::Text( "%.1f Mb", info.vram_mb_usage);
+
+		ImGui::Text("VRAM Available:");
+		ImGui::SameLine();
+		ImGui::Text("%.1f Mb", info.vram_mb_available);
+
+		ImGui::Text("VRAM Reserved:");
+		ImGui::SameLine();
+		ImGui::Text("%.1f Mb", info.vram_mb_reserved);
+
+	}
 }
 
 

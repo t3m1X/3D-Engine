@@ -21,12 +21,9 @@ class Component {
 		virtual void Update();
 		virtual void Enable();
 		virtual void Disable();
-		virtual void SetEnabled(const bool& set);
 		virtual bool IsActive();
 		virtual void UI_draw();
 		virtual void Setname(const char* n);
-		const char* GetName() const;
-
 		COMPONENT_TYPE GetType();
 		void SetType(COMPONENT_TYPE t);
 		GameObject* GetOwner()const;

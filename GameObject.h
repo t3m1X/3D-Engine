@@ -40,7 +40,6 @@ public:
 	//void RemoveComponent(Component* c);
 	bool HasComponent(COMPONENT_TYPE type);
 	Component* FindComponentbyType(COMPONENT_TYPE type);
-	vector<Component*> GetComponents() const;
 	void UIDraw();
 	void DrawComponents();
 	void RecalculateAABB();

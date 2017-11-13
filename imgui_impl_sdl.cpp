@@ -9,10 +9,10 @@
 // If you are new to ImGui, see examples/README.txt and documentation at the top of imgui.cpp.
 // https://github.com/ocornut/imgui
 
-#include "SDL\include\SDL.h"
-#include "SDL\include\SDL_syswm.h"
-#include "SDL\include\SDL_opengl.h"
-#include "imgui.h"
+#include "SDL/include/SDL.h"
+#include "SDL/include/SDL_syswm.h"
+#include "SDL/include/SDL_opengl.h"
+#include "ImGui\imgui.h"
 #include "imgui_impl_sdl.h"
 
 // Data
@@ -22,8 +22,8 @@ static float        g_MouseWheel = 0.0f;
 static GLuint       g_FontTexture = 0;
 
 // This is the main rendering function that you have to implement and provide to ImGui (via setting up 'RenderDrawListsFn' in the ImGuiIO structure)
-// Note that this implementation is little overcomplicated because we are saving/setting up/restoring every OpenGL state explicitly, in order to be able to run within any OpenGL engine that doesn't do so. 
-// If text or lines are blurry when integrating ImGui in your engine: in your Render function, try translating your projection matrix by (0.5f,0.5f) or (0.375f,0.375f)
+// If text or lines are blurry when integrating ImGui in your engine:
+// - in your Render function, try translating your projection matrix by (0.5f,0.5f) or (0.375f,0.375f)
 void ImGui_ImplSdl_RenderDrawLists(ImDrawData* draw_data)
 {
     // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
@@ -35,9 +35,8 @@ void ImGui_ImplSdl_RenderDrawLists(ImDrawData* draw_data)
     draw_data->ScaleClipRects(io.DisplayFramebufferScale);
 
     // We are using the OpenGL fixed pipeline to make the example code simpler to read!
-    // Setup render state: alpha-blending enabled, no face culling, no depth testing, scissor enabled, vertex/texcoord/color pointers, polygon fill.
+    // Setup render state: alpha-blending enabled, no face culling, no depth testing, scissor enabled, vertex/texcoord/color pointers.
     GLint last_texture; glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
-    GLint last_polygon_mode[2]; glGetIntegerv(GL_POLYGON_MODE, last_polygon_mode);
     GLint last_viewport[4]; glGetIntegerv(GL_VIEWPORT, last_viewport);
     GLint last_scissor_box[4]; glGetIntegerv(GL_SCISSOR_BOX, last_scissor_box); 
     glPushAttrib(GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT | GL_TRANSFORM_BIT);
@@ -50,7 +49,6 @@ void ImGui_ImplSdl_RenderDrawLists(ImDrawData* draw_data)
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     glEnable(GL_TEXTURE_2D);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     //glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
 
     // Setup viewport, orthographic projection matrix
@@ -102,7 +100,6 @@ void ImGui_ImplSdl_RenderDrawLists(ImDrawData* draw_data)
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     glPopAttrib();
-    glPolygonMode(GL_FRONT, last_polygon_mode[0]); glPolygonMode(GL_BACK, last_polygon_mode[1]);
     glViewport(last_viewport[0], last_viewport[1], (GLsizei)last_viewport[2], (GLsizei)last_viewport[3]);
     glScissor(last_scissor_box[0], last_scissor_box[1], (GLsizei)last_scissor_box[2], (GLsizei)last_scissor_box[3]);
 }
@@ -117,7 +114,7 @@ static void ImGui_ImplSdl_SetClipboardText(void*, const char* text)
     SDL_SetClipboardText(text);
 }
 
-bool ImGui_ImplSdlGL2_ProcessEvent(SDL_Event* event)
+bool ImGui_ImplSdl_ProcessEvent(SDL_Event* event)
 {
     ImGuiIO& io = ImGui::GetIO();
     switch (event->type)
@@ -157,7 +154,7 @@ bool ImGui_ImplSdlGL2_ProcessEvent(SDL_Event* event)
     return false;
 }
 
-bool ImGui_ImplSdlGL2_CreateDeviceObjects()
+bool ImGui_ImplSdl_CreateDeviceObjects()
 {
     // Build texture atlas
     ImGuiIO& io = ImGui::GetIO();
@@ -184,7 +181,7 @@ bool ImGui_ImplSdlGL2_CreateDeviceObjects()
     return true;
 }
 
-void    ImGui_ImplSdlGL2_InvalidateDeviceObjects()
+void    ImGui_ImplSdl_InvalidateDeviceObjects()
 {
     if (g_FontTexture)
     {
@@ -194,7 +191,7 @@ void    ImGui_ImplSdlGL2_InvalidateDeviceObjects()
     }
 }
 
-bool    ImGui_ImplSdlGL2_Init(SDL_Window* window)
+bool    ImGui_ImplSdl_Init(SDL_Window* window)
 {
     ImGuiIO& io = ImGui::GetIO();
     io.KeyMap[ImGuiKey_Tab] = SDLK_TAB;                     // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
@@ -234,16 +231,16 @@ bool    ImGui_ImplSdlGL2_Init(SDL_Window* window)
     return true;
 }
 
-void ImGui_ImplSdlGL2_Shutdown()
+void ImGui_ImplSdl_Shutdown()
 {
-    ImGui_ImplSdlGL2_InvalidateDeviceObjects();
+    ImGui_ImplSdl_InvalidateDeviceObjects();
     ImGui::Shutdown();
 }
 
-void ImGui_ImplSdlGL2_NewFrame(SDL_Window *window)
+void ImGui_ImplSdl_NewFrame(SDL_Window *window)
 {
     if (!g_FontTexture)
-        ImGui_ImplSdlGL2_CreateDeviceObjects();
+        ImGui_ImplSdl_CreateDeviceObjects();
 
     ImGuiIO& io = ImGui::GetIO();
 
@@ -268,7 +265,7 @@ void ImGui_ImplSdlGL2_NewFrame(SDL_Window *window)
     if (SDL_GetWindowFlags(window) & SDL_WINDOW_MOUSE_FOCUS)
         io.MousePos = ImVec2((float)mx, (float)my);   // Mouse position, in pixels (set to -1,-1 if no mouse / on another screen, etc.)
     else
-        io.MousePos = ImVec2(-FLT_MAX,-FLT_MAX);
+        io.MousePos = ImVec2(-1,-1);
 
     io.MouseDown[0] = g_MousePressed[0] || (mouseMask & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0;		// If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
     io.MouseDown[1] = g_MousePressed[1] || (mouseMask & SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0;

@@ -6,7 +6,6 @@
 #include "ModuleCamera3D.h"
 #include "ModuleImGui.h"
 #include "ModuleSceneIntro.h"
-#include "FBO.h"
 
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
@@ -45,25 +44,11 @@ bool ModuleRenderer3D::Init(JSON_File* conf)
 		ret = false;
 	}
 	
-	// Glew
-	GLenum err = glewInit();
-
-	if (err != GLEW_OK)
-	{
-		LOG_OUT("Glew library could not init %s\n", glewGetErrorString(err));
-		ret = false;
-	}
-
-	//OpenGL
 	if(ret == true)
 	{
 		//Use Vsync
 		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
 			LOG_OUT("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
-
-		//Initialize FBO
-		fbo_texture = new FBO();
-		fbo_texture->Create(App->window->GetWidth(), App->window->GetHeight());
 
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
@@ -103,6 +88,11 @@ bool ModuleRenderer3D::Init(JSON_File* conf)
 			ret = false;
 		}
 
+		GLenum err = glewInit();
+		if (err != GLEW_OK) {
+			LOG_OUT("GLEW NOT OK");
+			exit(EXIT_FAILURE);
+		}
 		LOG_OUT("Using Glew %s", glewGetString(GLEW_VERSION));
 		LOG_OUT("Vendor: %s", glGetString(GL_VENDOR));
 		LOG_OUT("Renderer: %s", glGetString(GL_RENDERER));
@@ -137,8 +127,6 @@ bool ModuleRenderer3D::Init(JSON_File* conf)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
-	fbo_texture->Bind();
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
@@ -159,11 +147,9 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	//App->scene_intro->Draw();
-
+	
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-	fbo_texture->Unbind();
-
+	App->scene_intro->Draw();
 	UI_attributes();
 	App->imgui->Draw();
 	Custom_attributes();
@@ -178,9 +164,7 @@ bool ModuleRenderer3D::CleanUp()
 {
 	LOG_OUT("Destroying 3D Renderer");
 	
-	fbo_texture->Unbind();
-	delete fbo_texture;
-	fbo_texture = nullptr;
+	
 
 	SDL_GL_DeleteContext(context);
 
@@ -252,11 +236,6 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-}
-
-uint ModuleRenderer3D::GetFrameBuffer()
-{
-	return fbo_texture->GetTexture();
 }
 
 void ModuleRenderer3D::ImGuiDraw()
