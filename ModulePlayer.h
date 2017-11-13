@@ -17,5 +17,5 @@ public:
 	bool CleanUp();
 
 public:
-	Timer time;
+	//Timer time;
 };

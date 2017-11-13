@@ -5,17 +5,22 @@
 
 Camera3D::Camera3D()
 {
-	frustum.type = FrustumType::PerspectiveFrustum;
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 
-	frustum.SetPos(float3::zero);
-	frustum.SetFront(float3::unitZ);
-	frustum.SetUp(float3::unitY);
 
-	SetNearPlaneDistance(0.1f);
-	SetFarPlaneDistance(300.0f);
-	SetFOV(DEGTORAD * 60.0f);
+	frustum.pos = float3::zero;
+	frustum.front = float3::unitZ;
+	frustum.up = float3::unitY;
+
+	frustum.nearPlaneDistance = 0.1f;
+	frustum.farPlaneDistance = 300.0f;
+	frustum.verticalFov = DEGTORAD * 60.0f;
 	SetAspectRatio(1.3f);
+
+
+	//SetFOV(60);
+
+	
 	//SetFOV(30);
 }
 

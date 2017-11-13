@@ -30,6 +30,7 @@ public:
 	Camera3D* GetEditorCamera() const;
 	//void FocusMesh(Mesh* m);
 	void DrawDebug();
+	void SetCameraActive(bool set);
 
 private:
 
@@ -44,6 +45,7 @@ private:
 	Camera3D* editor_camera = nullptr;
 	Camera3D* curr_camera = nullptr;
 
+	bool active = true;
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 	float speed = 3.0f;
 	float Sensitivity = 0.25f;
