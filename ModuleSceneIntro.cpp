@@ -82,14 +82,14 @@ void ModuleSceneIntro::AddObject(GameObject * obj)
 	root->AddChild(obj);
 
 
-	if (obj->GetStatic()) {
+	/*if (obj->GetStatic()) {
 		octree->InsertGO(obj);
 		LOG_OUT("Insterted into the octree");
 	}
 	else {
 		non_static_objects.push_back(obj);
 		LOG_OUT("Insterted in non static objects");
-	}
+	}*/
 
 	
 }
@@ -99,19 +99,24 @@ void ModuleSceneIntro::Draw()
 {
 
 
-	if (App->camera->GetCurrentCamera() != App->camera->GetEditorCamera()) {
+	if (App->camera->GetCurrentCamera()->GetCulling()) {
 		std::list<GameObject*> intersections_list;
 		octree->CollectIntersections(intersections_list, App->camera->GetCurrentCamera());
 		for (std::list<GameObject*>::iterator it = intersections_list.begin(); it != intersections_list.end(); it++) {
 			(*it)->Draw();
 			//LOG_OUT("Drawing static objects");
 		}
+
+
+		for (std::list<GameObject*>::iterator it = non_static_objects.begin(); it != non_static_objects.end(); it++) {
+			(*it)->Draw();
+			//LOG_OUT("Drawing non static objects");
+		}
+	}
+	else {
+		root->Draw();
 	}
 
-	for (std::list<GameObject*>::iterator it = non_static_objects.begin(); it != non_static_objects.end(); it++) {
-		(*it)->Draw();
-		//LOG_OUT("Drawing non static objects");
-	}
 //	root->Draw();
 
 }

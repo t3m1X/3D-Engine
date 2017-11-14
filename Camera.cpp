@@ -133,6 +133,11 @@ const Frustum  Camera3D::GetFrustum() const
 	return frustum;
 }
 
+const bool Camera3D::GetCulling() const
+{
+	return culling;
+}
+
 void Camera3D::MoveForward(const float & speed)
 {
 	if (speed <= 0)

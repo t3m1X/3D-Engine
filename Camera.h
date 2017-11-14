@@ -33,6 +33,7 @@ public:
 	const float* GetOpenGLViewMatrix() const;
 	const float* GetOpenGLProjectionMatrix() const;
 	const Frustum GetFrustum() const;
+	const bool GetCulling()const;
 
 	void MoveForward(const float& speed);
 	void MoveBackwards(const float& speed);
@@ -47,12 +48,15 @@ public:
 
 	void Look(const float3& look_pos);
 	bool IsInside(AABB& bounding);
-
+	
+public:
+	bool culling = false;
 private:
 
 	Frustum frustum;
 	float aspect_ratio = 0.0f;
 	float vertical_fov = 0.0f;
+	
 
 };
 

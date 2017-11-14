@@ -32,7 +32,7 @@ class Transform : public Component {
 		void RecalculateTransform();
 		float3 GetPosition()const;
 		void OnGuizmo();
-		void Edit();
+		
 
 	private:
 		float4x4 local_transform;

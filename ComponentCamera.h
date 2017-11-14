@@ -18,9 +18,12 @@ public:
 	void CleanUp();
 	Camera3D* GetCamera()const;
 	bool IsInside(AABB& bounding_box);
+	void UI_draw();
+	bool GetCulling() const;
 
 private:
 	Camera3D* camera = nullptr;
+	bool culling = false;
 };
 
 

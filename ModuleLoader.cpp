@@ -174,15 +174,15 @@ void ModuleLoader::LoadFBX(char* path)
 				LOG_OUT("FBX Load: Mesh loaded with %d vertices and %d indices", new_mesh->num_vertices, new_mesh->num_indices);
 
 				new_obj->AddComponent(new_mesh);
-				new_obj->SetStatic(true);
-				App->scene_intro->octree->InsertGO(new_obj);
+				//new_obj->SetStatic(true);
+				//App->scene_intro->octree->InsertGO(new_obj);
 				
 				
 			
 				new_obj->RecalculateAABB();
 				new_obj->Enable();
 				
-				//App->scene_intro->AddObject(new_ob1j);
+				App->scene_intro->AddObject(new_obj);
 					
 				
 				LOG_OUT("Created new object");

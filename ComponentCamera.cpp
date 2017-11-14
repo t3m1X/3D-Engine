@@ -2,6 +2,7 @@
 #include "Transform.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
+#include "ModuleImGui.h"
 
 
 ComponentCamera::ComponentCamera(GameObject * own) : Component(own)
@@ -51,4 +52,16 @@ Camera3D * ComponentCamera::GetCamera() const
 bool ComponentCamera::IsInside(AABB & bounding_box)
 {
 	return camera->IsInside(bounding_box);
+}
+
+void ComponentCamera::UI_draw()
+{
+	if (ImGui::CollapsingHeader("Camera")) {
+		ImGui::Checkbox("Camera culling", &camera->culling);
+	}
+}
+
+bool ComponentCamera::GetCulling() const
+{
+	return camera->GetCulling();
 }
