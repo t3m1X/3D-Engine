@@ -380,6 +380,10 @@ void GameObject::DrawComponents()
 		if (GetStatic()) {
 			
 			App->scene_intro->octree->InsertGO(this);
+			if (std::find(App->scene_intro->non_static_objects.begin(), App->scene_intro->non_static_objects.end(), this) != App->scene_intro->non_static_objects.end()) {
+				App->scene_intro->non_static_objects.remove(this);
+			}
+			
 			
 		}
 		else {
@@ -400,16 +404,11 @@ void GameObject::RecalculateAABB()
 {
 	bbinit = true;
 	bool has_mesh = false;
-	Mesh* m;
+	Mesh* m = (Mesh*)this->FindComponentbyType(MESH);
 	Transform* trans = (Transform*)this->FindComponentbyType(TRANSFORM);
-	for (uint i = 0; i < components.size() && !has_mesh; i++) 
-		if (components[i]->GetType() == MESH) {
-			has_mesh = true; /////Assuming there's one mesh per game object
-			m = (Mesh*)components[i];
-		}
-	if (has_mesh) {
+	if (m!=nullptr) {
 		if (trans != nullptr) {
-			boundingbox = AABB::MinimalEnclosingAABB((float3*)m->vertices, m->num_vertices);
+			boundingbox.Enclose((float3*)m->vertices, m->num_vertices);
 			boundingbox.TransformAsAABB(trans->GetGlobalTransform());
 		}
 	}

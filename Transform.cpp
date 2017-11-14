@@ -146,7 +146,7 @@ void Transform::SetGlobalTransform(const float4x4 & transform)
 
 float4x4 Transform::GetGlobalTransform() const
 {
-	return global_transform;
+	return global_transform.FromTRS(position,rotation,scale);
 }
 
 void Transform::RecalculateTransform()
