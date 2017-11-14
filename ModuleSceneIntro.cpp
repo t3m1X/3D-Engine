@@ -84,10 +84,12 @@ void ModuleSceneIntro::AddObject(GameObject * obj)
 
 	if (obj->GetStatic()) {
 		octree->InsertGO(obj);
+		all_objects.push_back(obj);
 		LOG_OUT("Insterted into the octree");
 	}
 	else {
 		non_static_objects.push_back(obj);
+		all_objects.push_back(obj);
 		LOG_OUT("Insterted in non static objects");
 	}
 
@@ -173,6 +175,13 @@ void ModuleSceneIntro::IntersectAABB(LineSegment & picking, std::vector<GameObje
 		}
 	}
 
+	/*for (int i = 0; i < all_objects.size(); i++) {
+		if (picking.Intersects(all_objects[i]->boundingbox)) {
+			DistanceList.push_back(all_objects[i]);
+			LOG_OUT("AABB hit");
+		}
+	}*/
+
 	/*for (uint i = 0; i < root->children.size(); i++) {
 		if (root->children[i]->children.size() > 0) {
 			for (uint j = 0; j < root->children[i]->children.size(); j++) {
@@ -228,42 +237,48 @@ GameObject * ModuleSceneIntro::SelectObject(LineSegment picking)
 
 void ModuleSceneIntro::RecalculateOctree()
 {
-	/*float3 new_min_point = octree->min_point;
-	float3 new_max_point = octree->max_point;
+	float3 min_point = { 0, 0, 0 };
+	float3 max_point = { 0, 0, 0 };
 
-	for (std::list<GameObject*>::iterator it = static_objects.begin(); it != static_objects.end(); it++) {
+	for (int i = 0; i < all_objects.size(); i++)
+	{
+		if ((all_objects[i] != nullptr)&&(all_objects[i]->GetStatic()))
+		{
+			if (all_objects[i]->boundingbox.minPoint.x < min_point.x)
+				min_point.x = all_objects[i]->boundingbox.minPoint.x;
 
-		if ((*it)->boundingbox.minPoint.x < new_min_point.x)
-		{
-			new_min_point.x = (*it)->boundingbox.minPoint.x;
-		}
-		if ((*it)->boundingbox.minPoint.y < new_min_point.y)
-		{
-			new_min_point.y = (*it)->boundingbox.minPoint.y;
-		}
-		if ((*it)->boundingbox.minPoint.z < new_min_point.z)
-		{
-			new_min_point.z = (*it)->boundingbox.minPoint.z;
-		}
-		if ((*it)->boundingbox.maxPoint.x > new_max_point.x)
-		{
-			new_max_point.x = (*it)->boundingbox.maxPoint.x;
-		}
-		if ((*it)->boundingbox.maxPoint.y > new_max_point.y)
-		{
-			new_max_point.y = (*it)->boundingbox.maxPoint.y;
-		}
-		if ((*it)->boundingbox.maxPoint.z > new_max_point.z)
-		{
-			new_max_point.z = (*it)->boundingbox.maxPoint.z;
-		}
+			if (all_objects[i]->boundingbox.minPoint.y < min_point.y)
+				min_point.y = all_objects[i]->boundingbox.minPoint.y;
 
+			if (all_objects[i]->boundingbox.minPoint.z < min_point.z)
+				min_point.z = all_objects[i]->boundingbox.minPoint.z;
+
+			if (all_objects[i]->boundingbox.maxPoint.x > max_point.x)
+				max_point.x = all_objects[i]->boundingbox.maxPoint.x;
+
+			if (all_objects[i]->boundingbox.maxPoint.y > max_point.y)
+				max_point.y = all_objects[i]->boundingbox.maxPoint.y;
+
+			if (all_objects[i]->boundingbox.maxPoint.z > max_point.z)
+				max_point.z = all_objects[i]->boundingbox.maxPoint.z;
+		}
 	}
 
-	delete octree;
+	if (octree != nullptr) {
+		delete octree;
+	}
+
 	octree = new Octree();
-	octree->Create(new_max_point, new_min_point);
-	octree->need_update = false;*/
+	octree->Create(max_point, min_point);
+
+	for (int i = 0; i < all_objects.size(); i++) {
+		if (all_objects[i]->GetStatic()) {
+			octree->InsertGO(all_objects[i]);
+		}
+	}
+	
+
+	
 }
 
 
@@ -276,6 +291,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	if (octree->need_update) {
 		
 		RecalculateOctree();
+
 	}
 	DrawHierarchy();
 	root->Update();

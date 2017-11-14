@@ -380,10 +380,9 @@ void Octree::CollectIntersections(std::list<GameObject*>& intersections_list, Li
 void Octree::InsertGO(GameObject * go)
 {
 	if (root != nullptr) {
-		root->AddGO(go);
+		//root->AddGO(go);
 
-		/*{
-			//If the box that we need to insert is out of the octree, we will need to update the octree.
+		{
 			if (go->boundingbox.minPoint.x < root->box.minPoint.x)
 			{
 				min_point.x = go->boundingbox.minPoint.x;
@@ -418,11 +417,13 @@ void Octree::InsertGO(GameObject * go)
 			if (!need_update)
 			{
 				root->AddGO(go);
+				need_update = false;
 			}
+		}
 
-		}*/
+		}
 		
-	}
+	
 
 	
 }

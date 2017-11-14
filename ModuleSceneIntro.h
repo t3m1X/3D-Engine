@@ -39,6 +39,7 @@ public:
 	GameObject* root;
 	GameObject* selected =nullptr;
 	Octree* octree = nullptr;
+	std::vector<GameObject*>all_objects;
 	std::list<GameObject*>non_static_objects;
 	bool hierarchy = true;
 
