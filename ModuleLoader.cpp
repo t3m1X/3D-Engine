@@ -175,9 +175,7 @@ void ModuleLoader::LoadFBX(char* path)
 
 				new_obj->AddComponent(new_mesh);
 				
-				App->scene_intro->octree->InsertGO(new_obj);
-				new_obj->SetStatic(true);
-				App->scene_intro->static_objects.push_back(new_obj);
+				
 			
 				new_obj->RecalculateAABB();
 				new_obj->Enable();

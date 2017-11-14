@@ -188,7 +188,7 @@ void Transform::OnGuizmo()
 {
 
 	
-	
+	/*
 	ImGuizmo::Enable(true);
 	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
 	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
@@ -240,7 +240,7 @@ void Transform::OnGuizmo()
 	/*ImGuizmo::DecomposeMatrixToComponents(trans.ptr(), (float*)position.ptr(), (float*)Euler_rotation.ptr(), (float*)scale.ptr());
 	global_transform.Transpose();
 	ImGuizmo::RecomposeMatrixFromComponents((float*)position.ptr(), (float*)Euler_rotation.ptr(), (float*)scale.ptr(), global_transform.ptr());
-	global_transform.Transpose();*/
+	global_transform.Transpose();
 	else {
 		ImGuizmo::Enable(false);
 		App->camera->SetCameraActive(true);
@@ -249,7 +249,7 @@ void Transform::OnGuizmo()
 	}
 	
 	
-
+	*/
 
 
 }

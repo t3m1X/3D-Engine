@@ -56,7 +56,6 @@ bool ModuleSceneIntro::Start()
 	min_point.Set(-10, 0, -10);
 
 	octree = new Octree();
-
 	octree->Create(max_point, min_point);
 
 
@@ -85,11 +84,11 @@ void ModuleSceneIntro::AddObject(GameObject * obj)
 
 	if (obj->GetStatic()) {
 		octree->InsertGO(obj);
-	//	static_objects.push_back(obj);
+    	static_objects.push_back(obj);
 		LOG_OUT("Insterted in static objects");
 	}
 	else {
-		//non_static_objects.push_back(obj);
+		non_static_objects.push_back(obj);
 		LOG_OUT("Insterted in non static objects");
 	}
 
@@ -197,7 +196,7 @@ GameObject * ModuleSceneIntro::SelectObject(LineSegment picking)
 	IntersectAABB(picking, DistanceList);
 
 	if (DistanceList.size() > 0) {
-		float last_distance = MIN_DISTANCE;
+		float last_distance = inf;
 
 		for (uint i = 0; i < DistanceList.size(); i++) {
 
