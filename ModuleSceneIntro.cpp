@@ -84,8 +84,7 @@ void ModuleSceneIntro::AddObject(GameObject * obj)
 
 	if (obj->GetStatic()) {
 		octree->InsertGO(obj);
-    	static_objects.push_back(obj);
-		LOG_OUT("Insterted in static objects");
+		LOG_OUT("Insterted into the octree");
 	}
 	else {
 		non_static_objects.push_back(obj);
@@ -220,20 +219,11 @@ GameObject * ModuleSceneIntro::SelectObject(LineSegment picking)
 	return closest;
 }
 
-void ModuleSceneIntro::FillOctree()
-{
-	if (!static_objects.empty()) {
-		for (std::list<GameObject*>::iterator it = static_objects.begin(); it != static_objects.end(); it++) {
-			if ((*it)->GetStatic()) {
-				octree->InsertGO((*it));
-			}
-		}
-	}
-}
+
 
 void ModuleSceneIntro::RecalculateOctree()
 {
-	float3 new_min_point = octree->min_point;
+	/*float3 new_min_point = octree->min_point;
 	float3 new_max_point = octree->max_point;
 
 	for (std::list<GameObject*>::iterator it = static_objects.begin(); it != static_objects.end(); it++) {
@@ -268,7 +258,7 @@ void ModuleSceneIntro::RecalculateOctree()
 	delete octree;
 	octree = new Octree();
 	octree->Create(new_max_point, new_min_point);
-	octree->need_update = false;
+	octree->need_update = false;*/
 }
 
 

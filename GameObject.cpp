@@ -18,6 +18,7 @@ GameObject::GameObject(std::string name, GameObject* _parent) : parent(_parent)
 		_parent->AddChild(this);
 
 	boundingbox.SetNegativeInfinity();
+	
 	//Static = false;
 	/*
 	boundingbox.r = { 0,0,0 };
@@ -52,8 +53,8 @@ GameObject::GameObject(std::string name, uint id, GameObject* _parent) : parent(
 
 	if (_parent != nullptr)
 		_parent->AddChild(this);
-
-	Static = false;
+	boundingbox.SetNegativeInfinity();
+	
 	/*
 	boundingbox.r = { 0,0,0 };
 

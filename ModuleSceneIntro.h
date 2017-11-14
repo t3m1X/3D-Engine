@@ -31,7 +31,7 @@ public:
 	void Clear();
 	void IntersectAABB(LineSegment &picking, std::vector<GameObject*>& DistanceList);
 	GameObject* SelectObject(LineSegment picking);
-	void FillOctree();
+	
 	void RecalculateOctree();
 	
 public:
@@ -39,7 +39,6 @@ public:
 	GameObject* root;
 	GameObject* selected =nullptr;
 	Octree* octree = nullptr;
-	std::list<GameObject*>static_objects;
 	std::list<GameObject*>non_static_objects;
 	bool hierarchy = true;
 

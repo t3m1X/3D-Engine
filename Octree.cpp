@@ -201,6 +201,7 @@ void OctreeNode::EraseInNode(GameObject * go)
 	if (std::find(objects.begin(), objects.end(), go) != objects.end())
 	{
 		objects.remove(go);
+		LOG_OUT("Object removed from the octree");
 	}
 
 	if (children[0] != nullptr)
@@ -432,7 +433,7 @@ void Octree::EraseGO(GameObject * go)
 
 		root->EraseInNode(go);
 		App->scene_intro->non_static_objects.push_back(go);
-		App->scene_intro->static_objects.remove(go);
+		
 		
 	}
 
