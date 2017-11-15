@@ -6,14 +6,17 @@
 #include "Globals.h"
 #include <string>
 
+struct aiMesh;
+struct Mesh;
+
 class MeshImporter : Importer {
 public:
 	MeshImporter();
 	~MeshImporter();
 public:
-	bool Import(const char* path, std::string& output_file);
-	bool Import(const void* buffer, uint size, std::string& output_file);
-	bool Load(const char* exported_file);
+	bool Import(const char* path, std::string& output_file); //Imports all meshes on FBX, does not store hierarchy or transforms
+	bool ImportMesh(aiMesh* mesh, std::string& output_file);
+	bool Load(const char* exported_file, Mesh* m);
 };
 
 #endif 

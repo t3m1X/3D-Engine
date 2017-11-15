@@ -97,12 +97,12 @@ string FileSystem::CreateFolder(const char * path, const char * name)
 
 	if (error == ERROR_PATH_NOT_FOUND)
 	{
-		LOG("Error creating folder (path not found): %s", path);
+		LOG_OUT("Error creating folder (path not found): %s", path);
 		return ret.c_str();
 	}
 	else if (error == ERROR_ALREADY_EXISTS)
 	{
-		LOG("Error creating folder (Folder aleady exists): %s", filepath.c_str())
+		LOG_OUT("Error creating folder (Folder aleady exists): %s", filepath.c_str())
 	}
 
 	ret = filepath + '/';
@@ -129,13 +129,13 @@ bool FileSystem::FMove(const char* filepath, const char* destination, bool overw
 	if (!overwrite){
 		if (MoveFile(filepath, new_filepath.c_str()))
 		{
-			LOG("Error moving file: %s to %s", filepath, new_filepath.c_str());
+			LOG_OUT("Error moving file: %s to %s", filepath, new_filepath.c_str());
 			ret = false;
 		}
 	}
 	else if (MoveFileEx(filepath, new_filepath.c_str(), MOVEFILE_REPLACE_EXISTING))
 	{
-		LOG("Error moving file: %s to %s", filepath, new_filepath.c_str());
+		LOG_OUT("Error moving file: %s to %s", filepath, new_filepath.c_str());
 		ret = false;
 	}
 
@@ -160,7 +160,7 @@ bool FileSystem::FCopy(const char* filepath, const char* destination, bool overw
 
 	if (CopyFile(destination, new_filepath.c_str(), !overwrite))
 	{
-		LOG("Error moving file: %s to %s", destination, new_filepath.c_str());
+		LOG_OUT("Error moving file: %s to %s", destination, new_filepath.c_str());
 		ret = false;
 	}
 
@@ -177,7 +177,7 @@ bool FileSystem::FDelete(const char * filepath)
 
 		if (error == ERROR_FILE_NOT_FOUND)
 		{
-			LOG("Error deleting file (path not found)): %s", filepath);
+			LOG_OUT("Error deleting file (path not found)): %s", filepath);
 		}
 	}
 
@@ -203,7 +203,7 @@ bool FileSystem::FSave(const char * path, const char* file_content, const char* 
 	}
 	else
 	{
-		LOG("Error saving file %s: ", name);
+		LOG_OUT("Error saving file %s: ", name);
 	}
 
 	fclose(new_file);
@@ -256,7 +256,7 @@ uint FileSystem::Load(const char * path, char ** buffer)
 			*buffer = new char[size];
 			uint readed = (uint)fread(*buffer, sizeof(char), size, load_file);
 			if (readed != size) {
-				LOG("ERROR while reading file:\n\t%s", path);
+				LOG_OUT("ERROR while reading file:\n\t%s", path);
 				if (*buffer != nullptr)
 					delete[] buffer;
 			}
@@ -265,11 +265,11 @@ uint FileSystem::Load(const char * path, char ** buffer)
 			}
 		}
 		if (fclose(load_file) != 0) {
-			LOG("ERROR while closing file:\n\t%s", path);
+			LOG_OUT("ERROR while closing file:\n\t%s", path);
 		}
 	}
 	else {
-		LOG("ERROR while opening file:\n\t%s\n\t%s", path, strerror(errno));
+		LOG_OUT("ERROR while opening file:\n\t%s\n\t%s", path, strerror(errno));
 	}
 
 	return ret;
@@ -309,7 +309,7 @@ bool FileSystem::SaveUnique(const char * path, const char * file_content, const 
 	}
 	else
 	{
-		LOG("ERROR saving unique file %s: ", name);
+		LOG_OUT("ERROR saving unique file %s: ", name);
 	}
 
 	fclose(new_file);
