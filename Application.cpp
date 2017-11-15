@@ -15,6 +15,7 @@
 #include "ModuleImGui.h"
 #include "ModuleJson.h"
 #include "ModuleTextures.h"
+#include "ModuleFileSystem.h"
 
 
 Application::Application()
@@ -40,6 +41,7 @@ Application::Application()
 	json = new ModuleJSON();
 	loader = new ModuleLoader();
 	tex = new ModuleTextures();
+	fs = new ModuleFileSystem();
 
 	con = new Console();
 	imgui->AddPanel(con);
@@ -57,6 +59,7 @@ Application::Application()
 	AddModule(loader);
 	AddModule(physics);
 	AddModule(tex);
+	AddModule(fs);
 	
 
 	// Scenes

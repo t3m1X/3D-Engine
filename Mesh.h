@@ -9,6 +9,7 @@ class Mesh : public Component {
 public:
 
 	Mesh(GameObject* own);
+	Mesh();
 	void Render(uint id)const;
 	void SetVertices(uint id, float* vert, uint num);
 	void SetIndices(uint id, uint* ind, uint num);
@@ -21,8 +22,10 @@ public:
 	void UI_draw();
 	bool TriCheck(LineSegment & picking, float& distance, float3 &hitPoint);
 	~Mesh();
+	void SetPath(const char* p);
 
 public:
+	uint material_id = 0;
 	uint id_vertices = 0; // id in VRAM
 	uint num_indices = 0;
 	uint* indices = nullptr;
@@ -34,6 +37,7 @@ public:
 	uint id_uv = 0;
 	uint num_uv = 0;
 	bool wire = false;
+	const char* path;
 };
 
 

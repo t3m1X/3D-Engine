@@ -12,10 +12,13 @@ class Material : public Component {
 	public:
 
 		Material(GameObject* own);
+		Material();
 		virtual ~Material();
 		void AddTexture(Texture* tex);
 		Texture* FindtexturebyType(TEXTURE_TYPE type);
 		void UI_draw();
+		bool HasTextures()const;
+		void CleanUp();
 
 
 	private: 

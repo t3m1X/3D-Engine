@@ -118,6 +118,7 @@ void GameObject::Draw()
 			}
 			if (has_mesh) {
 
+				LOG_OUT("Puta");
 				DrawBox();
 
 
@@ -192,7 +193,7 @@ void GameObject::Draw()
 
 		}
 		if (has_mesh) {
-
+			
 			DrawBox();
 
 
@@ -408,7 +409,7 @@ void GameObject::RecalculateAABB()
 	Transform* trans = (Transform*)this->FindComponentbyType(TRANSFORM);
 	if (m!=nullptr) {
 		if (trans != nullptr) {
-			boundingbox.Enclose((float3*)m->vertices, m->num_vertices);
+			boundingbox = AABB::MinimalEnclosingAABB((float3*)m->vertices, m->num_vertices);
 			boundingbox.TransformAsAABB(trans->GetGlobalTransform());
 		}
 	}

@@ -54,3 +54,13 @@ GameObject * Component::GetOwner() const
 {
 	return owner;
 }
+
+void Component::SetOwner( GameObject * go)
+{
+	this->owner = go;
+}
+
+const char * Component::GetName()
+{
+	return name;
+}

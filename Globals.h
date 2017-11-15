@@ -7,6 +7,8 @@
 #include <windows.h>
 #include <stdio.h>
 
+#include <string>
+
 #define LOG_OUT(format, ...) log(__FILE__, __LINE__, format, __VA_ARGS__);
 
 void log(const char file[], int line, const char* format, ...);
@@ -28,6 +30,10 @@ void log(const char file[], int line, const char* format, ...);
 
 
 typedef unsigned int uint;
+
+std::string GetFile(const char * path, bool take_extension = true);
+std::string GetExtension(const char * path);
+const char* GetCExtension(const char * path);
 
 enum update_status
 {

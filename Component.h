@@ -17,6 +17,7 @@ class Component {
 	public:
 
 		Component(GameObject* own);
+		Component() {};
 		virtual ~Component();
 		virtual void Update();
 		virtual void Enable();
@@ -27,6 +28,8 @@ class Component {
 		COMPONENT_TYPE GetType();
 		void SetType(COMPONENT_TYPE t);
 		GameObject* GetOwner()const;
+		void SetOwner( GameObject* go);
+		const char* GetName();
 
 	protected:
 		const char* name;

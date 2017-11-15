@@ -32,6 +32,9 @@ public:
 	{
 		return true;
 	}
+	virtual bool Init() {
+		return true;
+	}
 
 	virtual bool Start()
 	{

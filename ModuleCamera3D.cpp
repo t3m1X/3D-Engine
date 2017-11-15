@@ -321,7 +321,7 @@ void ModuleCamera3D::DrawDebug()
 			colors[i] = float3(60, 1, 1);
 		}
 
-		//	DrawLinesList(lines, s, 5, colors);
+		
 
 		glLineWidth((float)5);
 
@@ -332,6 +332,7 @@ void ModuleCamera3D::DrawDebug()
 		{
 			glEnableClientState(GL_COLOR_ARRAY);
 			glColorPointer(3, GL_FLOAT, 0, (float*)colors->ptr());
+		
 		}
 
 		glDrawArrays(GL_LINES, 0, s);
@@ -344,6 +345,8 @@ void ModuleCamera3D::DrawDebug()
 		delete[] lines;
 		delete[] colors;
 	}
+
+	
 }
 
 void ModuleCamera3D::SetCameraActive(bool set)

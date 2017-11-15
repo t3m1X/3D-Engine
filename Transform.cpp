@@ -84,6 +84,13 @@ void Transform::SetRotation(Quat rot)
 	RecalculateTransform();
 }
 
+void Transform::SetRotation(const float3 & _rotation)
+{
+	Quat new_rot = Quat::FromEulerXYZ(_rotation.x, _rotation.y, _rotation.z);
+	rotation = new_rot;
+
+}
+
 void Transform::UI_draw()
 {
 	if (ImGui::CollapsingHeader("Transform")) {
@@ -115,7 +122,7 @@ void Transform::UI_draw()
 			temp = temp.FromEulerXYZ(DegToRad(rot[0]), DegToRad(rot[1]), DegToRad(rot[2]));
 			if (!(temp.x == rotation.x && temp.y == rotation.y && temp.z == rotation.z && temp.w == rotation.w))
 			{
-				rotation = temp;
+				rotation = rotation.FromEulerXYZ(DegToRad(rot[0]), DegToRad(rot[1]), DegToRad(rot[2]));
 				RecalculateTransform();
 			}
 		}
@@ -144,9 +151,10 @@ void Transform::SetGlobalTransform(const float4x4 & transform)
 	global_transform.Set(transform);
 }
 
-float4x4 Transform::GetGlobalTransform() const
+float4x4 Transform::GetGlobalTransform() 
 {
-	return global_transform.FromTRS(position,rotation,scale);
+	global_transform = global_transform.FromTRS(position, rotation, scale);
+	return global_transform;
 }
 
 void Transform::RecalculateTransform()

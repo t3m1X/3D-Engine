@@ -8,6 +8,11 @@ Mesh::Mesh(GameObject * own) : Component(own)
 	this->SetType(MESH);
 }
 
+Mesh::Mesh()
+{
+	this->SetType(MESH);
+}
+
 void Mesh::Render(uint id)const
 {
 	if (wire)
@@ -158,4 +163,9 @@ Mesh::~Mesh()
 	glDeleteBuffers(1, (GLuint*)&this->id_indices);
 	glDeleteBuffers(1, (GLuint*)&this->id_uv);
 	LOG_OUT("Mesh destroyed");
+}
+
+void Mesh::SetPath(const char * p)
+{
+	this->path = p;
 }

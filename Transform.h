@@ -23,12 +23,13 @@ class Transform : public Component {
 		void SetScale(float x, float y, float z);
 
 		void SetRotation(Quat rot);
+		void SetRotation(const float3& _rotation);
 		void UI_draw();
 
 		float4x4 GetLocalTransform() const;
 		void SetLocalTransform(const float4x4& transform);
 		void SetGlobalTransform(const float4x4 & transform);
-		float4x4 GetGlobalTransform() const;
+		float4x4 GetGlobalTransform();
 		void RecalculateTransform();
 		float3 GetPosition()const;
 		void OnGuizmo();

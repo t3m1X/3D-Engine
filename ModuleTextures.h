@@ -8,6 +8,17 @@ enum TEXTURE_TYPE {
 	UNKNOWN
 };
 
+enum clampingTexType {
+	clampingTexType_ClampToEdge = 0,
+	clampingTexType_ClampRepeat,
+	clampingTexType_ClampMirroredRepeat
+};
+enum interpolationTexType {
+	interpolationTexType_Nearest = 0,
+	interpolationTexType_Linear
+};
+
+
 struct Texture {
 
 public:
@@ -21,12 +32,22 @@ public:
 	void Setheight(int h);
 	void SetTextureType(TEXTURE_TYPE t);
 	TEXTURE_TYPE GetType();
+	void SetFormat(const int& f);
+	void SetName(const char* n);
+	std::string GetPath()const;
+	int GetFormat()const;
+	const char* GetName()const;
 
-private:
+public:
+
 	uint id = 0;
 	TEXTURE_TYPE type;
 	int width = 0;
 	int height = 0;
+	int format = 0;
+	const char* name = nullptr;
+	std::string path;
+	
 };
 
 
@@ -45,8 +66,25 @@ public:
 
 	Texture* LoadTexture(const char* path);
 
+	bool ImportTexture(const char* path, std::string& output_file);
+	Texture* LoadDDSTexture(const char* path);
+	Texture* LoadToDDS(const char* path, std::string& output_file);
+	Texture* LoadToDDS(const char* path);
+
+private:
+
+	bool Import(const char* path, std::string& output_file);
+	bool Import(const void* buffer, uint size, std::string& output_file, const char* file_name);
+	Texture* Load(const char* exported_file);
+	Texture* Load(const char* exported_file, Texture* tex);
+
 private:
 	std::list<Texture*>textures;
+	int clamp = clampingTexType_ClampRepeat;
+	int interpolation_type = interpolationTexType_Linear;
+	char* clamping_str = nullptr;
+	char* interpolate_str = nullptr;
+	
 };
 
 

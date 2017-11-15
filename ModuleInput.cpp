@@ -5,6 +5,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleImGui.h"
 #include "imgui.h"
+#include "ModuleFileSystem.h"
 
 #define MAX_KEYS 300
 
@@ -120,13 +121,11 @@ update_status ModuleInput::PreUpdate(float dt)
 
 			case SDL_DROPFILE:
 			char* drop_filedir = e.drop.file;
-			char* filext = strrchr(drop_filedir, '.');
-			for (char* p = filext + 1; *p != '\0'; *p = toupper(*p), p++);
-			if (strncmp(filext, ".FBX", 4) == 0) {
+			std::string filetext = GetExtension(drop_filedir);
+			int filetype = App->fs->GetTypeFromExtension(filetext.c_str());
+			if (filetype == ExtensionType::et_geometry) {
+
 				App->loader->LoadFBX(drop_filedir);
-			}
-			if (strncmp(filext, ".PNG", 4) == 0) {
-				//App->loader->texture = App->tex->LoadTexture(drop_filedir);
 			}
 			SDL_free(drop_filedir);
 			drop_filedir = nullptr;

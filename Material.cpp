@@ -7,11 +7,16 @@ Material::Material(GameObject* own) : Component(own)
 	this->SetType(MATERIAL);
 }
 
+Material::Material()
+{
+	this->SetType(MATERIAL);
+}
+
 Material::~Material()
 {
-	for (int i = 0; i < textures.size(); i++) {
+	/*for (int i = 0; i < textures.size(); i++) {
 		delete textures[i];
-	}
+	}*/
 }
 
 void Material::AddTexture(Texture * tex)
@@ -51,6 +56,18 @@ void Material::UI_draw()
 		else {
 			ImGui::Text("No textures loaded");
 		}
+	}
+}
+
+bool Material::HasTextures() const
+{
+	return textures.empty();
+}
+
+void Material::CleanUp()
+{
+	for (int i = 0; i < textures.size(); i++) {
+		delete textures[i];
 	}
 }
 
