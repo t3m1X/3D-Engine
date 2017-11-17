@@ -16,6 +16,7 @@
 class Module;
 class Application;
 class ConfigPanel;
+class PlayPause;
 
 class ModuleImGui : public Module {
 public:
@@ -48,6 +49,7 @@ private:
 	bool load = false;
 	//Console* console = nullptr;
 	ConfigPanel* configuration = nullptr;
+	PlayPause* playpause = nullptr;
 	float x, y, z, r,posx,posy,posz,h,d;
 	char save_scene_name[50];
 	char load_scene_name[50];

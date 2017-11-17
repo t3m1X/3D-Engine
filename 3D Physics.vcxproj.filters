@@ -402,6 +402,12 @@
     <ClInclude Include="dirent.h">
       <Filter>Sources</Filter>
     </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayPause.h">
+      <Filter>Sources\UI_Panels</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -649,6 +655,12 @@
     </ClCompile>
     <ClCompile Include="md5.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayPause.cpp">
+      <Filter>Sources\UI_Panels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

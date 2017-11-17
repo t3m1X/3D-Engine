@@ -18,6 +18,7 @@ class ModuleTextures;
 class ModuleJSON;
 class Console;
 class ModuleFileSystem;
+class TimeManager;
 
 class Application
 {
@@ -37,6 +38,7 @@ public:
 	Console* con;
 	ModuleTextures* tex;
 	ModuleFileSystem* fs;
+	TimeManager*	  tm;
 
 private:
 

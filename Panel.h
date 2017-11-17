@@ -19,10 +19,11 @@ class Panel {
 		virtual void Draw(Application* App) = 0;
 	public:
 		int x, y, w, h;
+		bool Active;
 	protected:
 		const char* Name;
 		SDL_Scancode Shortcut;
-		bool Active;
+		
 };
 
 #endif

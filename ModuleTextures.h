@@ -6,7 +6,7 @@ class JSON_File;
 
 enum TEXTURE_TYPE {
 	DIFFUSE = 0,
-	UNKNOWN
+	_UNKNOWN
 };
 
 enum clampingTexType {

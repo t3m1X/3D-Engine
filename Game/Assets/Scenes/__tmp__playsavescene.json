@@ -1,0 +1,14 @@
+{
+    "scene": {
+        "name": "__tmp__playsavescene"
+    },
+    "gameobjects": [
+        {
+            "static": false,
+            "UID": -1136112384,
+            "parentUID": -1,
+            "name": "Game"
+        }
+    ],
+    "components": []
+}

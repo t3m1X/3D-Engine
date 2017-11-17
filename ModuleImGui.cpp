@@ -14,6 +14,7 @@
 #include "Transform.h"
 #include "Geomath.h"
 #include "dirent.h"
+#include "PlayPause.h"
 
 ModuleImGui::ModuleImGui(bool start_enabled) : Module(start_enabled)
 {
@@ -35,8 +36,16 @@ bool ModuleImGui::Init(JSON_File* conf)
 	io.IniFilename = "Settings/imgui.ini";
 	//console = new Console();
 	configuration = new ConfigPanel(App);
+	playpause = new PlayPause();
+	playpause->Enable();
+	playpause->w = 400;
+	playpause->h = 132;
+	playpause->x = (App->window->GetWidth()/2)-(playpause->w/2);
+	playpause->y = 22;
 	//panels.push_back(console);
 	panels.push_back(configuration);
+	panels.push_back(playpause);
+	
 	x = 0;
 	y = 0;
 	z = 0;
@@ -137,6 +146,7 @@ update_status ModuleImGui::Update(float dt)
 					properties = false;
 				}
 			}
+			if (ImGui::MenuItem("Play&Pause", "P",&playpause->Active))
 
 
 			ImGui::MenuItem("Geometry", NULL, &geometry);
@@ -366,6 +376,9 @@ update_status ModuleImGui::Update(float dt)
 			}
 			ImGui::End();
 		}
+
+		
+
 		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 			if (!App->loader->meshes.empty()) {
 				if (properties) {
@@ -593,8 +606,8 @@ void ModuleImGui::LoadStyle(char * name)
 
 		style->Colors[ImGuiCol_Text] = ImVec4(0.90f, 0.90f, 0.90f, 1.00f);
 		style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.60f, 0.60f, 0.60f, 1.00f);
-		style->Colors[ImGuiCol_WindowBg] = ImVec4(0.15f, 0.16f, 0.17f, 1.00f);
-		style->Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.16f, 0.18f, 0.20f, 1.00f);
+		style->Colors[ImGuiCol_WindowBg] = ImVec4(0.15f, 0.16f, 0.17f, 50.00f);
+		style->Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.16f, 0.18f, 0.20f, 50.00f);
 		style->Colors[ImGuiCol_PopupBg] = ImVec4(0.15f, 0.16f, 0.17f, 1.00f);
 		style->Colors[ImGuiCol_Border] = ImVec4(0.15f, 0.16f, 0.17f, 1.00f);
 		style->Colors[ImGuiCol_BorderShadow] = ImVec4(0.15f, 0.16f, 0.17f, 1.00f);
