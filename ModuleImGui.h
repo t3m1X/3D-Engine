@@ -44,9 +44,13 @@ private:
 	bool geometry = false;
 	bool properties = false;
 	bool about = false;
+	bool save = false;
+	bool load = false;
 	//Console* console = nullptr;
 	ConfigPanel* configuration = nullptr;
 	float x, y, z, r,posx,posy,posz,h,d;
+	char save_scene_name[50];
+	char load_scene_name[50];
 
 	ImGuizmo::OPERATION curr_operation;
 	ImGuizmo::MODE curr_mode;

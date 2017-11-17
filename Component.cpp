@@ -40,6 +40,10 @@ void Component::Setname(const char * n)
 	name = n;
 }
 
+void Component::Serialize(JSON_File * doc)
+{
+}
+
 COMPONENT_TYPE Component::GetType()
 {
 	return type;
@@ -63,4 +67,14 @@ void Component::SetOwner( GameObject * go)
 const char * Component::GetName()
 {
 	return name;
+}
+
+void Component::SetOwnerUID(double uid)
+{
+	owner_UID = uid;
+}
+
+double Component::GetOwnerUID() const
+{
+	return owner_UID;
 }

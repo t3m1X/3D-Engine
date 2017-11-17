@@ -9,6 +9,8 @@
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
 #include <vector>
+#include "ModuleFileSystem.h"
+#include "ModuleTextures.h"
 
 #define MIN_DISTANCE 9999
 
@@ -79,6 +81,8 @@ bool ModuleSceneIntro::CleanUp()
 
 void ModuleSceneIntro::AddObject(GameObject * obj)
 {
+
+	
 	root->AddChild(obj);
 
 
@@ -152,7 +156,14 @@ void ModuleSceneIntro::DrawHierarchy() const
 
 void ModuleSceneIntro::Clear()
 {
-	
+	root->children.clear();
+	for (int i = 0; i < all_objects.size(); i++) {
+		if(all_objects[i]!=nullptr)
+		delete all_objects[i];
+	}
+	delete octree;
+	delete root;
+
 }
 
 void ModuleSceneIntro::IntersectAABB(LineSegment & picking, std::vector<GameObject*>& DistanceList)
@@ -279,6 +290,223 @@ void ModuleSceneIntro::RecalculateOctree()
 	
 
 	
+}
+
+const char* ModuleSceneIntro::Serialize(const char * name)
+{
+	App->fs->CreateFolder("Assets", "Scenes");
+	std::string file = "Assets/Scenes/";
+	file += name;
+	std::string test = GetExtension(name);
+	if (strcmp(test.c_str(), "json") != 0)
+		file += ".json";
+
+	JSON_File* scene_file = App->json->LoadJSON(file.c_str());
+
+	scene_file->SetString("scene.name", name);
+	scene_file->AddArray("gameobjects");
+	scene_file->AddArray("components");
+
+	if (root != nullptr) {
+		root->Serialize(scene_file);
+	}
+
+	scene_file->Save();
+
+	return file.c_str();
+
+}
+
+const char * ModuleSceneIntro::LoadScene(const char * scene_name)
+{
+
+	std::string file = "Assets/Scenes/";
+	file += scene_name;
+	//if (strcmp(GetCExtension(scene_name), "json") != 0)
+		//file += ".json";
+
+	JSON_File* scene_doc = App->json->LoadJSON(file.c_str());
+
+	if (scene_doc == nullptr) {
+		LOG_OUT("ERROR Loading Scene");
+		return "";
+	}
+
+	Clear();  // RESET SCENE
+
+	root = new GameObject("Game", nullptr);
+
+	float3 max_point;
+	float3 min_point;
+
+	max_point.Set(10, 10, 10);
+	min_point.Set(-10, 0, -10);
+
+	octree = new Octree();
+	octree->Create(max_point, min_point);
+
+
+	//App->renderer3D->GetToDraw().clear();
+	// Name
+	//this->scene_name = scene_doc->GetString("scene.name");
+	// GameObjects Load
+	std::vector<GameObject*> tmp_gos;
+	scene_doc->RootObject();
+	int n_gos = scene_doc->ArraySize("gameobjects");
+	for (int i = 0; i < n_gos; i++) {
+		scene_doc->RootObject();
+		scene_doc->MoveToInsideArray("gameobjects", i);
+
+			GameObject* go = new GameObject(scene_doc->GetString("name"));
+			if (go != nullptr) {
+				go->SetUID(scene_doc->GetNumber("UID"));
+				go->SetParentUID(scene_doc->GetNumber("parentUID"));
+				go->SetStatic(scene_doc->GetBool("static"));
+				tmp_gos.push_back(go);
+				
+
+			}
+			else
+				LOG_OUT("ERROR Loading gameobject '%s'", scene_doc->GetString("name"));
+		}
+		scene_doc->RootObject();
+	
+	// GameObjects Connections
+	for (int i = 0; i < tmp_gos.size(); i++) {
+		GameObject* curr = tmp_gos[i];
+		for (int k = 0; k < tmp_gos.size(); k++) {
+			GameObject* checked = tmp_gos[k];
+			if (curr->GetParentUID() == checked->GetUID()) {
+				curr->SetParent(checked);
+				checked->children.push_back(curr);
+				break;
+			}
+		}
+		if (tmp_gos[i]->GetUID() == -1) {
+			App->scene_intro->AddObject(tmp_gos[i]);
+		}
+	}
+	// Components Load
+	std::vector<Component*> tmp_cs;
+	scene_doc->RootObject();
+	int nComponents = scene_doc->ArraySize("components");
+	for (int i = 0; i < nComponents; i++) {
+		scene_doc->RootObject();
+		scene_doc->MoveToInsideArray("components", i);
+		int type = scene_doc->GetNumber("type");
+		Component* c = nullptr;
+		Material* mat = nullptr;
+		Mesh* cmesh = nullptr;
+		int aux = 0;
+		const char* mpath = nullptr;
+		//const char* pstr = scene_doc->GetString("path");
+		switch (type) {
+		case MESH:
+			scene_doc->MoveToInsideArray("components", i);
+			mpath = scene_doc->GetString("path");
+			if (mpath != nullptr) {
+				if (App->fs->exists(mpath))
+					cmesh = App->loader->Loadrmesh(mpath);
+				else
+					cmesh = App->loader->Loadrmesh(scene_doc->GetString("fbx_path"));
+				if (cmesh != nullptr) {
+					cmesh->path = scene_doc->GetString("path");
+					cmesh->fbx_path = scene_doc->GetString("fbx_path");
+					App->loader->meshes.push_back(cmesh);
+					c = cmesh;
+				}
+			}
+			else {
+				LOG_OUT("Component mesh with malformed path");
+			}
+			break;
+			if (cmesh != nullptr) {
+				cmesh->path = scene_doc->GetString("path");
+				cmesh->fbx_path = scene_doc->GetString("fbx_path");
+				App->loader->meshes.push_back(cmesh);
+				c = cmesh;
+			}
+			break;
+		case MATERIAL:
+			LOG_OUT("Checking material");
+			scene_doc->MoveToInsideArray("components", i);
+			mat = new Material();
+			aux = scene_doc->ArraySize("textures");
+			for (int i = 0; i < aux; i++) {
+				scene_doc->MoveToInsideArray("textures", i);
+				if (App->fs->exists(scene_doc->GetString("path"))) {
+					Texture* tmp_tex = App->tex->LoadDDSTexture(scene_doc->GetString("path"));
+					tmp_tex->SetTextureType(DIFFUSE);//just diffuse for now
+					mat->AddTexture(tmp_tex);
+					LOG_OUT("Material created");
+				}
+				else {
+					Texture* tmp_tex = App->tex->LoadDDSTexture(scene_doc->GetString("path"));
+					tmp_tex->SetTextureType(DIFFUSE);// just diffuse for now
+					mat->AddTexture(tmp_tex);
+					LOG_OUT("Material created");
+				}
+
+				if (mat != nullptr && !mat->HasTextures()) {
+					c = mat;
+				}
+			}
+			
+			/*if (mat != nullptr) {
+				mat->CleanUp();
+				delete mat;
+			}*/
+				
+			scene_doc->RootObject();
+			scene_doc->MoveToInsideArray("components", i);
+			break;
+		case TRANSFORM:
+			float3 p = { (float)scene_doc->GetNumber("position.x"), (float)scene_doc->GetNumber("position.y"), (float)scene_doc->GetNumber("position.z") };
+			Quat r = { (float)scene_doc->GetNumber("rotation.x"), (float)scene_doc->GetNumber("rotation.y"), (float)scene_doc->GetNumber("rotation.z"), (float)scene_doc->GetNumber("rotation.w") };
+			float3 s = { (float)scene_doc->GetNumber("scale.x"), (float)scene_doc->GetNumber("scale.y"), (float)scene_doc->GetNumber("scale.z") };
+			Transform* trans = new Transform(s, r, p);
+			c = trans;
+			break;
+		}
+		if (c != nullptr) {
+			c->SetOwnerUID(scene_doc->GetNumber("ownerUID"));
+			tmp_cs.push_back(c);
+		}
+
+
+	}
+	// Components Link
+	for (int i = 0; i < tmp_gos.size(); i++) {
+		for (int k = 0; k < tmp_cs.size(); k++) {
+			if (tmp_gos[i]->GetUID() == tmp_cs[k]->GetOwnerUID()) {
+				tmp_gos[i]->AddComponent(tmp_cs[k]);
+				if (tmp_gos[i]->HasMesh()) {
+					App->scene_intro->AddObject(tmp_gos[i]);
+				}
+			}
+		}
+	}
+
+
+	// Reimporting obj to quadtree
+
+	/*for (int i = 0; i < tmp_gos.size(); i++) {
+		tmp_gos[i]->RecalculateAABB();
+		tmp_gos[i]->Enable();
+		App->scene_intro->AddObject(tmp_gos[i]);
+	}*/
+
+	/*for (uint i = 0; i < App->scene_intro->all_objects.size(); ++i)
+	{
+		if (App->scene_intro->all_objects[i]->GetStatic())
+		{
+			App->scene_intro->octree->InsertGO(App->scene_intro->all_objects[i]);
+		}
+	}*/
+
+	RecalculateOctree();
+	return file.c_str();
+
 }
 
 

@@ -2,6 +2,7 @@
 #define __MODULETEXTURES__H__
 
 #include "Module.h"
+class JSON_File;
 
 enum TEXTURE_TYPE {
 	DIFFUSE = 0,
@@ -37,6 +38,7 @@ public:
 	std::string GetPath()const;
 	int GetFormat()const;
 	const char* GetName()const;
+	void Serialize(JSON_File* doc);
 
 public:
 

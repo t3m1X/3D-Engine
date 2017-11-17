@@ -2,7 +2,6 @@
 #include "Module.h"
 #include "Globals.h"
 #include "Primitive.h"
-#include "PhysBody3D.h"
 #include "ModulePlayer.h"
 #include "GameObject.h"
 #include "Octree.h"
@@ -10,9 +9,7 @@
 //#include "MathGeoLib\include\Geometry\Sphere.h"
 
 
-struct PhysBody3D;
-struct PhysMotor3D;
-struct PhysVehicle3D;
+
 
 class ModuleSceneIntro : public Module
 {
@@ -33,6 +30,8 @@ public:
 	GameObject* SelectObject(LineSegment picking);
 	
 	void RecalculateOctree();
+	const char* Serialize(const char* name);
+	const char* LoadScene(const char* scene_name);
 	
 public:
 //	std::list<Primitive*> bodies;
@@ -42,6 +41,7 @@ public:
 	std::vector<GameObject*>all_objects;
 	std::list<GameObject*>non_static_objects;
 	bool hierarchy = true;
+	std::string scene_name = "Scene1";
 
 
 };

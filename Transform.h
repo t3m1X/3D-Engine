@@ -14,6 +14,7 @@ class Transform : public Component {
 
 		Transform(float3 s, Quat rot, float3 pos, GameObject* own);
 		Transform(float4x4 trans, GameObject* own);
+		Transform(float3 s, Quat rot, float3 pos);
 		virtual ~Transform();
 
 		void SetPosition(float3 p);
@@ -33,6 +34,7 @@ class Transform : public Component {
 		void RecalculateTransform();
 		float3 GetPosition()const;
 		void OnGuizmo();
+		void Serialize(JSON_File* doc);
 		
 
 	private:

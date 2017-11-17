@@ -82,6 +82,7 @@
     <ClInclude Include="ComponentCamera.h" />
     <ClInclude Include="ConfigPanel.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="dirent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Geomath.h" />
     <ClInclude Include="glew\include\GL\eglew.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="MathGeoLib\include\Math\sse_mathfun.h" />
     <ClInclude Include="MathGeoLib\include\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\include\Time\Clock.h" />
+    <ClInclude Include="md5.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ModuleCamera3D.h" />
     <ClInclude Include="ModuleFileSystem.h" />
@@ -241,6 +243,7 @@
     <ClCompile Include="MathGeoLib\include\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\include\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\include\Time\Clock.cpp" />
+    <ClCompile Include="md5.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="mmgr\mmgr.cpp" />
     <ClCompile Include="ModuleAudio.cpp" />

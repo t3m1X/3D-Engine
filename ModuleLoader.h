@@ -36,7 +36,11 @@ class ModuleLoader : public Module {
 		Mesh* Loadrmesh(const aiMesh*m);
 		Mesh* Loadrmesh(const aiMesh* m, std::string& output);
 		Mesh* Loadrmeshfile(const char* buffer, const char* filename);
+		Mesh*LoadaiMesh(const aiMesh*m);
 		Material* LoadMaterial(const aiMaterial* mat);
+		GameObject* LoadGeometry(const char* path);
+		GameObject* LoadFbxNode(const aiNode* node, const aiScene* scene, const char* path, GameObject* parent = nullptr);
+	//	GameObject * LoadFbxNode(const aiNode * node, const aiScene* scene, GameObject* parent = nullptr);
 
 		
 	public:

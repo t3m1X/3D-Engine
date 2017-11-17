@@ -18,6 +18,10 @@ GameObject::GameObject(std::string name, GameObject* _parent) : parent(_parent)
 		_parent->AddChild(this);
 
 	boundingbox.SetNegativeInfinity();
+	UID = RandomNumber();
+	if (parent != nullptr) {
+		parent_UID = parent->UID;
+	}
 	
 	//Static = false;
 	/*
@@ -54,6 +58,11 @@ GameObject::GameObject(std::string name, uint id, GameObject* _parent) : parent(
 	if (_parent != nullptr)
 		_parent->AddChild(this);
 	boundingbox.SetNegativeInfinity();
+
+	UID = RandomNumber();
+	if (parent != nullptr) {
+		parent_UID = parent->UID;
+	}
 	
 	/*
 	boundingbox.r = { 0,0,0 };
@@ -299,6 +308,8 @@ void GameObject::SetSelected(const bool & set)
 void GameObject::AddComponent(Component * c)
 {
 	components.push_back(c);
+	c->SetOwner(this);
+	c->SetOwnerUID(this->UID);
 }
 
 void GameObject::AddChild(GameObject * child)
@@ -431,6 +442,11 @@ GameObject * GameObject::GetParent() const
 	return parent;
 }
 
+void GameObject::SetParent(GameObject * p)
+{
+	this->parent = p;
+}
+
 void GameObject::DrawBox()
 {
 	float3 corners[8];
@@ -536,6 +552,58 @@ bool GameObject::HasMesh()
 		}
 	}
 	return ret;
+}
+
+void GameObject::Serialize(JSON_File * doc)
+{
+	if (doc == nullptr) {
+		return;
+	}
+	doc->RootObject();
+	doc->AddArraySection("gameobjects");
+	doc->MoveToInsideArray("gameobjects", doc->ArraySize("gameobjects") - 1);
+
+	doc->SetBool("static", this->Static);
+	doc->SetNumber("UID", this->UID);
+	if (this->parent != nullptr) {
+		doc->SetNumber("parentUID", parent->UID);
+	}
+	else {
+		doc->SetNumber("parentUID", -1);
+	}
+	doc->SetString("name", this->name.c_str());
+	for (uint i = 0; i < components.size(); i++) {
+		doc->RootObject();
+		doc->AddArraySection("components");
+		doc->MoveToInsideArray("components", doc->ArraySize("components")-1);
+		components[i]->Serialize(doc);
+
+	}
+	for (int i = 0; i < children.size(); i++) {
+		children[i]->Serialize(doc);
+	}
+
+	doc->RootObject();
+}
+
+double GameObject::GetUID() const
+{
+	return UID;
+}
+
+double GameObject::GetParentUID() const
+{
+	return parent_UID;
+}
+
+void GameObject::SetUID(double  set)
+{
+	this->UID = set;
+}
+
+void GameObject::SetParentUID(double set)
+{
+	parent_UID = set;
 }
 
 

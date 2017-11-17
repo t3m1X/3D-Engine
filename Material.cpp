@@ -71,5 +71,21 @@ void Material::CleanUp()
 	}
 }
 
+void Material::Serialize(JSON_File * doc)
+{
+	doc->SetNumber("type", type);
+	doc->SetNumber("ownerUID", (owner != nullptr) ? owner->GetUID() : -1);
+	// Texture Channels
+	doc->AddArray("textures");
+	for (int i = 0; i < textures.size(); i++) {
+		if (textures[i] == nullptr)
+			continue;
+		doc->MoveTo("gameobjects");
+		doc->AddArraySection("textures");
+		doc->MoveToInsideArray("textures", doc->ArraySize("textures") - 1);
+		textures[i]->Serialize(doc);
+	}
+}
+
 
 

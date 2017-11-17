@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include <stdio.h>
 #include "imgui.h"
+#include "ModuleFileSystem.h"
 
 ModuleJSON::ModuleJSON(bool start_enabled) : Module(start_enabled)
 {
@@ -23,22 +24,13 @@ bool ModuleJSON::Awake()
 
 JSON_File* ModuleJSON::LoadJSON(const char * path)
 {
-	JSON_File* file = nullptr;
+	JSON_File* ret = nullptr;
 
-	bool exists = false;
-
-	for (list<JSON_File*>::iterator it = files.begin(); it != files.end(); it++)
-	{
-		if (strcmp(path, (*it)->GetPath()) == 0)
-		{
-			file = (*it);
-			exists = true;
-			break;
-		}
+	if (!App->fs->exists(path)) {
+			CreateJSON(path);
+		LOG_OUT("File Does not Exist");
 	}
-
-	if (!exists)
-	{
+	if (App->fs->exists(path)) {
 		JSON_Value *user_data = json_parse_file(path);
 		JSON_Object *root_object = json_value_get_object(user_data);
 
@@ -53,11 +45,11 @@ JSON_File* ModuleJSON::LoadJSON(const char * path)
 			JSON_File* new_doc = new JSON_File(user_data, root_object, path);
 			files.push_back(new_doc);
 
-			file = new_doc;
+			ret = new_doc;
+			ret->Save();
 		}
 	}
-
-	return file;
+	return ret;
 }
 
 
@@ -65,17 +57,7 @@ JSON_File* ModuleJSON::CreateJSON(const char * path)
 {
 	JSON_File* ret = nullptr;
 
-	bool exists = false;
-	for (list<JSON_File*>::iterator it = files.begin(); it != files.end(); it++)
-	{
-		if (strcmp(path, (*it)->GetPath()))
-		{
-			exists = true;
-			break;
-		}
-	}
-
-	if (exists)
+	if (App->fs->exists(path))
 	{
 		LOG_OUT("Error creating %s. There is already a file with this path/name", path);
 	}
@@ -96,6 +78,7 @@ JSON_File* ModuleJSON::CreateJSON(const char * path)
 			files.push_back(new_doc);
 
 			ret = new_doc;
+			ret->Save();
 		}
 	}
 
@@ -125,14 +108,15 @@ void ModuleJSON::ImGuiDraw()
 
 JSON_File::JSON_File(JSON_Value * _value, JSON_Object * _object, const char* _path)
 {
-	val = _value;
-	obj = _object;
-	root = _object;
+	this->val = _value;
+	this->obj = _object;
+	this->root = _object;
 	this->path = _path;
 }
 
 JSON_File::~JSON_File()
 {
+
 }
 
 void JSON_File::SetString(const char * name, const char * str)
@@ -196,10 +180,77 @@ double JSON_File::GetNumber(const char * name, double fallback)
 
 void JSON_File::AddArray(const char * name)
 {
-	json_object_set_value(obj, name, json_value_init_array());
+	JSON_Value* val = json_value_init_array();
+	JSON_Array* jarr = json_value_get_array(val);
+
+	json_object_dotset_value(obj, name, val);
 
 }
 
+void JSON_File::AddArraySection(const char * name)
+{
+	JSON_Array* jarr = json_object_get_array(obj, name);
+	if (jarr != nullptr)
+		json_array_append_value(jarr, json_value_init_object());
+}
+
+bool JSON_File::FindInsideArray(const char * val, int id, json_value_type type)
+{
+	bool ret = false;
+
+	JSON_Array* jarr = json_object_get_array(obj, val);
+	if (jarr != nullptr) {
+		JSON_Value* value = json_array_get_value(jarr, id);
+		if (value != nullptr && json_value_get_type(value) == type)
+			ret = true;
+	}
+
+
+	return ret;
+}
+
+bool JSON_File::MoveInsideArray(const char * val, int id)
+{
+	bool ret = false;
+
+	JSON_Array* jarr = json_object_get_array(obj, val);
+	if (jarr != nullptr) {
+		JSON_Object* jobj = json_array_get_object(jarr, id);
+		obj = jobj;
+
+		ret = true;
+	}
+
+	return ret;
+}
+
+bool JSON_File::MoveTo(const char * move)
+{
+	bool ret = false;
+
+	JSON_Object* jobj = json_object_get_object(obj, move);
+
+	if (jobj != nullptr) {
+		obj = jobj;
+		ret = true;
+	}
+
+	return ret;
+}
+bool JSON_File::MoveToInsideArray(const char * move, int i)
+{
+	bool ret = false;
+
+	JSON_Array* jarr = json_object_get_array(obj, move);
+	if (jarr != nullptr) {
+		JSON_Object* jobj = json_array_get_object(jarr, i);
+		obj = jobj;
+
+		ret = true;
+	}
+
+	return ret;
+}
 void JSON_File::ClearArray(const char * name)
 {
 	JSON_Array* array = json_object_get_array(obj, name);
@@ -210,37 +261,34 @@ void JSON_File::ClearArray(const char * name)
 
 int JSON_File::ArraySize(const char * array)
 {
-	int ret = -1;
-	JSON_Array* arr = json_object_get_array(obj, array);
+	int ret = 0;
 
-	if (array != nullptr)
-		ret = json_array_get_count(arr);
+	JSON_Array* jarr = json_object_get_array(obj, array);
+	if (jarr != nullptr)
+		ret = json_array_get_count(jarr);
 
 	return ret;
 }
 
 void JSON_File::ArrayAddString(const char * array, const char * str)
 {
-	JSON_Array* arr = json_object_get_array(obj, array);
-
-	if (array != nullptr)
-		json_array_append_string(arr, str);
+	JSON_Array* jarr = json_object_get_array(obj, array);
+	if (jarr != nullptr)
+		json_array_append_string(jarr, str);
 }
 
 void JSON_File::ArrayAddBool(const char * array, bool b)
 {
-	JSON_Array* arr = json_object_get_array(obj, array);
-
-	if (array != nullptr)
-		json_array_append_boolean(arr, b);
+	JSON_Array* jarr = json_object_get_array(obj, array);
+	if (jarr != nullptr)
+		json_array_append_boolean(jarr, b);
 }
 
 void JSON_File::ArrayAddNumber(const char * array, double num)
 {
-	JSON_Array* arr = json_object_get_array(obj, array);
-
-	if (array != nullptr)
-		json_array_append_number(arr, num);
+	JSON_Array* jarr = json_object_get_array(obj, array);
+	if (jarr != nullptr)
+		json_array_append_number(jarr, num);
 }
 
 void JSON_File::ArrayAddObject(const char * array)
@@ -254,34 +302,32 @@ void JSON_File::ArrayAddObject(const char * array)
 
 const char * JSON_File::ArrayGetString(const char * array, unsigned int index, const char * fallback)
 {
-	JSON_Array* arr = json_object_get_array(obj, array);
-	if (array != nullptr)
-		return json_array_get_string(arr, index);
-	else
-		return fallback;
+	const char* ret = nullptr;
+	JSON_Array* jarr = json_object_get_array(obj, array);
+	if (jarr != nullptr)
+		if (FindInsideArray(array, index, json_value_type::JSONString))
+			ret = json_array_get_string(jarr, index);
+	return ret;
 }
 
 bool JSON_File::ArrayGetBool(const char * array, unsigned int index, bool fallback)
 {
-	bool ret = fallback;
-
-	JSON_Array* arr = json_object_get_array(obj, array);
-	if (array != nullptr) {
-		int value = json_array_get_boolean(arr, index);
-		if (value != -1)
-			ret = value;
-	}
-
+	bool ret = false;
+	JSON_Array* jarr = json_object_get_array(obj, array);
+	if (jarr != nullptr)
+		if (FindInsideArray(array, index, json_value_type::JSONBoolean))
+			ret = json_array_get_boolean(jarr, index);
 	return ret;
 }
 
 double JSON_File::ArrayGetNumber(const char * array, unsigned int index, double fallback)
 {
-	JSON_Array* arr = json_object_get_array(obj, array);
-	if (array != nullptr)
-		return json_array_get_number(arr, index);
-	else
-		return fallback;
+	double ret = 0;
+	JSON_Array* jarr = json_object_get_array(obj, array);
+	if (jarr != nullptr)
+		if (FindInsideArray(array, index, json_value_type::JSONNumber))
+			ret = json_array_get_number(jarr, index);
+	return ret;
 }
 
 void JSON_File::AddObject(const char * name)

@@ -1,0 +1,301 @@
+{
+    "scene": {
+        "name": "fffff"
+    },
+    "gameobjects": [
+        {
+            "static": false,
+            "UID": 409129856,
+            "parentUID": -1,
+            "name": "Game"
+        },
+        {
+            "static": false,
+            "UID": 299187744,
+            "parentUID": 409129856,
+            "name": "Camera"
+        },
+        {
+            "static": false,
+            "UID": 1121113984,
+            "parentUID": -1,
+            "name": "RootNode"
+        },
+        {
+            "static": false,
+            "UID": -816577984,
+            "parentUID": 1121113984,
+            "name": "Cinema4D_Editor"
+        },
+        {
+            "static": false,
+            "UID": 1621525120,
+            "parentUID": 1121113984,
+            "name": "ARROW"
+        },
+        {
+            "static": false,
+            "UID": 2121113216,
+            "parentUID": 1621525120,
+            "name": "ARROW_1"
+        },
+        {
+            "static": false,
+            "UID": -1614784128,
+            "parentUID": 1121113984,
+            "name": "RIG"
+        },
+        {
+            "static": false,
+            "UID": -2117859456,
+            "parentUID": -1614784128,
+            "name": "Spine"
+        },
+        {
+            "static": false,
+            "UID": -1487473280,
+            "parentUID": -2117859456,
+            "name": "Spine1"
+        },
+        {
+            "static": false,
+            "UID": -60674948,
+            "parentUID": -1487473280,
+            "name": "Spine2"
+        },
+        {
+            "static": false,
+            "UID": 537462144,
+            "parentUID": -60674948,
+            "name": "Neck"
+        },
+        {
+            "static": false,
+            "UID": 646558720,
+            "parentUID": 537462144,
+            "name": "Head"
+        },
+        {
+            "static": false,
+            "UID": 1489321344,
+            "parentUID": 646558720,
+            "name": "HeadTop_End"
+        },
+        {
+            "static": false,
+            "UID": -214049856,
+            "parentUID": -60674948,
+            "name": "LeftShoulder"
+        },
+        {
+            "static": false,
+            "UID": -305996192,
+            "parentUID": -214049856,
+            "name": "LeftArm"
+        },
+        {
+            "static": false,
+            "UID": -585611264,
+            "parentUID": -305996192,
+            "name": "LeftForeArm"
+        },
+        {
+            "static": false,
+            "UID": 241464080,
+            "parentUID": -585611264,
+            "name": "LeftHand"
+        },
+        {
+            "static": false,
+            "UID": -1464307328,
+            "parentUID": 241464080,
+            "name": "LeftHandIndex1"
+        },
+        {
+            "static": false,
+            "UID": -1843824640,
+            "parentUID": -1464307328,
+            "name": "LeftHandIndex2"
+        },
+        {
+            "static": false,
+            "UID": 29419396,
+            "parentUID": -1843824640,
+            "name": "LeftHandIndex3"
+        },
+        {
+            "static": false,
+            "UID": 1483895296,
+            "parentUID": 29419396,
+            "name": "LeftHandIndex4"
+        },
+        {
+            "static": false,
+            "UID": -2058347008,
+            "parentUID": -60674948,
+            "name": "RightShoulder"
+        },
+        {
+            "static": false,
+            "UID": -1330465280,
+            "parentUID": -2058347008,
+            "name": "RightArm"
+        },
+        {
+            "static": false,
+            "UID": 2048479744,
+            "parentUID": -1330465280,
+            "name": "RightForeArm"
+        },
+        {
+            "static": false,
+            "UID": 1783664128,
+            "parentUID": 2048479744,
+            "name": "RightHand"
+        },
+        {
+            "static": false,
+            "UID": 1924325376,
+            "parentUID": 1783664128,
+            "name": "RightHandIndex1"
+        },
+        {
+            "static": false,
+            "UID": 1039007552,
+            "parentUID": 1924325376,
+            "name": "RightHandIndex2"
+        },
+        {
+            "static": false,
+            "UID": -810014976,
+            "parentUID": 1039007552,
+            "name": "RightHandIndex3"
+        },
+        {
+            "static": false,
+            "UID": 1175132288,
+            "parentUID": -810014976,
+            "name": "RightHandIndex4"
+        },
+        {
+            "static": false,
+            "UID": 393237088,
+            "parentUID": -1614784128,
+            "name": "LeftUpLeg"
+        },
+        {
+            "static": false,
+            "UID": 1882533376,
+            "parentUID": 393237088,
+            "name": "LeftLeg"
+        },
+        {
+            "static": false,
+            "UID": 952807808,
+            "parentUID": 1882533376,
+            "name": "LeftFoot"
+        },
+        {
+            "static": false,
+            "UID": 90984120,
+            "parentUID": 952807808,
+            "name": "LeftToeBase"
+        },
+        {
+            "static": false,
+            "UID": 2041810560,
+            "parentUID": 90984120,
+            "name": "LeftToe_End"
+        },
+        {
+            "static": false,
+            "UID": -219157456,
+            "parentUID": -1614784128,
+            "name": "RightUpLeg"
+        },
+        {
+            "static": false,
+            "UID": 1488480384,
+            "parentUID": -219157456,
+            "name": "RightLeg"
+        },
+        {
+            "static": false,
+            "UID": 1367810560,
+            "parentUID": 1488480384,
+            "name": "RightFoot"
+        },
+        {
+            "static": false,
+            "UID": 881078784,
+            "parentUID": 1367810560,
+            "name": "RightToeBase"
+        },
+        {
+            "static": false,
+            "UID": -1713241728,
+            "parentUID": 881078784,
+            "name": "RightToe_End"
+        }
+    ],
+    "components": [
+        {
+            "type": 2,
+            "ownerUID": 299187744,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {},
+        {
+            "type": 2,
+            "ownerUID": 1621525120,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 1621525120,
+            "path": "Library\/Meshes\/.rmesh",
+            "fbx_path": "Library\/Meshes\/.rmesh",
+            "meshdoc": "25d69498643720af60a3a54ce13ba694"
+        },
+        {
+            "type": 1,
+            "ownerUID": 1621525120,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/GA_CW_A_1.png.dds"
+                }
+            ]
+        }
+    ]
+}

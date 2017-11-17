@@ -19,6 +19,7 @@ class Material : public Component {
 		void UI_draw();
 		bool HasTextures()const;
 		void CleanUp();
+		void Serialize(JSON_File* doc);
 
 
 	private: 

@@ -47,8 +47,8 @@ string ModuleFileSystem::CreateFolder(const char * path, const char * name)
 	string ret;
 
 	string strPath = path;
-	if (strPath.length() > 0 && strPath[strPath.length() - 1] != '\\') {
-		strPath += '\\';
+	if (strPath.length() > 0 && strPath[strPath.length() - 1] != '/') {
+		strPath += '/';
 	}
 	strPath += name;
 
@@ -57,7 +57,7 @@ string ModuleFileSystem::CreateFolder(const char * path, const char * name)
 		return ret;
 	}
 
-	ret = strPath + '\\';
+	ret = strPath + '/';
 
 	return ret;
 }

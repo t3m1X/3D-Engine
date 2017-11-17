@@ -34,6 +34,7 @@ typedef unsigned int uint;
 std::string GetFile(const char * path, bool take_extension = true);
 std::string GetExtension(const char * path);
 const char* GetCExtension(const char * path);
+float RandomNumber(float min = INT_MIN, float max = INT_MAX);
 
 enum update_status
 {

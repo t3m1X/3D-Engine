@@ -23,6 +23,8 @@ public:
 	bool TriCheck(LineSegment & picking, float& distance, float3 &hitPoint);
 	~Mesh();
 	void SetPath(const char* p);
+	void Setfbxpath(const char* p);
+	void Serialize(JSON_File* doc);
 
 public:
 	uint material_id = 0;
@@ -37,7 +39,8 @@ public:
 	uint id_uv = 0;
 	uint num_uv = 0;
 	bool wire = false;
-	const char* path;
+	std::string path;
+	std::string fbx_path;
 };
 
 

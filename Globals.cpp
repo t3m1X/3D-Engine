@@ -1,4 +1,5 @@
 #include "Globals.h"
+#include <random>
 
 std::string GetFile(const char * path, bool take_extension)
 {
@@ -49,4 +50,12 @@ const char* GetCExtension(const char * path)
 	const char* ret = extension.c_str();
 
 	return ret;
+}
+
+float RandomNumber(float min, float max)
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> dis(min, max);
+	return dis(gen);
 }

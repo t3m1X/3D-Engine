@@ -396,6 +396,12 @@
     <ClInclude Include="ModuleFileSystem.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="md5.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="dirent.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -639,6 +645,9 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Globals.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="md5.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

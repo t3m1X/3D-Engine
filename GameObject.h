@@ -46,19 +46,29 @@ public:
 	void RecalculateAABB(float4x4 transformation);
 	vector<GameObject*> GetChild() const;
 	GameObject* GetParent() const;
+	void SetParent(GameObject* p);
 	void DrawBox();
 	void OnGuizmo();
 	bool GetStatic();
 	void SetStatic(bool set);
 	bool HasMesh();
+	void Serialize(JSON_File* doc);
+	double GetUID()const;
+	double GetParentUID()const;
+	void SetUID(double set);
+	void SetParentUID(double set);
+
 		
 public:
 	
 	AABB boundingbox;
 	std::vector<GameObject*> children;
 	bool		Static = false;
+	GameObject* parent;
 private:
 
+	double UID;
+	double parent_UID;
 	std::string name;
 	bool		enabled = true;
 	bool		selected = false;
@@ -66,7 +76,7 @@ private:
 	
 	std::vector<Component*> components;
 	
-	GameObject* parent;	
+	
 
 };
 

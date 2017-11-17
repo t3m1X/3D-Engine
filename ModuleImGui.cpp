@@ -13,6 +13,7 @@
 #include "ModuleCamera3D.h"
 #include "Transform.h"
 #include "Geomath.h"
+#include "dirent.h"
 
 ModuleImGui::ModuleImGui(bool start_enabled) : Module(start_enabled)
 {
@@ -92,6 +93,23 @@ update_status ModuleImGui::Update(float dt)
 
 		if (ImGui::BeginMenu("File")) {
 			
+			if (ImGui::MenuItem("Save Scene")) {
+				if (!save) {
+					save = true;
+				}
+				else {
+					save = false;
+				}
+			}
+			if (ImGui::MenuItem("Load Scene")) {
+				if (!load) {
+					load = true;
+				}
+				else {
+					load = false;
+				}
+			}
+
 			if (ImGui::MenuItem("Exit", "Alt+F4")) { return update_status::UPDATE_STOP; }
 
 			ImGui::EndMenu();
@@ -261,8 +279,93 @@ update_status ModuleImGui::Update(float dt)
 				
 			}
 			ImGui::End();
+		
+		}
+		if (save) {
+
+			std::vector<std::string> files;
+			
+			struct dirent* pent = NULL;
+			DIR* pdir = NULL;
+			if ((pdir = opendir("Assets/Scenes")) != 0) {
+				while ((pent = readdir(pdir)) != NULL) {
+					if (pent->d_type == DT_REG)
+						files.push_back(std::string(pent->d_name));
+				}
+				closedir(pdir);
+			}
+
+			ImGui::Begin("Save Scene");
+			ImGui::Text("Write a name to save the file");
+			ImGui::Separator();
+			for (int i = 0; i < files.size(); i++) {
+				if (ImGui::Selectable(files[i].c_str()) && files[i].c_str() != nullptr) {
+					std::strcpy(save_scene_name, files[i].c_str());
+				}
+			}
+			ImGui::Separator();
+			ImGui::Text("Scene:");
+			ImGui::SameLine();
+			ImGui::InputText("Scene Name", save_scene_name, 50);
+
+			char* savebuttonlabel = "Save";
+			for (int i = 0; i < files.size(); i++) {
+				if (strcmp(save_scene_name, files[i].c_str()) == 0)
+					savebuttonlabel = "Overwrite";
+			}
+
+			if (ImGui::SmallButton(savebuttonlabel)) {
+				App->scene_intro->Serialize(save_scene_name);
+				LOG_OUT("Scene Saved as '%s'", save_scene_name);
+				std::strcpy(save_scene_name, "");
+				save = false;
+			}
+			ImGui::SameLine();
+			if (ImGui::SmallButton("Cancel")) {
+				save = false;
+			}
+			ImGui::End();
 		}
 			
+		if (load) {
+
+			std::vector<std::string> files;
+
+			struct dirent* pent = NULL;
+			DIR* pdir = NULL;
+			if ((pdir = opendir("Assets/Scenes/")) != 0) {
+				while ((pent = readdir(pdir)) != NULL) {
+					if (pent->d_type == DT_REG)
+						files.push_back(std::string(pent->d_name));
+				}
+				closedir(pdir);
+			}
+
+			ImGui::Begin("Load Scene");
+			ImGui::Text("Select Loading File");
+			ImGui::Separator();
+			for (int i = 0; i < files.size(); i++) {
+				if (ImGui::Selectable(files[i].c_str()) && files[i].c_str() != nullptr) {
+					std::strcpy(load_scene_name, files[i].c_str());
+				}
+			}
+			ImGui::Separator();
+			ImGui::Text("Scene:");
+			ImGui::SameLine();
+			if (load_scene_name == nullptr)
+				strcpy(load_scene_name, "");
+			ImGui::InputText("", load_scene_name, 50);
+			if (ImGui::SmallButton("Load") && strcmp(load_scene_name, "")) {
+				App->scene_intro->LoadScene(load_scene_name);
+				load = false;
+				LOG_OUT("Scene Loaded '%s'", load_scene_name);
+			}
+			ImGui::SameLine();
+			if (ImGui::SmallButton("Cancel")) {
+				load = false;
+			}
+			ImGui::End();
+		}
 		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 			if (!App->loader->meshes.empty()) {
 				if (properties) {

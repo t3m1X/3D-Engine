@@ -43,6 +43,21 @@ Transform::Transform(float4x4 trans, GameObject * own) : Component(own)
 	rotation.FromEulerXYZ(Euler_rotation.x, Euler_rotation.y, Euler_rotation.z);
 }
 
+Transform::Transform(float3 s, Quat rot, float3 pos)
+{
+	this->SetType(TRANSFORM);
+	rotation = Quat::identity;
+
+	scale = s;
+	rotation.Set(rot.x, rot.y, rot.z, rot.w);
+	position = pos;
+	Euler_rotation = rot.ToEulerXYZ();
+
+	global_transform.SetIdentity();
+	local_transform.SetIdentity();
+	//RecalculateTransform();
+}
+
 Transform::~Transform()
 {
 }
@@ -259,6 +274,30 @@ void Transform::OnGuizmo()
 	
 	*/
 
+
+}
+
+void Transform::Serialize(JSON_File * doc)
+{
+	if (doc == nullptr)
+		return;
+
+	
+	doc->SetNumber("type", type);
+	doc->SetNumber("ownerUID", (owner != nullptr) ? owner->GetUID() : -1);
+	
+	doc->SetNumber("position.x", position.x);
+	doc->SetNumber("position.y", position.y);
+	doc->SetNumber("position.z", position.z);
+	
+	doc->SetNumber("rotation.x", rotation.x);
+	doc->SetNumber("rotation.y", rotation.y);
+	doc->SetNumber("rotation.z", rotation.z);
+	doc->SetNumber("rotation.w", rotation.w);
+	
+	doc->SetNumber("scale.x", scale.x);
+	doc->SetNumber("scale.y", scale.y);
+	doc->SetNumber("scale.z", scale.z);
 
 }
 

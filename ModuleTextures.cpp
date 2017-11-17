@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Console.h"
 #include "ModuleFileSystem.h"
+#include "ModuleJson.h"
 
 #include "glew\include\GL\glew.h"
 
@@ -59,6 +60,8 @@ void Texture::SetTextureType(TEXTURE_TYPE t)
 	type = t;
 }
 
+
+
 TEXTURE_TYPE Texture::GetType()
 {
 	return type;
@@ -91,6 +94,12 @@ const char * Texture::GetName() const
 	return name;
 }
 
+void Texture::Serialize(JSON_File * doc)
+{
+	doc->SetNumber("type", this->type);
+	doc->SetString("path", this->path.c_str());
+}
+
 ModuleTextures::ModuleTextures(bool start_enabled) : Module(start_enabled)
 {
 }
@@ -104,6 +113,7 @@ bool ModuleTextures::Init(JSON_File* conf)
 
 	SetName("Textures");
 	bool ret = true;
+	clamp = clampingTexType_ClampRepeat;
 	ilInit();
 	iluInit();
 	ilutInit();
@@ -125,13 +135,13 @@ update_status ModuleTextures::Update()
 
 bool ModuleTextures::CleanUp()
 {
-	while (!textures.empty())
-	{
-		if (textures.front() != nullptr)
-			delete[] textures.front();
-		textures.pop_front();
+	if (!textures.empty()) {
+		for (list<Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
+		{
+			delete *it;
+		}
+		LOG_OUT("Deleted all textures");
 	}
-	LOG_OUT("Deleted all textures");
 	return true;
 }
 
@@ -148,7 +158,7 @@ void ModuleTextures::Clear()
 		delete *it;
 	}
 
-	textures.clear();
+	
 }
 
 bool ModuleTextures::Empty()
