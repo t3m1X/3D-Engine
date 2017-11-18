@@ -328,6 +328,9 @@ bool ModuleLoader::Import(const aiMesh * m, std::string & output)
 
 	//Name
 	new_mesh->Setname(m->mName.C_Str());
+	if (new_mesh->GetName() == " ") {
+		new_mesh->Setname("Unamed");
+	}
 	new_mesh->SetPath(output.c_str());
 
 	if (new_mesh != nullptr) {
@@ -425,7 +428,7 @@ Mesh * ModuleLoader::Loadrmesh(const char * file)
 			if (new_mesh->num_uv > 0) {
 				it += sizeof(uint) * new_mesh->num_indices; // it = buffer[UVs]
 				new_mesh->UVs = new float[new_mesh->num_uv * 3];
-				memcpy(new_mesh->UVs, it, sizeof(float) * new_mesh->num_uv);
+				memcpy(new_mesh->UVs, it, sizeof(float) * new_mesh->num_uv * 3);
 
 				glGenBuffers(1, (GLuint*)&(new_mesh->id_uv));
 				glBindBuffer(GL_ARRAY_BUFFER, (GLuint)new_mesh->id_uv);

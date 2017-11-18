@@ -1,247 +1,247 @@
 {
     "scene": {
-        "name": "fffff"
+        "name": "arrow"
     },
     "gameobjects": [
         {
             "static": false,
-            "UID": 409129856,
+            "UID": 239246288,
             "parentUID": -1,
             "name": "Game"
         },
         {
             "static": false,
-            "UID": 299187744,
-            "parentUID": 409129856,
+            "UID": 993335360,
+            "parentUID": 239246288,
             "name": "Camera"
         },
         {
             "static": false,
-            "UID": 1121113984,
+            "UID": 1439750400,
             "parentUID": -1,
             "name": "RootNode"
         },
         {
             "static": false,
-            "UID": -816577984,
-            "parentUID": 1121113984,
+            "UID": -1519740672,
+            "parentUID": 1439750400,
             "name": "Cinema4D_Editor"
         },
         {
             "static": false,
-            "UID": 1621525120,
-            "parentUID": 1121113984,
+            "UID": -1052324224,
+            "parentUID": 1439750400,
             "name": "ARROW"
         },
         {
             "static": false,
-            "UID": 2121113216,
-            "parentUID": 1621525120,
+            "UID": -626132992,
+            "parentUID": -1052324224,
             "name": "ARROW_1"
         },
         {
             "static": false,
-            "UID": -1614784128,
-            "parentUID": 1121113984,
+            "UID": -606792256,
+            "parentUID": 1439750400,
             "name": "RIG"
         },
         {
             "static": false,
-            "UID": -2117859456,
-            "parentUID": -1614784128,
+            "UID": -387360352,
+            "parentUID": -606792256,
             "name": "Spine"
         },
         {
             "static": false,
-            "UID": -1487473280,
-            "parentUID": -2117859456,
+            "UID": 1244861440,
+            "parentUID": -387360352,
             "name": "Spine1"
         },
         {
             "static": false,
-            "UID": -60674948,
-            "parentUID": -1487473280,
+            "UID": 1770789632,
+            "parentUID": 1244861440,
             "name": "Spine2"
         },
         {
             "static": false,
-            "UID": 537462144,
-            "parentUID": -60674948,
+            "UID": -1642978560,
+            "parentUID": 1770789632,
             "name": "Neck"
         },
         {
             "static": false,
-            "UID": 646558720,
-            "parentUID": 537462144,
+            "UID": 598612032,
+            "parentUID": -1642978560,
             "name": "Head"
         },
         {
             "static": false,
-            "UID": 1489321344,
-            "parentUID": 646558720,
+            "UID": 879736640,
+            "parentUID": 598612032,
             "name": "HeadTop_End"
         },
         {
             "static": false,
-            "UID": -214049856,
-            "parentUID": -60674948,
+            "UID": 161967552,
+            "parentUID": 1770789632,
             "name": "LeftShoulder"
         },
         {
             "static": false,
-            "UID": -305996192,
-            "parentUID": -214049856,
+            "UID": 1160942080,
+            "parentUID": 161967552,
             "name": "LeftArm"
         },
         {
             "static": false,
-            "UID": -585611264,
-            "parentUID": -305996192,
+            "UID": 1209778560,
+            "parentUID": 1160942080,
             "name": "LeftForeArm"
         },
         {
             "static": false,
-            "UID": 241464080,
-            "parentUID": -585611264,
+            "UID": 1033949888,
+            "parentUID": 1209778560,
             "name": "LeftHand"
         },
         {
             "static": false,
-            "UID": -1464307328,
-            "parentUID": 241464080,
+            "UID": -1201508608,
+            "parentUID": 1033949888,
             "name": "LeftHandIndex1"
         },
         {
             "static": false,
-            "UID": -1843824640,
-            "parentUID": -1464307328,
+            "UID": -1777418624,
+            "parentUID": -1201508608,
             "name": "LeftHandIndex2"
         },
         {
             "static": false,
-            "UID": 29419396,
-            "parentUID": -1843824640,
+            "UID": -136284832,
+            "parentUID": -1777418624,
             "name": "LeftHandIndex3"
         },
         {
             "static": false,
-            "UID": 1483895296,
-            "parentUID": 29419396,
+            "UID": -1859682688,
+            "parentUID": -136284832,
             "name": "LeftHandIndex4"
         },
         {
             "static": false,
-            "UID": -2058347008,
-            "parentUID": -60674948,
+            "UID": 1224694144,
+            "parentUID": 1770789632,
             "name": "RightShoulder"
         },
         {
             "static": false,
-            "UID": -1330465280,
-            "parentUID": -2058347008,
+            "UID": -1960974592,
+            "parentUID": 1224694144,
             "name": "RightArm"
         },
         {
             "static": false,
-            "UID": 2048479744,
-            "parentUID": -1330465280,
+            "UID": -627111424,
+            "parentUID": -1960974592,
             "name": "RightForeArm"
         },
         {
             "static": false,
-            "UID": 1783664128,
-            "parentUID": 2048479744,
+            "UID": -89273944,
+            "parentUID": -627111424,
             "name": "RightHand"
         },
         {
             "static": false,
-            "UID": 1924325376,
-            "parentUID": 1783664128,
+            "UID": -1159610240,
+            "parentUID": -89273944,
             "name": "RightHandIndex1"
         },
         {
             "static": false,
-            "UID": 1039007552,
-            "parentUID": 1924325376,
+            "UID": -247721408,
+            "parentUID": -1159610240,
             "name": "RightHandIndex2"
         },
         {
             "static": false,
-            "UID": -810014976,
-            "parentUID": 1039007552,
+            "UID": -980005056,
+            "parentUID": -247721408,
             "name": "RightHandIndex3"
         },
         {
             "static": false,
-            "UID": 1175132288,
-            "parentUID": -810014976,
+            "UID": -854102080,
+            "parentUID": -980005056,
             "name": "RightHandIndex4"
         },
         {
             "static": false,
-            "UID": 393237088,
-            "parentUID": -1614784128,
+            "UID": -1153240064,
+            "parentUID": -606792256,
             "name": "LeftUpLeg"
         },
         {
             "static": false,
-            "UID": 1882533376,
-            "parentUID": 393237088,
+            "UID": 1128761088,
+            "parentUID": -1153240064,
             "name": "LeftLeg"
         },
         {
             "static": false,
-            "UID": 952807808,
-            "parentUID": 1882533376,
+            "UID": 3805121.25,
+            "parentUID": 1128761088,
             "name": "LeftFoot"
         },
         {
             "static": false,
-            "UID": 90984120,
-            "parentUID": 952807808,
+            "UID": -983224128,
+            "parentUID": 3805121.25,
             "name": "LeftToeBase"
         },
         {
             "static": false,
-            "UID": 2041810560,
-            "parentUID": 90984120,
+            "UID": -759074944,
+            "parentUID": -983224128,
             "name": "LeftToe_End"
         },
         {
             "static": false,
-            "UID": -219157456,
-            "parentUID": -1614784128,
+            "UID": 2063670400,
+            "parentUID": -606792256,
             "name": "RightUpLeg"
         },
         {
             "static": false,
-            "UID": 1488480384,
-            "parentUID": -219157456,
+            "UID": 1771977472,
+            "parentUID": 2063670400,
             "name": "RightLeg"
         },
         {
             "static": false,
-            "UID": 1367810560,
-            "parentUID": 1488480384,
+            "UID": 1125360512,
+            "parentUID": 1771977472,
             "name": "RightFoot"
         },
         {
             "static": false,
-            "UID": 881078784,
-            "parentUID": 1367810560,
+            "UID": -840592320,
+            "parentUID": 1125360512,
             "name": "RightToeBase"
         },
         {
             "static": false,
-            "UID": -1713241728,
-            "parentUID": 881078784,
+            "UID": -1617058560,
+            "parentUID": -840592320,
             "name": "RightToe_End"
         }
     ],
     "components": [
         {
             "type": 2,
-            "ownerUID": 299187744,
+            "ownerUID": 993335360,
             "position": {
                 "x": 0,
                 "y": 0,
@@ -262,7 +262,7 @@
         {},
         {
             "type": 2,
-            "ownerUID": 1621525120,
+            "ownerUID": -1052324224,
             "position": {
                 "x": 0,
                 "y": 0,
@@ -282,14 +282,15 @@
         },
         {
             "type": 0,
-            "ownerUID": 1621525120,
+            "ownerUID": -1052324224,
             "path": "Library\/Meshes\/.rmesh",
+            "name": "arrow",
             "fbx_path": "Library\/Meshes\/.rmesh",
             "meshdoc": "25d69498643720af60a3a54ce13ba694"
         },
         {
             "type": 1,
-            "ownerUID": 1621525120,
+            "ownerUID": -1052324224,
             "textures": [
                 {
                     "type": 0,

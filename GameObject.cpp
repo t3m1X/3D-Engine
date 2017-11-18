@@ -405,6 +405,13 @@ void GameObject::DrawComponents()
 			
 		}
 	}
+	ImGui::SameLine();
+	
+	if (ImGui::InputText("Change Name", name_buffer, 254)) {
+		this->SetName(name_buffer);
+	}
+	ImGui::Text("Name: %s", name);
+
 	if (!components.empty()) {
 		for (uint i = 0; i < components.size(); i++) {
 			components[i]->UI_draw();

@@ -7,6 +7,7 @@
 Mesh::Mesh(GameObject * own) : Component(own)
 {
 	this->SetType(MESH);
+	
 }
 
 Mesh::Mesh()
@@ -117,6 +118,10 @@ void Mesh::SetWire(bool w)
 void Mesh::UI_draw()
 {
 	if (ImGui::CollapsingHeader("Mesh")) {
+		if (ImGui::InputText("Change Name", name_buffer, 254)) {
+			this->Setname(name_buffer);
+		}
+		ImGui::Text("Name: %s", name);
 		ImGui::Text("Vertices: %d", num_vertices);
 		ImGui::Text("UVs: %d", num_uv);
 		ImGui::Text("Indices: %d", num_indices);
@@ -191,6 +196,7 @@ void Mesh::Serialize(JSON_File * doc)
 	doc->SetNumber("type", type);
 	doc->SetNumber("ownerUID", (owner != nullptr) ? owner->GetUID() : -1);
 	doc->SetString("path", path.c_str());
+	doc->SetString("name", name);
 	doc->SetString("fbx_path", fbx_path.c_str());
 	doc->SetString("meshdoc", meshdoc.c_str());
 }

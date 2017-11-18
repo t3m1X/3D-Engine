@@ -412,6 +412,7 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 				if (cmesh != nullptr) {
 					cmesh->path = scene_doc->GetString("path");
 					cmesh->fbx_path = scene_doc->GetString("fbx_path");
+					cmesh->Setname(scene_doc->GetString("name"));
 					App->loader->meshes.push_back(cmesh);
 					c = cmesh;
 				}

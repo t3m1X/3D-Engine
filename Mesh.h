@@ -41,6 +41,7 @@ public:
 	bool wire = false;
 	std::string path;
 	std::string fbx_path;
+	char name_buffer[254];
 };
 
 

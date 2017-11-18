@@ -70,6 +70,7 @@ private:
 	double UID;
 	double parent_UID;
 	std::string name;
+	char name_buffer[254];
 	bool		enabled = true;
 	bool		selected = false;
 	bool		bbinit = false;
