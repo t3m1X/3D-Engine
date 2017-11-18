@@ -38,9 +38,7 @@ bool ModuleLoader::Init()
 update_status ModuleLoader::Update(float dt)
 {
 	
-	/*for (list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it) {
-		(*it)->Render(texture);
-	}*/
+	
 
 	
 	return update_status::UPDATE_CONTINUE;
@@ -82,7 +80,7 @@ void ModuleLoader::LoadFBX(const char* path)
 				App->scene_intro->AddObject(new_obj);
 				
 				
-				//App->scene_intro->SetobjSelected(new_obj);
+				
 			}
 
 			//Adding childs to queue
@@ -132,67 +130,7 @@ void ModuleLoader::LoadFBX(const char* path)
 					LOG_OUT("Mesh no es null");
 				}
 
-				//Vertices
-				//App->imgui->curr_obj = new_obj;
 				
-				/*aiMesh* m = scene->mMeshes[cnode.first->mMeshes[i]];
-				Mesh* new_mesh = new Mesh(new_obj);
-				new_mesh->num_faces = m->mNumFaces;
-				new_mesh->num_vertices = m->mNumVertices;
-				new_mesh->vertices = new float[new_mesh->num_vertices * 3];
-				memcpy(new_mesh->vertices, m->mVertices, sizeof(float) * new_mesh->num_vertices * 3);
-				LOG_OUT("New mesh with %d vertices", new_mesh->num_vertices);
-				glGenBuffers(1, (GLuint*) &(new_mesh->id_vertices));
-				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->id_vertices);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_vertices * 3, new_mesh->vertices, GL_STATIC_DRAW);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-				LOG_OUT("New mesh sent to VRAM");
-
-				//Indices
-
-				if (m->HasFaces()) {
-					new_mesh->num_indices = m->mNumFaces * 3;
-					new_mesh->indices = new uint[new_mesh->num_indices];
-					for (uint i = 0; i < m->mNumFaces; ++i)
-					{
-						if (m->mFaces[i].mNumIndices != 3) {
-							LOG_OUT("WARNING, geometry face with != 3 indices!");
-						}
-						else
-							memcpy(&new_mesh->indices[i * 3], m->mFaces[i].mIndices, 3 * sizeof(uint));
-					}
-
-				}
-				LOG_OUT("New mesh with %d indices", new_mesh->num_indices);
-				glGenBuffers(1, (GLuint*) &(new_mesh->id_indices));
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->id_indices);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-				//UVS
-				if (m->HasTextureCoords(0))
-				{
-					new_mesh->num_uv = m->mNumVertices;
-					new_mesh->UVs = new float[new_mesh->num_uv * 3];
-					memcpy(new_mesh->UVs, m->mTextureCoords[0], sizeof(float)*new_mesh->num_uv * 3);
-
-					glGenBuffers(1, (GLuint*)&(new_mesh->id_uv));
-					glBindBuffer(GL_ARRAY_BUFFER, (GLuint)new_mesh->id_uv);
-					glBufferData(GL_ARRAY_BUFFER, sizeof(float) * new_mesh->num_uv * 3, new_mesh->UVs, GL_STATIC_DRAW);
-					glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-					LOG_OUT("Loading UVs succesfully");
-				}
-				else
-					LOG_OUT("FBX Load: No texture coordinates found");
-
-
-				meshes.push_back(new_mesh);
-				LOG_OUT("FBX Load: Mesh loaded with %d vertices and %d indices", new_mesh->num_vertices, new_mesh->num_indices);*/
-
-				
-				//new_obj->SetStatic(true);
-				//App->scene_intro->octree->InsertGO(new_obj);
 				
 				
 			
@@ -204,18 +142,6 @@ void ModuleLoader::LoadFBX(const char* path)
 				
 				LOG_OUT("Created new object");
 
-				////////Material
-				/*aiString tex_path;
-				//////Just diffuse for now
-				if (scene->mMaterials[scene->mMeshes[cnode.first->mMeshes[i]]->mMaterialIndex]->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-					scene->mMaterials[scene->mMeshes[cnode.first->mMeshes[i]]->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, scene->mMeshes[cnode.first->mMeshes[i]]->mMaterialIndex, &tex_path);
-					Texture* diffuse = App->tex->LoadTexture(tex_path.C_Str());
-					if (diffuse != nullptr) {
-						Material* mat = new Material(new_obj);
-						mat->AddTexture(diffuse);
-						new_obj->AddComponent(mat);
-					}
-				}*/
 				aiMaterial** materials = nullptr;
 				if (scene->HasMaterials())
 					materials = scene->mMaterials;
@@ -620,110 +546,7 @@ Material * ModuleLoader::LoadMaterial(const aiMaterial * mat)
 	return new_material;
 }
 
-GameObject * ModuleLoader::LoadGeometry(const char * path)
-{
 
-	GameObject* Geometry = nullptr;
-
-	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
-	const aiNode* root_node = nullptr;
-
-	if (scene != nullptr)
-	{
-		//ROOT Node
-		root_node = scene->mRootNode;
-		//Loading All nodes into Root Node
-		if (root_node->mNumChildren > 0) {
-			Geometry = LoadFbxNode(root_node, scene, path);
-		}
-		//Camera Focus
-		//App->camera->FocusMesh(new_mesh->vertices, new_mesh->num_vertices);
-		//Release Scene
-		aiReleaseImport(scene);
-	}
-	else
-		LOG_OUT("Error loading scene %s", path);
-
-	//if (Geometry != nullptr)
-	//	App->res->gameObjects.push_back(Geometry);
-
-	return Geometry;
-}
-
-GameObject * ModuleLoader::LoadFbxNode(const aiNode * node, const aiScene * scene, const char * path, GameObject * parent)
-{
-	assert(node != nullptr);
-	assert(scene != nullptr);
-
-	GameObject* new_node = new GameObject("New node",App->scene_intro->root);
-
-	if (parent != nullptr)
-	{
-		new_node->SetParent(parent);
-		//new_node->GetParent()->children.push_back(new_node);
-	}
-	else {
-		new_node->SetParent(App->scene_intro->root);
-	}
-
-	aiMaterial** materials = nullptr;
-	if (scene->HasMaterials())
-		materials = scene->mMaterials;
-	else
-		LOG_OUT("Scene without materials");
-
-	//Transform
-
-	aiVector3D translation, scaling;
-	aiQuaternion rotation(1, 0, 0, 0);
-	node->mTransformation.Decompose(scaling, rotation, translation);
-	float3 position = { 0, 0, 0 };
-	float3 scale = { 1, 1, 1 };
-	position = { translation.x, translation.y, translation.z };
-	Quat rotation2 = Quat(rotation.x, rotation.y, rotation.z, rotation.w);
-	scale = { scaling.x, scaling.y, scaling.z };
-	Transform* trans = new Transform(position, rotation2, scale);
-	new_node->AddComponent(trans);
-
-
-	//LoadMeshes
-	std::string mesh_path;
-	Mesh* new_mesh = nullptr;
-	for (uint i = 0; i < node->mNumMeshes; i++) {
-		//Mesh Load
-		new_mesh = Loadrmesh(scene->mMeshes[node->mMeshes[i]], mesh_path);
-		if (new_mesh != nullptr) {
-			new_mesh->path = mesh_path;
-			new_mesh->fbx_path = path;
-			new_node->AddComponent(new_mesh);
-
-		}
-		//Material Load
-		if (materials != nullptr && new_mesh != nullptr) {
-			Material* new_material = LoadMaterial(materials[(int)new_mesh->material_id]);
-			if (new_material != nullptr) {
-				new_node->AddComponent(new_material);
-			}
-		}
-	}
-
-
-	if (node->mName.length > 0)
-		new_node->SetName(node->mName.C_Str());
-
-
-	//Node Children 'Recursivity'
-	for (uint i = 0; i < node->mNumChildren; i++) {
-		new_node->AddChild(LoadFbxNode(node->mChildren[i], scene, path, new_node));
-	}
-
-	if (new_node != nullptr)
-	{
-		App->scene_intro->AddObject(new_node);
-	}
-
-	return new_node;
-}
 
 
 

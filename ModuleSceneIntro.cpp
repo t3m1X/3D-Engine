@@ -320,8 +320,6 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 
 	std::string file = "Assets/Scenes/";
 	file += scene_name;
-	//if (strcmp(GetCExtension(scene_name), "json") != 0)
-		//file += ".json";
 
 	JSON_File* scene_doc = App->json->LoadJSON(file.c_str());
 
@@ -330,7 +328,7 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 		return "";
 	}
 
-	Clear();  // RESET SCENE
+	Clear();  
 
 	root = new GameObject("Game", nullptr);
 
@@ -344,10 +342,6 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 	octree->Create(max_point, min_point);
 
 
-	//App->renderer3D->GetToDraw().clear();
-	// Name
-	//this->scene_name = scene_doc->GetString("scene.name");
-	// GameObjects Load
 	std::vector<GameObject*> tmp_gos;
 	scene_doc->RootObject();
 	int n_gos = scene_doc->ArraySize("gameobjects");
@@ -384,20 +378,19 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 			App->scene_intro->AddObject(tmp_gos[i]);
 		}
 	}
-	// Components Load
-	//std::vector<Component*> tmp_cs;
+	
 	scene_doc->RootObject();
 	int nComponents = scene_doc->ArraySize("components");
 	for (int i = 0; i < nComponents; i++) {
 		scene_doc->RootObject();
 		scene_doc->MoveToInsideArray("components", i);
-		int type = scene_doc->GetNumber("type");
+		int type = scene_doc->GetNumber("type");// COMPONENT_TYPE
 		Component* c = nullptr;
 		Material* mat = nullptr;
 		Mesh* cmesh = nullptr;
 		int aux = 0;
 		const char* mpath = nullptr;
-		//const char* pstr = scene_doc->GetString("path");
+
 		switch (type) {
 		case MESH:
 			scene_doc->MoveToInsideArray("components", i);
@@ -477,31 +470,11 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 						App->scene_intro->AddObject(tmp_gos[i]);
 					}
 				}
-				//tmp_cs.push_back(c);
+
 			}
 
 
 		}
-		// Components Link
-		/*for (int i = 0; i < tmp_gos.size(); i++) {
-			for (int k = 0; k < tmp_cs.size(); k++) {
-				if (tmp_gos[i]->GetUID() == tmp_cs[k]->GetOwnerUID()) {
-					tmp_gos[i]->AddComponent(tmp_cs[k]);
-					if (tmp_gos[i]->HasMesh()) {
-						App->scene_intro->AddObject(tmp_gos[i]);
-					}
-				}
-			}
-		}*/
-
-
-		// Reimporting obj to quadtree
-
-		/*for (int i = 0; i < tmp_gos.size(); i++) {
-			tmp_gos[i]->RecalculateAABB();
-			tmp_gos[i]->Enable();
-			App->scene_intro->AddObject(tmp_gos[i]);
-		}*/
 
 		for (uint i = 0; i < App->scene_intro->all_objects.size(); ++i)
 		{
@@ -511,6 +484,7 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 			}
 		}
 	}
+
 	RecalculateOctree();
 	return file.c_str();
 

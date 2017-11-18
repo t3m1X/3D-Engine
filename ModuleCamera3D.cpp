@@ -105,9 +105,9 @@ update_status ModuleCamera3D::Update(float dt)
 		DrawDebug();
 	}
 
-	PrimitiveLine_Ray a(pick.a.x, pick.a.y, pick.a.z, pick.b.x, pick.b.y, pick.b.z);
+	/*PrimitiveLine_Ray a(pick.a.x, pick.a.y, pick.a.z, pick.b.x, pick.b.y, pick.b.z);
 	a.color = Blue;
-	a.Render();
+	a.Render();*/
 	
 
 	
