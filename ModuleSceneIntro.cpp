@@ -156,11 +156,9 @@ void ModuleSceneIntro::DrawHierarchy() const
 
 void ModuleSceneIntro::Clear()
 {
-	root->children.clear();
-	for (int i = 0; i < all_objects.size(); i++) {
-		if(all_objects[i]!=nullptr)
-		delete all_objects[i];
-	}
+	//root->children.clear();
+
+	
 	delete octree;
 	delete root;
 
@@ -387,7 +385,7 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 		}
 	}
 	// Components Load
-	std::vector<Component*> tmp_cs;
+	//std::vector<Component*> tmp_cs;
 	scene_doc->RootObject();
 	int nComponents = scene_doc->ArraySize("components");
 	for (int i = 0; i < nComponents; i++) {
@@ -452,12 +450,12 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 					c = mat;
 				}
 			}
-			
+
 			/*if (mat != nullptr) {
 				mat->CleanUp();
 				delete mat;
 			}*/
-				
+
 			scene_doc->RootObject();
 			scene_doc->MoveToInsideArray("components", i);
 			break;
@@ -471,40 +469,48 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 		}
 		if (c != nullptr) {
 			c->SetOwnerUID(scene_doc->GetNumber("ownerUID"));
-			tmp_cs.push_back(c);
-		}
-
-
-	}
-	// Components Link
-	for (int i = 0; i < tmp_gos.size(); i++) {
-		for (int k = 0; k < tmp_cs.size(); k++) {
-			if (tmp_gos[i]->GetUID() == tmp_cs[k]->GetOwnerUID()) {
-				tmp_gos[i]->AddComponent(tmp_cs[k]);
-				if (tmp_gos[i]->HasMesh()) {
-					App->scene_intro->AddObject(tmp_gos[i]);
+			for (int i = 0; i < tmp_gos.size(); i++) {
+				if (tmp_gos[i]->GetUID() == c->GetOwnerUID()) {
+					tmp_gos[i]->AddComponent(c);
+					if (tmp_gos[i]->HasMesh()) {
+						tmp_gos[i]->RecalculateAABB();
+						App->scene_intro->AddObject(tmp_gos[i]);
+					}
 				}
+				//tmp_cs.push_back(c);
+			}
+
+
+		}
+		// Components Link
+		/*for (int i = 0; i < tmp_gos.size(); i++) {
+			for (int k = 0; k < tmp_cs.size(); k++) {
+				if (tmp_gos[i]->GetUID() == tmp_cs[k]->GetOwnerUID()) {
+					tmp_gos[i]->AddComponent(tmp_cs[k]);
+					if (tmp_gos[i]->HasMesh()) {
+						App->scene_intro->AddObject(tmp_gos[i]);
+					}
+				}
+			}
+		}*/
+
+
+		// Reimporting obj to quadtree
+
+		/*for (int i = 0; i < tmp_gos.size(); i++) {
+			tmp_gos[i]->RecalculateAABB();
+			tmp_gos[i]->Enable();
+			App->scene_intro->AddObject(tmp_gos[i]);
+		}*/
+
+		for (uint i = 0; i < App->scene_intro->all_objects.size(); ++i)
+		{
+			if (App->scene_intro->all_objects[i]->GetStatic())
+			{
+				App->scene_intro->octree->InsertGO(App->scene_intro->all_objects[i]);
 			}
 		}
 	}
-
-
-	// Reimporting obj to quadtree
-
-	/*for (int i = 0; i < tmp_gos.size(); i++) {
-		tmp_gos[i]->RecalculateAABB();
-		tmp_gos[i]->Enable();
-		App->scene_intro->AddObject(tmp_gos[i]);
-	}*/
-
-	/*for (uint i = 0; i < App->scene_intro->all_objects.size(); ++i)
-	{
-		if (App->scene_intro->all_objects[i]->GetStatic())
-		{
-			App->scene_intro->octree->InsertGO(App->scene_intro->all_objects[i]);
-		}
-	}*/
-
 	RecalculateOctree();
 	return file.c_str();
 
