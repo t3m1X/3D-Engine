@@ -68,7 +68,7 @@ public:
 
 	Texture* LoadTexture(const char* path);
 
-	bool ImportTexture(const char* path, std::string& output_file);
+	int ImportTexture(const char* path, std::string& output_file);
 	Texture* LoadDDSTexture(const char* path);
 	Texture* LoadToDDS(const char* path, std::string& output_file);
 	Texture* LoadToDDS(const char* path);
@@ -81,11 +81,13 @@ private:
 	Texture* Load(const char* exported_file, Texture* tex);
 
 private:
-	std::list<Texture*>textures;
+	std::vector<Texture*>textures;
 	int clamp = clampingTexType_ClampRepeat;
 	int interpolation_type = interpolationTexType_Linear;
 	char* clamping_str = nullptr;
 	char* interpolate_str = nullptr;
+public: 
+	int state = 0;
 	
 };
 

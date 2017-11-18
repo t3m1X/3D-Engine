@@ -136,9 +136,9 @@ update_status ModuleTextures::Update()
 bool ModuleTextures::CleanUp()
 {
 	if (!textures.empty()) {
-		for (list<Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
+		for (uint i = 0; i<textures.size();i++)
 		{
-			delete *it;
+			delete textures[i];
 		}
 		LOG_OUT("Deleted all textures");
 	}
@@ -153,10 +153,14 @@ Texture * ModuleTextures::GetTexture()
 
 void ModuleTextures::Clear()
 {
-	for (list<Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
-	{
-		delete *it;
+	if (!textures.empty()) {
+		for (uint i = 0; i<textures.size(); i++)
+		{
+			delete textures[i];
+		}
+		LOG_OUT("Deleted all textures");
 	}
+	
 
 	
 }
@@ -169,70 +173,113 @@ bool ModuleTextures::Empty()
 Texture* ModuleTextures::LoadTexture(const char* path)
 {
 
-	ILuint imageID;				
-	GLuint textureID;		
-	ILboolean success;			
-	ILenum error;		
-/*	const char* drop_filedir = path;
-	const char* filext = strrchr(drop_filedir, '.');
-	for (char* p = filext + 1; *p != '\0'; *p = toupper(*p), p++);*/
+	uint textureID = 0;
+	ILuint imageID;
 
-	ilGenImages(1, &imageID); 		
-	ilBindImage(imageID); 			
-	success = ilLoadImage(path); 	
-	LOG_OUT("Texture load: Loading %s", path);
-											
-	if (success)
-	{
-		LOG_OUT("Image loaded succesfully");
-		Texture* tex;
+	Texture* new_tex = nullptr;
+
+	ILenum error;
+
+	ilGenImages(1, &imageID);
+	ilBindImage(imageID);
+
+	if (ilLoadImage(path)) {
 		ILinfo ImageInfo;
 		iluGetImageInfo(&ImageInfo);
-		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
-		{
+		//Flip the image if it is upside-down
+		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT) {
 			iluFlipImage();
 		}
-
-		
-		success = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
-
-		
-		if (!success)
-		{
-			LOG_OUT("Texture load: Image conversion failed: %s\n", ilGetError());
+		if (!ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE)) {
+			error = ilGetError();
+			LOG_OUT("Texture Image conversion Failed: %d %s", error, iluErrorString(error));
 		}
+		else {
 
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		glGenTextures(1, &textureID);
-		glBindTexture(GL_TEXTURE_2D, textureID);
+			new_tex = new Texture();
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glGenTextures(1, &textureID);
+			glBindTexture(GL_TEXTURE_2D, textureID);
 
-		glTexImage2D(GL_TEXTURE_2D,0,ilGetInteger(IL_IMAGE_FORMAT),ilGetInteger(IL_IMAGE_WIDTH),ilGetInteger(IL_IMAGE_HEIGHT),0,ilGetInteger(IL_IMAGE_FORMAT),GL_UNSIGNED_BYTE,	ilGetData());
-		LOG_OUT("Texture load: Texture generated");
-		tex = new Texture();
-		tex->SetWidth(ImageInfo.Width);
-		tex->Setheight(ImageInfo.Height);
-		tex->SetId(textureID);
-		tex->SetTextureType(DIFFUSE);/// for now we just have diffuse
-		textures.push_back(tex);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		return tex;
+			new_tex->id = textureID;
+			new_tex->width = ilGetInteger(IL_IMAGE_WIDTH);
+			new_tex->height = ilGetInteger(IL_IMAGE_HEIGHT);
+			new_tex->format = ilGetInteger(IL_IMAGE_FORMAT);
+			new_tex->path = path;
+			new_tex->name = GetFile(path).c_str();
+
+			//Clamping Method
+			GLint clampParam;
+			switch (clamp) {
+			case clampingTexType_ClampToEdge:
+				clampParam = GL_CLAMP_TO_EDGE;
+				break;
+			case clampingTexType_ClampRepeat:
+				clampParam = GL_REPEAT;
+				break;
+			case clampingTexType_ClampMirroredRepeat:
+				clampParam = GL_MIRRORED_REPEAT;
+				break;
+			default:
+				clampParam = GL_REPEAT;
+				break;
+			}
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, clampParam);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, clampParam);
+			// Interpolation Method
+			GLint interParam;
+			switch (interpolation_type) {
+			case interpolationTexType_Nearest:
+				interParam = GL_NEAREST;
+				break;
+			case interpolationTexType_Linear:
+				interParam = GL_LINEAR;
+				break;
+			default:
+				interParam = GL_LINEAR;
+				break;
+			}
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, interParam);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, interParam);
+
+			//Texture Specifications
+			glTexImage2D(GL_TEXTURE_2D, 0, new_tex->format, new_tex->width, new_tex->height, 0, new_tex->format, GL_UNSIGNED_BYTE, ilGetData());
+
+			textures.push_back(new_tex);
+
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 	}
-	else 
-	LOG_OUT("Texture load: Error loading the file %s", path);
-	return nullptr; 
+	else {
+		error = ilGetError();
+		LOG_OUT("Image Load Error %d %s", error, iluErrorString(error));
+	}
+
+	//glBindTexture(GL_TEXTURE_2D, 0);
+
+	ilDeleteImages(1, &imageID);
+
+	LOG_OUT("Texture Load End:\n\t%s", path);
+
+	return new_tex;
 }
 
-bool ModuleTextures::ImportTexture(const char * path, std::string & output_file)
+int ModuleTextures::ImportTexture(const char * path, std::string & output_file)
 {
 	bool ret = false;
 
-	ret = Import(path, output_file);
+	std::string check = LIBRARY_TEXTURES;
+	check += GetFile(path);
+	check += ".dds";
+	if (!App->fs->exists(check))
+		ret = Import(path, output_file);
+	else {
+		LOG_OUT("Texture already imported");
+		output_file = check;
+		ret = -1;
+	}
 
 	if (ret == false)
 		LOG_OUT("ERROR importing texture %s", path);
@@ -252,15 +299,21 @@ Texture * ModuleTextures::LoadDDSTexture(const char * path)
 Texture * ModuleTextures::LoadToDDS(const char * path, std::string & output_file)
 {
 	Texture* tex = nullptr;
+	state = ImportTexture(path, output_file);
+	if (state == -1) {
 
-	if (ImportTexture(path, output_file)) {
+		for (int i = 0; i < textures.size(); i++) {
+			if (textures[i]->path == output_file) {
+				tex = textures[i];
+				break;
+			}
+		}
 
+	}
+	else if (state == 1) {
 		tex = LoadDDSTexture(output_file.c_str());
-
 	}
-	else {
-		LOG_OUT("ERROR Importing texture %s", GetFile(path).c_str());
-	}
+	
 
 	return tex;
 }
