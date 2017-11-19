@@ -13,6 +13,12 @@ Link to the Github Repository ![https://github.com/rogerbusquets97/3D-Engine](ht
 
 **Quit (Alt + F4)**_: Exits the application.
 
+**Save Scene**_: Allows you to save the scene in a .json file.
+
+**Load Scene**_: Loads a previously saved .json file
+
+
+
 ### View
 
 **Configuration(C)**_: Shows the customizable properties for each module (camera, renderer, input, application and hardware for now).
@@ -22,6 +28,9 @@ Link to the Github Repository ![https://github.com/rogerbusquets97/3D-Engine](ht
 **Geometry**_: Open a menu that allows you to create several basic primitives.
 
 **Console (C)**_: Allows to turn on and off the console (it is visible at the beggining of the application)
+
+**Play&Pause**_: Enables and disables the time manager panel.
+
 
 ### Help
 
@@ -37,6 +46,17 @@ Link to the Github Repository ![https://github.com/rogerbusquets97/3D-Engine](ht
 ## About
 
 Opens the the about window that shows information about the engine (the name of the creators, libraries used and the license)
+
+## Scene Info
+
+In the default scene a default camera is created autamatically when it is loaded, this camera has the camera culling option, if it is enabled,
+onlky elements inside its furstum will be rendered. (it is disabled by default).
+
+There also an octree created that is debug drawn in order to make its utility visible, game objects are non static by default, but whenever a game object is set to static(in the porperties panel) it will be insterted into the octree and the octree will resize itself if needed. 
+
+Any mesh loaded into the engine will be saved in .rmesh format inside the library folder, as well as textures will be saved as dds files. 
+
+
 
 ## License
 MIT License
