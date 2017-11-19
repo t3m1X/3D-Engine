@@ -368,7 +368,7 @@ bool ModuleTextures::Import(const void * buffer, uint size, std::string & output
 			if (ilsize > 0) {
 				data = new ILubyte[ilsize];
 				if (ilSaveL(IL_DDS, data, ilsize) > 0) {
-					ret = App->fs->SaveUnique(LIBRARY_TEXTURES, (char*)data, file_name, "dds", ilsize, output_file, (file_name == "default"));
+					ret = App->fs->SaveUnique(LIBRARY_TEXTURES, (char*)data, file_name, "dds", ilsize, output_file, true);
 				}
 
 				if (data != nullptr) {

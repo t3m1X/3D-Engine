@@ -1,0 +1,1761 @@
+{
+    "scene": {
+        "name": "street"
+    },
+    "gameobjects": [
+        {
+            "static": false,
+            "UID": 1095214848,
+            "parentUID": -1,
+            "name": "Game"
+        },
+        {
+            "static": false,
+            "UID": 849839232,
+            "parentUID": 1095214848,
+            "name": "Camera"
+        },
+        {
+            "static": false,
+            "UID": -410606208,
+            "parentUID": -1,
+            "name": "RootNode"
+        },
+        {
+            "static": false,
+            "UID": -1924521728,
+            "parentUID": -410606208,
+            "name": "Sky001_$AssimpFbx$_Translation"
+        },
+        {
+            "static": false,
+            "UID": 465553536,
+            "parentUID": -1924521728,
+            "name": "Sky001_$AssimpFbx$_PreRotation"
+        },
+        {
+            "static": false,
+            "UID": -817800832,
+            "parentUID": 465553536,
+            "name": "Sky001_$AssimpFbx$_PostRotation"
+        },
+        {
+            "static": false,
+            "UID": 980580608,
+            "parentUID": -817800832,
+            "name": "Sky001"
+        },
+        {
+            "static": false,
+            "UID": 573696064,
+            "parentUID": -410606208,
+            "name": "Dummy001_$AssimpFbx$_PreRotation"
+        },
+        {
+            "static": false,
+            "UID": 1544552960,
+            "parentUID": 573696064,
+            "name": "Dummy001_$AssimpFbx$_Rotation"
+        },
+        {
+            "static": false,
+            "UID": -2107744896,
+            "parentUID": 1544552960,
+            "name": "Dummy001"
+        },
+        {
+            "static": false,
+            "UID": 1014455744,
+            "parentUID": -2107744896,
+            "name": "City_building_004"
+        },
+        {
+            "static": false,
+            "UID": 689244096,
+            "parentUID": 1014455744,
+            "name": "City_building_004_1"
+        },
+        {
+            "static": false,
+            "UID": 1895087104,
+            "parentUID": -2107744896,
+            "name": "City_building_001"
+        },
+        {
+            "static": false,
+            "UID": -774430400,
+            "parentUID": 1895087104,
+            "name": "City_building_001_1"
+        },
+        {
+            "static": false,
+            "UID": 2106852480,
+            "parentUID": -2107744896,
+            "name": "City_building_007"
+        },
+        {
+            "static": false,
+            "UID": -1414598144,
+            "parentUID": 2106852480,
+            "name": "City_building_007_1"
+        },
+        {
+            "static": false,
+            "UID": -649634752,
+            "parentUID": -2107744896,
+            "name": "City_building_008"
+        },
+        {
+            "static": false,
+            "UID": -1265739776,
+            "parentUID": -649634752,
+            "name": "City_building_008_1"
+        },
+        {
+            "static": false,
+            "UID": 950686080,
+            "parentUID": -2107744896,
+            "name": "Line002"
+        },
+        {
+            "static": false,
+            "UID": -2014804736,
+            "parentUID": 950686080,
+            "name": "Line002_1"
+        },
+        {
+            "static": false,
+            "UID": -1845899520,
+            "parentUID": -2107744896,
+            "name": "Plane001"
+        },
+        {
+            "static": false,
+            "UID": 1066789248,
+            "parentUID": -1845899520,
+            "name": "Plane001_1"
+        },
+        {
+            "static": false,
+            "UID": -340641024,
+            "parentUID": -2107744896,
+            "name": "City_building_010"
+        },
+        {
+            "static": false,
+            "UID": -1845695232,
+            "parentUID": -340641024,
+            "name": "City_building_010_1"
+        },
+        {
+            "static": false,
+            "UID": 1001022976,
+            "parentUID": -340641024,
+            "name": "City_building_010_2"
+        },
+        {
+            "static": false,
+            "UID": 386945408,
+            "parentUID": -2107744896,
+            "name": "City_building_011"
+        },
+        {
+            "static": false,
+            "UID": -464100832,
+            "parentUID": 386945408,
+            "name": "City_building_011_1"
+        },
+        {
+            "static": false,
+            "UID": 1063627968,
+            "parentUID": -2107744896,
+            "name": "City_building_013"
+        },
+        {
+            "static": false,
+            "UID": 424741568,
+            "parentUID": 1063627968,
+            "name": "City_building_013_1"
+        },
+        {
+            "static": false,
+            "UID": -1711209344,
+            "parentUID": -2107744896,
+            "name": "City_building_014"
+        },
+        {
+            "static": false,
+            "UID": -390052640,
+            "parentUID": -1711209344,
+            "name": "City_building_014_1"
+        },
+        {
+            "static": false,
+            "UID": -1134046720,
+            "parentUID": -2107744896,
+            "name": "City_building_016"
+        },
+        {
+            "static": false,
+            "UID": -1704473472,
+            "parentUID": -1134046720,
+            "name": "City_building_016_1"
+        },
+        {
+            "static": false,
+            "UID": 545260672,
+            "parentUID": -1134046720,
+            "name": "City_building_016_2"
+        },
+        {
+            "static": false,
+            "UID": 884775360,
+            "parentUID": -2107744896,
+            "name": "City_building_017"
+        },
+        {
+            "static": false,
+            "UID": 1767921152,
+            "parentUID": 884775360,
+            "name": "City_building_017_1"
+        },
+        {
+            "static": false,
+            "UID": 770212992,
+            "parentUID": 884775360,
+            "name": "City_building_017_2"
+        },
+        {
+            "static": false,
+            "UID": 1416795904,
+            "parentUID": -2107744896,
+            "name": "City_building_022"
+        },
+        {
+            "static": false,
+            "UID": 1358387456,
+            "parentUID": 1416795904,
+            "name": "City_building_022_1"
+        },
+        {
+            "static": false,
+            "UID": 2114506752,
+            "parentUID": -2107744896,
+            "name": "City_building_023"
+        },
+        {
+            "static": false,
+            "UID": 438226048,
+            "parentUID": 2114506752,
+            "name": "City_building_023_1"
+        },
+        {
+            "static": false,
+            "UID": -511569024,
+            "parentUID": -2107744896,
+            "name": "City_building_024"
+        },
+        {
+            "static": false,
+            "UID": -824478528,
+            "parentUID": -511569024,
+            "name": "City_building_024_1"
+        },
+        {
+            "static": false,
+            "UID": 1661261952,
+            "parentUID": -2107744896,
+            "name": "City_building_026"
+        },
+        {
+            "static": false,
+            "UID": 1348040832,
+            "parentUID": 1661261952,
+            "name": "City_building_026_1"
+        },
+        {
+            "static": false,
+            "UID": 1637693440,
+            "parentUID": -2107744896,
+            "name": "City_building_028"
+        },
+        {
+            "static": false,
+            "UID": 1147733376,
+            "parentUID": 1637693440,
+            "name": "City_building_028_1"
+        },
+        {
+            "static": false,
+            "UID": -1754656384,
+            "parentUID": -2107744896,
+            "name": "Object010"
+        },
+        {
+            "static": false,
+            "UID": 43002172,
+            "parentUID": -1754656384,
+            "name": "Object010_1"
+        },
+        {
+            "static": false,
+            "UID": -759319488,
+            "parentUID": -2107744896,
+            "name": "City_building_030"
+        },
+        {
+            "static": false,
+            "UID": -175582464,
+            "parentUID": -759319488,
+            "name": "City_building_030_1"
+        },
+        {
+            "static": false,
+            "UID": 2012452224,
+            "parentUID": -2107744896,
+            "name": "City_building_031"
+        },
+        {
+            "static": false,
+            "UID": 1990993280,
+            "parentUID": 2012452224,
+            "name": "City_building_031_1"
+        },
+        {
+            "static": false,
+            "UID": 1972484736,
+            "parentUID": -2107744896,
+            "name": "City_building_032"
+        },
+        {
+            "static": false,
+            "UID": 1852141056,
+            "parentUID": 1972484736,
+            "name": "City_building_032_1"
+        },
+        {
+            "static": false,
+            "UID": -475836672,
+            "parentUID": -2107744896,
+            "name": "City_building_033"
+        },
+        {
+            "static": false,
+            "UID": -2074258304,
+            "parentUID": -475836672,
+            "name": "City_building_033_1"
+        },
+        {
+            "static": false,
+            "UID": -2091595264,
+            "parentUID": -2107744896,
+            "name": "City_building_034"
+        },
+        {
+            "static": false,
+            "UID": -1334609408,
+            "parentUID": -2091595264,
+            "name": "City_building_034_1"
+        },
+        {
+            "static": false,
+            "UID": 442978624,
+            "parentUID": -2107744896,
+            "name": "City_building_035"
+        },
+        {
+            "static": false,
+            "UID": -1091440896,
+            "parentUID": 442978624,
+            "name": "City_building_035_1"
+        },
+        {
+            "static": false,
+            "UID": 1970540672,
+            "parentUID": -2107744896,
+            "name": "City_building_036"
+        },
+        {
+            "static": false,
+            "UID": -654339072,
+            "parentUID": 1970540672,
+            "name": "City_building_036_1"
+        },
+        {
+            "static": false,
+            "UID": -169598896,
+            "parentUID": -2107744896,
+            "name": "City_building_037"
+        },
+        {
+            "static": false,
+            "UID": -1702355456,
+            "parentUID": -169598896,
+            "name": "City_building_037_1"
+        },
+        {
+            "static": false,
+            "UID": -1677304192,
+            "parentUID": -2107744896,
+            "name": "City_building_038"
+        },
+        {
+            "static": false,
+            "UID": 1597917824,
+            "parentUID": -1677304192,
+            "name": "City_building_038_1"
+        },
+        {
+            "static": false,
+            "UID": -1934246656,
+            "parentUID": -2107744896,
+            "name": "City_building_039"
+        },
+        {
+            "static": false,
+            "UID": -1052679680,
+            "parentUID": -1934246656,
+            "name": "City_building_039_1"
+        },
+        {
+            "static": false,
+            "UID": 462134400,
+            "parentUID": -2107744896,
+            "name": "City_building_040"
+        },
+        {
+            "static": false,
+            "UID": -2104073088,
+            "parentUID": 462134400,
+            "name": "City_building_040_1"
+        },
+        {
+            "static": false,
+            "UID": 1323426688,
+            "parentUID": -2107744896,
+            "name": "City_building_041"
+        },
+        {
+            "static": false,
+            "UID": -1345901312,
+            "parentUID": 1323426688,
+            "name": "City_building_041_1"
+        },
+        {
+            "static": false,
+            "UID": -697281920,
+            "parentUID": -410606208,
+            "name": "Camera001_$AssimpFbx$_Translation"
+        },
+        {
+            "static": false,
+            "UID": 1596497920,
+            "parentUID": -697281920,
+            "name": "Camera001_$AssimpFbx$_PreRotation"
+        },
+        {
+            "static": false,
+            "UID": -607881984,
+            "parentUID": 1596497920,
+            "name": "Camera001_$AssimpFbx$_Rotation"
+        },
+        {
+            "static": false,
+            "UID": -964524480,
+            "parentUID": -607881984,
+            "name": "Camera001"
+        },
+        {
+            "static": false,
+            "UID": -1973105920,
+            "parentUID": -410606208,
+            "name": "Camera001.Target_$AssimpFbx$_Translation"
+        },
+        {
+            "static": false,
+            "UID": 61413700,
+            "parentUID": -1973105920,
+            "name": "Camera001.Target_$AssimpFbx$_PreRotation"
+        },
+        {
+            "static": false,
+            "UID": 621693568,
+            "parentUID": 61413700,
+            "name": "Camera001.Target_$AssimpFbx$_Rotation"
+        },
+        {
+            "static": false,
+            "UID": -1185733120,
+            "parentUID": 621693568,
+            "name": "Camera001.Target"
+        },
+        {
+            "static": false,
+            "UID": 2077687680,
+            "parentUID": -410606208,
+            "name": "Spot001_$AssimpFbx$_Translation"
+        },
+        {
+            "static": false,
+            "UID": -451011520,
+            "parentUID": 2077687680,
+            "name": "Spot001_$AssimpFbx$_PreRotation"
+        },
+        {
+            "static": false,
+            "UID": -684255296,
+            "parentUID": -451011520,
+            "name": "Spot001_$AssimpFbx$_Rotation"
+        },
+        {
+            "static": false,
+            "UID": 639198144,
+            "parentUID": -684255296,
+            "name": "Spot001_$AssimpFbx$_PostRotation"
+        },
+        {
+            "static": false,
+            "UID": 474467200,
+            "parentUID": 639198144,
+            "name": "Spot001"
+        },
+        {
+            "static": false,
+            "UID": -672438528,
+            "parentUID": -410606208,
+            "name": "Spot001.Target_$AssimpFbx$_Translation"
+        },
+        {
+            "static": false,
+            "UID": 580325504,
+            "parentUID": -672438528,
+            "name": "Spot001.Target_$AssimpFbx$_PreRotation"
+        },
+        {
+            "static": false,
+            "UID": 226215616,
+            "parentUID": 580325504,
+            "name": "Spot001.Target_$AssimpFbx$_Rotation"
+        },
+        {
+            "static": false,
+            "UID": -703443968,
+            "parentUID": 226215616,
+            "name": "Spot001.Target"
+        }
+    ],
+    "components": [
+        {
+            "type": 2,
+            "ownerUID": 849839232,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {},
+        {
+            "type": 2,
+            "ownerUID": 1014455744,
+            "position": {
+                "x": -41.47589111328125,
+                "y": 21.01409912109375,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 1014455744,
+            "path": "Library\/Meshes\/_99.rmesh",
+            "fbx_path": "Library\/Meshes\/_99.rmesh",
+            "meshdoc": "9887650103006550a634bc67c3eb8842"
+        },
+        {
+            "type": 1,
+            "ownerUID": 1014455744,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building03_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 1895087104,
+            "position": {
+                "x": 17.707164764404297,
+                "y": 20.053276062011719,
+                "z": 2.1210729528320371e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 1895087104,
+            "path": "Library\/Meshes\/_100.rmesh",
+            "fbx_path": "Library\/Meshes\/_100.rmesh",
+            "meshdoc": "f65e61f9490625e386720c08673beb32"
+        },
+        {
+            "type": 1,
+            "ownerUID": 1895087104,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/Building_V02_C.png.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 2106852480,
+            "position": {
+                "x": 16.010492324829102,
+                "y": 37.4932861328125,
+                "z": -1.5106878663573298e-06
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 2106852480,
+            "path": "Library\/Meshes\/_101.rmesh",
+            "fbx_path": "Library\/Meshes\/_101.rmesh",
+            "meshdoc": "2e921123760ce55f1feb18bd15dd1893"
+        },
+        {
+            "type": 1,
+            "ownerUID": 2106852480,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building_016_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": -649634752,
+            "position": {
+                "x": 40.979995727539063,
+                "y": 18.270824432373047,
+                "z": -2.0522466002148576e-06
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0.70710676908493042,
+                "w": 0.70710676908493042
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -649634752,
+            "path": "Library\/Meshes\/_102.rmesh",
+            "fbx_path": "Library\/Meshes\/_102.rmesh",
+            "meshdoc": "fedad181ea64ed09cca4a3a7306b6815"
+        },
+        {
+            "type": 1,
+            "ownerUID": -649634752,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building_025_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 950686080,
+            "position": {
+                "x": -2.1597719192504883,
+                "y": 1.8538382053375244,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": -0.70710676908493042,
+                "w": 0.70710676908493042
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 950686080,
+            "path": "Library\/Meshes\/_103.rmesh",
+            "fbx_path": "Library\/Meshes\/_103.rmesh",
+            "meshdoc": "cfcd208495d565ef66e7dff9f98764da"
+        },
+        {
+            "type": 2,
+            "ownerUID": -1845899520,
+            "position": {
+                "x": -0.02860260009765625,
+                "y": 0.026032090187072754,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 0.99663525819778442,
+                "y": 0.97061645984649658,
+                "z": 0.99663525819778442
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -1845899520,
+            "path": "Library\/Meshes\/_104.rmesh",
+            "fbx_path": "Library\/Meshes\/_104.rmesh",
+            "meshdoc": "e5ea7fb51ff27a20c3f622df66b9acdc"
+        },
+        {
+            "type": 2,
+            "ownerUID": -340641024,
+            "position": {
+                "x": 25.154010772705078,
+                "y": -39.153720855712891,
+                "z": 8.5538641769744572e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0.70710676908493042,
+                "w": 0.70710676908493042
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -340641024,
+            "path": "Library\/Meshes\/_105.rmesh",
+            "fbx_path": "Library\/Meshes\/_105.rmesh",
+            "meshdoc": "ec7f7e7bb43742ce868145f71d37b53c"
+        },
+        {
+            "type": 1,
+            "ownerUID": -340641024,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building 01_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": -1845695232,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -1845695232,
+            "path": "Library\/Meshes\/_106.rmesh",
+            "fbx_path": "Library\/Meshes\/_106.rmesh",
+            "meshdoc": "18681668c357847a699834de4dd2f37e"
+        },
+        {
+            "type": 1,
+            "ownerUID": -1845695232,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building 01_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 386945408,
+            "position": {
+                "x": 30.134540557861328,
+                "y": 37.4932861328125,
+                "z": -1.5106878663573298e-06
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 386945408,
+            "path": "Library\/Meshes\/_107.rmesh",
+            "fbx_path": "Library\/Meshes\/_107.rmesh",
+            "meshdoc": "2e921123760ce55f1feb18bd15dd1893"
+        },
+        {
+            "type": 1,
+            "ownerUID": 386945408,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building_016_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 1063627968,
+            "position": {
+                "x": -42.288055419921875,
+                "y": 33.201576232910156,
+                "z": 5.0146070407208754e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0.70710676908493042,
+                "w": 0.70710676908493042
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 1063627968,
+            "path": "Library\/Meshes\/_108.rmesh",
+            "fbx_path": "Library\/Meshes\/_108.rmesh",
+            "meshdoc": "d7a92aa4258b3678d34b2da098cb44db"
+        },
+        {
+            "type": 1,
+            "ownerUID": 1063627968,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building 06_ c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": -1711209344,
+            "position": {
+                "x": -19.439706802368164,
+                "y": 32.061729431152344,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 1,
+                "w": -4.3711388286737929e-08
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -1711209344,
+            "path": "Library\/Meshes\/_109.rmesh",
+            "fbx_path": "Library\/Meshes\/_109.rmesh",
+            "meshdoc": "64ceeb350c4f50dbe90b7dc4f3254de6"
+        },
+        {
+            "type": 1,
+            "ownerUID": -1711209344,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building03_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": -1134046720,
+            "position": {
+                "x": 34.270423889160156,
+                "y": -41.972747802734375,
+                "z": 8.5538641769744572e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 1,
+                "w": -4.3711388286737929e-08
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -1134046720,
+            "path": "Library\/Meshes\/_110.rmesh",
+            "fbx_path": "Library\/Meshes\/_110.rmesh",
+            "meshdoc": "ec7f7e7bb43742ce868145f71d37b53c"
+        },
+        {
+            "type": 1,
+            "ownerUID": -1134046720,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building 01_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": -1704473472,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -1704473472,
+            "path": "Library\/Meshes\/_111.rmesh",
+            "fbx_path": "Library\/Meshes\/_111.rmesh",
+            "meshdoc": "18681668c357847a699834de4dd2f37e"
+        },
+        {
+            "type": 1,
+            "ownerUID": -1704473472,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building 01_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 884775360,
+            "position": {
+                "x": 44.260082244873047,
+                "y": -39.153720855712891,
+                "z": 8.5538641769744572e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0.70710676908493042,
+                "w": 0.70710676908493042
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 884775360,
+            "path": "Library\/Meshes\/_112.rmesh",
+            "fbx_path": "Library\/Meshes\/_112.rmesh",
+            "meshdoc": "ec7f7e7bb43742ce868145f71d37b53c"
+        },
+        {
+            "type": 1,
+            "ownerUID": 884775360,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building 01_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 1767921152,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 1767921152,
+            "path": "Library\/Meshes\/_113.rmesh",
+            "fbx_path": "Library\/Meshes\/_113.rmesh",
+            "meshdoc": "18681668c357847a699834de4dd2f37e"
+        },
+        {
+            "type": 1,
+            "ownerUID": 1767921152,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building 01_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 1416795904,
+            "position": {
+                "x": -20.831323623657227,
+                "y": -27.426488876342773,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 1,
+                "w": 1.9470718370939721e-07
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 1416795904,
+            "path": "Library\/Meshes\/_114.rmesh",
+            "fbx_path": "Library\/Meshes\/_114.rmesh",
+            "meshdoc": "3ca8a887d3f12da15f0f670381481c8b"
+        },
+        {
+            "type": 1,
+            "ownerUID": 1416795904,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building05 _c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 2114506752,
+            "position": {
+                "x": 42.130641937255859,
+                "y": 37.4932861328125,
+                "z": -1.5106878663573298e-06
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 2114506752,
+            "path": "Library\/Meshes\/_115.rmesh",
+            "fbx_path": "Library\/Meshes\/_115.rmesh",
+            "meshdoc": "2e921123760ce55f1feb18bd15dd1893"
+        },
+        {
+            "type": 1,
+            "ownerUID": 2114506752,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building_016_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": -511569024,
+            "position": {
+                "x": -20.572771072387695,
+                "y": 43.060829162597656,
+                "z": -0.069194458425045013
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 1,
+                "w": 4.3711388286737929e-08
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -511569024,
+            "path": "Library\/Meshes\/_116.rmesh",
+            "fbx_path": "Library\/Meshes\/_116.rmesh",
+            "meshdoc": "fedad181ea64ed09cca4a3a7306b6815"
+        },
+        {
+            "type": 1,
+            "ownerUID": -511569024,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building_025_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 1661261952,
+            "position": {
+                "x": 31.51188850402832,
+                "y": -16.446016311645508,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 1,
+                "w": 4.3711388286737929e-08
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 1661261952,
+            "path": "Library\/Meshes\/_117.rmesh",
+            "fbx_path": "Library\/Meshes\/_117.rmesh",
+            "meshdoc": "e7fc51cb293023c7c3b6083dee7220b1"
+        },
+        {
+            "type": 1,
+            "ownerUID": 1661261952,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building05 _c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 1637693440,
+            "position": {
+                "x": 13.38798999786377,
+                "y": -33.755039215087891,
+                "z": -9.3834518111179932e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 1637693440,
+            "path": "Library\/Meshes\/_118.rmesh",
+            "fbx_path": "Library\/Meshes\/_118.rmesh",
+            "meshdoc": "fb5a8184122c4062b36ad1a6c76e1093"
+        },
+        {
+            "type": 1,
+            "ownerUID": 1637693440,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/Building_V01_C.png.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": -1754656384,
+            "position": {
+                "x": -2.5033531188964844,
+                "y": 15.800846099853516,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -1754656384,
+            "path": "Library\/Meshes\/_119.rmesh",
+            "fbx_path": "Library\/Meshes\/_119.rmesh",
+            "meshdoc": "4d9f9f55f2df2deeebe8a55315adf9d2"
+        },
+        {
+            "type": 2,
+            "ownerUID": -759319488,
+            "position": {
+                "x": -42.807239532470703,
+                "y": -41.835563659667969,
+                "z": -9.3834518111179932e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": -0.70710676908493042,
+                "w": 0.70710676908493042
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -759319488,
+            "path": "Library\/Meshes\/_120.rmesh",
+            "fbx_path": "Library\/Meshes\/_120.rmesh",
+            "meshdoc": "fb5a8184122c4062b36ad1a6c76e1093"
+        },
+        {
+            "type": 1,
+            "ownerUID": -759319488,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/Building_V01_C.png.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 2012452224,
+            "position": {
+                "x": -34.679481506347656,
+                "y": -41.835563659667969,
+                "z": -9.3834518111179932e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": -0.70710676908493042,
+                "w": 0.70710676908493042
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 2012452224,
+            "path": "Library\/Meshes\/_121.rmesh",
+            "fbx_path": "Library\/Meshes\/_121.rmesh",
+            "meshdoc": "fb5a8184122c4062b36ad1a6c76e1093"
+        },
+        {
+            "type": 1,
+            "ownerUID": 2012452224,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/Building_V01_C.png.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 1972484736,
+            "position": {
+                "x": -29.478403091430664,
+                "y": 21.01409912109375,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 1972484736,
+            "path": "Library\/Meshes\/_122.rmesh",
+            "fbx_path": "Library\/Meshes\/_122.rmesh",
+            "meshdoc": "9887650103006550a634bc67c3eb8842"
+        },
+        {
+            "type": 1,
+            "ownerUID": 1972484736,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building03_c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": -475836672,
+            "position": {
+                "x": -32.361495971679688,
+                "y": 42.37042236328125,
+                "z": 5.0146070407208754e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -475836672,
+            "path": "Library\/Meshes\/_123.rmesh",
+            "fbx_path": "Library\/Meshes\/_123.rmesh",
+            "meshdoc": "96706dd9734a63f716b8d02f36bf747f"
+        },
+        {
+            "type": 1,
+            "ownerUID": -475836672,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building 06_ c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": -2091595264,
+            "position": {
+                "x": 16.049516677856445,
+                "y": -16.696884155273438,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": -0.7071068286895752,
+                "w": 0.70710670948028564
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -2091595264,
+            "path": "Library\/Meshes\/_124.rmesh",
+            "fbx_path": "Library\/Meshes\/_124.rmesh",
+            "meshdoc": "a197a0fc6dfbb9ba4bf6230c83e060c6"
+        },
+        {
+            "type": 1,
+            "ownerUID": -2091595264,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building05 _c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 442978624,
+            "position": {
+                "x": 13.38798999786377,
+                "y": -40.802516937255859,
+                "z": -9.3834518111179932e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 442978624,
+            "path": "Library\/Meshes\/_125.rmesh",
+            "fbx_path": "Library\/Meshes\/_125.rmesh",
+            "meshdoc": "fb5a8184122c4062b36ad1a6c76e1093"
+        },
+        {
+            "type": 1,
+            "ownerUID": 442978624,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/Building_V01_C.png.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 1970540672,
+            "position": {
+                "x": -31.216331481933594,
+                "y": 33.201576232910156,
+                "z": 5.0146070407208754e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": -0.70710676908493042,
+                "w": 0.70710676908493042
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 1970540672,
+            "path": "Library\/Meshes\/_126.rmesh",
+            "fbx_path": "Library\/Meshes\/_126.rmesh",
+            "meshdoc": "d7a92aa4258b3678d34b2da098cb44db"
+        },
+        {
+            "type": 1,
+            "ownerUID": 1970540672,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building 06_ c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": -169598896,
+            "position": {
+                "x": -20.317693710327148,
+                "y": -16.163608551025391,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 1,
+                "w": 1.9470718370939721e-07
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -169598896,
+            "path": "Library\/Meshes\/_127.rmesh",
+            "fbx_path": "Library\/Meshes\/_127.rmesh",
+            "meshdoc": "7a8101e54d92e2c255e54b23e05308c6"
+        },
+        {
+            "type": 1,
+            "ownerUID": -169598896,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building05 _c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": -1677304192,
+            "position": {
+                "x": -41.649002075195313,
+                "y": -16.495393753051758,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": -0.7071068286895752,
+                "w": 0.70710670948028564
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -1677304192,
+            "path": "Library\/Meshes\/_128.rmesh",
+            "fbx_path": "Library\/Meshes\/_128.rmesh",
+            "meshdoc": "eb3804f09030ed70b5d2be3c31321de5"
+        },
+        {
+            "type": 1,
+            "ownerUID": -1677304192,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/building05 _c.tga.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": -1934246656,
+            "position": {
+                "x": -42.807239532470703,
+                "y": -30.643888473510742,
+                "z": -9.3834518111179932e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": -0.70710676908493042,
+                "w": 0.70710676908493042
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": -1934246656,
+            "path": "Library\/Meshes\/_129.rmesh",
+            "fbx_path": "Library\/Meshes\/_129.rmesh",
+            "meshdoc": "fb5a8184122c4062b36ad1a6c76e1093"
+        },
+        {
+            "type": 1,
+            "ownerUID": -1934246656,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/Building_V01_C.png.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 462134400,
+            "position": {
+                "x": -34.679481506347656,
+                "y": -30.643888473510742,
+                "z": -9.3834518111179932e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": -0.70710676908493042,
+                "w": 0.70710676908493042
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 462134400,
+            "path": "Library\/Meshes\/_130.rmesh",
+            "fbx_path": "Library\/Meshes\/_130.rmesh",
+            "meshdoc": "fb5a8184122c4062b36ad1a6c76e1093"
+        },
+        {
+            "type": 1,
+            "ownerUID": 462134400,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/Building_V01_C.png.dds"
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "ownerUID": 1323426688,
+            "position": {
+                "x": 30.695278167724609,
+                "y": 21.612646102905273,
+                "z": 2.1210729528320371e-07
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0.70710676908493042,
+                "w": 0.70710676908493042
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "type": 0,
+            "ownerUID": 1323426688,
+            "path": "Library\/Meshes\/_131.rmesh",
+            "fbx_path": "Library\/Meshes\/_131.rmesh",
+            "meshdoc": "f65e61f9490625e386720c08673beb32"
+        },
+        {
+            "type": 1,
+            "ownerUID": 1323426688,
+            "textures": [
+                {
+                    "type": 0,
+                    "path": "Library\/Textures\/Building_V02_C.png.dds"
+                }
+            ]
+        }
+    ]
+}

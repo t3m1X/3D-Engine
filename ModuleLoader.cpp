@@ -302,7 +302,7 @@ bool ModuleLoader::Save(Mesh * m, std::string & output)
 		std::memcpy(it, m->UVs, sizeof(float) * m->num_uv * 3); // Allocating UVs
 	}
 
-	ret = App->fs->SaveUnique(LIBRARY_MESHES, buffer, m->GetName(), MESH_FORMAT, Size, output, false);
+	ret = App->fs->SaveUnique(LIBRARY_MESHES, buffer, m->GetName(), MESH_FORMAT, Size, output, true);
 
 	if (buffer != nullptr) {
 		delete[] buffer;
@@ -429,7 +429,7 @@ Mesh * ModuleLoader::Loadrmeshfile(const char * buffer, const char * filename)
 
 	std::string out;
 
-	if (App->fs->SaveUnique(LIBRARY_MESHES, buffer, filename, MESH_FORMAT, strlen(buffer) * sizeof(char), out, false))
+	if (App->fs->SaveUnique(LIBRARY_MESHES, buffer, filename, MESH_FORMAT, strlen(buffer) * sizeof(char), out, true))
 		rmesh = Loadrmesh(out.c_str());
 
 	return rmesh;
