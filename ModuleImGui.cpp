@@ -78,6 +78,9 @@ update_status ModuleImGui::Update(float dt)
 	
 
 	ImGuiStyle * style = &ImGui::GetStyle();
+	if (App->scene_intro->selected == nullptr) {
+		properties = false;
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 		{

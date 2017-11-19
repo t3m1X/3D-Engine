@@ -87,6 +87,9 @@ update_status ModuleCamera3D::Update(float dt)
 				LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(normalized_x, normalized_y);
 				pick = picking;
 				App->scene_intro->selected = App->scene_intro->SelectObject(picking);
+				if (App->scene_intro->selected != nullptr) {
+					App->imgui->Setproperties(true);
+				}
 			}
 		}
 
