@@ -328,7 +328,7 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 		return "";
 	}
 
-	Clear();  
+	Clear();
 
 	root = new GameObject("Game", nullptr);
 
@@ -349,20 +349,20 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 		scene_doc->RootObject();
 		scene_doc->MoveToInsideArray("gameobjects", i);
 
-			GameObject* go = new GameObject(scene_doc->GetString("name"));
-			if (go != nullptr) {
-				go->SetUID(scene_doc->GetNumber("UID"));
-				go->SetParentUID(scene_doc->GetNumber("parentUID"));
-				go->SetStatic(scene_doc->GetBool("static"));
-				tmp_gos.push_back(go);
-				
+		GameObject* go = new GameObject(scene_doc->GetString("name"));
+		if (go != nullptr) {
+			go->SetUID(scene_doc->GetNumber("UID"));
+			go->SetParentUID(scene_doc->GetNumber("parentUID"));
+			go->SetStatic(scene_doc->GetBool("static"));
+			tmp_gos.push_back(go);
 
-			}
-			else
-				LOG_OUT("ERROR Loading gameobject '%s'", scene_doc->GetString("name"));
+
 		}
-		scene_doc->RootObject();
-	
+		else
+			LOG_OUT("ERROR Loading gameobject '%s'", scene_doc->GetString("name"));
+	}
+	scene_doc->RootObject();
+
 	// GameObjects Connections
 	for (int i = 0; i < tmp_gos.size(); i++) {
 		GameObject* curr = tmp_gos[i];
@@ -374,13 +374,17 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 				break;
 			}
 		}
-		if (tmp_gos[i]->GetUID() == -1) {
+		if (tmp_gos[i]->GetParentUID() == -1) {
 			App->scene_intro->AddObject(tmp_gos[i]);
 		}
+		else {
+			App->scene_intro->all_objects.push_back(tmp_gos[i]);
+		}
 	}
-	
+
 	scene_doc->RootObject();
 	int nComponents = scene_doc->ArraySize("components");
+	std::vector<Component*> tmp_cs;
 	for (int i = 0; i < nComponents; i++) {
 		scene_doc->RootObject();
 		scene_doc->MoveToInsideArray("components", i);
@@ -458,11 +462,34 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 			float3 s = { (float)scene_doc->GetNumber("scale.x"), (float)scene_doc->GetNumber("scale.y"), (float)scene_doc->GetNumber("scale.z") };
 			Transform* trans = new Transform(s, r, p);
 			c = trans;
-			break;
+				break;
+			}
+	
+
+			if (c != nullptr) {
+				
+					c->SetOwnerUID(scene_doc->GetNumber("ownerUID"));
+					tmp_cs.push_back(c);
+				
+
+			}
 		}
-		if (c != nullptr) {
-			c->SetOwnerUID(scene_doc->GetNumber("ownerUID"));
+			// Components Link
 			for (int i = 0; i < tmp_gos.size(); i++) {
+				for (int k = 0; k < tmp_cs.size(); k++) {
+					if (tmp_gos[i]->GetUID() == tmp_cs[k]->GetOwnerUID()) {
+						tmp_gos[i]->AddComponent(tmp_cs[k]);
+						if (tmp_cs[k]->GetType() == MESH) {
+							tmp_gos[i]->RecalculateAABB();
+						}
+						if (tmp_cs[k]->GetType() == TRANSFORM) {
+							Transform* tr = (Transform*)tmp_cs[k];
+							tr->RecalculateTransform();
+						}
+					}
+				}
+			}
+			/*for (int i = 0; i < tmp_gos.size(); i++) {
 				if (tmp_gos[i]->GetUID() == c->GetOwnerUID()) {
 					tmp_gos[i]->AddComponent(c);
 					if (tmp_gos[i]->HasMesh()) {
@@ -471,24 +498,26 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 					}
 				}
 
-			}
+			}*/
 
 
-		}
 
-		for (uint i = 0; i < App->scene_intro->all_objects.size(); ++i)
-		{
-			if (App->scene_intro->all_objects[i]->GetStatic())
+
+			for (uint i = 0; i < App->scene_intro->all_objects.size(); ++i)
 			{
-				App->scene_intro->octree->InsertGO(App->scene_intro->all_objects[i]);
+				if (App->scene_intro->all_objects[i]->GetStatic())
+				{
+					App->scene_intro->octree->InsertGO(App->scene_intro->all_objects[i]);
+				}
 			}
+
+
+			RecalculateOctree();
+			return file.c_str();
+
 		}
-	}
+	
 
-	RecalculateOctree();
-	return file.c_str();
-
-}
 
 
 // Update
