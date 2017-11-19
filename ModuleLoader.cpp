@@ -143,63 +143,22 @@ void ModuleLoader::LoadFBX(const char* path)
 				
 				LOG_OUT("Created new object");
 
-				/*aiMaterial** materials = nullptr;
+				
+
+				aiMaterial** materials = nullptr;
 				if (scene->HasMaterials())
 					materials = scene->mMaterials;
 				else
-					LOG_OUT("Scene without materials");*/
+					LOG_OUT("Scene without materials");
 
+				if (materials != nullptr && new_mesh != nullptr) {
 
-				/*if (scene != nullptr && scene->HasMaterials())
-				{
-					
-					aiMaterial* mat = scene->mMaterials[scene->mMeshes[i]->mMaterialIndex];
-					aiString path;
-					
-					mat->GetTexture(aiTextureType_DIFFUSE, 0, &path);
-					string fullPath = "Assets\\";
-					fullPath.append(path.C_Str());
-					std::string output_path;
-					Texture* diffuse = App->tex->LoadToDDS(fullPath.c_str(), output_path);
-					if (diffuse != nullptr) {
-						diffuse->path = path.C_Str();
-						diffuse->SetTextureType(DIFFUSE);
-						Material* mat = new Material(new_obj);
-						mat->AddTexture(diffuse);
-						mat->SetOwner(new_obj);
-						new_obj->AddComponent(mat);
-					}
-
-				}*/
-
-				aiString tex_path;
-				//////Just diffuse for now
-				if (scene->mMaterials[scene->mMeshes[cnode.first->mMeshes[i]]->mMaterialIndex]->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-				scene->mMaterials[scene->mMeshes[cnode.first->mMeshes[i]]->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, scene->mMeshes[cnode.first->mMeshes[i]]->mMaterialIndex, &tex_path);
-				string fullPath = "Assets\\";
-				fullPath.append(tex_path.C_Str());
-				std::string output_path;
-				Texture* diffuse = App->tex->LoadToDDS(fullPath.c_str(),output_path);
-				
-				if (diffuse != nullptr) {
-				diffuse->path = tex_path.C_Str();
-				diffuse->SetTextureType(DIFFUSE);
-				Material* mat = new Material(new_obj);
-				mat->AddTexture(diffuse);
-				mat->SetOwner(new_obj);
-				new_obj->AddComponent(mat);
-				}
-				}
-
-
-				/*if (materials != nullptr && new_mesh != nullptr) {
-
-					Material* new_material = LoadMaterial(materials[(int)new_mesh->material_id]);
+					Material* new_material = LoadMaterial(materials[(int)scene->mMeshes[cnode.first->mMeshes[i]]->mMaterialIndex]);
 					if (new_material != nullptr) {
 						new_material->SetOwner(new_obj);
 						new_obj->AddComponent(new_material);
 					}
-				}*/
+				}
 			}
 			nodes.pop();
 		}
