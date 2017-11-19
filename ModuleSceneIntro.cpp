@@ -489,16 +489,7 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 					}
 				}
 			}
-			/*for (int i = 0; i < tmp_gos.size(); i++) {
-				if (tmp_gos[i]->GetUID() == c->GetOwnerUID()) {
-					tmp_gos[i]->AddComponent(c);
-					if (tmp_gos[i]->HasMesh()) {
-						tmp_gos[i]->RecalculateAABB();
-						App->scene_intro->AddObject(tmp_gos[i]);
-					}
-				}
-
-			}*/
+			
 
 
 
@@ -513,6 +504,29 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 
 
 			RecalculateOctree();
+
+			for (int i = 0; i < tmp_gos.size(); i++) {
+				octree->InsertGO(tmp_gos[i]);
+				octree->EraseGO(tmp_gos[i]);
+
+			}
+
+			GameObject* cam_obj = new GameObject("Camera", root);
+			Quat rot = Quat::identity;
+
+			float3 scale;
+			float3 pos;
+			scale.Set(1, 1, 1);
+			pos.Set(0, 0, 0);
+			Transform* trans = new Transform(cam_obj);
+			trans->SetRotation(rot);
+			trans->SetPosition(pos);
+			trans->SetScale(scale);
+			cam_obj->AddComponent(trans);
+			ComponentCamera* cam = new ComponentCamera(cam_obj);
+			cam_obj->AddComponent(cam);
+			App->camera->SetCurrentCamera(cam->GetCamera());
+
 			return file.c_str();
 
 		}
