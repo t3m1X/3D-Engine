@@ -38,7 +38,7 @@ public:
 	void AddComponent(Component* c);
 	void AddChild(GameObject* child);
 	//void RemoveComponent(Component* c);
-	bool HasComponent(COMPONENT_TYPE type);
+	bool HasComponent(COMPONENT_TYPE type) const;
 	Component* FindComponentbyType(COMPONENT_TYPE type);
 	void UIDraw();
 	void DrawComponents();
@@ -49,24 +49,25 @@ public:
 	void SetParent(GameObject* p);
 	void DrawBox();
 	void OnGuizmo();
-	bool GetStatic();
+	bool GetStatic() const;
 	void SetStatic(bool set);
-	bool HasMesh();
+	bool HasMesh() const;
 	void Serialize(JSON_File* doc);
 	double GetUID()const;
 	double GetParentUID()const;
 	void SetUID(double set);
 	void SetParentUID(double set);
+	AABB GetBoundingBox() const;
 
 		
 public:
-	
-	AABB boundingbox;
+
 	std::vector<GameObject*> children;
 	bool		Static = false;
 	GameObject* parent;
 private:
 
+	OBB boundingbox;
 	double UID;
 	double parent_UID;
 	std::string name;

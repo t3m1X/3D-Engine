@@ -146,7 +146,7 @@ update_status ModuleImGui::Update(float dt)
 					properties = false;
 				}
 			}
-			if (ImGui::MenuItem("Play&Pause", "P",&playpause->Active))
+			if (ImGui::MenuItem("Play&Pause", NULL ,&playpause->Active))
 
 
 			ImGui::MenuItem("Geometry", NULL, &geometry);
@@ -381,12 +381,7 @@ update_status ModuleImGui::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 			if (!App->loader->meshes.empty()) {
-				if (properties) {
-					properties = false;
-				}
-				else {
-					properties = true;
-				}
+				properties = !properties;
 			}
 		}
 	

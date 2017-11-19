@@ -107,7 +107,7 @@ void GameObject::Update()
 void GameObject::Draw()
 {
 	if (App->camera->GetCurrentCamera()->GetCulling()) {
-		if (App->camera->GetCurrentCamera()->IsInside(this->boundingbox)) {
+		if (App->camera->GetCurrentCamera()->IsInside(GetBoundingBox())) {
 			bool has_mesh = false;
 			bool has_material = false;
 			Transform* tr = nullptr;
@@ -338,7 +338,7 @@ void GameObject::AddChild(GameObject * child)
 //	 }
 //}
 
- bool GameObject::HasComponent(COMPONENT_TYPE type)
+ bool GameObject::HasComponent(COMPONENT_TYPE type) const
  {
 	 bool ret = false;
 	 for (uint i = 0; i < components.size() && !ret; i++)
@@ -425,7 +425,7 @@ void GameObject::RecalculateAABB()
 	if (m!=nullptr) {
 		if (trans != nullptr) {
 			boundingbox = AABB::MinimalEnclosingAABB((float3*)m->vertices, m->num_vertices);
-			boundingbox.TransformAsAABB(trans->GetGlobalTransform());
+			boundingbox.Transform(trans->GetGlobalTransform());
 		}
 	}
 }
@@ -433,7 +433,7 @@ void GameObject::RecalculateAABB()
 void GameObject::RecalculateAABB(float4x4 transformation)
 {
 	if (bbinit)
-		boundingbox.TransformAsAABB(transformation);
+		boundingbox.Transform(transformation);
 }
 
 vector<GameObject*> GameObject::GetChild() const
@@ -454,7 +454,8 @@ void GameObject::SetParent(GameObject * p)
 void GameObject::DrawBox()
 {
 	float3 corners[8];
-	boundingbox.GetCornerPoints(corners);
+	AABB box = GetBoundingBox();
+	box.GetCornerPoints(corners);
 	const int s = 24;
 
 	float3* lines = new float3[s];
@@ -536,7 +537,7 @@ void GameObject::OnGuizmo()
 	trans->OnGuizmo();
 }
 
-bool GameObject::GetStatic()
+bool GameObject::GetStatic() const
 {
 	return Static;
 }
@@ -546,7 +547,7 @@ void GameObject::SetStatic(bool  set)
 	Static = set;
 }
 
-bool GameObject::HasMesh()
+bool GameObject::HasMesh() const
 {
 	bool ret=false;
 
@@ -608,6 +609,11 @@ void GameObject::SetUID(double  set)
 void GameObject::SetParentUID(double set)
 {
 	parent_UID = set;
+}
+
+AABB GameObject::GetBoundingBox() const
+{
+	return boundingbox.MinimalEnclosingAABB();
 }
 
 

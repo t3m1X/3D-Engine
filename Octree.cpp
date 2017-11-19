@@ -187,7 +187,7 @@ void OctreeNode::AddGO(GameObject * go)
 	{
 		for (int i = 0; i < 8; i++)
 		{
-			if (children[i]->box.Intersects(go->boundingbox))
+			if (children[i]->box.Intersects(go->GetBoundingBox()))
 			{
 				children[i]->AddGO(go);
 				break;
@@ -238,7 +238,7 @@ void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list
 	{
 		for (int i = 0; i < 8; i++)
 		{
-			if (children[i]->box.Intersects(go->boundingbox))
+			if (children[i]->box.Intersects(go->GetBoundingBox()))
 			{
 				children[i]->CollectIntersections(intersections_list, go);
 			}
@@ -247,7 +247,7 @@ void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list
 
 	for (std::list<GameObject*>::iterator it = objects.begin(); it != objects.end(); it++)
 	{
-		if ((*it)->boundingbox.Intersects(go->boundingbox))
+		if ((*it)->GetBoundingBox().Intersects(go->GetBoundingBox()))
 		{
 			intersections_list.push_back(*it);
 		}
@@ -271,7 +271,7 @@ void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list
 
 	for (std::list<GameObject*>::iterator it = objects.begin(); it != objects.end(); it++)
 	{
-		if (frust->IsInside((*it)->boundingbox))
+		if (frust->IsInside((*it)->GetBoundingBox()))
 		{
 			intersections_list.push_back(*it);
 		}
@@ -294,7 +294,7 @@ void OctreeNode::CollectIntersections(std::list<GameObject*>& intersections_list
 
 	for (std::list<GameObject*>::iterator it = objects.begin(); it != objects.end(); it++)
 	{
-		if ((*it)->boundingbox.Intersects(line))
+		if ((*it)->GetBoundingBox().Intersects(line))
 		{
 			intersections_list.push_back(*it);
 		}
@@ -348,7 +348,7 @@ void Octree::CollectIntersections(std::list<GameObject*>& intersections_list, Ga
 {
 	if (root != nullptr)
 	{
-		if (go->boundingbox.Intersects(root->box))
+		if (go->GetBoundingBox().Intersects(root->box))
 		{
 			root->CollectIntersections(intersections_list, go);
 		}
@@ -383,34 +383,34 @@ void Octree::InsertGO(GameObject * go)
 		//root->AddGO(go);
 
 		{
-			if (go->boundingbox.minPoint.x < root->box.minPoint.x)
+			if (go->GetBoundingBox().minPoint.x < root->box.minPoint.x)
 			{
-				min_point.x = go->boundingbox.minPoint.x;
+				min_point.x = go->GetBoundingBox().minPoint.x;
 				need_update = true;
 			}
-			if (go->boundingbox.minPoint.y < root->box.minPoint.y)
+			if (go->GetBoundingBox().minPoint.y < root->box.minPoint.y)
 			{
-				min_point.y = go->boundingbox.minPoint.y;
+				min_point.y = go->GetBoundingBox().minPoint.y;
 				need_update = true;
 			}
-			if (go->boundingbox.minPoint.z < root->box.minPoint.z)
+			if (go->GetBoundingBox().minPoint.z < root->box.minPoint.z)
 			{
-				min_point.z = go->boundingbox.minPoint.z;
+				min_point.z = go->GetBoundingBox().minPoint.z;
 				need_update = true;
 			}
-			if (go->boundingbox.maxPoint.x > root->box.maxPoint.x)
+			if (go->GetBoundingBox().maxPoint.x > root->box.maxPoint.x)
 			{
-				max_point.x = go->boundingbox.maxPoint.x;
+				max_point.x = go->GetBoundingBox().maxPoint.x;
 				need_update = true;
 			}
-			if (go->boundingbox.maxPoint.y > root->box.maxPoint.y)
+			if (go->GetBoundingBox().maxPoint.y > root->box.maxPoint.y)
 			{
-				max_point.y = go->boundingbox.maxPoint.y;
+				max_point.y = go->GetBoundingBox().maxPoint.y;
 				need_update = true;
 			}
-			if (go->boundingbox.maxPoint.z > root->box.maxPoint.z)
+			if (go->GetBoundingBox().maxPoint.z > root->box.maxPoint.z)
 			{
-				max_point.z = go->boundingbox.maxPoint.z;
+				max_point.z = go->GetBoundingBox().maxPoint.z;
 				need_update = true;
 			}
 
@@ -439,7 +439,7 @@ void Octree::EraseGO(GameObject * go)
 		
 	}
 
-		/*if (go->boundingbox.minPoint.x == root->box.minPoint.x || go->boundingbox.minPoint.y == root->box.minPoint.y || go->boundingbox.minPoint.z == root->box.minPoint.z ||go->boundingbox.maxPoint.x == root->box.maxPoint.x || go->boundingbox.maxPoint.y == root->box.maxPoint.y || go->boundingbox.maxPoint.z == root->box.maxPoint.z)
+		/*if (go->GetBoundingBox().minPoint.x == root->box.minPoint.x || go->GetBoundingBox().minPoint.y == root->box.minPoint.y || go->GetBoundingBox().minPoint.z == root->box.minPoint.z ||go->GetBoundingBox().maxPoint.x == root->box.maxPoint.x || go->GetBoundingBox().maxPoint.y == root->box.maxPoint.y || go->GetBoundingBox().maxPoint.z == root->box.maxPoint.z)
 		{
 			need_update = true;
 		}

@@ -171,21 +171,21 @@ void ModuleSceneIntro::IntersectAABB(LineSegment & picking, std::vector<GameObje
 	octree->CollectIntersections(distance_list,picking);
 
 	for (std::list<GameObject*>::iterator it = distance_list.begin(); it != distance_list.end(); it++) {
-		if (picking.Intersects((*it)->boundingbox)) {
+		if (picking.Intersects((*it)->GetBoundingBox())) {
 			DistanceList.push_back((*it));
 			LOG_OUT("AABB hit");
 		}
 	}
 
 	for (std::list<GameObject*>::iterator it = non_static_objects.begin(); it != non_static_objects.end(); it++) {
-		if (picking.Intersects((*it)->boundingbox)) {
+		if (picking.Intersects((*it)->GetBoundingBox())) {
 			DistanceList.push_back((*it));
 			LOG_OUT("AABB hit");
 		}
 	}
 
 	/*for (int i = 0; i < all_objects.size(); i++) {
-		if (picking.Intersects(all_objects[i]->boundingbox)) {
+		if (picking.Intersects(all_objects[i]->GetBoundingBox())) {
 			DistanceList.push_back(all_objects[i]);
 			LOG_OUT("AABB hit");
 		}
@@ -194,14 +194,14 @@ void ModuleSceneIntro::IntersectAABB(LineSegment & picking, std::vector<GameObje
 	/*for (uint i = 0; i < root->children.size(); i++) {
 		if (root->children[i]->children.size() > 0) {
 			for (uint j = 0; j < root->children[i]->children.size(); j++) {
-				if (picking.Intersects(root->children[i]->children[j]->boundingbox)) {
+				if (picking.Intersects(root->children[i]->children[j]->GetBoundingBox())) {
 					DistanceList.push_back(root->children[i]->children[j]);
 					LOG_OUT("AABB hit");
 				}
 			}
 		}
 		else {
-			if (picking.Intersects(root->children[i]->boundingbox)) {
+			if (picking.Intersects(root->children[i]->GetBoundingBox())) {
 				DistanceList.push_back(root->children[i]);
 				LOG_OUT("AABB hit");
 			}
@@ -253,23 +253,23 @@ void ModuleSceneIntro::RecalculateOctree()
 	{
 		if ((all_objects[i] != nullptr)&&(all_objects[i]->GetStatic()))
 		{
-			if (all_objects[i]->boundingbox.minPoint.x < min_point.x)
-				min_point.x = all_objects[i]->boundingbox.minPoint.x;
+			if (all_objects[i]->GetBoundingBox().minPoint.x < min_point.x)
+				min_point.x = all_objects[i]->GetBoundingBox().minPoint.x;
 
-			if (all_objects[i]->boundingbox.minPoint.y < min_point.y)
-				min_point.y = all_objects[i]->boundingbox.minPoint.y;
+			if (all_objects[i]->GetBoundingBox().minPoint.y < min_point.y)
+				min_point.y = all_objects[i]->GetBoundingBox().minPoint.y;
 
-			if (all_objects[i]->boundingbox.minPoint.z < min_point.z)
-				min_point.z = all_objects[i]->boundingbox.minPoint.z;
+			if (all_objects[i]->GetBoundingBox().minPoint.z < min_point.z)
+				min_point.z = all_objects[i]->GetBoundingBox().minPoint.z;
 
-			if (all_objects[i]->boundingbox.maxPoint.x > max_point.x)
-				max_point.x = all_objects[i]->boundingbox.maxPoint.x;
+			if (all_objects[i]->GetBoundingBox().maxPoint.x > max_point.x)
+				max_point.x = all_objects[i]->GetBoundingBox().maxPoint.x;
 
-			if (all_objects[i]->boundingbox.maxPoint.y > max_point.y)
-				max_point.y = all_objects[i]->boundingbox.maxPoint.y;
+			if (all_objects[i]->GetBoundingBox().maxPoint.y > max_point.y)
+				max_point.y = all_objects[i]->GetBoundingBox().maxPoint.y;
 
-			if (all_objects[i]->boundingbox.maxPoint.z > max_point.z)
-				max_point.z = all_objects[i]->boundingbox.maxPoint.z;
+			if (all_objects[i]->GetBoundingBox().maxPoint.z > max_point.z)
+				max_point.z = all_objects[i]->GetBoundingBox().maxPoint.z;
 		}
 	}
 
