@@ -18,6 +18,21 @@ bool ModuleFileSystem::Init()
 {
 
 	// Settings
+/*	CreateFolder("", "Settings");
+	// Libraries
+	CreateFolder("", "Library");
+	CreateFolder("Library", "Textures");
+	CreateFolder("Library", "Meshes");
+	CreateFolder("Library", "Materials");
+	// Assets
+	CreateFolder("", "Assets");*/
+
+
+	return true;
+}
+
+bool ModuleFileSystem::Start()
+{
 	CreateFolder("", "Settings");
 	// Libraries
 	CreateFolder("", "Library");
@@ -26,14 +41,6 @@ bool ModuleFileSystem::Init()
 	CreateFolder("Library", "Materials");
 	// Assets
 	CreateFolder("", "Assets");
-
-
-	return true;
-}
-
-bool ModuleFileSystem::Start()
-{
-	
 	return true;
 }
 

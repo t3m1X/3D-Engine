@@ -122,13 +122,30 @@ void ModuleLoader::LoadFBX(const char* path)
 
 				std::string mesh_path;
 				Mesh* new_mesh = nullptr;
-				new_mesh = Loadrmesh(scene->mMeshes[cnode.first->mMeshes[i]], mesh_path);
+				aiMesh* m = scene->mMeshes[cnode.first->mMeshes[i]];
+				bool load_mesh = true;
+				if (m->HasFaces()) {
+
+					for (int j = 0; j < m->mNumFaces; j++) {
+						if (m->mFaces[j].mNumIndices != 3) {
+							load_mesh = false;
+							LOG_OUT("Corrupted mesh");
+						}
+
+
+					}
+				}
+
+				if (load_mesh) {
+						new_mesh = Loadrmesh(scene->mMeshes[cnode.first->mMeshes[i]], mesh_path);
+					}
+
 				if (new_mesh != nullptr) {
 					new_mesh->SetPath(mesh_path.c_str());
 					new_mesh->SetOwner(new_obj);
 					new_obj->AddComponent(new_mesh);
 					
-					LOG_OUT("Mesh no es null");
+					
 				}
 
 				
@@ -159,6 +176,8 @@ void ModuleLoader::LoadFBX(const char* path)
 						new_obj->AddComponent(new_material);
 					}
 				}
+
+				
 			}
 			nodes.pop();
 		}
