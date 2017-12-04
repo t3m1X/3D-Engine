@@ -1,6 +1,162 @@
+
+
+#ifndef _DEBUG
+#define AK_OPTIMIZED
+#endif
+
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleAudio.h"
+#include "Wwise/include/AK/SoundEngine/Common/AkMemoryMgr.h"
+#include "Wwise/include/AK/SoundEngine/Common/AkModule.h" 
+#include "Wwise/include/AK/SoundEngine/Common/IAkStreamMgr.h"               // Streaming Manager
+#include "Wwise/include/AK/Tools/Common/AkPlatformFuncs.h"                 // Thread defines
+#include "Wwise/include/AK/AkFilePackageLowLevelIOBlocking.h"             // Sample low-level I/O implementation
+#include "Wwise/include/AK/SoundEngine/Common/AkSoundEngine.h"                // Sound engine
+#include "Wwise/include/AK/MusicEngine/Common/AkMusicEngine.h" 
+
+// Include for communication between Wwise and the game -- Not needed in the release version
+#ifndef AK_OPTIMIZED
+#include "Wwise/include/AK/Comm/AkCommunication.h"
+#endif // AK_OPTIMIZED
+
+CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
+
+
+
+bool ModuleAudio::Init(JSON_File * config)
+{
+
+	// Create and initialize an instance of the default memory manager. 
+	AkMemSettings memSettings;
+	memSettings.uMaxNumPools = 20;
+
+	if (AK::MemoryMgr::Init(&memSettings) != AK_Success)
+	{
+		LOG_OUT("Could not create the memory manager.");
+		return false;
+	}
+
+	// Create and initialize an instance of the default streaming manager. 
+
+	AkStreamMgrSettings stmSettings;
+	AK::StreamMgr::GetDefaultSettings(stmSettings);
+
+	// Customize the Stream Manager settings here.
+
+	if (!AK::StreamMgr::Create(stmSettings))
+	{
+		LOG_OUT("Could not create the Streaming Manager");
+		return false;
+	}
+
+	
+	// Create a streaming device with blocking low-level I/O handshaking.
+	
+	AkDeviceSettings deviceSettings;
+	AK::StreamMgr::GetDefaultDeviceSettings(deviceSettings);
+
+	// Customize the streaming device settings here.
+
+	
+	if (g_lowLevelIO.Init(deviceSettings) != AK_Success)
+	{
+		LOG_OUT("Could not create the streaming device and Low-Level I/O system");
+		return false;
+	}
+
+	// Create the Sound Engine
+	// Using default initialization parameters
+	
+
+	AkInitSettings initSettings;
+	AkPlatformInitSettings platformInitSettings;
+	AK::SoundEngine::GetDefaultInitSettings(initSettings);
+	AK::SoundEngine::GetDefaultPlatformInitSettings(platformInitSettings);
+
+	if (AK::SoundEngine::Init(&initSettings, &platformInitSettings) != AK_Success)
+	{
+		LOG_OUT("Could not initialize the Sound Engine.");
+		return false;
+	}
+
+	// Initialize the music engine
+	// Using default initialization parameters
+	
+
+	AkMusicSettings musicInit;
+	AK::MusicEngine::GetDefaultInitSettings(musicInit);
+	
+
+	if (AK::MusicEngine::Init(&musicInit) != AK_Success)
+	{
+		LOG_OUT("Could not initialize the Music Engine.");
+		return false;
+	}
+
+#ifndef AK_OPTIMIZED
+	
+	// Initialize communications (not in release build!)
+	
+	AkCommSettings commSettings;
+	AK::Comm::GetDefaultInitSettings(commSettings);
+	if (AK::Comm::Init(commSettings) != AK_Success)
+	{
+		LOG_OUT("Could not initialize communication.");
+		return false;
+	}
+#endif // AK_OPTIMIZED
+
+
+
+
+	return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 #include <algorithm>
 #include "imgui.h"
 
@@ -167,4 +323,4 @@ void ModuleAudio::ImGuiDraw() {
 	if (ImGui::CollapsingHeader(this->GetName())) {
 	
 	}
-}
+}*/

@@ -2,7 +2,58 @@
 #define __ModuleAudio_H__
 
 #include "Module.h"
-#include "SDL_mixer\include\SDL_mixer.h"
+
+
+
+
+class ModuleAudio : public Module {
+
+public:
+
+	ModuleAudio(bool start_enabled = true);
+	virtual ~ModuleAudio();
+	bool Init(JSON_File* config);
+
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*#include "SDL_mixer\include\SDL_mixer.h"
 
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
 
@@ -30,6 +81,6 @@ private:
 
 	Mix_Music*			music;
 	list<Mix_Chunk*>	fx;
-};
+};*/
 
 #endif // __ModuleAudio_H__
