@@ -1,5 +1,3 @@
-
-
 #ifndef _DEBUG
 #define AK_OPTIMIZED
 #endif
@@ -23,6 +21,15 @@
 CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
 
 
+
+ModuleAudio::ModuleAudio(bool start_enabled) : Module(start_enabled)
+{
+	SetName("Audio Engine");
+}
+
+ModuleAudio::~ModuleAudio()
+{
+}
 
 bool ModuleAudio::Init(JSON_File * config)
 {
@@ -110,7 +117,39 @@ bool ModuleAudio::Init(JSON_File * config)
 
 
 
-	return false;
+	return true;
+}
+
+bool ModuleAudio::Start()
+{
+	return true;
+}
+
+update_status ModuleAudio::Update()
+{
+	AK::SoundEngine::RenderAudio();
+	return update_status::UPDATE_CONTINUE;
+}
+
+bool ModuleAudio::CleanUp()
+{
+#ifndef AK_OPTIMIZED
+	AK::Comm::Term();
+#endif // AK_OPTIMIZED
+
+	AK::MusicEngine::Term();
+	AK::SoundEngine::Term();
+
+	g_lowLevelIO.Term();
+
+	if (AK::IAkStreamMgr::Get())
+		AK::IAkStreamMgr::Get()->Destroy();
+
+	AK::MemoryMgr::Term();
+
+	
+
+	return true;
 }
 
 

@@ -13,7 +13,9 @@ public:
 	ModuleAudio(bool start_enabled = true);
 	virtual ~ModuleAudio();
 	bool Init(JSON_File* config);
-
+	bool Start();
+	update_status Update();
+	bool CleanUp();
 
 
 };
