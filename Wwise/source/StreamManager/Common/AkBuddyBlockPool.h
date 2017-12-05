@@ -17,11 +17,11 @@ written agreement between you and Audiokinetic Inc.
 #define _AK_BUDDY_BLOCK_POOL_H_
 
 #include <math.h>
-#include <AK/SoundEngine/Common/AkMemoryMgr.h>
-#include <AK/Tools/Common/AkListBare.h>
-#include <AK/Tools/Common/AkListBareLight.h>
-#include <AK/Tools/Common/AkArray.h>
-#include <AK/SoundEngine/Common/AkStreamMgrModule.h>
+#include "../../../include/AK/SoundEngine/Common/AkMemoryMgr.h"
+#include "../../../include/AK/Tools/Common/AkListBare.h"
+#include "../../../include/AK/Tools/Common/AkListBareLight.h"
+#include "../../../include/AK/Tools/Common/AkArray.h"
+#include "../../../include/AK/SoundEngine/Common/AkStreamMgrModule.h"
 
 #ifdef _DEBUG
 #define AK_BUDDY_POOL_STATS

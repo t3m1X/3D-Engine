@@ -665,25 +665,43 @@
     <ClCompile Include="PlayPause.cpp">
       <Filter>Sources\UI_Panels</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files (x86)\Audiokinetic\Wwise 2017.1.3.6377\SDK\samples\SoundEngine\Common\AkFilePackage.cpp">
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp">
       <Filter>Sources\Wwise</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files (x86)\Audiokinetic\Wwise 2017.1.3.6377\SDK\samples\SoundEngine\Common\AkFilePackageLUT.cpp">
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Win32\AkDefaultIOHookDeferred.cpp">
       <Filter>Sources\Wwise</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files (x86)\Audiokinetic\Wwise 2017.1.3.6377\SDK\samples\SoundEngine\Common\AkDefaultLowLevelIODispatcher.cpp">
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Common\AkFilePackage.cpp">
       <Filter>Sources\Wwise</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files (x86)\Audiokinetic\Wwise 2017.1.3.6377\SDK\samples\SoundEngine\Common\AkFileLocationBase.cpp">
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Common\AkFilePackageLUT.cpp">
       <Filter>Sources\Wwise</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files (x86)\Audiokinetic\Wwise 2017.1.3.6377\SDK\samples\SoundEngine\Win32\AkDefaultIOHookDeferred.cpp">
+    <ClCompile Include="Wwise\include\AK\SoundEngine\Common\AkDefaultLowLevelIODispatcher.cpp">
       <Filter>Sources\Wwise</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files (x86)\Audiokinetic\Wwise 2017.1.3.6377\SDK\samples\SoundEngine\Win32\stdafx.cpp">
+    <ClCompile Include="..\..\..\..\..\Program Files (x86)\Audiokinetic\Wwise 2017.1.3.6377\SDK\samples\SoundEngine\POSIX\stdafx.cpp">
       <Filter>Sources\Wwise</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files (x86)\Audiokinetic\Wwise 2017.1.3.6377\SDK\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp">
+    <ClCompile Include="Wwise\source\StreamManager\Common\AkStreamMgr.cpp">
+      <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\source\StreamManager\Common\AkTransferDeferred.cpp">
+      <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\source\StreamManager\Common\AkDeviceBase.cpp">
+      <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\source\StreamManager\Common\AkDeviceBlocking.cpp">
+      <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\source\StreamManager\Common\AkDeviceDeferredLinedUp.cpp">
+      <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\source\StreamManager\Common\AkIOMemMgr.cpp">
+      <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\source\StreamManager\Win32\AkIOThread.cpp">
       <Filter>Sources\Wwise</Filter>
     </ClCompile>
   </ItemGroup>

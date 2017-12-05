@@ -35,8 +35,9 @@ written agreement between you and Audiokinetic Inc.
 #ifndef _AK_FILE_PACKAGE_LUT_H_
 #define _AK_FILE_PACKAGE_LUT_H_
 
-#include "Wwise/include/AK/SoundEngine/Common/IAkStreamMgr.h"
-#include "Wwise/include/AK/Tools/Common/AkAssert.h"
+
+#include "../../SoundEngine/Common/IAkStreamMgr.h"
+#include "../../Tools/Common/AkAssert.h"
 
 // AK file packager definitions.
 #define AKPK_CURRENT_VERSION		(1)

@@ -34,8 +34,9 @@ the specific language governing permissions and limitations under the License.
 #ifndef _AK_CALLBACK_H_
 #define _AK_CALLBACK_H_
 
-#include "Wwise/include/AK/SoundEngine/Common/AkCommonDefs.h"
-#include "Wwise/include/AK/SoundEngine/Common/AkMidiTypes.h"
+
+#include "../../SoundEngine/Common/AkCommonDefs.h"
+#include "../../SoundEngine/Common/AkMidiTypes.h"
 
 namespace AK
 {

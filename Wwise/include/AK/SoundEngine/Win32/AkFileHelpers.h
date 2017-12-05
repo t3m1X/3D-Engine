@@ -23,9 +23,9 @@ written agreement between you and Audiokinetic Inc.
 #ifndef _AK_FILE_HELPERS_H_
 #define _AK_FILE_HELPERS_H_
 
-#include "Wwise/include/AK/Tools/Common/AkAssert.h"
+#include "../../Tools/Common/AkAssert.h"
 #include <windows.h>
-#include "Wwise/include/AK/SoundEngine/Common/IAkStreamMgr.h"
+#include "../../SoundEngine/Common/IAkStreamMgr.h"
 
 class CAkFileHelpers
 {
@@ -190,7 +190,7 @@ public:
 			fileAttributes = fileInfo.dwFileAttributes;
 		}
 #else
-		fileAttributes = GetFileAttributes( in_pszBasePath );
+		fileAttributes = GetFileAttributes( (LPCSTR)in_pszBasePath );
 #endif
 		if (fileAttributes == INVALID_FILE_ATTRIBUTES)
 			return AK_Fail;  //something is wrong with your path!

@@ -26,8 +26,8 @@ written agreement between you and Audiokinetic Inc.
 
 #include "stdafx.h"
 #include "AkIOThread.h"
-#include <AK/Tools/Common/AkAutoLock.h>
-#include <AK/Tools/Common/AkPlatformFuncs.h>
+#include "../../../include/AK/Tools/Common/akautolock.h"
+#include "../../../include/AK/Tools/Common/AkPlatformFuncs.h"
 
 using namespace AK::StreamMgr;
 

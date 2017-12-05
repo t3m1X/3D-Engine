@@ -21,9 +21,9 @@ written agreement between you and Audiokinetic Inc.
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "AkTransferDeferred.h"
-#include "AkDeviceDeferredLinedUp.h"
+#include "../../../include/AK/SoundEngine/Win32/stdafx.h"
+#include "../../../source/StreamManager/Common/AkTransferDeferred.h"
+#include "../../../source/StreamManager/Common/AkDeviceDeferredLinedUp.h"
 
 using namespace AK::StreamMgr;
 

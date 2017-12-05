@@ -27,10 +27,10 @@ written agreement between you and Audiokinetic Inc.
 #ifndef _AK_IO_THREAD_H_
 #define _AK_IO_THREAD_H_
 
-#include <AK/Tools/Common/AkObject.h>
-#include <AK/Tools/Common/AkLock.h>
-#include <AK/Tools/Common/AkAutoLock.h>
-#include <AK/Tools/Common/AkPlatformFuncs.h>
+#include "../../../include/AK/Tools/Common/AkObject.h"
+#include "../../../include/AK/Tools/Common/AkLock.h"
+#include "../../../include/AK/Tools/Common/AkAutoLock.h"
+#include "../../../include/AK/Tools/Common/AkPlatformFuncs.h"
 
 // ------------------------------------------------------------------------------
 // Defines.

@@ -21,10 +21,10 @@ written agreement between you and Audiokinetic Inc.
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "../../../include/AK/SoundEngine/Win32/stdafx.h"
 #include "AkDeviceBase.h"
 #include "AkStreamingDefaults.h"
-#include <AK/Tools/Common/AkPlatformFuncs.h>
+#include "../../../include/AK/Tools/Common/AkPlatformFuncs.h"
 #ifdef AK_SUPPORT_WCHAR
 #include <wchar.h>
 #endif //AK_SUPPORT_WCHAR

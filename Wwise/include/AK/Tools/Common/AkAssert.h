@@ -36,8 +36,9 @@ the specific language governing permissions and limitations under the License.
 
 #if !defined( AKASSERT )
 
-	#include "Wwise/include/AK/SoundEngine/Common/AkTypes.h" //For AK_Fail/Success
-	#include "Wwise/include/AK/SoundEngine/Common/AkSoundEngineExport.h"
+	 //For AK_Fail/Success
+	#include "../../SoundEngine/Common/AkTypes.h"
+	#include "../../SoundEngine/Common/AkSoundEngineExport.h"
 
 	#if defined( AK_ENABLE_ASSERTS )
 

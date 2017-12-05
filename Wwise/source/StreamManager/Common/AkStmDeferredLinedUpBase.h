@@ -25,11 +25,12 @@ written agreement between you and Audiokinetic Inc.
 #ifndef _AK_STM_DEFERRED_LINEDUP_H_
 #define _AK_STM_DEFERRED_LINEDUP_H_
 
-#include "AkDeviceBase.h"
-#include <AK/Tools/Common/AkListBare.h>
-#include <AK/Tools/Common/AkAutoLock.h>
-#include <AK/Tools/Common/AkMonitorError.h>
-#include "AkTransferDeferred.h"
+
+#include "../../../source/StreamManager/Common/AkDeviceBase.h"
+#include "../../../include/AK/Tools/Common/AkListBare.h"
+#include "../../../include/AK/Tools/Common/AkAutoLock.h"
+#include "../../../include/AK/Tools/Common/AkMonitorError.h"
+#include "../../../source/StreamManager/Common/AkTransferDeferred.h"
 
 namespace AK
 {

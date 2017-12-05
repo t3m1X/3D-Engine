@@ -43,10 +43,13 @@ written agreement between you and Audiokinetic Inc.
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "AkDefaultIOHookDeferred.h"
-#include <AK/SoundEngine/Common/AkMemoryMgr.h>
-#include "AkFileHelpers.h"
+#include "../../SoundEngine/Win32/stdafx.h"
+#include "../../SoundEngine/Win32/AkDefaultIOHookDeferred.h"
+#include "../../SoundEngine/Common/AkMemoryMgr.h"
+#include "../../SoundEngine/Win32/AkFileHelpers.h"
+
+
+
 
 
 // Device info.

@@ -30,7 +30,8 @@ the specific language governing permissions and limitations under the License.
 
 #pragma once
 
-#include "Wwise/include/AK/SoundEngine/Common/AkTypes.h"
+
+#include "../../SoundEngine/Common/AkTypes.h"
 
 namespace AK
 {   

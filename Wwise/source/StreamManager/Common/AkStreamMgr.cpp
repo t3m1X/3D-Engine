@@ -22,9 +22,9 @@ written agreement between you and Audiokinetic Inc.
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "../../../include/AK/SoundEngine/Win32/stdafx.h"
 #include "AkStreamMgr.h"
-#include <AK/Tools/Common/AkMonitorError.h>
+#include "../../../include/AK/Tools/Common/AkMonitorError.h"
 #include "AkStreamingDefaults.h"
 
 // Factory products.

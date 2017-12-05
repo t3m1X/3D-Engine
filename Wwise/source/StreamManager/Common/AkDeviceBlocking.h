@@ -25,7 +25,7 @@ written agreement between you and Audiokinetic Inc.
 #define _AK_DEVICE_BLOCKING_H_
 
 #include "AkDeviceBase.h"
-#include <AK/Tools/Common/AkAutoLock.h>
+#include "../../../include/AK/Tools/Common/akautolock.h"
 
 namespace AK
 {

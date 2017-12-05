@@ -22,7 +22,7 @@ written agreement between you and Audiokinetic Inc.
 //
 //////////////////////////////////////////////////////////////////////
 
-#include <AK/Tools/Common/AkAutoLock.h>
+#include "../../../include/AK/Tools/Common/akautolock.h"
 
 using namespace AK;
 

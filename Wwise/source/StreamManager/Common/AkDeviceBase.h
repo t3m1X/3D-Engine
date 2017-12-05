@@ -24,20 +24,20 @@ written agreement between you and Audiokinetic Inc.
 #ifndef _AK_DEVICE_BASE_H_
 #define _AK_DEVICE_BASE_H_
 
-#include "AkIOThread.h"
-#include <AK/Tools/Common/AkAutoLock.h>
-#include <AK/Tools/Common/AkLock.h>
-#include <AK/Tools/Common/AkAutoLock.h>
-#include <AK/Tools/Common/AkArray.h>
-#include "AkStreamMgr.h"
-#include "AkIOMemMgr.h"
-#include "AkStmMemView.h"
-#include <AK/Tools/Common/AkPlatformFuncs.h>
-#include <AK/Tools/Common/AkListBare.h>
-#include <AK/Tools/Common/AkListBareLight.h>
-#include <AK/Tools/Common/AkMonitorError.h>
 
-#include <AK/SoundEngine/Common/AkStreamMgrModule.h>
+#include "../../../source/StreamManager/Win32/AkIOThread.h"
+#include "../../../include/AK/Tools/Common/AkAutoLock.h"
+#include "../../../include/AK/Tools/Common/AkLock.h"
+#include "../../../include/AK/Tools/Common/AkAutoLock.h"
+#include "../../../include/AK/Tools/Common/AkArray.h"
+#include "../../../include/Ak/SoundEngine/Common/IAkStreamMgr.h"
+#include "../../../source/StreamManager/Common/AkIOMemMgr.h"
+#include "../../../source/StreamManager/Common/AkStmMemView.h"
+#include "../../../include/AK/Tools/Common/AkPlatformFuncs.h"
+#include "../../../include/AK/Tools/Common/AkListBare.h"
+#include "../../../include/AK/Tools/Common/AkListBareLight.h"
+#include "../../../include/AK/Tools/Common/AkMonitorError.h"
+#include "../../../include/AK/SoundEngine/Common/AkStreamMgrModule.h"
 
 // ------------------------------------------------------------------------------
 // Defines.

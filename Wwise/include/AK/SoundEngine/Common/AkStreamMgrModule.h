@@ -36,8 +36,8 @@ the specific language governing permissions and limitations under the License.
 #ifndef _AK_STREAM_MGR_MODULE_H_
 #define _AK_STREAM_MGR_MODULE_H_
 
-#include "Wwise/include/AK/SoundEngine/Common/IAkStreamMgr.h"
-#include "Wwise/include/AK/Tools/Common/AkPlatformFuncs.h"
+#include "../../SoundEngine/Common/IAkStreamMgr.h"
+#include "../../Tools/Common/AkPlatformFuncs.h"
 
 /// \name Audiokinetic Stream Manager's implementation-specific definitions.
 //@{

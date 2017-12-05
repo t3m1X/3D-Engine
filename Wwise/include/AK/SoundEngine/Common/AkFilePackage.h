@@ -28,10 +28,10 @@ written agreement between you and Audiokinetic Inc.
 #ifndef _AK_FILE_PACKAGE_H_
 #define _AK_FILE_PACKAGE_H_
 
-#include "Wwise/include/AK/SoundEngine/Common/AkFilePackageLUT.h"
-#include "Wwise/include/AK/SoundEngine/Common/AkSoundEngine.h"
-#include "Wwise/include/AK/Tools/Common/AkObject.h"
-#include "Wwise/include/AK/Tools/Common/AkListBare.h"
+#include "../../SoundEngine/Common/AkFilePackageLUT.h"
+#include "../../SoundEngine/Common/AkSoundEngine.h"
+#include "../../Tools/Common/AkObject.h"
+#include "../../Tools/Common/AkListBare.h"
 
 //-----------------------------------------------------------------------------
 // Name: Base class for items that can be chained in AkListBareLight lists.

@@ -31,8 +31,9 @@ the specific language governing permissions and limitations under the License.
 #ifndef _IAKPLUGINMEMALLOC_H_
 #define _IAKPLUGINMEMALLOC_H_
 
-#include "Wwise/include/AK/SoundEngine/Common/AkTypes.h"
-#include "Wwise/include/AK/SoundEngine/Common/AkMemoryMgr.h" // For AK_MEMDEBUG
+#include "../../SoundEngine//Common/AkTypes.h"
+// For AK_MEMDEBUG
+#include "../../SoundEngine/Common/AkMemoryMgr.h"
 
 namespace AK
 {

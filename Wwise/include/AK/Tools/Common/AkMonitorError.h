@@ -28,8 +28,9 @@ the specific language governing permissions and limitations under the License.
 #ifndef _AKMONITORERROR_H
 #define _AKMONITORERROR_H
 
-#include "Wwise/include/AK/SoundEngine/Common/AkSoundEngineExport.h"
-#include "Wwise/include/AK/SoundEngine/Common/AkTypes.h"
+
+#include "../../SoundEngine/Common/AkSoundEngineExport.h"
+#include "../../SoundEngine/Common/AkTypes.h"
 
 namespace AK
 {

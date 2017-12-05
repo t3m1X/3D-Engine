@@ -26,14 +26,14 @@ written agreement between you and Audiokinetic Inc.
 #ifndef _AK_STREAM_MGR_H_
 #define _AK_STREAM_MGR_H_
 
-#include <AK/SoundEngine/Common/IAkStreamMgr.h>
-#include <AK/Tools/Common/AkObject.h>
-#include <AK/Tools/Common/AkArray.h>
-#include <AK/Tools/Common/AkPlatformFuncs.h>
-
-#include <AK/SoundEngine/Common/AkStreamMgrModule.h>
-
-#include <AK/Tools/Common/AkKeyArray.h>
+#include "../../../include/AK/SoundEngine/Common/IAkStreamMgr.h"
+#include "../../../include/AK/Tools/Common/AkObject.h"
+#include "../../../include/AK/Tools/Common/AkArray.h"
+#include "../../../include/AK/Tools/Common/AkPlatformFuncs.h"
+		  
+#include "../../../include/AK/SoundEngine/Common/AkStreamMgrModule.h"
+		  
+#include "../../../include/AK/Tools/Common/AkKeyArray.h"
 
 #define AK_STM_OBJ_POOL_BLOCK_SIZE      (32)
 

@@ -22,11 +22,11 @@ written agreement between you and Audiokinetic Inc.
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "../../../include/AK/SoundEngine/Win32/stdafx.h"
 #include "AkDeviceDeferredLinedUp.h"
-#include <AK/Tools/Common/AkAutoLock.h>
-#include <AK/Tools/Common/AkPlatformFuncs.h>
-#include <AK/SoundEngine/Common/AkStreamMgrModule.h>
+#include "../../../include/AK/Tools/Common/AkAutoLock.h"
+#include "../../../include/AK/Tools/Common/AkPlatformFuncs.h"
+#include "../../../include/AK/SoundEngine/Common/AkStreamMgrModule.h"
 
 using namespace AK;
 using namespace AK::StreamMgr;

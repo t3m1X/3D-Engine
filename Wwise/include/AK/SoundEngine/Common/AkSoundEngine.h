@@ -34,13 +34,14 @@ the specific language governing permissions and limitations under the License.
 #ifndef _AK_SOUNDENGINE_H_
 #define _AK_SOUNDENGINE_H_
 
-#include "Wwise/include/AK/SoundEngine/Common/AkSoundEngineExport.h"
-#include "Wwise/include/AK/SoundEngine/Common/AkTypes.h"
-#include "Wwise/include/AK/SoundEngine/Common/IAkPlugin.h"
-#include "Wwise/include/AK/SoundEngine/Common/AkCallback.h"
+
+#include "../../SoundEngine/Common/AkSoundEngineExport.h"
+#include "../../SoundEngine/Common/AkTypes.h"
+#include "../../SoundEngine/Common/IAkPlugin.h"
+#include "../../SoundEngine/Common/AkCallback.h"
 
 #ifdef AK_WIN
-#include "Wwise/include/AK/SoundEngine/Platforms/Windows/AkWinSoundEngine.h"
+#include "../../SoundEngine/Platforms/Windows/AkWinSoundEngine.h"
 
 #elif defined (AK_MAC_OS_X)
 #include <AK/SoundEngine/Platforms/Mac/AkMacSoundEngine.h>

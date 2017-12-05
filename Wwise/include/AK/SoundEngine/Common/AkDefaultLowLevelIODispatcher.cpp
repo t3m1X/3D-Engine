@@ -35,10 +35,10 @@ written agreement between you and Audiokinetic Inc.
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "AkDefaultLowLevelIODispatcher.h"
-#include <AK/Tools/Common/AkAssert.h>
 
+#include "../Win32/stdafx.h"
+#include "AkDefaultLowLevelIODispatcher.h"
+#include "../../Tools/Common/AkAssert.h"
 
 CAkDefaultLowLevelIODispatcher::CAkDefaultLowLevelIODispatcher()
 :m_uNumDevices( 0 )

@@ -24,12 +24,12 @@ written agreement between you and Audiokinetic Inc.
 #ifndef _AK_IO_MEM_MGR_H_
 #define _AK_IO_MEM_MGR_H_
 
-#include "AkStreamMgr.h"
-#include <AK/Tools/Common/AkListBare.h>
-#include <AK/Tools/Common/AkListBareLight.h>
-#include <AK/Tools/Common/AkArray.h>
-#include <AK/SoundEngine/Common/AkStreamMgrModule.h>
-#include "AkBuddyBlockPool.h"
+#include "../../../source/StreamManager/Common/AkStreamMgr.h"
+#include "../../../include/AK/Tools/Common/AkListBare.h"
+#include "../../../include/AK/Tools/Common/AkListBareLight.h"
+#include "../../../include/AK/Tools/Common/AkArray.h"
+#include "../../../include/AK/SoundEngine/Common/AkStreamMgrModule.h"
+#include "../../StreamManager/Common/AkBuddyBlockPool.h"
 
 // ------------------------------------------------------------------------------
 // Defines.

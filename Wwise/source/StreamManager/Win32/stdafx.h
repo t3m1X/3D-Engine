@@ -21,8 +21,8 @@ written agreement between you and Audiokinetic Inc.
 #ifndef _AKSTREAMMGR_STDAFX_H_
 #define _AKSTREAMMGR_STDAFX_H_
 
-#include <AK/SoundEngine/Common/AkTypes.h>
-#include <AK/Tools/Common/AkAssert.h>
+#include "../../../include/AK/SoundEngine/Common/AkTypes.h"
+#include "../../../include/AK/Tools/Common/AkAssert.h"
 
 #endif //_AKSTREAMMGR_STDAFX_H_
 

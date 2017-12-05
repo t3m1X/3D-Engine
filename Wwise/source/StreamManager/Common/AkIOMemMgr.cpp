@@ -21,9 +21,9 @@ written agreement between you and Audiokinetic Inc.
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "../../../include/AK/SoundEngine/Win32/stdafx.h"
 #include "AkIOMemMgr.h"
-#include "AkIOThread.h"
+#include "../../StreamManager/Win32/AkIOThread.h"
 #include <stdio.h>
 
 using namespace AK;

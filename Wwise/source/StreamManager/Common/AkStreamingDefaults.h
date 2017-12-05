@@ -24,7 +24,8 @@ written agreement between you and Audiokinetic Inc.
 #ifndef _AK_STREAMING_DEFAULTS_H_
 #define _AK_STREAMING_DEFAULTS_H_
 
-#include "AkPlatformStreamingDefaults.h"
+
+#include "../../../source/StreamManager/Win32/AkPlatformStreamingDefaults.h"
 
 // Stream Manager Settings.
 #define AK_DEFAULT_STM_OBJ_POOL_SIZE		(64*1024)		// 64 KB for small objects pool, shared across all devices.
