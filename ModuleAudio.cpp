@@ -1,22 +1,9 @@
-#ifndef _DEBUG
-#define AK_OPTIMIZED
-#endif
-
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleAudio.h"
-#include "Wwise/include/AK/SoundEngine/Common/AkMemoryMgr.h"
-#include "Wwise/include/AK/SoundEngine/Common/AkModule.h" 
-#include "Wwise/include/AK/SoundEngine/Common/IAkStreamMgr.h"               // Streaming Manager
-#include "Wwise/include/AK/Tools/Common/AkPlatformFuncs.h"                 // Thread defines
-#include "Wwise/include/AK/AkFilePackageLowLevelIOBlocking.h"             // Sample low-level I/O implementation
-#include "Wwise/include/AK/SoundEngine/Common/AkSoundEngine.h"                // Sound engine
-#include "Wwise/include/AK/MusicEngine/Common/AkMusicEngine.h" 
 
-// Include for communication between Wwise and the game -- Not needed in the release version
-#ifndef AK_OPTIMIZED
-#include "Wwise/include/AK/Comm/AkCommunication.h"
-#endif // AK_OPTIMIZED
+#include "Wwise/SDK/samples/SoundEngine/Win32/AkFilePackageLowLevelIOBlocking.h" 
+#include "Include_Wwise.h"
 
 CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
 
