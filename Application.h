@@ -11,7 +11,6 @@ class ModuleLoader;
 class ModuleSceneIntro;
 class ModuleRenderer3D;
 class ModuleCamera3D;
-class ModulePhysics3D;
 class ModulePlayer;
 class ModuleImGui;
 class ModuleTextures;
@@ -29,7 +28,6 @@ public:
 	ModuleSceneIntro* scene_intro;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
-	ModulePhysics3D* physics;
 	ModulePlayer* player;
 	ModuleImGui* imgui;
 	ModuleJSON* json;

@@ -15,31 +15,36 @@
 #include "Wwise/SDK/include/AK/SoundEngine/Common/AkSoundEngine.h"                // Sound engine
 #include "Wwise/SDK/include/AK/MusicEngine/Common/AkMusicEngine.h" 
 
-// Include for communication between Wwise and the game -- Not needed in the release version
-#ifndef AK_OPTIMIZED
-#include "Wwise/SDK/include/AK/Comm/AkCommunication.h"
-#endif // AK_OPTIMIZED
+
+//External library dependencies
+
+#pragma comment (lib, "Wwise/dinput8.lib")
+#pragma comment (lib,"Wwise/dsound.lib")
+#pragma comment (lib, "Wwise/dxguid.lib")
+//#pragma comment (lib, "Wwise/xinput.lib")
+
 
 #ifdef AK_OPTIMIZED
 
-#pragma comment( lib, "Wwise/SDK/UWP_Win32_vc150/Release/lib/AkSoundEngine.lib")
-#pragma comment( lib, "Wwise/SDK/UWP_Win32_vc150/Release/lib/AkMusicEngine.lib")
-#pragma comment( lib, "Wwise/SDK/UWP_Win32_vc150/Release/lib/AkMemoryMgr.lib")
-#pragma comment( lib, "Wwise/SDK/UWP_Win32_vc150/Release/lib/AkStreamMgr.lib")
+#pragma comment( lib, "Wwise/SDK/Win32_vc150/Release/lib/AkSoundEngine.lib")
+#pragma comment( lib, "Wwise/SDK/Win32_vc150/Release/lib/AkMusicEngine.lib")
+#pragma comment( lib, "Wwise/SDK/Win32_vc150/Release/lib/AkMemoryMgr.lib")
+#pragma comment( lib, "Wwise/SDK/Win32_vc150/Release/lib/AkStreamMgr.lib")
 
 #else
 
-#pragma comment( lib, "Wwise/SDK/UWP_Win32_vc150/Debug/lib/AkSoundEngine.lib")
-#pragma comment( lib, "Wwise/SDK/UWP_Win32_vc150/Debug/lib/AkMusicEngine.lib")
-#pragma comment( lib, "Wwise/SDK/UWP_Win32_vc150/Debug/lib/AkMemoryMgr.lib")
-#pragma comment( lib, "Wwise/SDK/UWP_Win32_vc150/Debug/lib/AkStreamMgr.lib")
-
-#endif
-
-#ifndef AK_OPTIMIZED
 #include "Wwise/SDK/include/AK/Comm/AkCommunication.h"
-#pragma comment( lib, "Wwise/SDK/UWP_Win32_vc150/Debug/lib/CommunicationCentral.lib")
+
+#pragma comment( lib, "Wwise/SDK/Win32_vc150/Debug/lib/CommunicationCentral.lib")
+#pragma comment ( lib, "Wwise/ws2_32.lib")
+
+#pragma comment( lib, "Wwise/SDK/Win32_vc150/Debug/lib/AkSoundEngine.lib")
+#pragma comment( lib, "Wwise/SDK/Win32_vc150/Debug/lib/AkMusicEngine.lib")
+#pragma comment( lib, "Wwise/SDK/Win32_vc150/Debug/lib/AkMemoryMgr.lib")
+#pragma comment( lib, "Wwise/SDK/Win32_vc150/Debug/lib/AkStreamMgr.lib")
+
 #endif
+
 
 namespace AK
 {

@@ -10,7 +10,6 @@
 #include "ModuleSceneIntro.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
-#include "ModulePhysics3D.h"
 #include "ModulePlayer.h"
 #include "ModuleImGui.h"
 #include "ModuleJson.h"
@@ -36,7 +35,6 @@ Application::Application()
 	scene_intro = new ModuleSceneIntro();
 	renderer3D = new ModuleRenderer3D();
 	camera = new ModuleCamera3D();
-	physics = new ModulePhysics3D();
 	player = new ModulePlayer();
 	imgui = new ModuleImGui();
 	json = new ModuleJSON();
@@ -59,7 +57,6 @@ Application::Application()
 	AddModule(input);
 	AddModule(audio);
 	AddModule(loader);
-	AddModule(physics);
 	AddModule(tex);
 	AddModule(fs);
 	AddModule(tm);
