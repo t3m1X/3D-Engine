@@ -12,13 +12,13 @@ public:
 	Listener();
 	~Listener();
 	void Update();
-	uint GetId()const;
+	double GetId()const;
 
 
 
 private:
 
-	uint id;
+	 double id;
 
 
 };

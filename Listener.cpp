@@ -2,20 +2,23 @@
 #include "Camera.h"
 #include "ComponentCamera.h"
 #include "ModuleAudio.h"
+#include "Application.h"
 
 Listener::Listener(GameObject * own) : Component(own)
 {
 	Setname("Audio Listener");
 	SetType(LISTENER);
-
+	id = App->audio->AddListener(); //Will be the default listener for now
 }
 
 Listener::Listener()
 {
+
 }
 
 Listener::~Listener()
 {
+
 }
 
 void Listener::Update()

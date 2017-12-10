@@ -25,7 +25,9 @@ public:
 
 	//Listener
 	
-	uint AddListener();
+	float AddListener();
+
+
 
 
 };

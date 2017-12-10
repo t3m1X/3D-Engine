@@ -150,6 +150,16 @@ void ModuleAudio::UnRegisterGO(uint id)
 	AK::SoundEngine::UnregisterGameObj(id);
 }
 
+float ModuleAudio::AddListener()
+{
+	AkGameObjectID new_listener = RandomNumber();
+	RegisterGO(new_listener);
+	//For now let's use just one listener for all the audio sources
+	AK::SoundEngine::SetDefaultListeners(&new_listener, 1);
+
+	return (double)new_listener;
+}
+
 
 
 
