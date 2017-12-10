@@ -253,6 +253,21 @@ bool Camera3D::IsInside(AABB & bounding)
 	return true;
 }
 
+float3 Camera3D::GetUp() const
+{
+	return frustum.Up();
+}
+
+float3 Camera3D::GetFront() const
+{
+	return frustum.Front();
+}
+
+float3 Camera3D::GetPos() const
+{
+	return frustum.Pos();
+}
+
 void Camera3D::Focus(const float3 & focus_center, const float & distance)
 {
 	float3 dir = frustum.Pos() - focus_center;

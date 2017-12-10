@@ -48,6 +48,10 @@ public:
 
 	void Look(const float3& look_pos);
 	bool IsInside(AABB& bounding);
+
+	float3 GetUp()const;
+	float3 GetFront()const;
+	float3 GetPos()const;
 	
 public:
 	bool culling = false;

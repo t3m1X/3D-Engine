@@ -9,7 +9,8 @@ enum COMPONENT_TYPE {
 	MESH = 0,
 	MATERIAL,
 	TRANSFORM,
-	CAMERA
+	CAMERA,
+	LISTENER
 };
 
 class Component {

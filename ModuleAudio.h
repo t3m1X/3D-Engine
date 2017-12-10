@@ -2,8 +2,9 @@
 #define __ModuleAudio_H__
 
 #include "Module.h"
+#include "Include_Wwise.h"
 
-
+#define MAX_LISTENERS 8
 
 
 class ModuleAudio : public Module {
@@ -14,8 +15,17 @@ public:
 	virtual ~ModuleAudio();
 	bool Init(JSON_File* config);
 	bool Start();
-	update_status Update();
+	update_status PreUpdate();
+	update_status PostUpdate();
 	bool CleanUp();
+
+	//Game Objects 
+	void RegisterGO(uint id);
+	void UnRegisterGO(uint id);
+
+	//Listener
+	
+	uint AddListener();
 
 
 };

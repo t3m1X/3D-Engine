@@ -405,6 +405,9 @@
     <ClInclude Include="Include_Wwise.h">
       <Filter>Sources</Filter>
     </ClInclude>
+    <ClInclude Include="Listener.h">
+      <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -673,6 +676,9 @@
     </ClCompile>
     <ClCompile Include="Wwise\SDK\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp">
       <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Listener.cpp">
+      <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

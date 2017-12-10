@@ -3,7 +3,7 @@
 #include "ModuleAudio.h"
 
 #include "Wwise/SDK/samples/SoundEngine/Win32/AkFilePackageLowLevelIOBlocking.h" 
-#include "Include_Wwise.h"
+
 
 CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
 
@@ -112,10 +112,11 @@ bool ModuleAudio::Start()
 	return true;
 }
 
-update_status ModuleAudio::Update()
+
+update_status ModuleAudio::PostUpdate()
 {
 	AK::SoundEngine::RenderAudio();
-	return update_status::UPDATE_CONTINUE;
+	return UPDATE_CONTINUE;
 }
 
 bool ModuleAudio::CleanUp()
@@ -137,6 +138,16 @@ bool ModuleAudio::CleanUp()
 	
 
 	return true;
+}
+
+void ModuleAudio::RegisterGO(uint id)
+{
+	AK::SoundEngine::RegisterGameObj(id);
+}
+
+void ModuleAudio::UnRegisterGO(uint id)
+{
+	AK::SoundEngine::UnregisterGameObj(id);
 }
 
 
