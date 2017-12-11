@@ -408,6 +408,15 @@
     <ClInclude Include="Listener.h">
       <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="AudioSource.h">
+      <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundBank.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEvent.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -679,6 +688,15 @@
     </ClCompile>
     <ClCompile Include="Listener.cpp">
       <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSource.cpp">
+      <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundBank.cpp">
+      <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEvent.cpp">
+      <Filter>Sources\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

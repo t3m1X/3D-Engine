@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="11" SoundbankVersion="125">
+	<RootPaths>
+		<ProjectRoot>C:\Users\USUARIO\Documents\WwiseProjects\Test\</ProjectRoot>
+		<SourceFilesRoot>C:\Users\USUARIO\Documents\WwiseProjects\Test\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>C:\Users\USUARIO\Documents\GitHub\3D-Engine\Game\SoundBanks\</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>C:\Users\USUARIO\Documents\WwiseProjects\Test\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<StreamedFiles/>
+	<MediaFilesNotInAnyBank/>
+	<SoundBanks>
+		<SoundBank Id="1355168291" Language="SFX">
+			<ObjectPath>Init</ObjectPath>
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+		</SoundBank>
+		<SoundBank Id="3157003241" Language="SFX">
+			<ObjectPath>\SoundBanks\Default Work Unit\Test</ObjectPath>
+			<ShortName>Test</ShortName>
+			<Path>Test.bnk</Path>
+			<IncludedEvents>
+				<Event Id="251043389" Name="Play_Song" ObjectPath="\Events\Default Work Unit\Play_Song"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="823640476" Language="SFX">
+					<ShortName>George Thorogood  The Destroyers - Bad To The Bone.wav</ShortName>
+					<Path>SFX\George Thorogood  The Destroyers - Bad To The Bone_5DA80F2F.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
+	</SoundBanks>
+</SoundBanksInfo>

@@ -3,6 +3,7 @@
 #include "ModuleAudio.h"
 
 #include "Wwise/SDK/samples/SoundEngine/Win32/AkFilePackageLowLevelIOBlocking.h" 
+#include "GameObject.h"
 
 
 CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
@@ -102,18 +103,28 @@ bool ModuleAudio::Init(JSON_File * config)
 #endif // AK_OPTIMIZED
 
 
+	LoadBank("Game/SoundBanks/Init.bnk");
 
+	LoadBank("Game/SoundBanks/Test.bnk");
+
+	LOG_OUT("Banks loaded");
 
 	return true;
 }
 
 bool ModuleAudio::Start()
 {
+	
 	return true;
 }
 
+update_status ModuleAudio::PreUpdate(float dt)
+{
+	return UPDATE_CONTINUE;
+}
 
-update_status ModuleAudio::PostUpdate()
+
+update_status ModuleAudio::PostUpdate(float dt)
 {
 	AK::SoundEngine::RenderAudio();
 	return UPDATE_CONTINUE;
@@ -140,6 +151,21 @@ bool ModuleAudio::CleanUp()
 	return true;
 }
 
+unsigned long ModuleAudio::LoadBank(const char * path)
+{
+	
+	unsigned long bank_id;
+	AKRESULT res = AK::SoundEngine::LoadBank(path, AK_DEFAULT_POOL_ID, bank_id);
+	if (res == AK_Fail) {
+		LOG_OUT("Error while initializing soundbank");
+	}
+	else {
+		LOG_OUT("Bank loaded correctly");
+	}
+
+	return bank_id;
+}
+
 void ModuleAudio::RegisterGO(uint id)
 {
 	AK::SoundEngine::RegisterGameObj(id);
@@ -152,11 +178,12 @@ void ModuleAudio::UnRegisterGO(uint id)
 
 float ModuleAudio::AddListener()
 {
-	AkGameObjectID new_listener = RandomNumber();
+	AkGameObjectID new_listener = (AkGameObjectID)RandomNumber();
 	RegisterGO(new_listener);
 	//For now let's use just one listener for all the audio sources
 	AK::SoundEngine::SetDefaultListeners(&new_listener, 1);
 
+	LOG_OUT("Created default listener");
 	return (double)new_listener;
 }
 

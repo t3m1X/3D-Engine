@@ -55,6 +55,7 @@ Application::Application()
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
+	AddModule(scene_intro);
 	AddModule(audio);
 	AddModule(loader);
 	AddModule(tex);
@@ -63,7 +64,6 @@ Application::Application()
 	
 
 	// Scenes
-	AddModule(scene_intro);
 	AddModule(player);
 	
 

@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	251043389	Play_Song			\Default Work Unit\Play_Song	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	823640476	Song	C:\Users\USUARIO\Documents\WwiseProjects\Test\.cache\Windows\SFX\George Thorogood  The Destroyers - Bad To The Bone_5DA80F2F.wem		\Actor-Mixer Hierarchy\Default Work Unit\Song		52060256
+

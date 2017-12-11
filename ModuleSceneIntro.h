@@ -42,6 +42,7 @@ public:
 	std::list<GameObject*>non_static_objects;
 	bool hierarchy = true;
 	std::string scene_name = "Scene1";
+	GameObject* emmiter = nullptr;
 
 
 };

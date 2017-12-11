@@ -10,7 +10,9 @@
 #include <vector>
 #include "ModuleFileSystem.h"
 #include "ModuleTextures.h"
-
+#include "Listener.h"
+#include "ModuleAudio.h"
+#include "AudioSource.h"
 #define MIN_DISTANCE 9999
 
 ModuleSceneIntro::ModuleSceneIntro(bool start_enabled) : Module(start_enabled)
@@ -48,7 +50,24 @@ bool ModuleSceneIntro::Start()
 	cam_obj->AddComponent(trans);
 	ComponentCamera* cam = new ComponentCamera(cam_obj);
 	cam_obj->AddComponent(cam);
+	
+	Listener* listener = new Listener(cam_obj);
+	cam_obj->AddComponent(listener);
 
+
+	emmiter = new GameObject("Emmiter", root);
+	Quat r = Quat::identity;
+	float3 s;
+	float3 p;
+	s.Set(1, 1, 1);
+	p.Set(0, 0, 0);
+	Transform* t = new Transform(emmiter);
+	t->SetRotation(r);
+	t->SetPosition(p);
+	t->SetScale(s);
+	emmiter->AddComponent(t);
+	AudioSource* source = new AudioSource(emmiter);
+	emmiter->AddComponent(source);
 
 	float3 max_point;
 	float3 min_point;
@@ -544,13 +563,17 @@ update_status ModuleSceneIntro::Update(float dt)
 		RecalculateOctree();
 
 	}
+	AudioSource* source = (AudioSource*)emmiter->FindComponentbyType(AUDIO_SOURCE);
+	source->PlayMusic("Play_Song");
 	DrawHierarchy();
 	root->Update();
 	//root->Draw();
 	octree->DebugDraw();
 	p.Render();
 
+
 	
+
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) {
 		octree->Divide();
 	}

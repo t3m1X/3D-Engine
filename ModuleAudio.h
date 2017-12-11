@@ -15,9 +15,12 @@ public:
 	virtual ~ModuleAudio();
 	bool Init(JSON_File* config);
 	bool Start();
-	update_status PreUpdate();
-	update_status PostUpdate();
+	update_status PreUpdate(float dt);
+	update_status PostUpdate(float dt);
 	bool CleanUp();
+	unsigned long LoadBank(const char* path);
+
+	//static void EventCallBack(AkCallbackType type, AkCallbackInfo *info);
 
 	//Game Objects 
 	void RegisterGO(uint id);
@@ -26,6 +29,9 @@ public:
 	//Listener
 	
 	float AddListener();
+
+
+	
 
 
 

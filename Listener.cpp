@@ -50,3 +50,8 @@ void Listener::Update()
 
 
 }
+
+double Listener::GetId() const
+{
+	return id;
+}
