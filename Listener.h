@@ -3,6 +3,7 @@
 #define _LISTENER_H_
 
 #include "Component.h"
+#include "ModuleAudio.h"
 
 class Listener : public Component {
 
@@ -12,13 +13,13 @@ public:
 	Listener();
 	~Listener();
 	void Update();
-	double GetId()const;
+	AkGameObjectID GetId()const;
 
 
 
 private:
 
-	 double id;
+	AkGameObjectID id;
 
 
 };

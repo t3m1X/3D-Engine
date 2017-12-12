@@ -1,51 +1,42 @@
-#pragma once
 #ifndef _INCLUDE_WWISE_H_
 #define _INCLUDE_WWISE_H_
 
-#ifndef _DEBUG
+
+#include <AK/SoundEngine/Common/AkSoundEngine.h>
+#include <AK/MusicEngine/Common/AkMusicEngine.h>	  
+#include <AK/SoundEngine/Common/AkMemoryMgr.h>    
+#include <AK/SoundEngine/Common/AkModule.h>         
+#include <AK/SoundEngine/Common/AkStreamMgrModule.h>
+		 
+#include <AK/Tools/Common/AkPlatformFuncs.h>
+
+
+
+// Input libraries
+#ifndef _DEBUG  // Profile build configuration must be loaded instead of Debug
 #define AK_OPTIMIZED
-#endif
-
-
-
-#include "Wwise/SDK/include/AK/SoundEngine/Common/AkMemoryMgr.h"
-#include "Wwise/SDK/include/AK/SoundEngine/Common/AkModule.h" 
-#include "Wwise/SDK/include/AK/SoundEngine/Common/IAkStreamMgr.h"               // Streaming Manager
-#include "Wwise/SDK/include/AK/Tools/Common/AkPlatformFuncs.h"                 // Thread defines            // Sample low-level I/O implementation
-#include "Wwise/SDK/include/AK/SoundEngine/Common/AkSoundEngine.h"                // Sound engine
-#include "Wwise/SDK/include/AK/MusicEngine/Common/AkMusicEngine.h" 
-
-
-//External library dependencies
-
-#pragma comment (lib, "Wwise/dinput8.lib")
-#pragma comment (lib,"Wwise/dsound.lib")
-#pragma comment (lib, "Wwise/dxguid.lib")
-//#pragma comment (lib, "Wwise/xinput.lib")
-
-
-#ifdef AK_OPTIMIZED
-
-#pragma comment( lib, "Wwise/SDK/Win32_vc150/Release/lib/AkSoundEngine.lib")
-#pragma comment( lib, "Wwise/SDK/Win32_vc150/Release/lib/AkMusicEngine.lib")
-#pragma comment( lib, "Wwise/SDK/Win32_vc150/Release/lib/AkMemoryMgr.lib")
-#pragma comment( lib, "Wwise/SDK/Win32_vc150/Release/lib/AkStreamMgr.lib")
-
+#pragma comment( lib, "Wwise/Release(StaticCRT)/lib/AkSoundEngine.lib")
+#pragma comment( lib, "Wwise/Release(StaticCRT)/lib/AkMusicEngine.lib")
+#pragma comment( lib, "Wwise/Release(StaticCRT)/lib/AkMemoryMgr.lib")
+#pragma comment( lib, "Wwise/Release(StaticCRT)/lib/AkStreamMgr.lib")
 #else
-
-#include "Wwise/SDK/include/AK/Comm/AkCommunication.h"
-
-#pragma comment( lib, "Wwise/SDK/Win32_vc150/Debug/lib/CommunicationCentral.lib")
-#pragma comment ( lib, "Wwise/ws2_32.lib")
-
-#pragma comment( lib, "Wwise/SDK/Win32_vc150/Debug/lib/AkSoundEngine.lib")
-#pragma comment( lib, "Wwise/SDK/Win32_vc150/Debug/lib/AkMusicEngine.lib")
-#pragma comment( lib, "Wwise/SDK/Win32_vc150/Debug/lib/AkMemoryMgr.lib")
-#pragma comment( lib, "Wwise/SDK/Win32_vc150/Debug/lib/AkStreamMgr.lib")
-
+#include <AK/Comm/AkCommunication.h>
+#pragma comment( lib, "Wwise/Debug(StaticCRT)/lib/CommunicationCentral.lib")
+#pragma comment( lib, "Wwise/ws2_32.lib") 
+#pragma comment( lib, "Wwise/Debug(StaticCRT)/lib/AkSoundEngine.lib")
+#pragma comment( lib, "Wwise/Debug(StaticCRT)/lib/AkMusicEngine.lib")
+#pragma comment( lib, "Wwise/Debug(StaticCRT)/lib/AkMemoryMgr.lib")
+#pragma comment( lib, "Wwise/Debug(StaticCRT)/lib/AkStreamMgr.lib")
 #endif
 
+// Microsoft DirectX external libs
+#pragma comment( lib, "Wwise/dinput8.lib")
+#pragma comment( lib, "Wwise/dsound.lib") 
+#pragma comment( lib, "Wwise/dxguid.lib")  
 
+
+// Custom alloc/free functions. These are declared as "extern" in AkMemoryMgr.h
+// and MUST be defined by the game developer.
 namespace AK
 {
 #ifdef WIN32
@@ -57,6 +48,3 @@ namespace AK
 }
 
 #endif
-
-
-

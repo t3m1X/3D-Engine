@@ -67,6 +67,7 @@ bool ModuleSceneIntro::Start()
 	t->SetScale(s);
 	emmiter->AddComponent(t);
 	AudioSource* source = new AudioSource(emmiter);
+	source->SetPosition(1, 1, 1);
 	emmiter->AddComponent(source);
 
 	float3 max_point;
@@ -78,7 +79,7 @@ bool ModuleSceneIntro::Start()
 	octree = new Octree();
 	octree->Create(max_point, min_point);
 
-
+	
 	
 	App->camera->SetCurrentCamera(cam->GetCamera());
 	selected = cam_obj;
@@ -564,7 +565,9 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	}
 	AudioSource* source = (AudioSource*)emmiter->FindComponentbyType(AUDIO_SOURCE);
-	source->PlayMusic("Play_Song");
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+		source->PlayEvent("Play_Crows");
+	}
 	DrawHierarchy();
 	root->Update();
 	//root->Draw();

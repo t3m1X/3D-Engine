@@ -2,9 +2,9 @@
 #include "Application.h"
 #include "ModuleAudio.h"
 
-#include "Wwise/SDK/samples/SoundEngine/Win32/AkFilePackageLowLevelIOBlocking.h" 
+#include "Wwise/IO/Win32/AkFilePackageLowLevelIOBlocking.h"
 #include "GameObject.h"
-
+#include "ModuleInput.h"
 
 CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
 
@@ -21,112 +21,112 @@ ModuleAudio::~ModuleAudio()
 
 bool ModuleAudio::Init(JSON_File * config)
 {
-
-	// Create and initialize an instance of the default memory manager. 
+	//Init default Wwise memory manager
 	AkMemSettings memSettings;
 	memSettings.uMaxNumPools = 20;
-
 	if (AK::MemoryMgr::Init(&memSettings) != AK_Success)
 	{
-		LOG_OUT("Could not create the memory manager.");
+		assert(!"Could not create the memory manager.");
 		return false;
 	}
 
-	// Create and initialize an instance of the default streaming manager. 
 
+	//Initialize stream manager
 	AkStreamMgrSettings stmSettings;
 	AK::StreamMgr::GetDefaultSettings(stmSettings);
-
-	// Customize the Stream Manager settings here.
-
 	if (!AK::StreamMgr::Create(stmSettings))
 	{
-		LOG_OUT("Could not create the Streaming Manager");
+		assert(!"Could not create the Streaming Manager");
 		return false;
 	}
 
-	
-	// Create a streaming device with blocking low-level I/O handshaking.
-	
+	//Initialize default IO device
 	AkDeviceSettings deviceSettings;
 	AK::StreamMgr::GetDefaultDeviceSettings(deviceSettings);
-
-	// Customize the streaming device settings here.
-
-	
 	if (g_lowLevelIO.Init(deviceSettings) != AK_Success)
 	{
-		LOG_OUT("Could not create the streaming device and Low-Level I/O system");
+		assert(!"Could not create the streaming device and Low-Level I/O system");
 		return false;
 	}
 
-	// Create the Sound Engine
-	// Using default initialization parameters
-	
 
+	// Create the Sound Engine using default initialization parameters
 	AkInitSettings initSettings;
 	AkPlatformInitSettings platformInitSettings;
 	AK::SoundEngine::GetDefaultInitSettings(initSettings);
 	AK::SoundEngine::GetDefaultPlatformInitSettings(platformInitSettings);
-
 	if (AK::SoundEngine::Init(&initSettings, &platformInitSettings) != AK_Success)
 	{
-		LOG_OUT("Could not initialize the Sound Engine.");
+		assert(!"Could not initialize the Sound Engine.");
 		return false;
 	}
 
-	// Initialize the music engine
-	// Using default initialization parameters
-	
 
+	// Initialize the music engine using default initialization parameters
 	AkMusicSettings musicInit;
 	AK::MusicEngine::GetDefaultInitSettings(musicInit);
-	
-
 	if (AK::MusicEngine::Init(&musicInit) != AK_Success)
 	{
-		LOG_OUT("Could not initialize the Music Engine.");
+		assert(!"Could not initialize the Music Engine.");
 		return false;
 	}
 
+
 #ifndef AK_OPTIMIZED
-	
-	// Initialize communications (not in release build!)
-	
+	// Initialize communications for debug purposes
 	AkCommSettings commSettings;
 	AK::Comm::GetDefaultInitSettings(commSettings);
 	if (AK::Comm::Init(commSettings) != AK_Success)
 	{
-		LOG_OUT("Could not initialize communication.");
+		assert(!"Could not initialize communication.");
 		return false;
 	}
-#endif // AK_OPTIMIZED
+#endif 
 
+	//Set language
+	SetLanguage("English(US)");
 
+	//Loads the Init Sound Bank
 	LoadBank("Game/SoundBanks/Init.bnk");
 
-	LoadBank("Game/SoundBanks/Test.bnk");
+	
 
-	LOG_OUT("Banks loaded");
+	LoadBank("Game/SoundBanks/Test.bnk");
+	
 
 	return true;
 }
 
 bool ModuleAudio::Start()
 {
+	const AkGameObjectID listener = 100;
 	
+	AK::SoundEngine::RegisterGameObj(listener, "Listener");
+	
+
+	emmiter = 200;
+	AK::SoundEngine::RegisterGameObj(emmiter, "Emmiter");
+
+
+	AK::SoundEngine::SetDefaultListeners(&listener, 1);
+
 	return true;
 }
 
 update_status ModuleAudio::PreUpdate(float dt)
 {
 	return UPDATE_CONTINUE;
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+		AK::SoundEngine::PostEvent(639442158, emmiter);
+	}
+		
 }
 
 
 update_status ModuleAudio::PostUpdate(float dt)
 {
 	AK::SoundEngine::RenderAudio();
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -168,7 +168,10 @@ unsigned long ModuleAudio::LoadBank(const char * path)
 
 void ModuleAudio::RegisterGO(uint id)
 {
-	AK::SoundEngine::RegisterGameObj(id);
+	AKRESULT res = AK::SoundEngine::RegisterGameObj(id);
+	if (res != AK_Fail) {
+		LOG_OUT("Game Object registered");
+	}
 }
 
 void ModuleAudio::UnRegisterGO(uint id)
@@ -176,15 +179,30 @@ void ModuleAudio::UnRegisterGO(uint id)
 	AK::SoundEngine::UnregisterGameObj(id);
 }
 
-float ModuleAudio::AddListener()
+void ModuleAudio::SetLanguage(const char * language)
+{
+	AKRESULT res = AK::StreamMgr::SetCurrentLanguage((AkOSChar*)language);
+	if (res == AK_Fail)
+	{
+		LOG_OUT("Invalid language!");
+	}
+}
+
+AkGameObjectID ModuleAudio::AddListener()
 {
 	AkGameObjectID new_listener = (AkGameObjectID)RandomNumber();
 	RegisterGO(new_listener);
 	//For now let's use just one listener for all the audio sources
 	AK::SoundEngine::SetDefaultListeners(&new_listener, 1);
 
+	listener_id = new_listener;
 	LOG_OUT("Created default listener");
-	return (double)new_listener;
+	return new_listener;
+}
+
+void ModuleAudio::SetListeners(AkGameObjectID id)
+{
+	AK::SoundEngine::SetListeners(id, &listener_id, 1);
 }
 
 

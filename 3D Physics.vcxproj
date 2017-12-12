@@ -40,7 +40,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Program Files %28x86%29\Wwise\SDK\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -277,13 +279,13 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="vPrimitive.cpp" />
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Common\AkDefaultLowLevelIODispatcher.cpp" />
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Common\AkFileLocationBase.cpp" />
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Common\AkFilePackage.cpp" />
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Common\AkFilePackageLUT.cpp" />
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp" />
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Win32\AkDefaultIOHookDeferred.cpp" />
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Win32\stdafx.cpp" />
+    <ClCompile Include="Wwise\IO\Common\AkDefaultLowLevelIODispatcher.cpp" />
+    <ClCompile Include="Wwise\IO\Common\AkFileLocationBase.cpp" />
+    <ClCompile Include="Wwise\IO\Common\AkFilePackage.cpp" />
+    <ClCompile Include="Wwise\IO\Common\AkFilePackageLUT.cpp" />
+    <ClCompile Include="Wwise\IO\Win32\AkDefaultIOHookBlocking.cpp" />
+    <ClCompile Include="Wwise\IO\Win32\AkDefaultIOHookDeferred.cpp" />
+    <ClCompile Include="Wwise\IO\Win32\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\include\Geometry\KDTree.inl" />

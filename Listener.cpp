@@ -51,7 +51,7 @@ void Listener::Update()
 
 }
 
-double Listener::GetId() const
+AkGameObjectID  Listener::GetId() const
 {
 	return id;
 }

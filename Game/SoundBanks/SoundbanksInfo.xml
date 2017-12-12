@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="11" SoundbankVersion="125">
 	<RootPaths>
-		<ProjectRoot>C:\Users\USUARIO\Documents\WwiseProjects\Test\</ProjectRoot>
-		<SourceFilesRoot>C:\Users\USUARIO\Documents\WwiseProjects\Test\.cache\Windows\</SourceFilesRoot>
+		<ProjectRoot>C:\Users\USUARIO\Documents\WwiseProjects\Test2\</ProjectRoot>
+		<SourceFilesRoot>C:\Users\USUARIO\Documents\WwiseProjects\Test2\.cache\Windows\</SourceFilesRoot>
 		<SoundBanksRoot>C:\Users\USUARIO\Documents\GitHub\3D-Engine\Game\SoundBanks\</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>C:\Users\USUARIO\Documents\WwiseProjects\Test\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
+		<ExternalSourcesOutputRoot>C:\Users\USUARIO\Documents\WwiseProjects\Test2\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DialogueEvents/>
 	<StreamedFiles/>
@@ -21,12 +21,12 @@
 			<ShortName>Test</ShortName>
 			<Path>Test.bnk</Path>
 			<IncludedEvents>
-				<Event Id="251043389" Name="Play_Song" ObjectPath="\Events\Default Work Unit\Play_Song"/>
+				<Event Id="639442158" Name="Play_Crows" ObjectPath="\Events\Default Work Unit\Play_Crows"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
-				<File Id="823640476" Language="SFX">
-					<ShortName>George Thorogood  The Destroyers - Bad To The Bone.wav</ShortName>
-					<Path>SFX\George Thorogood  The Destroyers - Bad To The Bone_5DA80F2F.wem</Path>
+				<File Id="128247126" Language="SFX">
+					<ShortName>0956.wav</ShortName>
+					<Path>SFX\0956_1C9C67B2.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>

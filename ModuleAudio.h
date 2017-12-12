@@ -25,11 +25,15 @@ public:
 	//Game Objects 
 	void RegisterGO(uint id);
 	void UnRegisterGO(uint id);
+	void SetLanguage(const char* language);
 
 	//Listener
 	
-	float AddListener();
+	AkGameObjectID AddListener();
+	void SetListeners(AkGameObjectID id);
 
+	AkGameObjectID listener_id = 0;
+	AkGameObjectID emmiter;
 
 	
 

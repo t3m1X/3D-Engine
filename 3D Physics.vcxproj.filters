@@ -665,27 +665,6 @@
     <ClCompile Include="Include_Wwise.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Common\AkFilePackageLUT.cpp">
-      <Filter>Sources\Wwise</Filter>
-    </ClCompile>
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Common\AkDefaultLowLevelIODispatcher.cpp">
-      <Filter>Sources\Wwise</Filter>
-    </ClCompile>
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Common\AkFileLocationBase.cpp">
-      <Filter>Sources\Wwise</Filter>
-    </ClCompile>
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Common\AkFilePackage.cpp">
-      <Filter>Sources\Wwise</Filter>
-    </ClCompile>
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Win32\AkDefaultIOHookDeferred.cpp">
-      <Filter>Sources\Wwise</Filter>
-    </ClCompile>
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Win32\stdafx.cpp">
-      <Filter>Sources\Wwise</Filter>
-    </ClCompile>
-    <ClCompile Include="Wwise\SDK\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp">
-      <Filter>Sources\Wwise</Filter>
-    </ClCompile>
     <ClCompile Include="Listener.cpp">
       <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
     </ClCompile>
@@ -697,6 +676,27 @@
     </ClCompile>
     <ClCompile Include="AudioEvent.cpp">
       <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\IO\Common\AkFilePackage.cpp">
+      <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\IO\Common\AkFilePackageLUT.cpp">
+      <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\IO\Common\AkDefaultLowLevelIODispatcher.cpp">
+      <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\IO\Common\AkFileLocationBase.cpp">
+      <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\IO\Win32\AkDefaultIOHookDeferred.cpp">
+      <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\IO\Win32\stdafx.cpp">
+      <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise\IO\Win32\AkDefaultIOHookBlocking.cpp">
+      <Filter>Sources\Wwise</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

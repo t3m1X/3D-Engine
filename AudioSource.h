@@ -3,6 +3,7 @@
 #define _AUDIOSOURCE_H_
 
 #include "Component.h"
+#include "ModuleAudio.h"
 
 
 
@@ -11,7 +12,6 @@ class AudioSource : public Component {
 public :
 
 	AudioSource(GameObject* own);
-	AudioSource();
 	~AudioSource();
 
 	void Update();
@@ -20,13 +20,18 @@ public :
 	void PlayEvent(uint id);
 	void PlayEvent(const char* event_name);
 	void StopEvent(uint id);
-	double GetID()const;
+	AkGameObjectID GetID()const;
+	void SetPosition(float x = 0, float y = 0, float z = 0, float x_front = 1, float y_front = 0, float z_front = 0, float x_top = 0, float y_top = 1, float z_top = 0);
 
 
 private:
 
 	
-	double id;
+	AkGameObjectID id;
+	const char* n = nullptr;
+	AkVector position;
+	AkVector orient_top;
+	AkVector orient_front;
 };
 
 
