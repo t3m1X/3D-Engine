@@ -5,21 +5,15 @@
 #include <AK/SoundEngine/Common/AkTypes.h>
 
 
-namespace Wwished
+namespace Wwise
 {
-	//Life cycle functions
-	bool InitWwished(const char* language);
-	void ProcessAudio();
-	bool CloseWwished();
 
-	void SetDefaultListeners(unsigned long* id);
-
-	class SoundEmitter
+	class SoundObject
 	{
 	public:
 
-		SoundEmitter(unsigned long id, const char* n);
-		~SoundEmitter();
+		SoundObject(unsigned long id, const char* n);
+		~SoundObject();
 
 		unsigned long GetID();
 		const char* GetName();
@@ -33,22 +27,31 @@ namespace Wwished
 		void PlayMusic(const char* music_name);
 
 	private:
-		AkGameObjectID EmitterID;
+		AkGameObjectID SoundID;
 		const char* name = nullptr;
 		AkVector position;
 		AkVector orient_top;
 		AkVector orient_front;
 	};
 
+	//Life cycle functions
+	bool InitWwise(const char* language);
+	bool InitMemSettings();
+	bool InitStreamSettings();
+	bool InitDeviceSettings();
+	bool InitSoundEngine();
+	bool InitMusicEngine();
+	void ProcessAudio();
+	bool CloseWwise();
 
-	namespace Utility
-	{
-		void SetLanguage(const char* language);
-		unsigned long LoadBank(const char* path);
-		SoundEmitter* CreateEmitter(unsigned long id, const char* name, float x, float y, float z, bool is_default_listener = false);
-		void ChangeState(const char* group, const char* new_state);
-	}
+	void SetDefaultListeners(unsigned long* id);
+	void SetLanguage(const char* language);
+	unsigned long LoadBank(const char* path);
+	SoundObject* CreateSoundObj(unsigned long id, const char* name, float x, float y, float z, bool is_default_listener = false);
+	void ChangeState(const char* group, const char* new_state);
 
+
+	
 }
 
 #endif

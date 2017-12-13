@@ -19,28 +19,21 @@ public:
 	update_status PreUpdate(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
-	unsigned long LoadBank(const char* path);
 
 	//static void EventCallBack(AkCallbackType type, AkCallbackInfo *info);
 
 	//Game Objects 
-	void RegisterGO(uint id);
-	void UnRegisterGO(uint id);
-	void SetLanguage(const char* language);
-	Wwished::SoundEmitter* CreateSoundEmitter(const char* name, math::float3 position);
+	Wwise::SoundObject* CreateSoundObject(const char* name, math::float3 position);
 
 	//Listener
-	
-	AkGameObjectID AddListener();
-	void SetListeners(AkGameObjectID id);
 
-	Wwished::SoundEmitter* camera_listener = nullptr;
-	std::list <Wwished::SoundEmitter*> sound_emitters;
+	Wwise::SoundObject* camera_listener = nullptr;
+	std::list <Wwise::SoundObject*> sound_obj;
 
 	unsigned long listener_id = 1;
 	unsigned long last_go_id = 2;
 
-	Wwished::SoundEmitter*  emmiter;
+	Wwise::SoundObject*  emmiter;
 
 	
 

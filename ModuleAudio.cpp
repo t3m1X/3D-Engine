@@ -26,88 +26,15 @@ ModuleAudio::~ModuleAudio()
 
 bool ModuleAudio::Init(JSON_File * config)
 {
-	/*//Init default Wwise memory manager
-	AkMemSettings memSettings;
-	memSettings.uMaxNumPools = 20;
-	if (AK::MemoryMgr::Init(&memSettings) != AK_Success)
-	{
-		assert(!"Could not create the memory manager.");
-		return false;
-	}
-
-
-	//Initialize stream manager
-	AkStreamMgrSettings stmSettings;
-	AK::StreamMgr::GetDefaultSettings(stmSettings);
-	if (!AK::StreamMgr::Create(stmSettings))
-	{
-		assert(!"Could not create the Streaming Manager");
-		return false;
-	}
-
-	//Initialize default IO device
-	AkDeviceSettings deviceSettings;
-	AK::StreamMgr::GetDefaultDeviceSettings(deviceSettings);
-	if (g_lowLevelIO.Init(deviceSettings) != AK_Success)
-	{
-		assert(!"Could not create the streaming device and Low-Level I/O system");
-		return false;
-	}
-
-
-	// Create the Sound Engine using default initialization parameters
-	AkInitSettings initSettings;
-	AkPlatformInitSettings platformInitSettings;
-	AK::SoundEngine::GetDefaultInitSettings(initSettings);
-	AK::SoundEngine::GetDefaultPlatformInitSettings(platformInitSettings);
-	if (AK::SoundEngine::Init(&initSettings, &platformInitSettings) != AK_Success)
-	{
-		assert(!"Could not initialize the Sound Engine.");
-		return false;
-	}
-
-
-	// Initialize the music engine using default initialization parameters
-	AkMusicSettings musicInit;
-	AK::MusicEngine::GetDefaultInitSettings(musicInit);
-	if (AK::MusicEngine::Init(&musicInit) != AK_Success)
-	{
-		assert(!"Could not initialize the Music Engine.");
-		return false;
-	}
-
-
-#ifndef AK_OPTIMIZED
-	// Initialize communications for debug purposes
-	AkCommSettings commSettings;
-	AK::Comm::GetDefaultInitSettings(commSettings);
-	if (AK::Comm::Init(commSettings) != AK_Success)
-	{
-		assert(!"Could not initialize communication.");
-		return false;
-	}
-#endif 
-
-	//Set language
-	SetLanguage("English(US)");
-
-	//Loads the Init Sound Bank
-	LoadBank("Game/SoundBanks/Init.bnk");
-
-	
-
-	LoadBank("Game/SoundBanks/Test.bnk");
-	
-	*/
 
 	LOG_OUT("Loading Wwished library");
 
 	//std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 	//std::wstring base_path = converter.from_bytes("SoundBanks");
 
-	bool ret = Wwished::InitWwished("English(US)");
+	bool ret = Wwise::InitWwise("English(US)");
 
-	Wwished::Utility::LoadBank("SoundBanks/Test.bnk");
+	Wwise::LoadBank("SoundBanks/Test.bnk");
 
 	
 	return true;
@@ -120,10 +47,10 @@ bool ModuleAudio::Start()
 	float3 cam_front = App->camera->GetCurrentCamera()->GetFront();
 	float3 cam_pos = App->camera->GetCurrentCamera()->GetPos();
 
-	camera_listener = Wwished::Utility::CreateEmitter(0, "Camera_Listener", cam_pos.x, cam_pos.y, cam_pos.z, true);
+	camera_listener = Wwise::CreateSoundObj(0, "Camera_Listener", cam_pos.x, cam_pos.y, cam_pos.z, true);
 	camera_listener->SetPosition(cam_pos.x, cam_pos.y, cam_pos.z, cam_front.x, cam_front.y, cam_front.z, cam_up.x, cam_up.y, cam_up.z);
 
-	emmiter = Wwished::Utility::CreateEmitter(100, "Emmiter", 1, 1, 1, false);
+	emmiter = Wwise::CreateSoundObj(100, "Emmiter", 1, 1, 1, false);
 
 	return true;
 }
@@ -155,71 +82,18 @@ bool ModuleAudio::CleanUp()
 {
 	LOG_OUT("Unloading Wwished library");
 	delete camera_listener;
-	return Wwished::CloseWwished();
+	return Wwise::CloseWwise();
 
 	return true;
 }
 
-unsigned long ModuleAudio::LoadBank(const char * path)
-{
-	
-	unsigned long bank_id;
-	AKRESULT res = AK::SoundEngine::LoadBank(path, AK_DEFAULT_POOL_ID, bank_id);
-	if (res == AK_Fail) {
-		LOG_OUT("Error while initializing soundbank");
-	}
-	else {
-		LOG_OUT("Bank loaded correctly");
-	}
 
-	return bank_id;
-}
-
-void ModuleAudio::RegisterGO(uint id)
+Wwise::SoundObject * ModuleAudio::CreateSoundObject(const char * name, float3 position)
 {
-	AKRESULT res = AK::SoundEngine::RegisterGameObj(id);
-	if (res != AK_Fail) {
-		LOG_OUT("Game Object registered");
-	}
-}
-
-void ModuleAudio::UnRegisterGO(uint id)
-{
-	AK::SoundEngine::UnregisterGameObj(id);
-}
-
-void ModuleAudio::SetLanguage(const char * language)
-{
-	AKRESULT res = AK::StreamMgr::SetCurrentLanguage((AkOSChar*)language);
-	if (res == AK_Fail)
-	{
-		LOG_OUT("Invalid language!");
-	}
-}
-
-Wwished::SoundEmitter * ModuleAudio::CreateSoundEmitter(const char * name, float3 position)
-{
-	Wwished::SoundEmitter* ret = Wwished::Utility::CreateEmitter(last_go_id++, name, position.x, position.y, position.z);
-	sound_emitters.push_back(ret);
+	Wwise::SoundObject* ret = Wwise::CreateSoundObj(last_go_id++, name, position.x, position.y, position.z);
+	sound_obj.push_back(ret);
 
 	return ret;
-}
-
-AkGameObjectID ModuleAudio::AddListener()
-{
-	AkGameObjectID new_listener = (AkGameObjectID)RandomNumber();
-	RegisterGO(new_listener);
-	//For now let's use just one listener for all the audio sources
-	AK::SoundEngine::SetDefaultListeners(&new_listener, 1);
-
-	listener_id = new_listener;
-	LOG_OUT("Created default listener");
-	return new_listener;
-}
-
-void ModuleAudio::SetListeners(AkGameObjectID id)
-{
-	AK::SoundEngine::SetListeners(id, (AkGameObjectID*)listener_id, 1);
 }
 
 

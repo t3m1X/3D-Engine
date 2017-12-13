@@ -7,58 +7,26 @@
 CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
 
 //Initialize all Wwise modules. Receives the base path for soundbanks and the current language
-bool Wwished::InitWwished(const char* language)
+bool Wwise::InitWwise(const char* language)
 {
-
+	bool ret = true;
 	//Init default Wwise memory manager
-	AkMemSettings memSettings;
-	memSettings.uMaxNumPools = 20;
-	if (AK::MemoryMgr::Init(&memSettings) != AK_Success)
-	{
-		assert(!"Could not create the memory manager.");
-		return false;
-	}
+	
+	ret = Wwise::InitMemSettings();
 
 
 	//Initialize stream manager
-	AkStreamMgrSettings stmSettings;
-	AK::StreamMgr::GetDefaultSettings(stmSettings);
-	if (!AK::StreamMgr::Create(stmSettings))
-	{
-		assert(!"Could not create the Streaming Manager");
-		return false;
-	}
+	ret = Wwise::InitStreamSettings();
 
 	//Initialize default IO device
-	AkDeviceSettings deviceSettings;
-	AK::StreamMgr::GetDefaultDeviceSettings(deviceSettings);
-	if (g_lowLevelIO.Init(deviceSettings) != AK_Success)
-	{
-		assert(!"Could not create the streaming device and Low-Level I/O system");
-		return false;
-	}
-
+	ret = Wwise::InitDeviceSettings();
 
 	// Create the Sound Engine using default initialization parameters
-	AkInitSettings initSettings;
-	AkPlatformInitSettings platformInitSettings;
-	AK::SoundEngine::GetDefaultInitSettings(initSettings);
-	AK::SoundEngine::GetDefaultPlatformInitSettings(platformInitSettings);
-	if (AK::SoundEngine::Init(&initSettings, &platformInitSettings) != AK_Success)
-	{
-		assert(!"Could not initialize the Sound Engine.");
-		return false;
-	}
+	ret = Wwise::InitSoundEngine();
 
 
 	// Initialize the music engine using default initialization parameters
-	AkMusicSettings musicInit;
-	AK::MusicEngine::GetDefaultInitSettings(musicInit);
-	if (AK::MusicEngine::Init(&musicInit) != AK_Success)
-	{
-		assert(!"Could not initialize the Music Engine.");
-		return false;
-	}
+	ret = InitMusicEngine();
 
 
 #ifndef AK_OPTIMIZED
@@ -68,7 +36,7 @@ bool Wwished::InitWwished(const char* language)
 	if (AK::Comm::Init(commSettings) != AK_Success)
 	{
 		assert(!"Could not initialize communication.");
-		return false;
+		ret =  false;
 	}
 #endif 
 
@@ -81,21 +49,94 @@ bool Wwished::InitWwished(const char* language)
 	}*/
 
 	//Set language
-	Utility::SetLanguage(language);
+	SetLanguage(language);
 
 	//Loads the Init Sound Bank
-	Utility::LoadBank("SoundBanks/Init.bnk");
+	LoadBank("SoundBanks/Init.bnk");
 
 
-	return true;
+	return ret;
 }
 
-void Wwished::ProcessAudio()
+bool Wwise::InitMemSettings()
+{
+	AkMemSettings memSettings;
+	memSettings.uMaxNumPools = 20;
+	if (AK::MemoryMgr::Init(&memSettings) != AK_Success)
+	{
+		assert(!"Could not create the memory manager.");
+		return false;
+	}
+	else {
+		return true;
+	}
+
+}
+
+bool Wwise::InitStreamSettings()
+{
+	AkStreamMgrSettings stmSettings;
+	AK::StreamMgr::GetDefaultSettings(stmSettings);
+	if (!AK::StreamMgr::Create(stmSettings))
+	{
+		assert(!"Could not create the Streaming Manager");
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+bool Wwise::InitDeviceSettings()
+{
+	AkDeviceSettings deviceSettings;
+	AK::StreamMgr::GetDefaultDeviceSettings(deviceSettings);
+	if (g_lowLevelIO.Init(deviceSettings) != AK_Success)
+	{
+		assert(!"Could not create the streaming device and Low-Level I/O system");
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+bool Wwise::InitSoundEngine()
+{
+	AkInitSettings initSettings;
+	AkPlatformInitSettings platformInitSettings;
+	AK::SoundEngine::GetDefaultInitSettings(initSettings);
+	AK::SoundEngine::GetDefaultPlatformInitSettings(platformInitSettings);
+	if (AK::SoundEngine::Init(&initSettings, &platformInitSettings) != AK_Success)
+	{
+		assert(!"Could not initialize the Sound Engine.");
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+bool Wwise::InitMusicEngine()
+{
+	AkMusicSettings musicInit;
+	AK::MusicEngine::GetDefaultInitSettings(musicInit);
+	if (AK::MusicEngine::Init(&musicInit) != AK_Success)
+	{
+		assert(!"Could not initialize the Music Engine.");
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+void Wwise::ProcessAudio()
 {
 	AK::SoundEngine::RenderAudio();
 }
 
-bool Wwished::CloseWwished()
+bool Wwise::CloseWwise()
 {
 	//Terminate comunication module (IMPORTANT: this must be the first module in being terminated)
 #ifndef AK_OPTIMIZED
@@ -120,13 +161,13 @@ bool Wwished::CloseWwished()
 	return true;
 }
 
-void Wwished::SetDefaultListeners(unsigned long* id)
+void Wwise::SetDefaultListeners(unsigned long* id)
 {
 	AK::SoundEngine::SetDefaultListeners((AkGameObjectID*)id, 0);
 
 }
 
-void Wwished::Utility::SetLanguage(const char * language)
+void Wwise::SetLanguage(const char * language)
 {
 	AKRESULT res = AK::StreamMgr::SetCurrentLanguage((AkOSChar*)language);
 	if (res == AK_Fail)
@@ -136,7 +177,7 @@ void Wwished::Utility::SetLanguage(const char * language)
 }
 
 //Gets the bank path and returns it's ID. IMPORTANT: never call this before InitWwished()
-unsigned long Wwished::Utility::LoadBank(const char * path)
+unsigned long Wwise :: LoadBank(const char * path)
 {
 	unsigned long bank_id;
 	AKRESULT res = AK::SoundEngine::LoadBank(path, AK_DEFAULT_POOL_ID, bank_id);
@@ -150,11 +191,11 @@ unsigned long Wwished::Utility::LoadBank(const char * path)
 	return bank_id;
 }
 
-Wwished::SoundEmitter * Wwished::Utility::CreateEmitter(unsigned long id, const char * name, float x, float y, float z, bool is_default_listener)
+Wwise::SoundObject * Wwise::CreateSoundObj(unsigned long id, const char * name, float x, float y, float z, bool is_default_listener)
 {
-	SoundEmitter* emitter = nullptr;
+	SoundObject* emitter = nullptr;
 
-	emitter = new SoundEmitter(id, name);
+	emitter = new SoundObject(id, name);
 
 	if (is_default_listener)
 	{
@@ -167,7 +208,7 @@ Wwished::SoundEmitter * Wwished::Utility::CreateEmitter(unsigned long id, const 
 	return emitter;
 }
 
-void Wwished::Utility::ChangeState(const char* group, const char* new_state)
+void Wwise::ChangeState(const char* group, const char* new_state)
 {
 	AK::SoundEngine::SetState(group, new_state);
 }
@@ -175,32 +216,32 @@ void Wwished::Utility::ChangeState(const char* group, const char* new_state)
 
 
 // SoundEmitter class methods -------------------------------------------------
-Wwished::SoundEmitter::SoundEmitter(unsigned long id, const char * n)
+Wwise::SoundObject::SoundObject(unsigned long id, const char * n)
 {
-	EmitterID = id;
+	SoundID = id;
 	name = n;
-	AKRESULT res = AK::SoundEngine::RegisterGameObj((AkGameObjectID)EmitterID, name);
+	AKRESULT res = AK::SoundEngine::RegisterGameObj((AkGameObjectID)SoundID, name);
 	if (res != AK_Success)
 	{
-		assert(!"Could not register GameObj! See res variable to more info");
+		LOG_OUT("Could not register GameObj! See res variable to more info");
 	}
 }
 
-Wwished::SoundEmitter::~SoundEmitter()
+Wwise::SoundObject::~SoundObject()
 {
-	AKRESULT res = AK::SoundEngine::UnregisterGameObj(EmitterID);
+	AKRESULT res = AK::SoundEngine::UnregisterGameObj(SoundID);
 	if (res != AK_Success)
 	{
-		assert(!"Could not unregister GameObj! See res variable to more info");
+		LOG_OUT("Could not unregister GameObj! See res variable to more info");
 	}
 }
 
-unsigned long Wwished::SoundEmitter::GetID()
+unsigned long Wwise::SoundObject::GetID()
 {
-	return EmitterID;
+	return SoundID;
 }
 
-const char * Wwished::SoundEmitter::GetName()
+const char * Wwise::SoundObject::GetName()
 {
 	return name;
 }
@@ -208,7 +249,7 @@ const char * Wwished::SoundEmitter::GetName()
 
 
 //The two vectors must be normalized and orthogonal!
-void Wwished::SoundEmitter::SetPosition(float x, float y, float z, float x_front, float y_front, float z_front, float x_top, float y_top, float z_top)
+void Wwise::SoundObject::SetPosition(float x, float y, float z, float x_front, float y_front, float z_front, float x_top, float y_top, float z_top)
 {
 	position.X = -x;
 	position.Y = y;
@@ -236,38 +277,38 @@ void Wwished::SoundEmitter::SetPosition(float x, float y, float z, float x_front
 	float dot_prod = orient_top.X*orient_front.X + orient_top.Y*orient_front.Y + orient_top.Z*orient_front.Z;
 
 	if (dot_prod >= 0.0001)
-		assert(!"Vectors are not orthogonal!");
+		LOG_OUT("Vectors are not orthogonal!");
 
 	AkSoundPosition sound_pos;
 	sound_pos.Set(position, orient_front, orient_top);
-	AKRESULT res = AK::SoundEngine::SetPosition((AkGameObjectID)EmitterID, sound_pos);
+	AKRESULT res = AK::SoundEngine::SetPosition((AkGameObjectID)SoundID, sound_pos);
 	if (res != AK_Success)
-		assert(!"Something went wrong. Check the res variable for more info");
+		LOG_OUT("Something went wrong. Check the res variable for more info");
 }
 
-void Wwished::SoundEmitter::SetListener(unsigned long * id)
+void Wwise::SoundObject::SetListener(unsigned long * id)
 {
-	AKRESULT res = AK::SoundEngine::SetListeners(EmitterID, (AkGameObjectID*)id, 1);
+	AKRESULT res = AK::SoundEngine::SetListeners(SoundID, (AkGameObjectID*)id, 1);
 }
 
 
-void Wwished::SoundEmitter::PlayEvent(unsigned long id)
+void Wwise::SoundObject::PlayEvent(unsigned long id)
 {
-	AK::SoundEngine::PostEvent(id, EmitterID);
+	AK::SoundEngine::PostEvent(id, SoundID);
 }
 
-void Wwished::SoundEmitter::PlayEvent(const char* name)
+void Wwise::SoundObject::PlayEvent(const char* name)
 {
-	AK::SoundEngine::PostEvent(name, EmitterID);
+	AK::SoundEngine::PostEvent(name, SoundID);
 }
 
-void Wwished::SoundEmitter::PlayMusic(unsigned long music_id)
+void Wwise::SoundObject::PlayMusic(unsigned long music_id)
 {
-	AK::SoundEngine::PostEvent(music_id, EmitterID, AK_EnableGetMusicPlayPosition);
+	AK::SoundEngine::PostEvent(music_id, SoundID, AK_EnableGetMusicPlayPosition);
 }
 
-void Wwished::SoundEmitter::PlayMusic(const char * music_name)
+void Wwise::SoundObject::PlayMusic(const char * music_name)
 {
-	AK::SoundEngine::PostEvent(music_name, EmitterID, AK_EnableGetMusicPlayPosition);
+	AK::SoundEngine::PostEvent(music_name, SoundID, AK_EnableGetMusicPlayPosition);
 
 }
