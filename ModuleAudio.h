@@ -3,7 +3,8 @@
 
 #include "Module.h"
 #include "Include_Wwise.h"
-
+#include "Geomath.h"
+#include "Wwise.h"
 #define MAX_LISTENERS 8
 
 
@@ -26,14 +27,20 @@ public:
 	void RegisterGO(uint id);
 	void UnRegisterGO(uint id);
 	void SetLanguage(const char* language);
+	Wwished::SoundEmitter* CreateSoundEmitter(const char* name, math::float3 position);
 
 	//Listener
 	
 	AkGameObjectID AddListener();
 	void SetListeners(AkGameObjectID id);
 
-	AkGameObjectID listener_id = 0;
-	AkGameObjectID emmiter;
+	Wwished::SoundEmitter* camera_listener = nullptr;
+	std::list <Wwished::SoundEmitter*> sound_emitters;
+
+	unsigned long listener_id = 1;
+	unsigned long last_go_id = 2;
+
+	Wwished::SoundEmitter*  emmiter;
 
 	
 

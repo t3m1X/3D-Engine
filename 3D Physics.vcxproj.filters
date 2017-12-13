@@ -417,6 +417,9 @@
     <ClInclude Include="AudioEvent.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="Wwise.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -697,6 +700,9 @@
     </ClCompile>
     <ClCompile Include="Wwise\IO\Win32\AkDefaultIOHookBlocking.cpp">
       <Filter>Sources\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

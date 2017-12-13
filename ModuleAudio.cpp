@@ -5,8 +5,13 @@
 #include "Wwise/IO/Win32/AkFilePackageLowLevelIOBlocking.h"
 #include "GameObject.h"
 #include "ModuleInput.h"
+#include ".\mmgr\mmgr.h"
+#include "Wwise.h"
+#include <corecrt_wstring.h>
+#include "ModuleCamera3D.h"
+#include "Wwise.h"
 
-CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
+//CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
 
 
 
@@ -21,7 +26,7 @@ ModuleAudio::~ModuleAudio()
 
 bool ModuleAudio::Init(JSON_File * config)
 {
-	//Init default Wwise memory manager
+	/*//Init default Wwise memory manager
 	AkMemSettings memSettings;
 	memSettings.uMaxNumPools = 20;
 	if (AK::MemoryMgr::Init(&memSettings) != AK_Success)
@@ -93,38 +98,54 @@ bool ModuleAudio::Init(JSON_File * config)
 
 	LoadBank("Game/SoundBanks/Test.bnk");
 	
+	*/
 
+	LOG_OUT("Loading Wwished library");
+
+	//std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+	//std::wstring base_path = converter.from_bytes("SoundBanks");
+
+	bool ret = Wwished::InitWwished("English(US)");
+
+	Wwished::Utility::LoadBank("SoundBanks/Test.bnk");
+
+	
 	return true;
 }
 
 bool ModuleAudio::Start()
 {
-	const AkGameObjectID listener = 100;
-	
-	AK::SoundEngine::RegisterGameObj(listener, "Listener");
-	
 
-	emmiter = 200;
-	AK::SoundEngine::RegisterGameObj(emmiter, "Emmiter");
+	float3 cam_up = App->camera->GetCurrentCamera()->GetUp();
+	float3 cam_front = App->camera->GetCurrentCamera()->GetFront();
+	float3 cam_pos = App->camera->GetCurrentCamera()->GetPos();
 
+	camera_listener = Wwished::Utility::CreateEmitter(0, "Camera_Listener", cam_pos.x, cam_pos.y, cam_pos.z, true);
+	camera_listener->SetPosition(cam_pos.x, cam_pos.y, cam_pos.z, cam_front.x, cam_front.y, cam_front.z, cam_up.x, cam_up.y, cam_up.z);
 
-	AK::SoundEngine::SetDefaultListeners(&listener, 1);
+	emmiter = Wwished::Utility::CreateEmitter(100, "Emmiter", 1, 1, 1, false);
 
 	return true;
 }
 
 update_status ModuleAudio::PreUpdate(float dt)
 {
-	return UPDATE_CONTINUE;
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
-		AK::SoundEngine::PostEvent(639442158, emmiter);
+		emmiter->PlayEvent("Play_Crows");
 	}
+	return UPDATE_CONTINUE;
 		
 }
 
 
 update_status ModuleAudio::PostUpdate(float dt)
 {
+
+	float3 cam_up = App->camera->GetCurrentCamera()->GetUp();;
+	float3 cam_front = App->camera->GetCurrentCamera()->GetFront();
+	float3 cam_pos = App->camera->GetCurrentCamera()->GetPos();
+	camera_listener->SetPosition(cam_pos.x, cam_pos.y, cam_pos.z, cam_front.x, cam_front.y, cam_front.z, cam_up.x, cam_up.y, cam_up.z);
+
 	AK::SoundEngine::RenderAudio();
 	
 	return UPDATE_CONTINUE;
@@ -132,21 +153,9 @@ update_status ModuleAudio::PostUpdate(float dt)
 
 bool ModuleAudio::CleanUp()
 {
-#ifndef AK_OPTIMIZED
-	AK::Comm::Term();
-#endif // AK_OPTIMIZED
-
-	AK::MusicEngine::Term();
-	AK::SoundEngine::Term();
-
-	g_lowLevelIO.Term();
-
-	if (AK::IAkStreamMgr::Get())
-		AK::IAkStreamMgr::Get()->Destroy();
-
-	AK::MemoryMgr::Term();
-
-	
+	LOG_OUT("Unloading Wwished library");
+	delete camera_listener;
+	return Wwished::CloseWwished();
 
 	return true;
 }
@@ -188,6 +197,14 @@ void ModuleAudio::SetLanguage(const char * language)
 	}
 }
 
+Wwished::SoundEmitter * ModuleAudio::CreateSoundEmitter(const char * name, float3 position)
+{
+	Wwished::SoundEmitter* ret = Wwished::Utility::CreateEmitter(last_go_id++, name, position.x, position.y, position.z);
+	sound_emitters.push_back(ret);
+
+	return ret;
+}
+
 AkGameObjectID ModuleAudio::AddListener()
 {
 	AkGameObjectID new_listener = (AkGameObjectID)RandomNumber();
@@ -202,7 +219,7 @@ AkGameObjectID ModuleAudio::AddListener()
 
 void ModuleAudio::SetListeners(AkGameObjectID id)
 {
-	AK::SoundEngine::SetListeners(id, &listener_id, 1);
+	AK::SoundEngine::SetListeners(id, (AkGameObjectID*)listener_id, 1);
 }
 
 
