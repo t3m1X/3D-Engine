@@ -5,7 +5,11 @@
 #include "Include_Wwise.h"
 #include "Geomath.h"
 #include "Wwise.h"
+
+class SoundBank;
+
 #define MAX_LISTENERS 8
+
 
 
 class ModuleAudio : public Module {
@@ -20,20 +24,25 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
+	void LoadSoundBank(string path);
+	unsigned int GetBankInfo(string path, SoundBank* &bank);
 	//static void EventCallBack(AkCallbackType type, AkCallbackInfo *info);
 
 	//Game Objects 
 	Wwise::SoundObject* CreateSoundObject(const char* name, math::float3 position);
+	Wwise::SoundObject* CreateListener(const char* name, math::float3 position);
 
 	//Listener
 
 	Wwise::SoundObject* camera_listener = nullptr;
 	std::list <Wwise::SoundObject*> sound_obj;
+	std::list<SoundBank*> soundbanks;
 
 	unsigned long listener_id = 1;
 	unsigned long last_go_id = 2;
 
 	Wwise::SoundObject*  emmiter;
+	bool listener_created = false;
 
 	
 

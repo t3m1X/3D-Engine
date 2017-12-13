@@ -10,9 +10,12 @@
 #include <corecrt_wstring.h>
 #include "ModuleCamera3D.h"
 #include "Wwise.h"
+#include "ModuleJson.h"
+#include "SoundBank.h"
 
 //CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
 
+#define BANK_BASE_PATH "SoundBanks/"
 
 
 ModuleAudio::ModuleAudio(bool start_enabled) : Module(start_enabled)
@@ -34,11 +37,9 @@ bool ModuleAudio::Init(JSON_File * config)
 
 	bool ret = Wwise::InitWwise("English(US)");
 
-	Wwise::LoadBank("SoundBanks/Test.bnk");
+	//Wwise::LoadBank("SoundBanks/Test.bnk");
 
-	string soundbank_path = "SoundBanks/Test.bnk";
-
-	std::string json_file = soundbank_path.substr(0, soundbank_path.find_last_of('.')) + ".json"; // Changing .bnk with .json
+	LoadSoundBank("Test.bnk");
 
 	
 	return true;
@@ -47,14 +48,14 @@ bool ModuleAudio::Init(JSON_File * config)
 bool ModuleAudio::Start()
 {
 
-	float3 cam_up = App->camera->GetCurrentCamera()->GetUp();
+	/*float3 cam_up = App->camera->GetCurrentCamera()->GetUp();
 	float3 cam_front = App->camera->GetCurrentCamera()->GetFront();
 	float3 cam_pos = App->camera->GetCurrentCamera()->GetPos();
 
 	camera_listener = Wwise::CreateSoundObj(0, "Camera_Listener", cam_pos.x, cam_pos.y, cam_pos.z, true);
 	camera_listener->SetPosition(cam_pos.x, cam_pos.y, cam_pos.z, cam_front.x, cam_front.y, cam_front.z, cam_up.x, cam_up.y, cam_up.z);
 
-	emmiter = Wwise::CreateSoundObj(100, "Emmiter", 1, 1, 1, false);
+	emmiter = Wwise::CreateSoundObj(100, "Emmiter", 1, 1, 1, false);*/
 
 	return true;
 }
@@ -91,11 +92,83 @@ bool ModuleAudio::CleanUp()
 	return true;
 }
 
+void ModuleAudio::LoadSoundBank(string path)
+{
+	SoundBank* new_bank = new SoundBank();
+	string bank_path = BANK_BASE_PATH + path;
+	Wwise::LoadBank(bank_path.c_str());
+
+	std::string json_file = bank_path.substr(0, bank_path.find_last_of('.')) + ".json"; // Changing .bnk with .json
+	GetBankInfo(json_file,new_bank);
+	soundbanks.push_back(new_bank);
+	
+}
+
+unsigned int ModuleAudio::GetBankInfo(string path, SoundBank* &bank)
+{
+
+	unsigned int ret = 0;
+	JSON_File * bank_file = App->json->LoadJSON(path.c_str());
+	bank_file->RootObject();
+
+	if (bank_file == nullptr) {
+		LOG_OUT("Error reading bank json file");
+	}
+	else {
+		bank_file->ChangeObject("SoundBanksInfo");
+		int n_banks = bank_file->ArraySize("SoundBanks");
+		for (int i = 0; i < n_banks; i++) {
+			//bank_file->RootObject();
+			bank_file->MoveToInsideArray("SoundBanks", i);
+			ret = bank->id = bank_file->GetNumber("Id");
+			bank->name = bank_file->GetString("ShortName");
+			bank->path = bank_file->GetString("Path");
+
+			//bank_file->RootObject();
+			int n_events = bank_file->ArraySize("IncludedEvents");
+			for (int i = 0; i < n_events; i++) {
+				//bank_file->RootObject();
+				bank_file->MoveToInsideArray("IncludedEvents", i);
+				//create new event and load it
+				AudioEvent* new_event = new AudioEvent();
+				new_event->Load(bank_file, bank);
+				bank->events.push_back(new_event);
+			}
+		}
+
+	}
+	return ret;
+}
+
 
 Wwise::SoundObject * ModuleAudio::CreateSoundObject(const char * name, float3 position)
 {
 	Wwise::SoundObject* ret = Wwise::CreateSoundObj(last_go_id++, name, position.x, position.y, position.z);
 	sound_obj.push_back(ret);
+
+	return ret;
+}
+
+Wwise::SoundObject * ModuleAudio::CreateListener(const char * name, math::float3 position)
+{
+	Wwise::SoundObject* ret;
+
+	if (!listener_created) {
+
+		float3 cam_up = App->camera->GetCurrentCamera()->GetUp();
+		float3 cam_front = App->camera->GetCurrentCamera()->GetFront();
+		float3 cam_pos = App->camera->GetCurrentCamera()->GetPos();
+
+		ret = Wwise::CreateSoundObj(0, "Listener", cam_pos.x, cam_pos.y, cam_pos.z, true);
+		ret->SetPosition(cam_pos.x, cam_pos.y, cam_pos.z, cam_front.x, cam_front.y, cam_front.z, cam_up.x, cam_up.y, cam_up.z);
+		
+		sound_obj.push_back(ret);
+		listener_created = true;
+	}
+	else {
+		LOG_OUT("It exist a listener already!");
+		ret = nullptr;
+	}
 
 	return ret;
 }

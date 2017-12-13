@@ -12,7 +12,7 @@ class SoundBank {
 
 public: 
 
-	SoundBank(const char* name, const char* path);
+	SoundBank() {};
 	std::vector<AudioEvent*>events;
 	std::string name;
 	std::string path;

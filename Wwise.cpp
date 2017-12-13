@@ -255,32 +255,32 @@ void Wwise::SoundObject::SetPosition(float x, float y, float z, float x_front, f
 	position.Y = y;
 	position.Z = -z;
 
-	orient_front.X = x_front;
-	orient_front.Y = y_front;
-	orient_front.Z = z_front;
-	orient_top.X = x_top;
-	orient_top.Y = y_top;
-	orient_top.Z = z_top;
+	front.X = x_front;
+	front.Y = y_front;
+	front.Z = z_front;
+	top.X = x_top;
+	top.Y = y_top;
+	top.Z = z_top;
 
-	float length_front = sqrt(pow(orient_front.X, 2) + pow(orient_front.Y, 2) + pow(orient_front.Z, 2));
-	float length_top = sqrt(pow(orient_top.X, 2) + pow(orient_top.Y, 2) + pow(orient_top.Z, 2));
+	float length_front = sqrt(pow(front.X, 2) + pow(front.Y, 2) + pow(front.Z, 2));
+	float length_top = sqrt(pow(top.X, 2) + pow(top.Y, 2) + pow(top.Z, 2));
 
 	//Normalize vectors
-	orient_front.X = orient_front.X / length_front;
-	orient_front.Y = orient_front.Y / length_front;
-	orient_front.Z = orient_front.Z / length_front;
-	orient_top.X = orient_top.X / length_top;
-	orient_top.Y = orient_top.Y / length_top;
-	orient_top.Z = orient_top.Z / length_top;
+	front.X =front.X / length_front;
+	front.Y =front.Y / length_front;
+	front.Z =front.Z / length_front;
+	top.X = top.X / length_top;
+	top.Y = top.Y / length_top;
+	top.Z = top.Z / length_top;
 
 	//Check if the are orthogonals
-	float dot_prod = orient_top.X*orient_front.X + orient_top.Y*orient_front.Y + orient_top.Z*orient_front.Z;
+	float dot_prod = top.X*front.X + top.Y*front.Y + top.Z*front.Z;
 
 	if (dot_prod >= 0.0001)
 		LOG_OUT("Vectors are not orthogonal!");
 
 	AkSoundPosition sound_pos;
-	sound_pos.Set(position, orient_front, orient_top);
+	sound_pos.Set(position, front, top);
 	AKRESULT res = AK::SoundEngine::SetPosition((AkGameObjectID)SoundID, sound_pos);
 	if (res != AK_Success)
 		LOG_OUT("Something went wrong. Check the res variable for more info");

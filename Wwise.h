@@ -30,8 +30,8 @@ namespace Wwise
 		AkGameObjectID SoundID;
 		const char* name = nullptr;
 		AkVector position;
-		AkVector orient_top;
-		AkVector orient_front;
+		AkVector top;
+		AkVector front;
 	};
 
 	//Life cycle functions

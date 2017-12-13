@@ -6,7 +6,7 @@
 
 #include <string>
 #include "SoundBank.h"
-
+#include "ModuleJson.h"
 class SoundBank;
 class AudioEvent {
 
@@ -16,6 +16,8 @@ public:
 	~AudioEvent();
 	void UnLoad();
 
+
+	void Load(JSON_File* file, SoundBank* p);
 	std::string name;
 	uint id = 0;
 	bool in_3D = false;
