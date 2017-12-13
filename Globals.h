@@ -6,7 +6,8 @@
 
 #include <windows.h>
 #include <stdio.h>
-
+#include <utility>
+#include <experimental\filesystem>
 #include <string>
 
 #define LOG_OUT(format, ...) log(__FILE__, __LINE__, format, __VA_ARGS__);
