@@ -4,12 +4,16 @@
 
 #include <string>
 #include <vector>
+#include "AudioEvent.h"
+
+class AudioEvent;
 
 class SoundBank {
 
 public: 
 
-	//std::vector<AudioEvent*>events;
+	SoundBank(const char* name, const char* path);
+	std::vector<AudioEvent*>events;
 	std::string name;
 	std::string path;
 

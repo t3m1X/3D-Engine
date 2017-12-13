@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "11",
+  "SoundbankVersion": "125",
+  "RootPaths": {
+   "ProjectRoot": "C:\\Users\\USUARIO\\Documents\\WwiseProjects\\Test2\\",
+   "SourceFilesRoot": "C:\\Users\\USUARIO\\Documents\\WwiseProjects\\Test2\\.cache\\Windows\\",
+   "SoundBanksRoot": "C:\\Users\\USUARIO\\Documents\\GitHub\\3D-Engine\\Game\\SoundBanks\\",
+   "ExternalSourcesInputFile": "",
+   "ExternalSourcesOutputRoot": "C:\\Users\\USUARIO\\Documents\\WwiseProjects\\Test2\\GeneratedSoundBanks\\Windows\\"
+  },
+  "DialogueEvents": [],
+  "StreamedFiles": [],
+  "MediaFilesNotInAnyBank": [],
+  "SoundBanks": [
+   {
+    "Id": "1355168291",
+    "Language": "SFX",
+    "ObjectPath": "Init",
+    "ShortName": "Init",
+    "Path": "Init.bnk"
+   },
+   {
+    "Id": "3157003241",
+    "Language": "SFX",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\Test",
+    "ShortName": "Test",
+    "Path": "Test.bnk",
+    "IncludedEvents": [
+     {
+      "Id": "639442158",
+      "Name": "Play_Crows",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_Crows"
+     }
+    ],
+    "IncludedMemoryFiles": [
+     {
+      "Id": "128247126",
+      "Language": "SFX",
+      "ShortName": "0956.wav",
+      "Path": "SFX\\0956_1C9C67B2.wem"
+     }
+    ]
+   }
+  ]
+ }
+}

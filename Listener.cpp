@@ -8,7 +8,7 @@ Listener::Listener(GameObject * own) : Component(own)
 {
 	Setname("Audio Listener");
 	SetType(LISTENER);
-	id = App->audio->AddListener(); //Will be the default listener for now
+	//id = App->audio->AddListener(); //Will be the default listener for now
 }
 
 Listener::Listener()

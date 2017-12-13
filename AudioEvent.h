@@ -7,6 +7,7 @@
 #include <string>
 #include "SoundBank.h"
 
+class SoundBank;
 class AudioEvent {
 
 public:

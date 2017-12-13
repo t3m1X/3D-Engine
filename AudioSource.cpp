@@ -6,7 +6,7 @@
 AudioSource::AudioSource(GameObject* own) : Component(own)
 {
 	this->id = RandomNumber();
-	App->audio->RegisterGO(this->id);
+	//App->audio->RegisterGO(this->id);
 	Setname("AudioSource");
 	SetType(AUDIO_SOURCE);
 	n = "";
@@ -17,7 +17,7 @@ AudioSource::AudioSource(GameObject* own) : Component(own)
 
 AudioSource::~AudioSource()
 {
-	App->audio->UnRegisterGO(id);
+	//App->audio->UnRegisterGO(id);
 }
 
 void AudioSource::Update()

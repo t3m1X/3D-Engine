@@ -4,7 +4,8 @@
 
 #include "Component.h"
 #include "ModuleAudio.h"
-
+#include "AudioEvent.h"
+#include "SoundBank.h"
 
 
 class AudioSource : public Component {
@@ -32,6 +33,8 @@ private:
 	AkVector position;
 	AkVector orient_top;
 	AkVector orient_front;
+	std::vector<AudioEvent*>events;
+	SoundBank* soundbank = nullptr;
 };
 
 

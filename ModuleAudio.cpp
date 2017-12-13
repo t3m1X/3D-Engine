@@ -36,6 +36,10 @@ bool ModuleAudio::Init(JSON_File * config)
 
 	Wwise::LoadBank("SoundBanks/Test.bnk");
 
+	string soundbank_path = "SoundBanks/Test.bnk";
+
+	std::string json_file = soundbank_path.substr(0, soundbank_path.find_last_of('.')) + ".json"; // Changing .bnk with .json
+
 	
 	return true;
 }
