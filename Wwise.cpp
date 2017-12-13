@@ -225,6 +225,19 @@ Wwise::SoundObject::SoundObject(unsigned long id, const char * n)
 	{
 		LOG_OUT("Could not register GameObj! See res variable to more info");
 	}
+
+	position.X = 0;
+	position.Y = 0;
+	position.Z = 0;
+
+	top.X = 0;
+	top.Y = 0;
+	top.Z = 0;
+
+	front.X = 0;
+	front.Y = 0;
+	front.Z = 0;
+
 }
 
 Wwise::SoundObject::~SoundObject()

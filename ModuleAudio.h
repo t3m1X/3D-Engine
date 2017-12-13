@@ -24,7 +24,7 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
-	void LoadSoundBank(string path);
+	SoundBank* LoadSoundBank(string path);
 	unsigned int GetBankInfo(string path, SoundBank* &bank);
 	//static void EventCallBack(AkCallbackType type, AkCallbackInfo *info);
 
@@ -39,9 +39,10 @@ public:
 	std::list<SoundBank*> soundbanks;
 
 	unsigned long listener_id = 1;
-	unsigned long last_go_id = 2;
+	unsigned long last_go_id = 100;
 
 	Wwise::SoundObject*  emmiter;
+	SoundBank* soundbank = nullptr;
 	bool listener_created = false;
 
 	

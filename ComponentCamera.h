@@ -3,8 +3,8 @@
 
 
 #include "Component.h"
+#include "ModuleCamera3D.h"
 
-class Camera3D;
 
 class ComponentCamera : public Component {
 

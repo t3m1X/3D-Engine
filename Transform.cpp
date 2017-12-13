@@ -106,6 +106,11 @@ void Transform::SetRotation(const float3 & _rotation)
 
 }
 
+Quat Transform::GetRotation() const
+{
+	return rotation;
+}
+
 void Transform::UI_draw()
 {
 	if (ImGui::CollapsingHeader("Transform")) {

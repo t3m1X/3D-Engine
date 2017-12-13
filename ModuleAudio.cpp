@@ -57,6 +57,7 @@ bool ModuleAudio::Start()
 
 	emmiter = Wwise::CreateSoundObj(100, "Emmiter", 1, 1, 1, false);*/
 
+
 	return true;
 }
 
@@ -73,11 +74,6 @@ update_status ModuleAudio::PreUpdate(float dt)
 update_status ModuleAudio::PostUpdate(float dt)
 {
 
-	float3 cam_up = App->camera->GetCurrentCamera()->GetUp();;
-	float3 cam_front = App->camera->GetCurrentCamera()->GetFront();
-	float3 cam_pos = App->camera->GetCurrentCamera()->GetPos();
-	camera_listener->SetPosition(cam_pos.x, cam_pos.y, cam_pos.z, cam_front.x, cam_front.y, cam_front.z, cam_up.x, cam_up.y, cam_up.z);
-
 	AK::SoundEngine::RenderAudio();
 	
 	return UPDATE_CONTINUE;
@@ -92,7 +88,7 @@ bool ModuleAudio::CleanUp()
 	return true;
 }
 
-void ModuleAudio::LoadSoundBank(string path)
+SoundBank* ModuleAudio::LoadSoundBank(string path)
 {
 	SoundBank* new_bank = new SoundBank();
 	string bank_path = BANK_BASE_PATH + path;
@@ -101,7 +97,8 @@ void ModuleAudio::LoadSoundBank(string path)
 	std::string json_file = bank_path.substr(0, bank_path.find_last_of('.')) + ".json"; // Changing .bnk with .json
 	GetBankInfo(json_file,new_bank);
 	soundbanks.push_back(new_bank);
-	
+	soundbank = new_bank;
+	return new_bank;
 }
 
 unsigned int ModuleAudio::GetBankInfo(string path, SoundBank* &bank)

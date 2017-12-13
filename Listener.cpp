@@ -1,14 +1,17 @@
 #include "Listener.h"
 #include "Camera.h"
-#include "ComponentCamera.h"
 #include "ModuleAudio.h"
 #include "Application.h"
+#include "Transform.h"
 
 Listener::Listener(GameObject * own) : Component(own)
 {
 	Setname("Audio Listener");
 	SetType(LISTENER);
-	//id = App->audio->AddListener(); //Will be the default listener for now
+
+	Transform* trans = (Transform*)own->FindComponentbyType(TRANSFORM);
+
+	obj = App->audio->CreateListener(own->GetName(), trans->GetPosition());
 }
 
 Listener::Listener()
@@ -25,33 +28,29 @@ void Listener::Update()
 {
 	//Update Listener Positioin
 
-	ComponentCamera* comp_cam = (ComponentCamera*)this->owner->FindComponentbyType(CAMERA);
-	
-	if (comp_cam != nullptr) {
-		Camera3D* cam = comp_cam->GetCamera();
+	Transform* trans = (Transform*)GetOwner()->FindComponentbyType(TRANSFORM);
 
-		float3 front = cam->GetFront();
-		float3 up = cam->GetUp();
-		float3 pos = cam->GetPos();
 
-		AkListenerPosition ak_pos;
-		ak_pos.Set(pos.x, pos.z, pos.y, front.x, front.z, front.y, up.x, up.z, up.y);
+	if (trans)
+	{
 
-		AK::SoundEngine::SetPosition(id,ak_pos);
 
-		
+		float3 pos = trans->GetPosition();
+		Quat rot = trans->GetRotation();
+
+		float3 up = rot.Transform(float3(0, 1, 0));
+		float3 front = rot.Transform(float3(0, 0, 1));
+
+		up.Normalize();
+		front.Normalize();
+
+		obj->SetPosition(-pos.x, pos.y, pos.z, -front.x, front.y, front.z, -up.x, up.y, up.z);
 	}
-	else {
-
-		LOG_OUT("Listener attached to an object without a camera");
-
-	}
-
 
 
 }
 
 AkGameObjectID  Listener::GetId() const
 {
-	return id;
+	return obj->GetID();
 }

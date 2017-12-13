@@ -19,7 +19,8 @@ public:
 
 private:
 
-	AkGameObjectID id;
+	Wwise::SoundObject* obj;
+
 
 
 };

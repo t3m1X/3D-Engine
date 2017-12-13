@@ -23,11 +23,13 @@ public :
 	void PlayEvent(const char* event_name);
 	void StopEvent(uint id);
 	AkGameObjectID GetID()const;
-
+	void UI_draw();
+	void GetEvents();
+public:
+	SoundBank* soundbank = nullptr;
 private:
 
 	std::vector<AudioEvent*>events;
-	SoundBank* soundbank = nullptr;
 	Wwise::SoundObject* obj;
 };
 

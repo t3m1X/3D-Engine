@@ -8,6 +8,7 @@
 #include "SoundBank.h"
 #include "ModuleJson.h"
 class SoundBank;
+
 class AudioEvent {
 
 public:
@@ -21,6 +22,7 @@ public:
 	std::string name;
 	uint id = 0;
 	bool in_3D = false;
+	void UIDraw(Wwise::SoundObject* obj);
 
 	AkPlayingID playing_id = 0L;
 	AkCallbackFunc event_call_back = nullptr;

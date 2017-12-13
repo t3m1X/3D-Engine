@@ -1,8 +1,8 @@
 #include "AudioSource.h"
 #include "Application.h"
 #include "ModuleAudio.h"
-#include "ModuleCamera3D.h"
 #include "Transform.h"
+#include "ModuleImGui.h"
 
 AudioSource::AudioSource(GameObject* own) : Component(own)
 {
@@ -25,10 +25,22 @@ AudioSource::~AudioSource()
 void AudioSource::Update()
 {
 	Transform* trans = (Transform*)GetOwner()->FindComponentbyType(TRANSFORM);
+
+
 	if (trans)
 	{
+
+
 		float3 pos = trans->GetPosition();
-		obj->SetPosition(pos.x, pos.y, pos.z);
+		Quat rot = trans->GetRotation();
+
+		float3 up = rot.Transform(float3(0, 1, 0));
+		float3 front = rot.Transform(float3(0, 0, 1));
+
+		up.Normalize();
+		front.Normalize();
+
+		obj->SetPosition(-pos.x, pos.y, pos.z, -front.x, front.y, front.z, -up.x, up.y, up.z);
 	}
 }
 
@@ -49,7 +61,10 @@ void AudioSource::PlayEvent(uint id)
 
 void AudioSource::PlayEvent(const char * event_name)
 {
-	AK::SoundEngine::PostEvent(event_name, obj->GetID());
+	if (obj == nullptr) {
+		LOG_OUT("Nullptr");
+	}
+	obj->PlayEvent(event_name);
 	LOG_OUT("Event played: %s", event_name);
 }
 
@@ -60,5 +75,30 @@ void AudioSource::StopEvent(uint id)
 AkGameObjectID AudioSource::GetID() const
 {
 	return obj->GetID();
+}
+
+void AudioSource::UI_draw()
+{
+	if(events.empty())
+	GetEvents();
+
+	if(ImGui::CollapsingHeader("Audio Source")) {
+		
+			for (int i = 0; i < events.size(); i++) {
+				events[i]->UIDraw(obj);
+			
+		}
+	}
+}
+
+void AudioSource::GetEvents()
+{
+	if (soundbank != nullptr) {
+		for (int i = 0; i < soundbank->events.size(); i++) {
+
+			events.push_back(soundbank->events[i]);
+
+		}
+	}
 }
 

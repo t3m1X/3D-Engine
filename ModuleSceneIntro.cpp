@@ -5,7 +5,6 @@
 #include "ModulePlayer.h"
 #include "ModuleImGui.h"
 #include "Transform.h"
-#include "ModuleCamera3D.h"
 #include "ModuleInput.h"
 #include <vector>
 #include "ModuleFileSystem.h"
@@ -50,24 +49,18 @@ bool ModuleSceneIntro::Start()
 	cam_obj->AddComponent(trans);
 	ComponentCamera* cam = new ComponentCamera(cam_obj);
 	cam_obj->AddComponent(cam);
-	
 	Listener* listener = new Listener(cam_obj);
 	cam_obj->AddComponent(listener);
 
-
 	emmiter = new GameObject("Emmiter", root);
-	Quat r = Quat::identity;
-	float3 s;
-	float3 p;
-	s.Set(1, 1, 1);
-	p.Set(0, 0, 0);
 	Transform* t = new Transform(emmiter);
-	t->SetRotation(r);
-	t->SetPosition(p);
-	t->SetScale(s);
+	t->SetRotation(rot);
+	t->SetPosition(pos);
+	t->SetScale(scale);
 	emmiter->AddComponent(t);
+
 	AudioSource* source = new AudioSource(emmiter);
-	source->SetPosition(1, 1, 1);
+	source->soundbank = App->audio->soundbank;
 	emmiter->AddComponent(source);
 
 	float3 max_point;
@@ -564,10 +557,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		RecalculateOctree();
 
 	}
-	AudioSource* source = (AudioSource*)emmiter->FindComponentbyType(AUDIO_SOURCE);
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
-		source->PlayEvent("Play_Crows");
-	}
+	
 	DrawHierarchy();
 	root->Update();
 	//root->Draw();

@@ -25,6 +25,7 @@ class Transform : public Component {
 
 		void SetRotation(Quat rot);
 		void SetRotation(const float3& _rotation);
+		Quat GetRotation()const;
 		void UI_draw();
 
 		float4x4 GetLocalTransform() const;
