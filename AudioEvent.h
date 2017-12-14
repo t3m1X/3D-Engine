@@ -18,7 +18,7 @@ public:
 	void UnLoad();
 
 
-	void Load(JSON_File* file, SoundBank* p);
+	void Load(JSON_File* file, SoundBank* p,int id);
 	std::string name;
 	uint id = 0;
 	bool in_3D = false;

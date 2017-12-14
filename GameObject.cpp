@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "ModuleCamera3D.h"
 #include "ModuleSceneIntro.h"
+#include "AudioSource.h"
 
 
 GameObject::GameObject(std::string name, GameObject* _parent) : parent(_parent)
@@ -405,6 +406,11 @@ void GameObject::DrawComponents()
 			
 		}
 	}
+
+	if (ImGui::Button("Add Audio Source")) {
+		AudioSource* new_source = new AudioSource(this);
+		this->AddComponent(new_source);
+	}
 	//ImGui::SameLine();
 	
 	
@@ -414,6 +420,8 @@ void GameObject::DrawComponents()
 			components[i]->UI_draw();
 		}
 	}
+
+	
 }
 
 void GameObject::RecalculateAABB()

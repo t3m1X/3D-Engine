@@ -13,6 +13,9 @@ AudioSource::AudioSource(GameObject* own) : Component(own)
 	Transform* trans = (Transform*)own->FindComponentbyType(TRANSFORM);
 
 	obj = App->audio->CreateSoundObject(own->GetName(), trans->GetPosition());
+	if (App->audio->soundbank != nullptr) {
+		this->soundbank = App->audio->soundbank;
+	}
 
 }
 

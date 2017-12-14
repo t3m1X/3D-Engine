@@ -313,6 +313,7 @@ void Wwise::SoundObject::PlayEvent(unsigned long id)
 void Wwise::SoundObject::PlayEvent(const char* name)
 {
 	AK::SoundEngine::PostEvent(name, SoundID);
+	LOG_OUT("Played: %s", name);
 }
 
 void Wwise::SoundObject::PlayMusic(unsigned long music_id)

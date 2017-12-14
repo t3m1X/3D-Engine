@@ -114,7 +114,8 @@ unsigned int ModuleAudio::GetBankInfo(string path, SoundBank* &bank)
 		bank_file->ChangeObject("SoundBanksInfo");
 		int n_banks = bank_file->ArraySize("SoundBanks");
 		for (int i = 0; i < n_banks; i++) {
-			//bank_file->RootObject();
+			bank_file->RootObject();
+			bank_file->ChangeObject("SoundBanksInfo");
 			bank_file->MoveToInsideArray("SoundBanks", i);
 			ret = bank->id = bank_file->GetNumber("Id");
 			bank->name = bank_file->GetString("ShortName");
@@ -122,13 +123,16 @@ unsigned int ModuleAudio::GetBankInfo(string path, SoundBank* &bank)
 
 			//bank_file->RootObject();
 			int n_events = bank_file->ArraySize("IncludedEvents");
-			for (int i = 0; i < n_events; i++) {
-				//bank_file->RootObject();
-				bank_file->MoveToInsideArray("IncludedEvents", i);
+			for (int j = 0; j < n_events; j++) {
+				
 				//create new event and load it
 				AudioEvent* new_event = new AudioEvent();
-				new_event->Load(bank_file, bank);
+				bank_file->RootObject();
+				bank_file->ChangeObject("SoundBanksInfo");
+				bank_file->MoveToInsideArray("SoundBanks", i);
+				new_event->Load(bank_file, bank, j);
 				bank->events.push_back(new_event);
+				
 			}
 		}
 

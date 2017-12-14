@@ -17,11 +17,16 @@
 			<Path>Blending.bnk</Path>
 			<IncludedEvents>
 				<Event Id="2569342999" Name="Play_Blend" ObjectPath="\Events\Default Work Unit\Play_Blend"/>
+				<Event Id="3506347524" Name="Play_Short_Music" ObjectPath="\Events\Default Work Unit\Play_Short_Music"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
 				<File Id="102774834" Language="SFX">
 					<ShortName>Muddy Waters - Hoochie Coochie Man.wav</ShortName>
 					<Path>SFX\Muddy Waters - Hoochie Coochie Man_F17FB28C.wem</Path>
+				</File>
+				<File Id="147483896" Language="SFX">
+					<ShortName>jack_in_the_box-Mike_Koenig-710345321.wav</ShortName>
+					<Path>SFX\jack_in_the_box-Mike_Koenig-710345321_F17FB28C.wem</Path>
 				</File>
 				<File Id="227208942" Language="SFX">
 					<ShortName>BAD TO THE BONE.wav</ShortName>
@@ -40,11 +45,16 @@
 			<Path>Blend.bnk</Path>
 			<IncludedEvents>
 				<Event Id="2569342999" Name="Play_Blend" ObjectPath="\Events\Default Work Unit\Play_Blend"/>
+				<Event Id="3506347524" Name="Play_Short_Music" ObjectPath="\Events\Default Work Unit\Play_Short_Music"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
 				<File Id="102774834" Language="SFX">
 					<ShortName>Muddy Waters - Hoochie Coochie Man.wav</ShortName>
 					<Path>SFX\Muddy Waters - Hoochie Coochie Man_F17FB28C.wem</Path>
+				</File>
+				<File Id="147483896" Language="SFX">
+					<ShortName>jack_in_the_box-Mike_Koenig-710345321.wav</ShortName>
+					<Path>SFX\jack_in_the_box-Mike_Koenig-710345321_F17FB28C.wem</Path>
 				</File>
 				<File Id="227208942" Language="SFX">
 					<ShortName>BAD TO THE BONE.wav</ShortName>
