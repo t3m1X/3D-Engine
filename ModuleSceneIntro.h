@@ -45,5 +45,5 @@ public:
 	GameObject* emmiter = nullptr;
 	Timer songs;
 	float curr_time = 0;
-
+	bool change = false;
 };

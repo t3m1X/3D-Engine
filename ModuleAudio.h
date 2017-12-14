@@ -31,7 +31,7 @@ public:
 	//Game Objects 
 	Wwise::SoundObject* CreateSoundObject(const char* name, math::float3 position);
 	Wwise::SoundObject* CreateListener(const char* name, math::float3 position);
-
+	void SetRTPvalue(const char* rtpc, float value);
 	//Listener
 
 	Wwise::SoundObject* camera_listener = nullptr;

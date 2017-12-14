@@ -169,6 +169,11 @@ Wwise::SoundObject * ModuleAudio::CreateListener(const char * name, math::float3
 	return ret;
 }
 
+void ModuleAudio::SetRTPvalue(const char * rtpc, float value)
+{
+	AK::SoundEngine::SetRTPCValue(rtpc, value);
+}
+
 
 
 
