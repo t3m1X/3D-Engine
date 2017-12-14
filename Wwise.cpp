@@ -296,7 +296,7 @@ void Wwise::SoundObject::SetPosition(float x, float y, float z, float x_front, f
 	sound_pos.Set(position, front, top);
 	AKRESULT res = AK::SoundEngine::SetPosition((AkGameObjectID)SoundID, sound_pos);
 	if (res != AK_Success)
-		LOG_OUT("Something went wrong. Check the res variable for more info");
+		LOG_OUT("Couldn't update position");
 }
 
 void Wwise::SoundObject::SetListener(unsigned long * id)

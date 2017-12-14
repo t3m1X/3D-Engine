@@ -31,7 +31,7 @@ void Listener::Update()
 	Transform* trans = (Transform*)GetOwner()->FindComponentbyType(TRANSFORM);
 
 
-	if (trans)
+	if (trans!=nullptr)
 	{
 
 
@@ -44,7 +44,7 @@ void Listener::Update()
 		up.Normalize();
 		front.Normalize();
 
-		obj->SetPosition(-pos.x, pos.y, pos.z, -front.x, front.y, front.z, -up.x, up.y, up.z);
+		obj->SetPosition(pos.x, pos.y, pos.z, front.x, front.y, -front.z, up.x, up.y, up.z);
 	}
 
 
