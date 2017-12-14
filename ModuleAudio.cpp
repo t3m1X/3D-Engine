@@ -49,16 +49,6 @@ bool ModuleAudio::Init(JSON_File * config)
 bool ModuleAudio::Start()
 {
 
-	/*float3 cam_up = App->camera->GetCurrentCamera()->GetUp();
-	float3 cam_front = App->camera->GetCurrentCamera()->GetFront();
-	float3 cam_pos = App->camera->GetCurrentCamera()->GetPos();
-
-	camera_listener = Wwise::CreateSoundObj(0, "Camera_Listener", cam_pos.x, cam_pos.y, cam_pos.z, true);
-	camera_listener->SetPosition(cam_pos.x, cam_pos.y, cam_pos.z, cam_front.x, cam_front.y, cam_front.z, cam_up.x, cam_up.y, cam_up.z);
-
-	emmiter = Wwise::CreateSoundObj(100, "Emmiter", 1, 1, 1, false);*/
-
-
 	return true;
 }
 
@@ -83,6 +73,14 @@ bool ModuleAudio::CleanUp()
 {
 	LOG_OUT("Unloading Wwished library");
 	delete camera_listener;
+	if (soundbank != nullptr) {
+		delete soundbank;
+	}
+
+	for (list<Wwise::SoundObject*>::iterator it = sound_obj.begin(); it != sound_obj.end(); ++it) {
+
+		delete (*it);
+	}
 	return Wwise::CloseWwise();
 
 	return true;

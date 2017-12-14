@@ -420,6 +420,9 @@
     <ClInclude Include="Wwise.h">
       <Filter>Sources</Filter>
     </ClInclude>
+    <ClInclude Include="DistorsionZone.h">
+      <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -703,6 +706,9 @@
     </ClCompile>
     <ClCompile Include="Wwise.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="DistorsionZone.cpp">
+      <Filter>Sources\Modules\Game\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

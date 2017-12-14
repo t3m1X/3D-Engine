@@ -13,6 +13,7 @@ class SoundBank {
 public: 
 
 	SoundBank() {};
+	~SoundBank();
 	std::vector<AudioEvent*>events;
 	std::string name;
 	std::string path;
