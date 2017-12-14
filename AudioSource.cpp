@@ -87,6 +87,7 @@ void AudioSource::UI_draw()
 
 	if(ImGui::CollapsingHeader("Audio Source")) {
 		
+		ImGui::Text("SoundBank: %s",soundbank->name.c_str());
 			for (int i = 0; i < events.size(); i++) {
 				events[i]->UIDraw(obj);
 			

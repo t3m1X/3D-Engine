@@ -8,7 +8,7 @@
 
 class SoundBank;
 
-#define MAX_LISTENERS 8
+#define DEFAULT_VOLUME 50
 
 
 
@@ -32,6 +32,7 @@ public:
 	Wwise::SoundObject* CreateSoundObject(const char* name, math::float3 position);
 	Wwise::SoundObject* CreateListener(const char* name, math::float3 position);
 	void SetRTPvalue(const char* rtpc, float value);
+	void ImGuiDraw();
 	//Listener
 
 	Wwise::SoundObject* camera_listener = nullptr;
@@ -44,7 +45,7 @@ public:
 	Wwise::SoundObject*  emmiter;
 	SoundBank* soundbank = nullptr;
 	bool listener_created = false;
-
+	int volume = DEFAULT_VOLUME;
 	
 
 

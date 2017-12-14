@@ -3,7 +3,12 @@ Event	ID	Name			Wwise Object Path	Notes
 	3506347524	Play_Short_Music			\Default Work Unit\Play_Short_Music	
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
+	2415836739	Volume			\Default Work Unit\Volume	
 	2654366170	Time			\Default Work Unit\Time	
+
+Audio Bus	ID	Name			Wwise Object Path	Notes
+	805203703	Master Secondary Bus			\Default Work Unit\Master Secondary Bus	
+	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	102774834	Muddy Waters - Hoochie Coochie Man	C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\.cache\Windows\SFX\Muddy Waters - Hoochie Coochie Man_F17FB28C.wem		\Actor-Mixer Hierarchy\Default Work Unit\Blend\Muddy Waters - Hoochie Coochie Man		30527552

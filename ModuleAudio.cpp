@@ -12,6 +12,7 @@
 #include "Wwise.h"
 #include "ModuleJson.h"
 #include "SoundBank.h"
+#include "ModuleImGui.h"
 
 //CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
 
@@ -64,7 +65,7 @@ bool ModuleAudio::Start()
 update_status ModuleAudio::PreUpdate(float dt)
 {
 	
-
+	SetRTPvalue("Volume", volume);
 	return UPDATE_CONTINUE;
 		
 }
@@ -176,6 +177,13 @@ Wwise::SoundObject * ModuleAudio::CreateListener(const char * name, math::float3
 void ModuleAudio::SetRTPvalue(const char * rtpc, float value)
 {
 	AK::SoundEngine::SetRTPCValue(rtpc, value);
+}
+
+void ModuleAudio::ImGuiDraw()
+{
+	if (ImGui::CollapsingHeader("Audio Engine")) {
+		ImGui::SliderInt("Volume", &volume, 0, 100);
+	}
 }
 
 
