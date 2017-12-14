@@ -43,6 +43,7 @@ public:
 	bool hierarchy = true;
 	std::string scene_name = "Scene1";
 	GameObject* emmiter = nullptr;
-
+	Timer songs;
+	float curr_time = 0;
 
 };

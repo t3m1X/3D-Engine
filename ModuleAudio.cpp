@@ -39,7 +39,7 @@ bool ModuleAudio::Init(JSON_File * config)
 
 	//Wwise::LoadBank("SoundBanks/Test.bnk");
 
-	LoadSoundBank("Test.bnk");
+	LoadSoundBank("Blend.bnk");
 
 	
 	return true;
@@ -63,9 +63,8 @@ bool ModuleAudio::Start()
 
 update_status ModuleAudio::PreUpdate(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
-		emmiter->PlayEvent("Play_Crows");
-	}
+	
+
 	return UPDATE_CONTINUE;
 		
 }

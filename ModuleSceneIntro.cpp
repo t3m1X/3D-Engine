@@ -77,6 +77,8 @@ bool ModuleSceneIntro::Start()
 	App->camera->SetCurrentCamera(cam->GetCamera());
 	selected = cam_obj;
 	
+	curr_time = 0;
+	songs.Start();
 	return ret;
 }
 
@@ -558,6 +560,11 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	}
 	
+	if (curr_time < 60) {
+		curr_time += dt;
+		AK::SoundEngine::SetRTPCValue("Time", curr_time);
+	}
+
 	DrawHierarchy();
 	root->Update();
 	//root->Draw();

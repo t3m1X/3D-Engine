@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="11" SoundbankVersion="125">
 	<RootPaths>
-		<ProjectRoot>C:\Users\USUARIO\Documents\WwiseProjects\Test2\</ProjectRoot>
-		<SourceFilesRoot>C:\Users\USUARIO\Documents\WwiseProjects\Test2\.cache\Windows\</SourceFilesRoot>
+		<ProjectRoot>C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\</ProjectRoot>
+		<SourceFilesRoot>C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\.cache\Windows\</SourceFilesRoot>
 		<SoundBanksRoot>C:\Users\USUARIO\Documents\GitHub\3D-Engine\Game\SoundBanks\</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>C:\Users\USUARIO\Documents\WwiseProjects\Test2\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
+		<ExternalSourcesOutputRoot>C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<SoundBanks>
 		<SoundBank Id="1355168291" Language="SFX">

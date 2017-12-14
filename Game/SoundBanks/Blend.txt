@@ -1,0 +1,10 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2569342999	Play_Blend			\Default Work Unit\Play_Blend	
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	2654366170	Time			\Default Work Unit\Time	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	102774834	Muddy Waters - Hoochie Coochie Man	C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\.cache\Windows\SFX\Muddy Waters - Hoochie Coochie Man_F17FB28C.wem		\Actor-Mixer Hierarchy\Default Work Unit\Blend\Muddy Waters - Hoochie Coochie Man		30527552
+	227208942	BAD TO THE BONE	C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\.cache\Windows\SFX\BAD TO THE BONE_F17FB28C.wem		\Actor-Mixer Hierarchy\Default Work Unit\Blend\BAD TO THE BONE		53559360
+

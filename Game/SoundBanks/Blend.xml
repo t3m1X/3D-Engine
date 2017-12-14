@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="11" SoundbankVersion="125">
+	<RootPaths>
+		<ProjectRoot>C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\</ProjectRoot>
+		<SourceFilesRoot>C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>C:\Users\USUARIO\Documents\GitHub\3D-Engine\Game\SoundBanks\</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<SoundBanks>
+		<SoundBank Id="3916118898" Language="SFX">
+			<ObjectPath>\SoundBanks\Default Work Unit\Blend</ObjectPath>
+			<ShortName>Blend</ShortName>
+			<Path>Blend.bnk</Path>
+			<IncludedEvents>
+				<Event Id="2569342999" Name="Play_Blend" ObjectPath="\Events\Default Work Unit\Play_Blend"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="102774834" Language="SFX">
+					<ShortName>Muddy Waters - Hoochie Coochie Man.wav</ShortName>
+					<Path>SFX\Muddy Waters - Hoochie Coochie Man_F17FB28C.wem</Path>
+				</File>
+				<File Id="227208942" Language="SFX">
+					<ShortName>BAD TO THE BONE.wav</ShortName>
+					<Path>SFX\BAD TO THE BONE_F17FB28C.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
+	</SoundBanks>
+</SoundBanksInfo>
