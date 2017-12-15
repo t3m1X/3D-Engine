@@ -1,5 +1,6 @@
 #include "Console.h"
 #include "Application.h"
+#include "TimeManager.h"
 
 Console::Console(){
 
@@ -31,10 +32,12 @@ void Console::AddLog(const char* entry)
 }
 void Console::Draw(Application* App)
 {
-	ImGui::Begin("Console", &Active);
-	ImGui::TextUnformatted(Buf.begin());
-	if (ScrollToBottom)
-		ImGui::SetScrollHere(1.0f);
-	ScrollToBottom = false;
-	ImGui::End();
+	if (App->tm->GetGameState() != IN_PLAY) {
+		ImGui::Begin("Console", &Active);
+		ImGui::TextUnformatted(Buf.begin());
+		if (ScrollToBottom)
+			ImGui::SetScrollHere(1.0f);
+		ScrollToBottom = false;
+		ImGui::End();
+	}
 }

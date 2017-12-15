@@ -58,6 +58,7 @@ update_status ModuleAudio::PreUpdate(float dt)
 {
 	
 	SetRTPvalue("Volume", volume);
+
 	return UPDATE_CONTINUE;
 		
 }
@@ -178,6 +179,13 @@ Wwise::SoundObject * ModuleAudio::CreateListener(const char * name, math::float3
 void ModuleAudio::SetRTPvalue(const char * rtpc, float value)
 {
 	AK::SoundEngine::SetRTPCValue(rtpc, value);
+}
+
+void ModuleAudio::StopAllEvents()
+{
+	for (int i = 0; i < soundbank->events.size(); i++) {
+		AK::SoundEngine::ExecuteActionOnEvent(soundbank->events[i]->name.c_str(), AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Pause);
+	}
 }
 
 void ModuleAudio::ImGuiDraw()

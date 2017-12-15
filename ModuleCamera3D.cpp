@@ -61,6 +61,14 @@ update_status ModuleCamera3D::Update(float dt)
 				if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) editor_camera->MoveLeft(speed*dt);
 				if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) editor_camera->MoveRight(speed*dt);
 
+				else if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+				{
+					int dx = -App->input->GetMouseXMotion();
+					int dy = -App->input->GetMouseYMotion();
+
+					editor_camera->Rotate(-App->input->GetMouseXMotion()*Sensitivity*0.01f, -App->input->GetMouseYMotion()*Sensitivity*0.01f);
+				}
+
 			}
 			//MOUSE WHEEL
 
@@ -97,13 +105,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 			// Mouse motion ----------------
 
-			else if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-			{
-				int dx = -App->input->GetMouseXMotion();
-				int dy = -App->input->GetMouseYMotion();
-
-				editor_camera->Rotate(-App->input->GetMouseXMotion()*Sensitivity*0.01f, -App->input->GetMouseYMotion()*Sensitivity*0.01f);
-			}
+			
 			Position -= Reference;
 		}
 		if (debug) {

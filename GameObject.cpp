@@ -128,7 +128,6 @@ void GameObject::Draw()
 			}
 			if (has_mesh) {
 
-				LOG_OUT("Puta");
 				DrawBox();
 
 

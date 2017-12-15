@@ -22,6 +22,7 @@ public :
 	void PlayEvent(uint id);
 	void PlayEvent(const char* event_name);
 	void StopEvent(uint id);
+	void SendEvent(const char* name);
 	AkGameObjectID GetID()const;
 	void UI_draw();
 	void GetEvents();
@@ -30,6 +31,9 @@ public:
 private:
 
 	std::vector<AudioEvent*>events;
+
+	std::vector<AudioEvent*>events_to_play;
+
 	Wwise::SoundObject* obj;
 };
 

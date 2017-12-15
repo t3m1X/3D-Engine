@@ -31,6 +31,10 @@ void AudioEvent::UIDraw(Wwise::SoundObject* obj)
 			//play event
 			obj->PlayEvent(name.c_str());
 		}
+		ImGui::SameLine();
+		if (ImGui::Button("Stop")) {
+			AK::SoundEngine::ExecuteActionOnEvent(name.c_str(), AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Pause);
+		}
 	}
 }
 

@@ -4,19 +4,37 @@
 #include "ModuleImGui.h"
 #include "TimeManager.h"
 #include "PlayPause.h"
+#include "ModuleAudio.h"
+#include "ModuleSceneIntro.h"
+#include "AudioSource.h"
 
 void PlayPause::Draw(Application* App)
 {
+
+	if (App->tm->GetGameState() == IN_EDITOR) {
+		App->tm->SetPaused(true);
+	}
+	else {
+		App->tm->SetPaused(false);
+	}
 		ImGui::Begin("GameTimeManager", &Active, ImGuiWindowFlags_AlwaysAutoResize| ImGuiWindowFlags_NoCollapse| ImGuiWindowFlags_NoTitleBar| ImGuiWindowFlags_NoMove| ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize);
 		
 		bool playbutton = (App->tm->GetGameState() == IN_PLAY) ? true : false;
-		ImGui::Checkbox("PLAY", &playbutton);
+		if (ImGui::Checkbox("PLAY", &playbutton)) {
+			// Testing
+			AudioSource* source = (AudioSource*)App->scene_intro->camera_obj->FindComponentbyType(AUDIO_SOURCE);
+			source->SendEvent("Play_Blend");
+			
+		};
 		if (App->tm->GetGameState() != IN_PLAY && playbutton == true)
 			App->tm->SetGameState(IN_PLAY);
 		if (App->tm->GetGameState() == IN_PLAY && playbutton == false)
 			App->tm->SetGameState(IN_EDITOR);
 		ImGui::SameLine();
-		ImGui::Checkbox("PAUSE", &App->tm->Paused);
+		if (ImGui::Checkbox("PAUSE", &App->tm->Paused)) {
+			App->tm->SetGameState(IN_EDITOR);
+			App->audio->StopAllEvents();
+		};
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Next Frame")) {
 			App->tm->NextFrame();

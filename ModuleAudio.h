@@ -33,7 +33,9 @@ public:
 	//Game Objects 
 	Wwise::SoundObject* CreateSoundObject(const char* name, math::float3 position);
 	Wwise::SoundObject* CreateListener(const char* name, math::float3 position);
+
 	void SetRTPvalue(const char* rtpc, float value);
+	void StopAllEvents();
 	void ImGuiDraw();
 	//Listener
 
@@ -49,7 +51,7 @@ public:
 	SoundBank* soundbank = nullptr;
 	bool listener_created = false;
 	int volume = DEFAULT_VOLUME;
-	
+
 
 
 

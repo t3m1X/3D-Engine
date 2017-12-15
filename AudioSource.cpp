@@ -3,6 +3,7 @@
 #include "ModuleAudio.h"
 #include "Transform.h"
 #include "ModuleImGui.h"
+#include "TimeManager.h"
 
 AudioSource::AudioSource(GameObject* own) : Component(own)
 {
@@ -15,6 +16,7 @@ AudioSource::AudioSource(GameObject* own) : Component(own)
 	obj = App->audio->CreateSoundObject(own->GetName(), trans->GetPosition());
 	if (App->audio->soundbank != nullptr) {
 		this->soundbank = App->audio->soundbank;
+		GetEvents();
 	}
 
 }
@@ -27,23 +29,35 @@ AudioSource::~AudioSource()
 
 void AudioSource::Update()
 {
-	Transform* trans = (Transform*)GetOwner()->FindComponentbyType(TRANSFORM);
+
+	if (App->tm->GetGameState() == IN_PLAY) {
+
+		Transform* trans = (Transform*)GetOwner()->FindComponentbyType(TRANSFORM);
 
 
-	if (trans)
-	{
+		if (trans)
+		{
 
 
-		float3 pos = trans->GetPosition();
-		Quat rot = trans->GetRotation();
+			float3 pos = trans->GetPosition();
+			Quat rot = trans->GetRotation();
 
-		float3 up = rot.Transform(float3(0, 1, 0));
-		float3 front = rot.Transform(float3(0, 0, 1));
+			float3 up = rot.Transform(float3(0, 1, 0));
+			float3 front = rot.Transform(float3(0, 0, 1));
 
-		up.Normalize();
-		front.Normalize();
+			up.Normalize();
+			front.Normalize();
 
-		obj->SetPosition(-pos.x, pos.y, pos.z, -front.x, front.y, front.z, -up.x, up.y, up.z);
+			obj->SetPosition(pos.x, pos.y, pos.z, front.x, front.y, front.z, up.x, up.y, up.z);
+		}
+
+		if (!events_to_play.empty()) {
+			for (int i = 0; i < events_to_play.size(); i++) {
+				PlayEvent(events_to_play[i]->name.c_str());
+			}
+
+			events_to_play.clear();
+		}
 	}
 }
 
@@ -73,6 +87,15 @@ void AudioSource::PlayEvent(const char * event_name)
 
 void AudioSource::StopEvent(uint id)
 {
+}
+
+void AudioSource::SendEvent(const char * name)
+{
+	for (int i = 0; i < events.size(); i++) {
+		if (!strcmp(events[i]->name.c_str(),name)) {
+			events_to_play.push_back(events[i]);
+		}
+	}
 }
 
 AkGameObjectID AudioSource::GetID() const

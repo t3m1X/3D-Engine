@@ -58,6 +58,10 @@ bool ModuleSceneIntro::Start()
 	camera_obj->AddComponent(cam);
 	Listener* listener = new Listener(camera_obj);
 	camera_obj->AddComponent(listener);
+	AudioSource* music = new AudioSource(camera_obj);
+	camera_obj->AddComponent(music);
+
+
 
 
 	//Moving Object
@@ -115,12 +119,16 @@ bool ModuleSceneIntro::Start()
 
 	
 	
-	App->camera->SetCurrentCamera(cam->GetCamera());
+	
 	selected = camera_obj;
 	
 	change = false;
 	curr_time = 0;
-	songs.Start();
+
+	
+	App->camera->SetCurrentCamera(cam->GetCamera());
+
+
 	return ret;
 }
 
@@ -601,7 +609,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		RecalculateOctree();
 
 	}
-	
+	if (App->tm->GetGameState() == IN_PLAY) {
 	if (change == false) {
 		curr_time += dt;
 		App->audio->SetRTPvalue("Time", curr_time);
@@ -618,7 +626,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		change = false;
 	}
 	
-	if (App->tm->GetGameState() == IN_PLAY) {
+	
 		if (App->camera->GetCurrentCamera() != App->camera->GetEditorCamera()) {
 			Transform* t = (Transform*)camera_obj->FindComponentbyType(TRANSFORM);
 			ComponentCamera* c = (ComponentCamera*)camera_obj->FindComponentbyType(CAMERA);
@@ -635,6 +643,9 @@ update_status ModuleSceneIntro::Update(float dt)
 				t->SetPosition(t->GetPosition() + float3(-0.1, 0, 0));
 			}
 		}
+
+		// Movement of the moving sound NOTE: Hardecoded here since we do not have scripting
+
 	}
 
 	DrawHierarchy();
