@@ -14,6 +14,7 @@ class AudioSource : public Component {
 public :
 
 	AudioSource(GameObject* own);
+	AudioSource() {};
 	~AudioSource();
 
 	void Update();
@@ -26,6 +27,7 @@ public :
 	AkGameObjectID GetID()const;
 	void UI_draw();
 	void GetEvents();
+	void Serialize(JSON_File* doc);
 public:
 	SoundBank* soundbank = nullptr;
 private:

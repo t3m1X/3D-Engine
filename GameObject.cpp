@@ -406,10 +406,7 @@ void GameObject::DrawComponents()
 		}
 	}
 
-	if (ImGui::Button("Add Audio Source")) {
-		AudioSource* new_source = new AudioSource(this);
-		this->AddComponent(new_source);
-	}
+	
 	//ImGui::SameLine();
 	
 	
@@ -417,6 +414,13 @@ void GameObject::DrawComponents()
 	if (!components.empty()) {
 		for (uint i = 0; i < components.size(); i++) {
 			components[i]->UI_draw();
+		}
+	}
+
+	if (!FindComponentbyType(AUDIO_SOURCE)) {
+		if (ImGui::Button("Add Audio Source")) {
+			AudioSource* new_source = new AudioSource(this);
+			this->AddComponent(new_source);
 		}
 	}
 

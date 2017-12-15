@@ -3,6 +3,7 @@
 #include "ModuleAudio.h"
 #include "Application.h"
 #include "Transform.h"
+#include "ModuleJson.h"
 
 Listener::Listener(GameObject * own) : Component(own)
 {
@@ -59,4 +60,14 @@ void Listener::Update()
 AkGameObjectID  Listener::GetId() const
 {
 	return obj->GetID();
+}
+
+void Listener::Serialize(JSON_File * doc)
+{
+	/*if (doc == nullptr)
+		return;
+
+	doc->SetNumber("type", type);
+	doc->SetNumber("ownerUID", (owner != nullptr) ? owner->GetUID() : -1);
+	doc->SetString("name", name);*/
 }

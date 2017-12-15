@@ -72,11 +72,14 @@ bool ModuleSceneIntro::Start()
 	t->SetScale(scale);
 	non_static_obj->AddComponent(t);
 	Mesh* new_mesh = App->loader->Loadrmesh("Library/Meshes/Arrow.rmesh");
+	new_mesh->Setname("Mesh");
+	new_mesh->SetPath("Library/Meshes/Arrow.rmesh");
 	non_static_obj->AddComponent(new_mesh);
 	App->loader->meshes.push_back(new_mesh);
 	AudioSource* source = new AudioSource(non_static_obj);
 	non_static_obj->AddComponent(source);
-	Material* new_mat = new Material();
+	Material* new_mat = new Material(non_static_obj);
+	new_mat->Setname("Material");
 	Texture* tmp_tex = App->tex->LoadDDSTexture("Library/Textures/Arrow.dds");
 	tmp_tex->SetTextureType(DIFFUSE);//just diffuse for now
 	new_mat->AddTexture(tmp_tex);
@@ -95,11 +98,14 @@ bool ModuleSceneIntro::Start()
 	transf->SetRotation(r.FromEulerXYZ(DegToRad(-90), DegToRad(0), DegToRad(90)));
 	static_obj->AddComponent(transf);
 	Mesh* m = App->loader->Loadrmesh("Library/Meshes/Amplifier.rmesh");
+	m->Setname("Mesh");
+	m->SetPath("Library/Meshes/Amplifier.rmesh");
 	static_obj->AddComponent(m);
 	App->loader->meshes.push_back(m);
 	AudioSource* sound = new AudioSource(static_obj);
 	static_obj->AddComponent(sound);
-	Material* mat = new Material();
+	Material* mat = new Material(static_obj);
+	mat->Setname("Material");
 	Texture* tex = App->tex->LoadDDSTexture("Library/Textures/Amplifier.dds");
 	tex->SetTextureType(DIFFUSE);
 	mat->AddTexture(tex);
@@ -456,6 +462,12 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 		Component* c = nullptr;
 		Material* mat = nullptr;
 		Mesh* cmesh = nullptr;
+		AudioSource* new_source = nullptr;
+		Listener* listener = nullptr;
+		float3 p;
+		Quat r;
+		float3 s;
+		Transform* trans= nullptr;
 		int aux = 0;
 		const char* mpath = nullptr;
 
@@ -521,13 +533,23 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 			scene_doc->MoveToInsideArray("components", i);
 			break;
 		case TRANSFORM:
-			float3 p = { (float)scene_doc->GetNumber("position.x"), (float)scene_doc->GetNumber("position.y"), (float)scene_doc->GetNumber("position.z") };
-			Quat r = { (float)scene_doc->GetNumber("rotation.x"), (float)scene_doc->GetNumber("rotation.y"), (float)scene_doc->GetNumber("rotation.z"), (float)scene_doc->GetNumber("rotation.w") };
-			float3 s = { (float)scene_doc->GetNumber("scale.x"), (float)scene_doc->GetNumber("scale.y"), (float)scene_doc->GetNumber("scale.z") };
-			Transform* trans = new Transform(s, r, p);
+			p = { (float)scene_doc->GetNumber("position.x"), (float)scene_doc->GetNumber("position.y"), (float)scene_doc->GetNumber("position.z") };
+			r = { (float)scene_doc->GetNumber("rotation.x"), (float)scene_doc->GetNumber("rotation.y"), (float)scene_doc->GetNumber("rotation.z"), (float)scene_doc->GetNumber("rotation.w") };
+			s = { (float)scene_doc->GetNumber("scale.x"), (float)scene_doc->GetNumber("scale.y"), (float)scene_doc->GetNumber("scale.z") };
+			trans = new Transform(s, r, p);
 			c = trans;
 				break;
-			}
+		case AUDIO_SOURCE:
+			new_source = new AudioSource();
+			new_source->Setname(scene_doc->GetString("name"));
+			c = new_source;
+			break;
+		case LISTENER:
+			listener = new Listener();
+			listener->Setname(scene_doc->GetString("name"));
+			c = listener;
+			break;
+		}
 	
 
 			if (c != nullptr) {

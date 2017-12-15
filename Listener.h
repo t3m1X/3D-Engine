@@ -14,7 +14,7 @@ public:
 	~Listener();
 	void Update();
 	AkGameObjectID GetId()const;
-
+	void Serialize(JSON_File* doc);
 
 
 private:

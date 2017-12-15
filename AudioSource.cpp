@@ -111,9 +111,10 @@ void AudioSource::UI_draw()
 	if(ImGui::CollapsingHeader("Audio Source")) {
 		
 		ImGui::Text("SoundBank: %s",soundbank->name.c_str());
+		if (ImGui::CollapsingHeader("Events")){
 			for (int i = 0; i < events.size(); i++) {
 				events[i]->UIDraw(obj);
-			
+			}
 		}
 	}
 }
@@ -128,4 +129,15 @@ void AudioSource::GetEvents()
 		}
 	}
 }
+
+void AudioSource::Serialize(JSON_File * doc)
+{
+	/*if (doc == nullptr)
+		return;
+
+	doc->SetNumber("type", type);
+	doc->SetNumber("ownerUID", (owner != nullptr) ? owner->GetUID() : -1);
+	doc->SetString("name", name);*/
+}
+
 
