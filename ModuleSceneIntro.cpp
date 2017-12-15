@@ -644,8 +644,21 @@ update_status ModuleSceneIntro::Update(float dt)
 			}
 		}
 
-		// Movement of the moving sound NOTE: Hardecoded here since we do not have scripting
-
+		//Simple Movement of the moving sound NOTE: Hardecoded here since we do not have scripting
+		Transform* t = (Transform*)non_static_obj->FindComponentbyType(TRANSFORM);
+		
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) {
+			t->SetPosition(t->GetPosition() + float3(0, 0, 0.1));
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) {
+			t->SetPosition(t->GetPosition() + float3(0, 0, -0.1));
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
+			t->SetPosition(t->GetPosition() + float3(-0.1, 0, 0));
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
+			t->SetPosition(t->GetPosition() + float3(0.1, 0, 0));
+		}
 	}
 
 	DrawHierarchy();

@@ -24,7 +24,10 @@ void PlayPause::Draw(Application* App)
 			// Testing
 			AudioSource* source = (AudioSource*)App->scene_intro->camera_obj->FindComponentbyType(AUDIO_SOURCE);
 			source->SendEvent("Play_Blend");
-			
+			AudioSource* s = (AudioSource*)App->scene_intro->static_obj->FindComponentbyType(AUDIO_SOURCE);
+			s->SendEvent("Play_Short_Music");
+			AudioSource* sound = (AudioSource*)App->scene_intro->non_static_obj->FindComponentbyType(AUDIO_SOURCE);
+			sound->SendEvent("Play_spell4");
 		};
 		if (App->tm->GetGameState() != IN_PLAY && playbutton == true)
 			App->tm->SetGameState(IN_PLAY);
