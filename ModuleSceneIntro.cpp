@@ -13,6 +13,10 @@
 #include "ModuleAudio.h"
 #include "AudioSource.h"
 #include "TimeManager.h"
+
+#include <AK/Plugin/AkMatrixReverbFXFactory.h>
+#pragma comment( lib, "Wwise/Debug(StaticCRT)/lib/AkMatrixReverbFX.lib");
+
 #define MIN_DISTANCE 9999
 
 ModuleSceneIntro::ModuleSceneIntro(bool start_enabled) : Module(start_enabled)
@@ -36,6 +40,7 @@ bool ModuleSceneIntro::Start()
 	LOG_OUT("Loading Intro assets");
 	bool ret = true;
 
+	
 
 	//NOTE:
 	// This objects created here are just for testing purposes, to check that the audio engine is working. Since one of the objects must be moving according to the exercise, and I do not have scripting
@@ -134,6 +139,8 @@ bool ModuleSceneIntro::Start()
 	
 	App->camera->SetCurrentCamera(cam->GetCamera());
 
+
+	
 
 	return ret;
 }
@@ -623,6 +630,20 @@ const char * ModuleSceneIntro::LoadScene(const char * scene_name)
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+
+	//This should apply a reverb effect that is given through an auxiliary bus assigned from the editor but I don't know why the effect is not applied though the result is not AK_Fail
+	/*AkAuxSendValue reverb[1];
+	Listener* l = (Listener*)camera_obj->FindComponentbyType(LISTENER);
+	reverb[0].listenerID = l->GetId();
+	reverb[0].auxBusID = AK::SoundEngine::GetIDFromString(L"Reverb");
+	reverb[0].fControlValue = 1.0f;
+
+	AudioSource* so = (AudioSource*)non_static_obj->FindComponentbyType(AUDIO_SOURCE);
+	AKRESULT res = AK::SoundEngine::SetGameObjectAuxSendValues(so->GetID(), reverb, 1);
+	if (res == AK_Fail) {
+		LOG_OUT("Not applied");
+	}
+	*/
 	bPlane p(0, 1, 0, 0);
 	p.axis = true;
 	
