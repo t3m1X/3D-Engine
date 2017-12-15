@@ -20,7 +20,7 @@ public:
 private:
 
 	Wwise::SoundObject* obj;
-
+	AABB box = AABB::AABB(float3(-1.0f, -1.0f, -1.0f), float3(1.0f, 1.0f, 1.0f));
 
 
 };

@@ -31,6 +31,11 @@
       "Id": "3506347524",
       "Name": "Play_Short_Music",
       "ObjectPath": "\\Events\\Default Work Unit\\Play_Short_Music"
+     },
+     {
+      "Id": "3601250804",
+      "Name": "Play_spell4",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_spell4"
      }
     ],
     "IncludedMemoryFiles": [
@@ -51,6 +56,12 @@
       "Language": "SFX",
       "ShortName": "BAD TO THE BONE.wav",
       "Path": "SFX\\BAD TO THE BONE_F17FB28C.wem"
+     },
+     {
+      "Id": "614144253",
+      "Language": "SFX",
+      "ShortName": "spell4.wav",
+      "Path": "SFX\\spell4_F17FB28C.wem"
      }
     ]
    },
@@ -77,6 +88,11 @@
       "Id": "3506347524",
       "Name": "Play_Short_Music",
       "ObjectPath": "\\Events\\Default Work Unit\\Play_Short_Music"
+     },
+     {
+      "Id": "3601250804",
+      "Name": "Play_spell4",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_spell4"
      }
     ],
     "IncludedMemoryFiles": [
@@ -97,6 +113,12 @@
       "Language": "SFX",
       "ShortName": "BAD TO THE BONE.wav",
       "Path": "SFX\\BAD TO THE BONE_F17FB28C.wem"
+     },
+     {
+      "Id": "614144253",
+      "Language": "SFX",
+      "ShortName": "spell4.wav",
+      "Path": "SFX\\spell4_F17FB28C.wem"
      }
     ]
    }

@@ -12,6 +12,7 @@
 #include "Listener.h"
 #include "ModuleAudio.h"
 #include "AudioSource.h"
+#include "TimeManager.h"
 #define MIN_DISTANCE 9999
 
 ModuleSceneIntro::ModuleSceneIntro(bool start_enabled) : Module(start_enabled)
@@ -35,33 +36,73 @@ bool ModuleSceneIntro::Start()
 	LOG_OUT("Loading Intro assets");
 	bool ret = true;
 
-	GameObject* cam_obj = new GameObject("Camera", root);
+
+	//NOTE:
+	// This objects created here are just for testing purposes, to check that the audio engine is working. Since one of the objects must be moving according to the exercise, and I do not have scripting
+	// the movement is coded in the scene. So I cannot save and load the scene and make the object move once the scene is loaded again, but note that all the audio components can be serialized anyway. 
+
+
+	camera_obj = new GameObject("Camera", root);
 
 	Quat rot = Quat::identity;
 	float3 scale;
 	float3 pos;
 	scale.Set(1, 1, 1);
-	pos.Set(0, 0, 0);
-	Transform* trans = new Transform(cam_obj);
+	pos.Set(0, 2, -10);
+	Transform* trans = new Transform(camera_obj);
 	trans->SetRotation(rot);
 	trans->SetPosition(pos);
 	trans->SetScale(scale);
-	cam_obj->AddComponent(trans);
-	ComponentCamera* cam = new ComponentCamera(cam_obj);
-	cam_obj->AddComponent(cam);
-	Listener* listener = new Listener(cam_obj);
-	cam_obj->AddComponent(listener);
+	camera_obj->AddComponent(trans);
+	ComponentCamera* cam = new ComponentCamera(camera_obj);
+	camera_obj->AddComponent(cam);
+	Listener* listener = new Listener(camera_obj);
+	camera_obj->AddComponent(listener);
 
-	emmiter = new GameObject("Emmiter", root);
-	Transform* t = new Transform(emmiter);
+
+	//Moving Object
+	non_static_obj = new GameObject("Moving Object", root);
+	Transform* t = new Transform(non_static_obj);
 	t->SetRotation(rot);
-	t->SetPosition(pos);
+	t->SetPosition(float3(0,0,0));
 	t->SetScale(scale);
-	emmiter->AddComponent(t);
+	non_static_obj->AddComponent(t);
+	Mesh* new_mesh = App->loader->Loadrmesh("Library/Meshes/Arrow.rmesh");
+	non_static_obj->AddComponent(new_mesh);
+	App->loader->meshes.push_back(new_mesh);
+	AudioSource* source = new AudioSource(non_static_obj);
+	non_static_obj->AddComponent(source);
+	Material* new_mat = new Material();
+	Texture* tmp_tex = App->tex->LoadDDSTexture("Library/Textures/Arrow.dds");
+	tmp_tex->SetTextureType(DIFFUSE);//just diffuse for now
+	new_mat->AddTexture(tmp_tex);
+	non_static_obj->AddComponent(new_mat);
+	all_objects.push_back(non_static_obj);
+	non_static_objects.push_back(non_static_obj);
+	//Static object
+	static_obj = new GameObject("Static Object", root);
+	
+	Quat r = Quat::identity;
+	float3 s;
+	float3 p;
+	s.Set(0.02f, 0.02f, 0.02f);
+	p.Set(-10, 0, 10);
+	Transform* transf = new Transform(s,r,p,static_obj);
+	transf->SetRotation(r.FromEulerXYZ(DegToRad(-90), DegToRad(0), DegToRad(90)));
+	static_obj->AddComponent(transf);
+	Mesh* m = App->loader->Loadrmesh("Library/Meshes/Amplifier.rmesh");
+	static_obj->AddComponent(m);
+	App->loader->meshes.push_back(m);
+	AudioSource* sound = new AudioSource(static_obj);
+	static_obj->AddComponent(sound);
+	Material* mat = new Material();
+	Texture* tex = App->tex->LoadDDSTexture("Library/Textures/Amplifier.dds");
+	tex->SetTextureType(DIFFUSE);
+	mat->AddTexture(tex);
+	static_obj->AddComponent(mat);
+	all_objects.push_back(static_obj);
+	non_static_objects.push_back(static_obj);
 
-	AudioSource* source = new AudioSource(emmiter);
-	source->soundbank = App->audio->soundbank;
-	emmiter->AddComponent(source);
 
 	float3 max_point;
 	float3 min_point;
@@ -75,7 +116,7 @@ bool ModuleSceneIntro::Start()
 	
 	
 	App->camera->SetCurrentCamera(cam->GetCamera());
-	selected = cam_obj;
+	selected = camera_obj;
 	
 	change = false;
 	curr_time = 0;
@@ -577,6 +618,24 @@ update_status ModuleSceneIntro::Update(float dt)
 		change = false;
 	}
 	
+	if (App->tm->GetGameState() == IN_PLAY) {
+		if (App->camera->GetCurrentCamera() != App->camera->GetEditorCamera()) {
+			Transform* t = (Transform*)camera_obj->FindComponentbyType(TRANSFORM);
+			ComponentCamera* c = (ComponentCamera*)camera_obj->FindComponentbyType(CAMERA);
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+				t->SetPosition(t->GetPosition() + float3(0, 0, 0.1));
+			}
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+				t->SetPosition(t->GetPosition() + float3(0, 0, -0.1));
+			}
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+				t->SetPosition(t->GetPosition() + float3(0.1, 0, 0));
+			}
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+				t->SetPosition(t->GetPosition() + float3(-0.1, 0, 0));
+			}
+		}
+	}
 
 	DrawHierarchy();
 	root->Update();
@@ -584,12 +643,6 @@ update_status ModuleSceneIntro::Update(float dt)
 	octree->DebugDraw();
 	p.Render();
 
-
-	
-
-	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) {
-		octree->Divide();
-	}
 	
 	return UPDATE_CONTINUE;
 }

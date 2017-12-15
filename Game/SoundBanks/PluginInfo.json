@@ -3,6 +3,12 @@
   "Project": "BlendingMusic",
   "Platform": "Windows",
   "BasePlatform": "Windows",
-  "Plugins": {}
+  "Plugins": {
+   "Plugin": {
+    "Name": "Wwise Matrix Reverb",
+    "ID": "7536643",
+    "DLL": "AkMatrixReverb"
+   }
+  }
  }
 }

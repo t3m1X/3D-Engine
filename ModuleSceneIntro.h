@@ -5,6 +5,8 @@
 #include "ModulePlayer.h"
 #include "GameObject.h"
 #include "Octree.h"
+#include "Listener.h"
+#include "Timer.h"
 //#include "MathGeoLib\include\MathGeoLib.h"
 //#include "MathGeoLib\include\Geometry\Sphere.h"
 
@@ -46,4 +48,9 @@ public:
 	Timer songs;
 	float curr_time = 0;
 	bool change = false;
+
+	//Test Scene GameObjects
+	GameObject* static_obj;
+	GameObject* non_static_obj;
+	GameObject* camera_obj; //listener
 };

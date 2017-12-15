@@ -18,7 +18,9 @@ public:
 
 private:
 
-	Sphere zone;
+	const char* bus;
+	int distorsion_value = 0;
+	AABB zone;
 	float radius;
 };
 

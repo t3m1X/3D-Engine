@@ -3,7 +3,7 @@
 
 
 #include <AK/SoundEngine/Common/AkTypes.h>
-
+#include "Geomath.h"
 
 namespace Wwise
 {
@@ -32,6 +32,7 @@ namespace Wwise
 		AkVector position;
 		AkVector top;
 		AkVector front;
+		
 	};
 
 	//Life cycle functions

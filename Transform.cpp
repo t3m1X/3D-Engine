@@ -87,6 +87,7 @@ void Transform::SetScale(float3 s)
 
 void Transform::SetScale(float x, float y, float z)
 {
+
 	scale.x = x;
 	scale.y = y;
 	scale.z = z;

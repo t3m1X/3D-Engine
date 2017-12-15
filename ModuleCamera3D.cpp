@@ -7,6 +7,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleWindow.h"
 #include "ModuleImGui.h"
+#include "TimeManager.h"
 
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
@@ -17,6 +18,7 @@ ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
 	Sensitivity = 0.25f;
 	SetName("Camera");
 	editor_camera = new Camera3D();
+	editor_camera->SetPosition(float3(0, 10, -10));
 	curr_camera = editor_camera;
 	active = true;
 
@@ -46,72 +48,73 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	if (active) {
-		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
+	if (App->tm->GetGameState() == IN_EDITOR) {
+		if (active) {
+			if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
 
-			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-				speed = 8.0f * dt;
+				if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+					speed = 8.0f * dt;
 
-			//WASD MOVEMENT + R AND F TO MOVE UP AND DOWN
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) editor_camera->MoveForward(speed*dt);
-			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) editor_camera->MoveBackwards(speed*dt);
-			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) editor_camera->MoveLeft(speed*dt);
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) editor_camera->MoveRight(speed*dt);
+				//WASD MOVEMENT + R AND F TO MOVE UP AND DOWN
+				if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) editor_camera->MoveForward(speed*dt);
+				if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) editor_camera->MoveBackwards(speed*dt);
+				if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) editor_camera->MoveLeft(speed*dt);
+				if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) editor_camera->MoveRight(speed*dt);
 
-		}
-		//MOUSE WHEEL
+			}
+			//MOUSE WHEEL
 
-		if (App->input->GetMouseWheel() == 1)
-		{
-			editor_camera->MoveForward(speed*dt);
-		}
-		else if (App->input->GetMouseWheel() == -1)
-		{
-			editor_camera->MoveBackwards(speed*dt);
-		}
+			if (App->input->GetMouseWheel() == 1)
+			{
+				editor_camera->MoveForward(speed*dt);
+			}
+			else if (App->input->GetMouseWheel() == -1)
+			{
+				editor_camera->MoveBackwards(speed*dt);
+			}
 
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
-		{
-			if (!App->imgui->HoveringWindow()) {
-				float width = (float)App->window->GetWidth();
-				float height = (float)App->window->GetHeight();
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+			{
+				if (!App->imgui->HoveringWindow()) {
+					float width = (float)App->window->GetWidth();
+					float height = (float)App->window->GetHeight();
 
-				int mouse_x, mouse_y;
-				mouse_x = (float)App->input->GetMouseX();
-				mouse_y = (float)App->input->GetMouseY();
+					int mouse_x, mouse_y;
+					mouse_x = (float)App->input->GetMouseX();
+					mouse_y = (float)App->input->GetMouseY();
 
-				float normalized_x = -(1.0f - (float(mouse_x) * 2.0f) / width);
-				float normalized_y = 1.0f - (float(mouse_y) * 2.0f) / height;
+					float normalized_x = -(1.0f - (float(mouse_x) * 2.0f) / width);
+					float normalized_y = 1.0f - (float(mouse_y) * 2.0f) / height;
 
-				LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(normalized_x, normalized_y);
-				pick = picking;
-				App->scene_intro->selected = App->scene_intro->SelectObject(picking);
-				if (App->scene_intro->selected != nullptr) {
-					App->imgui->Setproperties(true);
+					LineSegment picking = editor_camera->GetFrustum().UnProjectLineSegment(normalized_x, normalized_y);
+					pick = picking;
+					App->scene_intro->selected = App->scene_intro->SelectObject(picking);
+					if (App->scene_intro->selected != nullptr) {
+						App->imgui->Setproperties(true);
+					}
 				}
 			}
+
+			// Mouse motion ----------------
+
+			else if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
+			{
+				int dx = -App->input->GetMouseXMotion();
+				int dy = -App->input->GetMouseYMotion();
+
+				editor_camera->Rotate(-App->input->GetMouseXMotion()*Sensitivity*0.01f, -App->input->GetMouseYMotion()*Sensitivity*0.01f);
+			}
+			Position -= Reference;
+		}
+		if (debug) {
+			DrawDebug();
 		}
 
-		// Mouse motion ----------------
+		/*PrimitiveLine_Ray a(pick.a.x, pick.a.y, pick.a.z, pick.b.x, pick.b.y, pick.b.z);
+		a.color = Blue;
+		a.Render();*/
 
-		else if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-		{
-			int dx = -App->input->GetMouseXMotion();
-			int dy = -App->input->GetMouseYMotion();
-
-			editor_camera->Rotate(-App->input->GetMouseXMotion()*Sensitivity*0.01f, -App->input->GetMouseYMotion()*Sensitivity*0.01f);
-		}
-		Position -= Reference;
 	}
-	if (debug) {
-		DrawDebug();
-	}
-
-	/*PrimitiveLine_Ray a(pick.a.x, pick.a.y, pick.a.z, pick.b.x, pick.b.y, pick.b.z);
-	a.color = Blue;
-	a.Render();*/
-	
-
 	
 	return UPDATE_CONTINUE;
 }
@@ -160,7 +163,13 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 // -----------------------------------------------------------------
 float4x4 ModuleCamera3D::GetViewMatrix()
 {
-	return editor_camera->GetViewMatrix().Transposed();
+	
+	if (App->tm->GetGameState()==IN_EDITOR) {
+		return editor_camera->GetViewMatrix().Transposed();
+	}
+	else {
+		return curr_camera->GetViewMatrix().Transposed();
+	}
 }
 
 

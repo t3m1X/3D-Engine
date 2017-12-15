@@ -15,6 +15,7 @@
 			<IncludedEvents>
 				<Event Id="2569342999" Name="Play_Blend" ObjectPath="\Events\Default Work Unit\Play_Blend"/>
 				<Event Id="3506347524" Name="Play_Short_Music" ObjectPath="\Events\Default Work Unit\Play_Short_Music"/>
+				<Event Id="3601250804" Name="Play_spell4" ObjectPath="\Events\Default Work Unit\Play_spell4"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
 				<File Id="102774834" Language="SFX">
@@ -28,6 +29,10 @@
 				<File Id="227208942" Language="SFX">
 					<ShortName>BAD TO THE BONE.wav</ShortName>
 					<Path>SFX\BAD TO THE BONE_F17FB28C.wem</Path>
+				</File>
+				<File Id="614144253" Language="SFX">
+					<ShortName>spell4.wav</ShortName>
+					<Path>SFX\spell4_F17FB28C.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>

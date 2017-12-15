@@ -12,6 +12,7 @@ Listener::Listener(GameObject * own) : Component(own)
 	Transform* trans = (Transform*)own->FindComponentbyType(TRANSFORM);
 
 	obj = App->audio->CreateListener(own->GetName(), trans->GetPosition());
+	App->audio->default_listener = this;
 }
 
 Listener::Listener()
@@ -45,6 +46,11 @@ void Listener::Update()
 		front.Normalize();
 
 		obj->SetPosition(pos.x, pos.y, pos.z, front.x, front.y, -front.z, up.x, up.y, up.z);
+
+		box.minPoint = trans->GetPosition() - float3(1, 1, 1);
+		box.maxPoint = trans->GetPosition() + float3(1, 1, 1);
+
+
 	}
 
 

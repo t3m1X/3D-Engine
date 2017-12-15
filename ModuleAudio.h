@@ -6,6 +6,8 @@
 #include "Geomath.h"
 #include "Wwise.h"
 
+class Listener;
+
 class SoundBank;
 
 #define DEFAULT_VOLUME 50
@@ -39,6 +41,7 @@ public:
 	std::list <Wwise::SoundObject*> sound_obj;
 	std::list<SoundBank*> soundbanks;
 
+	Listener* default_listener = nullptr;
 	unsigned long listener_id = 1;
 	unsigned long last_go_id = 100;
 

@@ -13,6 +13,7 @@
 #include "ModuleJson.h"
 #include "SoundBank.h"
 #include "ModuleImGui.h"
+#include "Listener.h"
 
 //CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
 
@@ -26,6 +27,7 @@ ModuleAudio::ModuleAudio(bool start_enabled) : Module(start_enabled)
 
 ModuleAudio::~ModuleAudio()
 {
+
 }
 
 bool ModuleAudio::Init(JSON_File * config)
@@ -163,6 +165,7 @@ Wwise::SoundObject * ModuleAudio::CreateListener(const char * name, math::float3
 		
 		sound_obj.push_back(ret);
 		listener_created = true;
+		
 	}
 	else {
 		LOG_OUT("It exist a listener already!");

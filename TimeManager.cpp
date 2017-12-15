@@ -21,6 +21,7 @@ bool TimeManager::Init()
 
 bool TimeManager::Start()
 {
+	SetGameState(IN_EDITOR);
 	return true;
 }
 
@@ -62,16 +63,16 @@ update_status TimeManager::Update(float dt)
 
 update_status TimeManager::PostUpdate(float dt)
 {
-	if (tmp_gamestate != gameState) { // if Game State just Changed
+	/*if (tmp_gamestate != gameState) { // if Game State just Changed
 
 		switch (gameState) {
 		case IN_EDITOR:			// To Editor
 			GameTimer.Stop();
-			App->fs->FileDelete(App->scene_intro->LoadScene("__tmp__playsavescene"));
+		//	App->fs->FileDelete(App->scene_intro->LoadScene("__tmp__playsavescene"));
 			break;
 		case IN_PLAY:			// To Play
 			GameTimer.Start();
-			App->scene_intro->Serialize("__tmp__playsavescene");
+			//App->scene_intro->Serialize("__tmp__playsavescene");
 			break;
 		default:						
 			break;
@@ -79,7 +80,7 @@ update_status TimeManager::PostUpdate(float dt)
 
 		tmp_gamestate = gameState;
 	}
-
+	*/
 	return UPDATE_CONTINUE;
 }
 
@@ -90,7 +91,7 @@ bool TimeManager::CleanUp()
 
 update_status TimeManager::UpdateGame(float dt)
 {
-	LOG_OUT("GAME UPDATE at speed x %.0f", timeMultiplier);
+	//LOG_OUT("GAME UPDATE at speed x %.0f", timeMultiplier);
 
 	return UPDATE_CONTINUE;
 }

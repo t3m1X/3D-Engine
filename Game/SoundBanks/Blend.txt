@@ -1,6 +1,7 @@
 Event	ID	Name			Wwise Object Path	Notes
 	2569342999	Play_Blend			\Default Work Unit\Play_Blend	
 	3506347524	Play_Short_Music			\Default Work Unit\Play_Short_Music	
+	3601250804	Play_spell4			\Default Work Unit\Play_spell4	
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	2415836739	Volume			\Default Work Unit\Volume	
@@ -10,8 +11,15 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 	805203703	Master Secondary Bus			\Default Work Unit\Master Secondary Bus	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 
+Auxiliary Bus	ID	Name			Wwise Object Path	Notes
+	348963605	Reverb			\Default Work Unit\Master Audio Bus\Reverb	
+
+Effect plug-ins	ID	Name	Type				Notes
+	702543456	Tunnel1	Wwise Matrix Reverb			
+
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	102774834	Muddy Waters - Hoochie Coochie Man	C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\.cache\Windows\SFX\Muddy Waters - Hoochie Coochie Man_F17FB28C.wem		\Actor-Mixer Hierarchy\Default Work Unit\Blend\Muddy Waters - Hoochie Coochie Man		30527552
 	147483896	Short_Music	C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\.cache\Windows\SFX\jack_in_the_box-Mike_Koenig-710345321_F17FB28C.wem		\Actor-Mixer Hierarchy\Default Work Unit\Short_Music		2684592
 	227208942	BAD TO THE BONE	C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\.cache\Windows\SFX\BAD TO THE BONE_F17FB28C.wem		\Actor-Mixer Hierarchy\Default Work Unit\Blend\BAD TO THE BONE		53559360
+	614144253	spell4	C:\Users\USUARIO\Documents\WwiseProjects\BlendingMusic\.cache\Windows\SFX\spell4_F17FB28C.wem		\Actor-Mixer Hierarchy\Default Work Unit\spell4		490404
 
